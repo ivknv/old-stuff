@@ -1,5 +1,5 @@
-Pro is a simple script, that allows
-creates simple projects.
+Pro is a simple script that allows
+ you to creates simple projects.
 
 Example:
 $ pro Test Python "Just a test" Ivan test01
