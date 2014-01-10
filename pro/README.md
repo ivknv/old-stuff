@@ -43,4 +43,7 @@ project-name/<br>
 
 Create a Python project named Test with description: "A simple project" and author: Somebody<br>
 $ pro Test Python "A simple project" Somebody
-    
+
+#How to install
+
+Just directory with script to your PATH
