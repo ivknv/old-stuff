@@ -2,6 +2,7 @@ import sys, os, distutils.core
 from datetime import datetime
 from manage.wrtr import wrtr
 your_dir = "" # set to the directory of this script. for example: "/home/somebody/pro"
+# whiteout this variable this script will not work
 now = datetime.now()
 weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
