@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 def wrtr(filename, arg2=""):
 	file_extension = filename[filename.rindex(".")::].lower()
 	
