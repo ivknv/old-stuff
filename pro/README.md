@@ -46,4 +46,4 @@ $ pro Test Python "A simple project" Somebody
 
 #How to install
 
-Just directory with script to your PATH
+Just add directory with script to your PATH
