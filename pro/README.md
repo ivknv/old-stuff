@@ -17,7 +17,6 @@ python manage.py [options]
 <br>
 Change author: python manage.py change_authors [authors]<br>
 Change name of the project: python manage.py rename [new-name]<br>
-__Note__: It will also rename directory of your project<br>
 Change version: python manage.py change_version [version]<br>
 Change programming language: python manage.py change_lang [language]<br>
 Change description: python manage.py change_description [new-description]<br>
