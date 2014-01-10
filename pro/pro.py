@@ -1,7 +1,7 @@
 import sys, os, distutils.core
 from datetime import datetime
 from manage.wrtr import wrtr
-
+your_dir="/my98/pro_" # set it to directory of this script or script will not work
 now = datetime.now()
 weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
@@ -15,7 +15,7 @@ try:
 		except IndexError:
 			referenced=""
 		os.mkdir(sys.argv[1]);
-		distutils.dir_util.copy_tree("manage", sys.argv[1]+"/manage")
+		distutils.dir_util.copy_tree(your_dir+"/manage", sys.argv[1]+"/manage")
 		project_xml=open(sys.argv[1]+"/project.xml", "w+")
 		text1="""\
 <?xml version='1.0' encoding='utf-8'?>
@@ -144,8 +144,6 @@ elif arg1 in ["compile"]:
 			manage_py.write(text3+"\n"+text4)
 			manage_py.close()
 			curdir=os.getcwd()
-			os.chdir("/my98")
-			os.chdir(curdir)
 			from manage.pyinit import pyinit
 			for d in [sys.argv[1]+"/bin", sys.argv[1]+"/"+sys.argv[1]]:
 				os.mkdir(d)
