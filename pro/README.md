@@ -46,4 +46,7 @@ $ pro Test Python "A simple project" Somebody
 
 #How to install
 
-Just add directory with script to your PATH
+1. Add directory with script to your PATH.<br>
+2. Open file pro.py in some editor.<br>
+3. Edit line 4. Set variable your_dir equal to full path to the directory with this script<br>
+4. Done!<br>

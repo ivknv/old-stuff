@@ -1,7 +1,11 @@
 import sys, os, distutils.core
 from datetime import datetime
 from manage.wrtr import wrtr
+
 your_dir="/my98/pro_" # set it to directory of this script or script will not work
+your_dir = "" # set to the directory of this script. for example: "C:/somefolder/pro"
+# whiteout this variable this script will not work
+
 now = datetime.now()
 weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
