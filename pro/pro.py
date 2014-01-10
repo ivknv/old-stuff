@@ -2,7 +2,7 @@ import sys, os, distutils.core
 from datetime import datetime
 from manage.wrtr import wrtr
 
-your_dir="/my98/pro_" # set to the directory of this script. for example: "C:/somefolder/pro"
+your_dir="" # set to the directory of this script. for example: "C:/somefolder/pro"
 # whiteout this variable this script will not work
 
 now = datetime.now()
