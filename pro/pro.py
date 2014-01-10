@@ -1,7 +1,7 @@
 import sys, os, distutils.core
 from datetime import datetime
 from manage.wrtr import wrtr
-
+your_dir = "" # set to the directory of this script
 now = datetime.now()
 weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
@@ -15,7 +15,7 @@ try:
 		except IndexError:
 			referenced=""
 		os.mkdir(sys.argv[1]);
-		distutils.dir_util.copy_tree("manage", sys.argv[1]+"/manage")
+		distutils.dir_util.copy_tree(your_dir+"/manage", sys.argv[1]+"/manage")
 		project_xml=open(sys.argv[1]+"/project.xml", "w+")
 		text1="""\
 <?xml version='1.0' encoding='utf-8'?>
