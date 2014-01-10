@@ -1,4 +1,5 @@
-﻿import sys, os, py_compile
+# -*- coding: utf-8 -*-
+import sys, os, py_compile
 
 try:
 	directory=sys.argv[1]
