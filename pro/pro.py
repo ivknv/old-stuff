@@ -2,8 +2,7 @@ import sys, os, distutils.core
 from datetime import datetime
 from manage.wrtr import wrtr
 
-your_dir="/my98/pro_" # set it to directory of this script or script will not work
-your_dir = "" # set to the directory of this script. for example: "C:/somefolder/pro"
+your_dir="/my98/pro_" # set to the directory of this script. for example: "C:/somefolder/pro"
 # whiteout this variable this script will not work
 
 now = datetime.now()
@@ -153,7 +152,7 @@ elif arg1 in ["compile"]:
 				os.mkdir(d)
 			pyinit(sys.argv[1])
 		elif sys.argv[2].lower() in ["clojure"]:
-			for d in [sys.argv[1]+"/test", sys.argv[1]+"/doc", sys.argv[1]+"/src", sys.argv[1]+"/resources", sys.argv[1]+"/src/"+sys.argv[1], sys.argv[1]+"/test/"+sys.argv[1]]:
+			for d in [sys.argv[1]+"/test", sys.argv[1]+"/src", sys.argv[1]+"/resources", sys.argv[1]+"/src/"+sys.argv[1], sys.argv[1]+"/test/"+sys.argv[1]]:
 				os.mkdir(d)
 			doc_info=open(sys.argv[1]+"/doc/info.txt", "w+")
 			doc_info.close()
@@ -163,6 +162,7 @@ elif arg1 in ["compile"]:
 """ %(sys.argv[1])
 			core_clj.write(text4)
 			core_clj.close()
+			manage_py.write(text3)
 			manage_py.close()
 		elif sys.argv[2].lower() in ["c"]:
 			os.mkdir(sys.argv[1]+"/bin")
@@ -194,9 +194,10 @@ elif arg1 in ["compile"]:
 			os.mkdir(sys.argv[1]+"/"+sys.argv[1])
 			_h=open(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".h", "w+")
 			_h.close()
-			_cpp=open(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".cpp")
+			_cpp=open(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".cpp", "w+")
 			wrtr(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".cpp")
-		elif sys.argv[2] in ["lua"]:
+			_cpp.close()
+		elif sys.argv[2].lower() in ["lua"]:
 			os.mkdir(sys.argv[1]+"/bin")
 			os.mkdir(sys.argv[1]+"/"+sys.argv[1])
 			text4="""
