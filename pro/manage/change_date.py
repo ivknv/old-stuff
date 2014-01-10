@@ -1,4 +1,4 @@
-# -*- coding: cp1251 -*-
+# -*- coding: utf-8 -*-
 from xml.dom import minidom
 import os
 from datetime import datetime
