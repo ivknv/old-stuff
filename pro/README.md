@@ -1,5 +1,5 @@
 #Description
-Pro is a simple script that allows
+Pro - is a simple script that allows
 you to create simple projects.<br>
 Requires Python. 
 
