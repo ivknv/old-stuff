@@ -1,7 +1,8 @@
+#Description
 Pro is a simple script that allows
  you to creates simple projects.
 
-Example:
+#How to use
 $ pro Test Python "Just a test" Ivan test01
 Test/
 	bin/
