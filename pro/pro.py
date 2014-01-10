@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sys, os, distutils.core
 from datetime import datetime
 from manage.wrtr import wrtr
