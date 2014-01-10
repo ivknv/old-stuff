@@ -14,4 +14,3 @@ def rename(project, new_name):
 	f1=open(project_realpath+"\\project.xml", "w+")
 	f1.write(f1_content.replace(current_name.toxml(), new_name_value))
 	f1.close()
-	os.renames(project, new_name)
