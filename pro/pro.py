@@ -66,6 +66,8 @@ try:
 </project>""" %(sys.argv[1], sys.argv[2], sys.argv[4], sys.argv[3], now.day, now.month, now.year, weekdays[now.isoweekday()-1], now.hour, now.minute, now.second, referenced)
 		project_xml.write(text1)
 		project_xml.close()
+		dependencies=open(sys.argv[1]+"/dependencies", "w+")
+		dependencies.close()
 		if os.path.exists(referenced):
 			distutils.dir_util.copy_tree(referenced, sys.argv[1]+"/"+referenced)
 		manage_py=open(sys.argv[1]+"/manage.py", "w+")
@@ -109,6 +111,7 @@ project description {
 # -*- coding: utf-8 -*-
 import sys, os
 from xml.dom import minidom
+from manage.dependencies import add, remove
 from manage.change_lang import change_lang
 from manage.change_name import rename
 from manage.change_authors import change_author
@@ -132,7 +135,12 @@ elif arg1 in ["change_descr", "change_description"]:
 elif arg1 in ["change_ver", "change_version"]:
 	change_version(full_path, sys.argv[3])
 elif arg1 in ["update_date"]:
-	update_date(full_path)"""# %(sys.argv[1], os.path.realpath(".").replace("\\", "\\\\"))
+	update_date(full_path)
+elif arg1 in ["dependencies"]:
+	if sys.argv[2].lower() in ["add"]:
+		add(full_path, sys.argv[3])
+	elif sys.argv[2].lower() in ["remove", "rm"]:
+		remove(full_path, sys.argv[3])"""# %(sys.argv[1], os.path.realpath(".").replace("\\", "\\\\"))
 		if sys.argv[2].lower() in ["python", "python3"]:
 			text4="""\
 elif arg1 in ["compile"]:
