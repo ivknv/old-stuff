@@ -108,35 +108,36 @@ project description {
 #!python
 # -*- coding: utf-8 -*-
 import sys, os
+from xml.dom import minidom
 from manage.change_lang import change_lang
 from manage.change_name import rename
 from manage.change_authors import change_author
 from manage.change_description import change_description
 from manage.change_version import change_version
 from manage.change_date import update_date
-name="%s"
-full_path="%s"
+name=minidom.parse("project.xml").getElementsByTagName("name")[0].childNodes[0].nodeValue.strip()
+full_path=__file__[0:__file__.rindex("/")] if "/" in __file__ else __file__[0:__file__.rindex("\\\\")]
 try:
 	arg1 = sys.argv[1].lower()
 except IndexError:
 	exit(0)
 if arg1 in ["rename"]:
-	rename(full_path+"/"+name, sys.argv[2])
+	rename(full_path, sys.argv[2])
 elif arg1 in ["change_lang", "change_language"]:
-	change_lang(full_path+"/"+name, sys.argv[2])
+	change_lang(full_path, sys.argv[2])
 elif arg1 in ["change_authors", "change_auth"]:
-	change_author(full_path+"/"+name, sys.argv[2])
+	change_author(full_path, sys.argv[2])
 elif arg1 in ["change_descr", "change_description"]:
-	change_description(full_path+"/"+name , sys.argv[2])
+	change_description(full_path , sys.argv[2])
 elif arg1 in ["change_ver", "change_version"]:
-	change_version(full_path+"/"+name, sys.argv[3])
+	change_version(full_path, sys.argv[3])
 elif arg1 in ["update_date"]:
-	update_date(full_path+"/"+name)""" %(sys.argv[1], os.path.realpath(".").replace("\\", "\\\\"))
+	update_date(full_path)"""# %(sys.argv[1], os.path.realpath(".").replace("\\", "\\\\"))
 		if sys.argv[2].lower() in ["python", "python3"]:
 			text4="""\
 elif arg1 in ["compile"]:
 	import py_compile, distutils.core
-	directory=full_path+"/"+name+"/"+name
+	directory=full_path+"/"+name
 
 	py_files = os.listdir(directory)
 	for py_file in py_files:
@@ -207,6 +208,9 @@ elif arg1 in ["compile"]:
 			subprocess.call(["luac", "-o", i[0:i.rindex(".")]+".out", i])
 			os.rename(i[0:i.rindex(".")]+".out", full_path+"/bin")"""
 			manage_py.write(text3+"\n"+text4)
+			manage_py.close()
+		else:
+			manage_py.write(text3)
 			manage_py.close()
 except IndexError:
 	usage="""\
