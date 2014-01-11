@@ -1,9 +1,54 @@
-def wrtr(filename, arg2=""):
+import sys
+
+def wrtr(filename, arg2="", arg3="1.2.8"):
 	file_extension = filename[filename.rindex(".")::].lower()
 	
 	if file_extension in [".html", "htm"]:
 		f1=open(filename, "w+")
-		text="""\
+		if arg2.lower() in ["jquery"]:
+			text="""\
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+
+</body>
+</html>"""
+		elif arg2.lower() in ["jqueryui", "jquery-ui", "jquery_ui", "jquery ui"]:
+			text="""\
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+</head>
+<body>
+
+</body>
+</html>"""
+
+		elif arg2.lower() in ["angular", "angularjs", "angular.js",
+						"angular js"]:
+				text="""\
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/%s/angular.min.js"></script>
+</head>
+<body>
+
+</body>
+</html>""" %(arg3)
+
+		else:
+			text="""\
 <!DOCTYPE html>
 <html>
 <head>
@@ -175,6 +220,31 @@ import unittest
 class Test(unittest.TestCase):
 	def test(self):
 		self.failUnless(True)"""
+		elif arg2.lower() in ["pyside"]:
+			text="""\
+#!python
+# -*- coding: utf-8
+
+import sys
+from PySide import QtGui
+
+class Main(QtGui.QWidget):
+	def __init__(self):
+		super(Main, self).__init__()
+		
+		self.initUI()
+	def initUI(self):
+		self.setGeometry(300, 300, 640, 480)
+		self.setWindowTitle("")
+		self.show()
+
+def main():
+	app = QtGui.QApplication(sys.argv)
+	M=Main()
+	sys.exit(app.exec_())
+
+if __name__ == "__main__":
+	main()"""
 		else:
 			text="""\
 #!python
@@ -184,3 +254,12 @@ class Test(unittest.TestCase):
 		f1.close()
 	else:
 		print ("Data type isn't supported")
+
+try:
+	a2=sys.argv[2]
+except IndexError:
+	a2=""
+try:
+	wrtr(sys.argv[1], a2)
+except IndexError:
+		print ("Wrong number of arguments")
