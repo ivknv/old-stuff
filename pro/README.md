@@ -22,6 +22,8 @@ Change programming language: python manage.py change_lang [language]<br>
 Change description: python manage.py change_description [new-description]<br>
 Update date of creation: python manage.py update_date<br>
 Compile source code: python manage.py compile<br>
+Add dependency: python manage.py dependencies add [library-or-framework]
+Remove dependency: python manage.py dependencies rm [library-or-framework]
 __Note__: At the moment manage.py can compile only Python, C, C++ and Lua source code. Soon there will be more supported languages.<br>
 #Structure of the project
 Simple Python project: <br>
