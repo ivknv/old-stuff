@@ -254,12 +254,3 @@ if __name__ == "__main__":
 		f1.close()
 	else:
 		print ("Data type isn't supported")
-
-try:
-	a2=sys.argv[2]
-except IndexError:
-	a2=""
-try:
-	wrtr(sys.argv[1], a2)
-except IndexError:
-		print ("Wrong number of arguments")
