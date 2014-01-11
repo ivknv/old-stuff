@@ -35,6 +35,7 @@ project-name/<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...  -  modules for manage.py<br>
 &nbsp;&nbsp;&nbsp;&nbsp;project_name/  -  main directory<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...  -  source code<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dependencies - this file contains required libraries and frameworks<br>
 &nbsp;&nbsp;&nbsp;&nbsp;manage.py  -  manage.py script<br>
 &nbsp;&nbsp;&nbsp;&nbsp;project.xml  -  information about project<br>
 
