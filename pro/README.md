@@ -23,6 +23,8 @@ Change description: python manage.py change_description [new-description]<br>
 Update date of creation: python manage.py update_date<br>
 Compile source code: python manage.py compile<br>
 __Note__: At the moment manage.py can compile only Python, C, C++ and Lua source code. Soon there will be more supported languages.<br>
+Add dependency: python manage.py dependencies add [library-or-framework]<br>
+Remove dependency: python manage.py dependencies rm [library-or-framework]<br>
 #Structure of the project
 Simple Python project: <br>
 project-name/<br>
@@ -35,6 +37,7 @@ project-name/<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...  -  modules for manage.py<br>
 &nbsp;&nbsp;&nbsp;&nbsp;project_name/  -  main directory<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...  -  source code<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dependencies - this file contains required libraries and frameworks<br>
 &nbsp;&nbsp;&nbsp;&nbsp;manage.py  -  manage.py script<br>
 &nbsp;&nbsp;&nbsp;&nbsp;project.xml  -  information about project<br>
 
