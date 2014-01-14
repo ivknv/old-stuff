@@ -228,7 +228,7 @@ class Test(unittest.TestCase):
 import sys
 from PySide import QtGui
 
-class Main(QtGui.QWidget):
+class Main(QtGui.QMainWindow):
 	def __init__(self):
 		super(Main, self).__init__()
 		

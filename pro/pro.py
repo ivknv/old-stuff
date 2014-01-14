@@ -107,7 +107,7 @@ project description {
 		style_css.write(css_text)
 		style_css.close()
 		text3 = """\
-#!python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys, os
 from xml.dom import minidom
