@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import sys, os, distutils.core
 from datetime import datetime
 from manage.wrtr import wrtr
