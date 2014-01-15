@@ -142,7 +142,7 @@ elif arg1 in ["dependencies"]:
 	if sys.argv[2].lower() in ["add"]:
 		add(full_path, sys.argv[3])
 	elif sys.argv[2].lower() in ["remove", "rm"]:
-		remove(full_path, sys.argv[3])"""# %(sys.argv[1], os.path.realpath(".").replace("\\", "\\\\"))
+		remove(full_path, sys.argv[3])"""
 		if sys.argv[2].lower() in ["python", "python3"]:
 			text4="""\
 elif arg1 in ["compile"]:
