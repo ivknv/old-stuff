@@ -4,7 +4,8 @@ import sys, os, distutils.core
 from datetime import datetime
 from manage.wrtr import wrtr
 
-script_directory=os.path.realpath(".")
+script_directory=os.path.realpath(__file__)
+script_directory=script_directory[0:script_directory.rindex(os.path.sep)]
 
 now = datetime.now()
 weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -121,7 +122,8 @@ from manage.change_description import change_description
 from manage.change_version import change_version
 from manage.change_date import update_date
 name=minidom.parse("project.xml").getElementsByTagName("name")[0].childNodes[0].nodeValue.strip()
-full_path=os.path.realpath(".")
+full_path=os.path.realpath(__file__)
+full_path=full_path[0:full_path.rindex(os.path.sep)]
 try:
 	arg1 = sys.argv[1].lower()
 except IndexError:
@@ -142,7 +144,7 @@ elif arg1 in ["dependencies"]:
 	if sys.argv[2].lower() in ["add"]:
 		add(full_path, sys.argv[3])
 	elif sys.argv[2].lower() in ["remove", "rm"]:
-		remove(full_path, sys.argv[3])"""# %(sys.argv[1], os.path.realpath(".").replace("\\", "\\\\"))
+		remove(full_path, sys.argv[3])"""
 		if sys.argv[2].lower() in ["python", "python3"]:
 			text4="""\
 elif arg1 in ["compile"]:
@@ -159,7 +161,7 @@ elif arg1 in ["compile"]:
 		pyc_files = os.listdir(directory)
 		for pyc_file in pyc_files:
 			if pyc_file.endswith(".pyc"):
-				os.rename(directory+os.path.sep+pyc_file, os.path.realpath(".")+os.path.sep+"bin"+os.path.sep+pyc_file)"""
+				os.rename(directory+os.path.sep+pyc_file, full_path+os.path.sep+"bin"+os.path.sep+pyc_file)"""
 			manage_py.write(text3+"\n"+text4)
 			manage_py.close()
 			curdir=os.getcwd()

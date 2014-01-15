@@ -4,14 +4,14 @@
 Pro
 </name>
 <version>
-1.0
+1.2
 </version>
 <language>
 Python
 </language>
 <description>
-Pro is project creator.
-It only needs Python(2.x or 3.x).
+Pro is a simple project creator.
+Python is required (2.x or 3.x).
 Usage: pro [project_name] [language] [description] [authors] [referenced_projects]
 </description>
 <authors>
