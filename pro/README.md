@@ -27,19 +27,22 @@ Add dependency: python manage.py dependencies add [library-or-framework]<br>
 Remove dependency: python manage.py dependencies rm [library-or-framework]<br>
 #Structure of the project
 Simple Python project: <br>
+```
 project-name/<br>
-&nbsp;&nbsp;&nbsp;&nbsp;bin/<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... -  compiled source code<br>
-&nbsp;&nbsp;&nbsp;&nbsp;doc/<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.xhtml  -  documentation<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style.css  - stylesheet for documentation<br>
-&nbsp;&nbsp;&nbsp;&nbsp;manage/<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...  -  modules for manage.py<br>
-&nbsp;&nbsp;&nbsp;&nbsp;project_name/  -  main directory<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...  -  source code<br>
-&nbsp;&nbsp;&nbsp;&nbsp;dependencies - this file contains required libraries and frameworks<br>
-&nbsp;&nbsp;&nbsp;&nbsp;manage.py  -  manage.py script<br>
-&nbsp;&nbsp;&nbsp;&nbsp;project.xml  -  information about project<br>
+	bin/<br>
+		... -  compiled source code<br>
+	doc/<br>
+		doc.xhtml  -  documentation<br>
+		style.css  - stylesheet for documentation<br>
+	manage/<br>
+		...  -  modules for manage.py<br>
+	project_name/  -  main directory<br>
+		...  -  source code<br>
+	config.py - this file contains compiler configuration
+	dependencies - this file contains required libraries and frameworks<br>
+	manage.py  -  manage.py script<br>
+	project.xml  -  information about project<br>
+```
 
 #Examples
 
