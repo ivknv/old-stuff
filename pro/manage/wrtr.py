@@ -67,7 +67,7 @@ def wrtr(filename, arg2="", arg3="1.2.8"):
 		text="""\
 #include <stdio.h>
 
-int main(int argc, char *argv) {
+int main(int argc, char **argv) {
 
 	return 0;
 }"""
