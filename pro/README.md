@@ -1,19 +1,24 @@
-#Description
+##Description
 Pro - is a simple script that allows
 you to create simple projects.<br>
 Requires Python. 
 
-#How to use
-$ pro [project-name] [language] [description] [authors] [other-project-to-include]
+##How to use
+```
+pro [project-name] [language] [description] [authors] [other-project-to-include]
+```
 
 project.xml - XML file that
 contains information about project.<br>
 manage.py - a Python script that
 allows you to easily edit
-project.xml.
+project.xml.<br>
+config.py - a configuration file. Contains compilation commands.
 
-#How to use manage.py
+##How to use manage.py
+```
 python manage.py [options]
+```
 <br>
 Change author: python manage.py change_authors [authors]<br>
 Change name of the project: python manage.py rename [new-name]<br>
@@ -44,11 +49,13 @@ project-name/<br>
 	project.xml  -  information about project<br>
 ```
 
-#Examples
+##Examples
 
 Create a Python project named Test with description: "A simple project" and author: Somebody<br>
-$ pro Test Python "A simple project" Somebody
+```
+pro Test Python "A simple project" Somebody
+```
 
-#How to install
+##How to install
 
-Add directory with script to your PATH.<br>
+Add directory with script to your $PATH.<br>
