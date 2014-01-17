@@ -199,7 +199,7 @@ elif arg1 in ["compile"]:
 		if o.lower().endswith(".c"):
 			subprocess.call(config.c_compiler_command.replace("%shortname%", full_path+os.path.sep+"bin"+os.path.sep+o[0:o.rindex(".")]).replace("%fullname%", full_path+os.path.sep+name+os.path.sep+o).split(" "))"""
 			os.mkdir(sys.argv[1]+os.path.sep+sys.argv[1])
-			_h=open(sys.argv[1]+os.paath.sep+sys.argv[1]+os.path.sep+sys.argv[1]+".h", "w+")
+			_h=open(sys.argv[1]+os.path.sep+sys.argv[1]+os.path.sep+sys.argv[1]+".h", "w+")
 			_h.close()
 			_c=open(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".c", "w+")
 			wrtr(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".c")
