@@ -3,6 +3,7 @@
 import sys, os, distutils.core
 from datetime import datetime
 from manage.wrtr import wrtr
+import config
 
 script_directory=os.path.realpath(__file__)
 script_directory=script_directory[0:script_directory.rindex(os.path.sep)]
@@ -69,7 +70,7 @@ try:
 </project>""" %(sys.argv[1], sys.argv[2], sys.argv[4], sys.argv[3], now.day, now.month, now.year, weekdays[now.isoweekday()-1], now.hour, now.minute, now.second, referenced)
 		project_xml.write(text1)
 		project_xml.close()
-		dependencies=open(sys.argv[1]+"/dependencies", "w+")
+		dependencies=open(sys.argv[1]+os.path.sep+"dependencies", "w+")
 		dependencies.close()
 		if os.path.exists(referenced):
 			distutils.dir_util.copy_tree(referenced, sys.argv[1]+"/"+referenced)
@@ -109,6 +110,12 @@ project description {
 }"""
 		style_css.write(css_text)
 		style_css.close()
+		config_py=open(os.path.realpath(__file__)[0:os.path.realpath(__file__).rindex(os.path.sep)]+os.path.sep+"config.py", "r")
+		config_text=config_py.read()
+		config_py.close()
+		config_py=open(sys.argv[1]+os.path.sep+"config.py", "w+")
+		config_py.write(config_text)
+		config_py.close()
 		text3 = """\
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
@@ -121,6 +128,7 @@ from manage.change_authors import change_author
 from manage.change_description import change_description
 from manage.change_version import change_version
 from manage.change_date import update_date
+import config
 name=minidom.parse("project.xml").getElementsByTagName("name")[0].childNodes[0].nodeValue.strip()
 full_path=os.path.realpath(__file__)
 full_path=full_path[0:full_path.rindex(os.path.sep)]
@@ -189,10 +197,9 @@ elif arg1 in ["compile"]:
 	import subprocess
 	for o in os.listdir(full_path+os.path.sep+name):
 		if o.lower().endswith(".c"):
-			subprocess.call(["gcc", "-v", "-o", full_path+os.path.sep+"bin"+os.path.sep+o[0:o.rindex(".")], full_path+os.path.sep+name+os.path.sep+o])
-			#os.rename(o[0:o.rindex(".")], full_path+"/bin")"""
-			os.mkdir(sys.argv[1]+"/"+sys.argv[1])
-			_h=open(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".h", "w+")
+			subprocess.call(config.c_compiler_command.replace("%shortname%", full_path+os.path.sep+"bin"+os.path.sep+o[0:o.rindex(".")]).replace("%fullname%", full_path+os.path.sep+name+os.path.sep+o).split(" "))"""
+			os.mkdir(sys.argv[1]+os.path.sep+sys.argv[1])
+			_h=open(sys.argv[1]+os.paath.sep+sys.argv[1]+os.path.sep+sys.argv[1]+".h", "w+")
 			_h.close()
 			_c=open(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".c", "w+")
 			wrtr(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".c")
@@ -205,26 +212,24 @@ elif arg1 in ["compile"]:
 	import subprocess
 	for o in os.listdir(full_path+"/"+name):
 		if o.lower().endswith(".cpp"):
-			subprocess.call(["g++", "-v", "-o", full_path+os.path.sep+"bin"+os.path.sep+o[0:o.rindex(".")], full_path+os.path.sep+name+os.path.sep+o])
-			#os.rename(o[0:o.rindex(".")], full_path+"/bin")"""
+			subprocess.call(config.cpp_compiler_command.replace("%shortname%", full_path+os.path.sep+"bin"+os.path.sep+o[0:o.rindex(".")]).replace("%fullname%", full_path+os.path.sep+name+os.path.sep+o).split(" "))"""
 			manage_py.write(text3+"\n"+text4)
 			manage_py.close()
-			os.mkdir(sys.argv[1]+"/"+sys.argv[1])
-			_h=open(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".h", "w+")
+			os.mkdir(sys.argv[1]+os.path.sep+sys.argv[1])
+			_h=open(sys.argv[1]+os.path.sep+sys.argv[1]+os.path.sep+sys.argv[1]+".h", "w+")
 			_h.close()
-			_cpp=open(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".cpp", "w+")
+			_cpp=open(sys.argv[1]+os.path.sep+sys.argv[1]+os.path.sep+sys.argv[1]+".cpp", "w+")
 			wrtr(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".cpp")
 			_cpp.close()
 		elif sys.argv[2].lower() in ["lua"]:
-			os.mkdir(sys.argv[1]+"/bin")
-			os.mkdir(sys.argv[1]+"/"+sys.argv[1])
+			os.mkdir(sys.argv[1]+os.path.sep+"bin")
+			os.mkdir(sys.argv[1]+os.path.sep+sys.argv[1])
 			text4="""
 elif arg1 in ["compile"]:
 	import subprocess
 	for i in os.listdir(full_path+"/"+name):
 		if i.lower().endswith(".lua"):
-			subprocess.call(["luac", "-o", full_path+os.path.sep+"bin"+os.path.sep+i[0:i.rindex(".")]+".out", full_path+os.path.sep+name+os.path.sep+i])
-			#os.rename(i[0:i.rindex(".")]+".out", full_path+"/bin")"""
+			subprocess.call(config.lua_compiler_command.replace("%shortname%" full_path+os.path.sep+"bin"+os.path.sep+i[0:i.rindex(".")]+".out").replace("%fullname%", full_path+os.path.sep+name+os.path.sep+i).split(" "))"""
 			manage_py.write(text3+"\n"+text4)
 			manage_py.close()
 		else:
