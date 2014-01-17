@@ -33,25 +33,25 @@ Remove dependency: python manage.py dependencies rm [library-or-framework]<br>
 #Structure of the project
 Simple Python project: <br>
 ```
-project-name/<br>
-	bin/<br>
-		... -  compiled source code<br>
-	doc/<br>
-		doc.xhtml  -  documentation<br>
-		style.css  - stylesheet for documentation<br>
-	manage/<br>
-		...  -  modules for manage.py<br>
-	project_name/  -  main directory<br>
-		...  -  source code<br>
+project-name/
+	bin/
+		... -  compiled source code
+	doc/
+		doc.xhtml  -  documentation
+		style.css  - stylesheet for documentation
+	manage/
+		...  -  modules for manage.py
+	project_name/  -  main directory
+		...  -  source code
 	config.py - this file contains compiler configuration
-	dependencies - this file contains required libraries and frameworks<br>
-	manage.py  -  manage.py script<br>
-	project.xml  -  information about project<br>
+	dependencies - this file contains required libraries and frameworks
+	manage.py  -  manage.py script
+	project.xml  -  information about project
 ```
 
 ##Examples
 
-Create a Python project named Test with description: "A simple project" and author: Somebody<br>
+Create a Python project named 'Test' with description: 'A simple project' and author: 'Somebody'<br>
 ```
 pro Test Python "A simple project" Somebody
 ```
