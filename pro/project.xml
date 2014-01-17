@@ -15,7 +15,7 @@ Python is required (2.x or 3.x).
 Usage: pro [project_name] [language] [description] [authors] [referenced_projects]
 </description>
 <authors>
-SPython
+Ivan Konovalov aka SPython
 </authors>
 <referenced>
 </referenced>
