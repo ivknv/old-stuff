@@ -1,19 +1,24 @@
-#Description
+##Description
 Pro - is a simple script that allows
 you to create simple projects.<br>
 Requires Python. 
 
-#How to use
-$ pro [project-name] [language] [description] [authors] [other-project-to-include]
+##How to use
+```
+pro [project-name] [language] [description] [authors] [other-project-to-include]
+```
 
 project.xml - XML file that
 contains information about project.<br>
 manage.py - a Python script that
 allows you to easily edit
-project.xml.
+project.xml.<br>
+config.py - a configuration file. Contains compilation commands.
 
-#How to use manage.py
+##How to use manage.py
+```
 python manage.py [options]
+```
 <br>
 Change author: python manage.py change_authors [authors]<br>
 Change name of the project: python manage.py rename [new-name]<br>
@@ -27,25 +32,30 @@ Add dependency: python manage.py dependencies add [library-or-framework]<br>
 Remove dependency: python manage.py dependencies rm [library-or-framework]<br>
 #Structure of the project
 Simple Python project: <br>
-project-name/<br>
-&nbsp;&nbsp;&nbsp;&nbsp;bin/<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;... -  compiled source code<br>
-&nbsp;&nbsp;&nbsp;&nbsp;doc/<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;doc.xhtml  -  documentation<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style.css  - stylesheet for documentation<br>
-&nbsp;&nbsp;&nbsp;&nbsp;manage/<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...  -  modules for manage.py<br>
-&nbsp;&nbsp;&nbsp;&nbsp;project_name/  -  main directory<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...  -  source code<br>
-&nbsp;&nbsp;&nbsp;&nbsp;dependencies - this file contains required libraries and frameworks<br>
-&nbsp;&nbsp;&nbsp;&nbsp;manage.py  -  manage.py script<br>
-&nbsp;&nbsp;&nbsp;&nbsp;project.xml  -  information about project<br>
+```
+project-name/
+	bin/
+		... -  compiled source code
+	doc/
+		doc.xhtml  -  documentation
+		style.css  - stylesheet for documentation
+	manage/
+		...  -  modules for manage.py
+	project_name/  -  main directory
+		...  -  source code
+	config.py - this file contains compiler configuration
+	dependencies - this file contains required libraries and frameworks
+	manage.py  -  manage.py script
+	project.xml  -  information about project
+```
 
-#Examples
+##Examples
 
-Create a Python project named Test with description: "A simple project" and author: Somebody<br>
-$ pro Test Python "A simple project" Somebody
+Create a Python project named 'Test' with description: 'A simple project' and author: 'Somebody'<br>
+```
+pro Test Python "A simple project" Somebody
+```
 
-#How to install
+##How to install
 
-Add directory with script to your PATH.<br>
+Add directory with script to your $PATH.<br>
