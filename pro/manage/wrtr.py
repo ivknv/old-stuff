@@ -67,7 +67,7 @@ def wrtr(filename, arg2="", arg3="1.2.8"):
 		text="""\
 #include <stdio.h>
 
-int main(int argc, char *argv) {
+int main(int argc, char **argv) {
 
 	return 0;
 }"""
@@ -204,7 +204,7 @@ body {
 	elif file_extension in [".py"]:
 		if arg2.lower() in ["main"]:
 			text="""\
-#!python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 def main():
 	pass
@@ -213,7 +213,7 @@ if __name__ == "__main__":
 	main()"""
 		elif arg2.lower() in ["unittest"]:
 			text="""\
-#!python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 import unittest
 
@@ -222,7 +222,7 @@ class Test(unittest.TestCase):
 		self.failUnless(True)"""
 		elif arg2.lower() in ["pyside"]:
 			text="""\
-#!python
+#!/usr/bin/python
 # -*- coding: utf-8
 
 import sys
@@ -247,7 +247,7 @@ if __name__ == "__main__":
 	main()"""
 		else:
 			text="""\
-#!python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-"""
 		f1=open(filename, "w+")
 		f1.write(text)

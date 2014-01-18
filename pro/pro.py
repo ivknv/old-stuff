@@ -157,25 +157,25 @@ elif arg1 in ["dependencies"]:
 			text4="""\
 elif arg1 in ["compile"]:
 	import py_compile, distutils.core
-	directory=full_path+os.path.sep+name
 
-	py_files = os.listdir(directory)
+	py_files = os.listdir(full_path)
 	for py_file in py_files:
-		if py_file.endswith(".py"):
-			py_compile.compile(directory+os.path.sep+py_file)
-	if os.path.exists(directory+os.path.sep+"__pycache__"):
-		distutils.dir_util.copy_tree(directory+os.path.sep+"__pycache__", full_path+os.path.sep+"bin")
+		if py_file.endswith(".py") and py_file not in ["manage.py"]:
+			py_compile.compile(full_path+os.path.sep+py_file)
+	if os.path.exists(full_path+os.path.sep+"__pycache__"):
+		distutils.dir_util.copy_tree(full_path+os.path.sep+"__pycache__", full_path+os.path.sep+"bin")
 	else:
-		pyc_files = os.listdir(directory)
+		pyc_files = os.listdir(full_path)
 		for pyc_file in pyc_files:
 			if pyc_file.endswith(".pyc"):
-				os.rename(directory+os.path.sep+pyc_file, full_path+os.path.sep+"bin"+os.path.sep+pyc_file)"""
+				os.rename(full_path+os.path.sep+pyc_file, full_path+os.path.sep+"bin"+os.path.sep+pyc_file)
+	if os.path.exists(full_path+os.path.sep+"bin"+os.path.sep+"config.pyc"):
+		os.remove(full_path+os.path.sep+"bin"+os.path.sep+"config.pyc")"""
 			manage_py.write(text3+"\n"+text4)
 			manage_py.close()
 			curdir=os.getcwd()
 			from manage.pyinit import pyinit
-			for d in [sys.argv[1]+"/bin", sys.argv[1]+"/"+sys.argv[1]]:
-				os.mkdir(d)
+			os.mkdir(sys.argv[1]+os.path.sep+"bin")
 			pyinit(sys.argv[1])
 		elif sys.argv[2].lower() in ["clojure"]:
 			for d in [sys.argv[1]+"/test", sys.argv[1]+"/src", sys.argv[1]+"/resources", sys.argv[1]+"/src/"+sys.argv[1], sys.argv[1]+"/test/"+sys.argv[1]]:
@@ -199,7 +199,7 @@ elif arg1 in ["compile"]:
 		if o.lower().endswith(".c"):
 			subprocess.call(config.c_compiler_command.replace("%shortname%", full_path+os.path.sep+"bin"+os.path.sep+o[0:o.rindex(".")]).replace("%fullname%", full_path+os.path.sep+name+os.path.sep+o).split(" "))"""
 			os.mkdir(sys.argv[1]+os.path.sep+sys.argv[1])
-			_h=open(sys.argv[1]+os.paath.sep+sys.argv[1]+os.path.sep+sys.argv[1]+".h", "w+")
+			_h=open(sys.argv[1]+os.path.sep+sys.argv[1]+os.path.sep+sys.argv[1]+".h", "w+")
 			_h.close()
 			_c=open(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".c", "w+")
 			wrtr(sys.argv[1]+"/"+sys.argv[1]+"/"+sys.argv[1]+".c")
