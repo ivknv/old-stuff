@@ -48,11 +48,33 @@ project-name/
 	project.xml  -  information about project
 ```
 
+Simple C++ project: <br>
+```
+project-name/
+	bin/
+		... - compiled source code
+	doc/
+		doc.xhtml - documentation
+		style.css - stylesheet for documentation
+	manage/
+		... - modules for manage.py
+	project-name/ - main project directory
+		... - source code files
+	config.py - this file contains compiler configuration
+	dependencies - this file contains required libraries and frameworks
+	manage.py  -  manage.py script
+	project.xml  -  information about project
+```
+
 ##Examples
 
 Create a Python project named 'Test' with description: 'A simple project' and author: 'Somebody'<br>
 ```
 pro Test Python "A simple project" Somebody
+```
+Create a C++ project named 'Test' with description: 'A simple project' and author: 'Somebody'<br>
+```
+pro Test C++ "A simple project" Somebody
 ```
 
 ##How to install
