@@ -41,8 +41,7 @@ project-name/
 		style.css  - stylesheet for documentation
 	manage/
 		...  -  modules for manage.py
-	project_name/  -  main directory
-		...  -  source code
+	...  -  source code files
 	config.py - this file contains compiler configuration
 	dependencies - this file contains required libraries and frameworks
 	manage.py  -  manage.py script
