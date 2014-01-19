@@ -1,0 +1,31 @@
+project {
+	font-family: Arial;
+}
+project description {
+	text-align: justify;
+}
+
+project .shell_action {
+	background-color: #FAFAFA;
+	border: 1px solid #E1E1E1;
+	border-radius: 3px;
+	padding: 2px;
+	text-align: center;
+}
+
+project .code {
+	display: block;
+	min-width: 300px;
+	max-width: 600px;
+	min-height: 300px;
+	margin-top: 10px;
+	background-color: #FAFAFA;
+	border: 1px solid #E0E0E0;
+	border-radius: 3px;
+	text-align: justify;
+	padding: 5px;
+}
+
+project .code:hover {
+	border-color: #D0D0D0;
+}

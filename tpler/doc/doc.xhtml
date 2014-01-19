@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE xhtml>
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<meta charset="utf-8" />
+<title>How to use tpler</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<project lang="Python" project_name="tpler">
+<h1 id="tpler"><a style="text-decoration: none; color: black;" href="#tpler">tpler</a></h1>
+<description>
+<h3 id="description"><a style="text-decoration: none; color: black;" href="#description">Description</a></h3>
+<p>
+tpler is a templater.
+</p>
+<h3 id="how-to-use"><a style="text-decoration: none; color: black;" href="#how-to-use">How to use</a></h3>
+<p>
+Create empty HTML file:<br/><br/>
+<span class="shell_action">tpler html_file.html</span><br/><br/>
+It will write following text to 'html_file.html':<br/>
+<div class="code">
+&lt;!DOCTYPE html&gt;<br/>
+&lt;html&gt;<br/>
+&lt;head&gt;<br/>
+&lt;meta charset="utf-8"&gt;<br/>
+&lt;title&gt;&lt;/title&gt;<br/>
+&lt;/head&gt;<br/>
+&lt;body&gt;<br/>
+<br/>
+&lt;/body&gt;<br/>
+&lt;/html&gt;<br/>
+</div>
+<br/>
+Tpler can create even more useful templates:<br/><br/>
+<span class="shell_action">
+tpler html_file_with_jquery.html jquery
+</span><br/><br/>
+Now 'html_file_with_jquery.html' look like this:<br/>
+<div class="code">
+&lt;!DOCTYPE html&gt;<br/>
+&lt;html&gt;<br/>
+&lt;head&gt;<br/>
+&lt;meta charset="utf-8"&gt;<br/>
+&lt;title&gt;&lt;/title&gt;<br/>
+&lt;script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"&gt;<br/>
+&lt;/script&gt;<br/>
+&lt;/head&gt;<br/>
+&lt;body&gt;<br/>
+<br/>
+&lt;/body&gt;<br/>
+&lt;html&gt;<br/>
+</div>
+<br/>
+Or you can include AngularJS:<br/><br/>
+<span class="shell_action">tpler html_angular.html angularjs</span><br/>
+Or you can include jQueryUI:<br/><br/>
+<span class="shell_action">tpler html_jqueryui.html jqueryui</span><br/><br/>
+You can do similiar things with other source code files.<br/>
+<ul>
+Supported are
+<li>.c</li>
+	<ol>ncurses</ol>
+	<ol>fibonacci</ol>
+	<ol>factorial</ol>
+<li>.cpp</li>
+<li>.html or .htm with options</li>
+	<ul><li>jquery</li>
+	<li>jqueryui</li>
+	<li>angularjs or angular</li>
+		<ul><li>version (1.2.8 by default)</li></ul>
+	<li>random or rand (added for fun)</li>
+	</ul>
+<li>.py</li>
+	<ul><li>main</li>
+	<li>pyside</li>
+	<li>fibonacci</li>
+	<li>factorial</li>
+	<li>random or rand (added for fun)</li>
+	</ul>
+<li>.xhtml</li>
+<li>.xml</li>
+	<ul><li>project or pro</li></ul>
+<li>.xsd</li>
+<li>.xsl</li>
+<li>.svg</li>
+<li>.php</li>
+<li>.css</li>
+	<ul><li>button</li></ul>
+<li>.java</li>
+</ul>
+</p>
+</description>
+</project>
+</body>
+</html>
