@@ -12,7 +12,7 @@ or
 ```
 proParser -e [path-to-project] [key]
 ```
-__If you use Linux (If you do, then you go the right way)__:<br>
+__If you use Linux (If you do, then you going the right way)__:<br>
 if you want to use ProParser the same way as in example above, rename ProParser.py to ProParser (or anything else). But if you want to use it as a Python module, then make an alias.<br>
 
 option -e is used to print information only for following key.<br>
