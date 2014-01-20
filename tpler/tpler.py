@@ -36,9 +36,11 @@ def writeTemplate(filename, arg2="", arg3="1.2.8"):
 			t=template_dir+os.path.sep+"html_jqueryui.html"
 		elif arg2 in ["angular", "angularjs", "angular.js"]:
 			t=template_dir+os.path.sep+"html_angular.html"
+		elif arg2 in ['base', 'dajngo_base', 'django base', 'django-base']:
+			t=template_dir+os.path.sep+"base.html"
 		elif arg2 in ["random", "rand"]:
 			import random
-			t=template_dir+os.path.sep+random.choice(["html.html", "html_jquery.html", "html_jqueryui.html", "html_angular.html"])
+			t=template_dir+os.path.sep+random.choice(["html.html", "html_jquery.html", "html_jqueryui.html", "html_angular.html", "base.html"])
 		else:
 			t=template_dir+os.path.sep+"html.html"
 		t=open(t, "r")
