@@ -4,7 +4,7 @@ import os
 
 def add(project, dependency):
 	full_path=os.path.realpath(project)
-	ds=full_path+"/dependencies"
+	ds=full_path+os.path.sep+"dependencies"
 	if os.path.exists(ds):
 		d=open(ds, "r")
 		dr=d.read()
@@ -16,7 +16,7 @@ def add(project, dependency):
 	d.close()
 def remove(project, dependency):
 	full_path=os.path.realpath(project)
-	ds=full_path+"/dependencies"
+	ds=full_path+os.path.sep+"dependencies"
 	if os.path.exists(ds):
 		d=open(ds, "r")
 		dr=d.read()

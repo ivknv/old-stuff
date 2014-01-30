@@ -1,4 +1,4 @@
-# -*- coding: cp1251 -*-
+# -*- coding: utf-8 -*-
 from xml.dom import minidom
 import os
 from datetime import datetime
@@ -7,7 +7,7 @@ def update_date(project):
 	weekdays=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 	now=datetime.now()
 	project_realpath=os.path.realpath(project)
-	dom=minidom.parse(project_realpath+"\\project.xml")
+	dom=minidom.parse(project_realpath+os.path.sep+"project.xml")
 	current_day=dom.getElementsByTagName("day")[0]
 	current_day_value=current_day.childNodes[0].nodeValue
 	new_day_value=current_day.toxml().replace(current_day_value, "\n"+str(now.day)+"\n")
@@ -29,9 +29,9 @@ def update_date(project):
 	current_second=dom.getElementsByTagName("second")[0]
 	current_second_value=current_second.childNodes[0].nodeValue
 	new_second_value=current_second.toxml().replace(current_second_value, "\n"+str(now.second)+"\n")
-	f1=open(project_realpath+"\\project.xml", "r")
+	f1=open(project_realpath+os.path.sep+"project.xml", "r")
 	f1_content=f1.read()
 	f1.close()
-	f1=open(project_realpath+"\\project.xml", "w+")
+	f1=open(project_realpath+os.path.sep+"project.xml", "w+")
 	f1.write(f1_content.replace(current_day.toxml(), new_day_value).replace(current_month.toxml(), new_month_value).replace(current_year.toxml(), new_year_value).replace(current_weekday.toxml(), new_weekday_value).replace(current_hour.toxml(), new_hour_value).replace(current_minute.toxml(), new_minute_value).replace(current_second.toxml(), new_second_value))
 	f1.close()
