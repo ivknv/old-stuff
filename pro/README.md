@@ -8,7 +8,7 @@ Requires Python.
 pro [project-name] [language] [description] [authors] [other-project-to-include]
 ```
 __If you use Linux__ (if you do, then you going the right way).:<br>
-to use script like this rename __pro.py__ to __pro__
+to use script like this rename __pro.py__ to __pro__ or make an ___alias___.
 
 project.xml - XML file that
 contains information about project.<br>
