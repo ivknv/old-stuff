@@ -6,7 +6,7 @@ Requires Python.
 ##How to use
 ```
 from pro import pro
-pro(project-name, language, description, authors, other_project_to_include)
+pro(project_name, language, description, authors, other_project_to_include)
 ```
 project.xml - XML file that
 contains information about project.<br>
@@ -85,6 +85,7 @@ pro("Test", "C++", "A simple project", "Somebody")
 python setup.py install
 ```
 
-1. Copy __pro/__init__.py__ to any directory you like and rename it to pro (or any other name you like)<br>
-2. Add directory with this script to your PATH<br>
-3. Run it: pro Test Python "Description" Ivan<br>
+1. Copy __pro/____init__.py to any directory you like and rename it to pro (or any other name you like)<br>
+2. Copy pro/config.py to the directory with __pro__<br>
+3. Add directory with this script to your PATH<br>
+4. Run it: pro Test Python "Description" Author<br>
