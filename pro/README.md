@@ -5,11 +5,9 @@ Requires Python.
 
 ##How to use
 ```
-pro [project-name] [language] [description] [authors] [other-project-to-include]
+from pro import pro
+pro(project-name, language, description, authors, other_project_to_include)
 ```
-__If you use Linux__ (if you do, then you going the right way).:<br>
-to use script like this rename __pro.py__ to __pro__ or make an ___alias___.
-
 project.xml - XML file that
 contains information about project.<br>
 manage.py - a Python script that
@@ -41,9 +39,8 @@ project-name/
 	doc/
 		doc.xhtml  -  documentation
 		style.css  - stylesheet for documentation
-	manage/
-		...  -  modules for manage.py
-	...  -  source code files
+	project-name/ - main project directory
+		...  -  source code files
 	config.py - this file contains compiler configuration
 	dependencies - this file contains required libraries and frameworks
 	manage.py  -  manage.py script
@@ -72,13 +69,22 @@ project-name/
 
 Create a Python project named 'Test' with description: 'A simple project' and author: 'Somebody'<br>
 ```
-pro Test Python "A simple project" Somebody
+from pro import pro
+pro("Test", "Python", "A simple project", "Somebody")
 ```
 Create a C++ project named 'Test' with description: 'A simple project' and author: 'Somebody'<br>
 ```
-pro Test C++ "A simple project" Somebody
+from pro import pro
+pro("Test", "C++", "A simple project", "Somebody")
 ```
 
 ##How to install
 
-Add directory with script to your $PATH.<br>
+###As a Python module
+```
+python setup.py install
+```
+
+1. Copy __pro/__init__.py__ to any directory you like and rename it to pro (or any other name you like)<br>
+2. Add directory with this script to your PATH<br>
+3. Run it: pro Test Python "Description" Ivan<br>
