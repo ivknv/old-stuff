@@ -1,14 +1,14 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import sys, os
 from xml.dom import minidom
-from manage.dependencies import add, remove
-from manage.change_lang import change_lang
-from manage.change_name import rename
-from manage.change_authors import change_author
-from manage.change_description import change_description
-from manage.change_version import change_version
-from manage.change_date import update_date
+from manage_project.dependencies import add, remove
+from manage_project.change_lang import change_lang
+from manage_project.change_name import rename
+from manage_project.change_authors import change_author
+from manage_project.change_description import change_description
+from manage_project.change_version import change_version
+from manage_project.change_date import update_date
 import config
 name=minidom.parse("project.xml").getElementsByTagName("name")[0].childNodes[0].nodeValue.strip()
 full_path=os.path.realpath(__file__)
