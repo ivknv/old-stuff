@@ -84,7 +84,7 @@ pro("Test", "C++", "A simple project", "Somebody")
 ```
 python setup.py install
 ```
-
+###As a Python script
 1. Copy __pro/____init__.py to any directory you like and rename it to pro (or any other name you like)<br>
 2. Copy pro/config.py to the directory with __pro__<br>
 3. Add directory with this script to your PATH<br>
