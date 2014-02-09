@@ -17,13 +17,12 @@ def addTemplate(filename, additional=""):
 			template=open(template_name, "w")
 			template.write(f1r)
 			template.close()
+			os.chmod(template_name, 0o755)
 			if isinstance(additional, str) and additional != "":
 				os.symlink(template_name, template_dir+os.path.sep+additional+shortfname_ex)
-				os.chmod(template_name, 0o755)
 			elif isinstance(additional, list) and len(additional)>0:
 				for i in additional:
 					os.symlink(template_name, template_dir+os.path.sep+i+shortfname_ex)
-				os.chmod(template_name, 0o755)
 		except IOError:
 			return False
 		return True

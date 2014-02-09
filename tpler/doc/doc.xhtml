@@ -92,6 +92,56 @@ Supported are
 <li>.java</li>
 </ul>
 </p>
+<h3 id="adding-custom-templates"><a style="text-decoration: none; color: black;" href="#adding-custom-templates">Adding custom templates</a></h3>
+<p>
+If you want to add some new template(s) you can use <i><b>add_template.py</b></i> script.
+To delete templates use <i><b>rm_template.py</b></i>.<br/><br/>
+add_template.py usage:<br/><br/>
+<span class="shell_action">
+python add_template.py &lt;filename&gt;
+</span><br/><br/>
+With add_template.py you can make an alias to your template:<br/><br/>
+<span class="shell_action">
+python add_template.py &lt;filename&gt; &lt;alias1&gt; &lt;alias2&gt; &lt;alias3&gt; &lt;aliasn&gt;
+</span><br/><br/>
+rm_template.py usage:<br/><br/>
+<span class="shell_action">
+python rm_template.py &lt;template_name&gt;
+</span>
+</p>
+<h3 id="add_template-and-rm_template-examples"><a style="text-decoration: none; color: black;" href="#add_template-and-rm_template-examples">add_template.py and rm_template.py examples</a></h3>
+<p>
+Let's say we want to add a new template called <i>config.py</i>.<br/>
+Our <i>config.py</i> will contain this code:<br/><br/>
+<div class="code">
+filename="test.py"<br/>
+path="/home/user/test.py"
+</div>
+Also, we want to make an alias to config.py.
+And if want to use tpler like this:<br/><br/>
+<span class="shell_action">
+python tpler.py myconfig.py confpy
+</span><br/><br/>
+then we need to add template and make an alias:<br/><br/>
+<span class="shell_action">
+python add_template.py config.py confpy
+</span>
+<br/><br/>
+Now we can use this template.<br/>
+If we want to remove this template and all its aliases we just need to run<br/><br/>
+<span class="shell_action">
+python rm_template.py config.py
+</span><br/><br/>
+add_template.py and rm_template.py can be found in <b>tpler</b> directory.
+<br/><br/>
+</p>
+<h3 id="installing"><a style="text-decoration: none; color: black;" href="#installing">Installing as a command line script</a></h3>
+<p>
+To install this script, all you need is to run <i>install.sh</i>:<br/><br/>
+<span class="shell_action">
+./install.sh
+</span><br/><br/>
+</p>
 </description>
 </project>
 </body>
