@@ -13,8 +13,8 @@ def main(tfname):
 				if os.readlink(template_dir+os.path.sep+i) == template_dir+os.path.sep+tfname:
 					linkpath=os.readlink(template_dir+os.path.sep+i)
 					os.remove(template_dir+os.path.sep+i)
-					print("Deleting %s" %linkpath)
 					if os.path.exists(linkpath):
+						print("Deleting %s" %linkpath)
 						os.remove(linkpath)
 			elif os.path.isfile(template_dir+os.path.sep+i) and template_dir+os.path.sep+i==tfname:
 					if os.path.exists(template_dir+os.path.sep+i):
