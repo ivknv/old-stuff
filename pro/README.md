@@ -30,7 +30,7 @@ Compile source code: python manage.py compile<br>
 __Note__: At the moment manage.py can compile only Python, C, C++ and Lua source code. Soon there will be more supported languages.<br>
 Add dependency: python manage.py dependencies add [library-or-framework]<br>
 Remove dependency: python manage.py dependencies rm [library-or-framework]<br>
-#Structure of the project
+#Project structure
 Simple Python project: <br>
 ```
 project-name/
