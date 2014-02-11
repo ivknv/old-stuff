@@ -12,8 +12,6 @@ or
 ```
 proParser -e [path-to-project] [key]
 ```
-__If you use Linux (If you do, then you going the right way)__:<br>
-if you want to use ProParser the same way as in example above, rename ProParser.py to ProParser (or anything else). But if you want to use it as a Python module, then make an alias.<br>
 
 option -e is used to print information only for following key.<br>
 Output might look like this:
@@ -34,7 +32,7 @@ description: This script allows to get information about project (if it was crea
 
 ## Examples ##
 First you need to create project using [pro](https://github.com/SPython/pro).
-Let's create a project called _myproject_, it's language will be _C++_, description will be empty and author will be _Somebody_:
+Let's create a project called _myproject_, its language will be _C++_, description will be empty and author will be _Somebody_:
 ```
 pro myproject C++ "" Somebody
 ```
