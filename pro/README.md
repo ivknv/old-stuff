@@ -55,8 +55,6 @@ project-name/
 	doc/
 		doc.xhtml - documentation
 		style.css - stylesheet for documentation
-	manage/
-		... - modules for manage.py
 	project-name/ - main project directory
 		... - source code files
 	config.py - this file contains compiler configuration
