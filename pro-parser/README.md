@@ -1,7 +1,7 @@
 pro-parser
 ==========
 
-A parser for projects created by pro.<br>
+A parser of projects created with pro.<br>
 __ProParser is importable__.<br>
 See also [pro](https://github.com/SPython/pro)
 ## How to use ##
