@@ -1,10 +1,3 @@
-<head>
-<meta charset="utf-8" />
-<title>How to use tpler</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
-</head>
-<body>
-<project lang="Python" project_name="tpler">
 <h1 id="tpler"><a style="text-decoration: none; color: black;" href="#tpler">tpler</a></h1>
 <h3 id="contents"><a href="#contents">Contents</a></h3>
 <p>
@@ -14,49 +7,46 @@
 4. <a href="#add_template-and-rm_template-examples">add_template.py and rm_template.py examples</a><br/>
 5. <a href="#installing">Installation</a>
 </p>
-<description>
 <h3 id="description"><a style="text-decoration: none; color: black;" href="#description">Description</a></h3>
 <p>
 tpler is a <b>t</b>em<b>pl</b>at<b>er</b>. It allows you to <b style="text-decoration: underline;">stop</b> always <b style="text-decoration: underline;">writting the same code</b>.<br/>
 tpler will automatically recognize file type and write apropriate code.
 </p>
 <h3 id="how-to-use"><a style="text-decoration: none; color: black;" href="#how-to-use">How to use</a></h3>
-<p>
-Create a generic HTML file:<br/><br/>
-<span class="shell_action">tpler html_file.html</span><br/><br/>
-It will write following text to 'html_file.html':<br/>
-<div class="code">
-&lt;!DOCTYPE html&gt;<br/>
-&lt;html&gt;<br/>
-&lt;head&gt;<br/>
-&lt;meta charset="utf-8"&gt;<br/>
-&lt;title&gt;&lt;/title&gt;<br/>
-&lt;/head&gt;<br/>
-&lt;body&gt;<br/>
+Create a generic HTML file:<br/>
+```tpler html_file.html```
+
+It will write following text to 'html_file.html':
+```
+<!DOCTYPE html>
+<html>
+head>
+<meta charset="utf-8">
+<title></title>
+</head>
+<body>
+</body>
+</html>
+```
 <br/>
-&lt;/body&gt;<br/>
-&lt;/html&gt;<br/>
-</div>
-<br/>
-Tpler can create even more useful templates:<br/><br/>
-<span class="shell_action">
+Tpler can create even more useful templates:<br/>
+```
 tpler html_file_with_jquery.html jquery
-</span><br/><br/>
+```
 Now 'html_file_with_jquery.html' look like this:<br/>
-<div class="code">
-&lt;!DOCTYPE html&gt;<br/>
-&lt;html&gt;<br/>
-&lt;head&gt;<br/>
-&lt;meta charset="utf-8"&gt;<br/>
-&lt;title&gt;&lt;/title&gt;<br/>
-&lt;script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"&gt;<br/>
-&lt;/script&gt;<br/>
-&lt;/head&gt;<br/>
-&lt;body&gt;<br/>
-<br/>
-&lt;/body&gt;<br/>
-&lt;html&gt;<br/>
-</div>
+```
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">
+</script>
+</head>
+<body>
+</body>
+<html>
+```
 <br/>
 Or you can include AngularJS:<br/><br/>
 <span class="shell_action">tpler html_angular.html angular</span><br/><br/>
@@ -172,6 +162,4 @@ To install this script, all you need is to run <i>install.sh</i>:<br/><br/>
 ./install.sh
 </span><br/><br/>
 </p>
-</description>
-</project>
 </body>
