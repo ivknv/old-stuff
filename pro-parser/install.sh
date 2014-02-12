@@ -18,7 +18,7 @@ script="ProParser/__init__.py"
 
 echo "installation path: $installation_path"
 for file in $files; do
-if [ $file=$script ]; then
+if [ $file == $script ]; then
 	echo "installing $file as $installation_path/$script_name"
 	cp $file $installation_path/$script_name
 	if [ -f "$installation_path/$script_name" ]; then
@@ -44,7 +44,7 @@ else
 	fi
 fi
 if [ -f $file ]; then
-	if [ $file=$script ]; then
+	if [ $file == $script ]; then
 		echo "chmod 755 $installation_path/$script_name"
 		chmod 755 $installation_path/$script_name
 	else
