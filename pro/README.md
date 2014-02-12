@@ -93,6 +93,6 @@ python setup.py install
 
 ### As a command line script ###
 ```
-./install.sh \[script-name\] \[installation-path\]
+./install.sh [script-name] [installation-path]
 ```
 By default it will install script as /usr/local/bin/pro
