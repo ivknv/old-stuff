@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 if [ -z $1 ]; then
-	script_name=tpler
+	script_name="script"
 else
 	script_name=$1
 fi
@@ -12,10 +12,10 @@ else
 		installation_path=$2
 	fi
 fi
-name=tpler
-packages="tpler"
-files="__init__.py add_template.py rm_template.py templates"
-script="__init__.py"
+name="noname"
+packages="."
+files=""
+script=""
 echo -n "Are you sure you want to install $name to $installation_path? (y/n) "
 read yn
 case $yn in
