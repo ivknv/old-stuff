@@ -1,13 +1,21 @@
-##Description
+## Description ##
 Pro - is a simple script that allows
-you to create simple projects.<br>
+you to create projects.<br>
 Requires Python. 
 
-##How to use
+## How to use ##
+
+You can use pro as a command line script or a Python module.<br/>
+As a Python module:
 ```
 from pro import pro
 pro(project-name, language, description, authors, other_project_to_include)
 ```
+As a command line script:
+```
+pro project-name language "description" "authors" other-project-to-include
+```
+
 project.xml - XML file that
 contains information about project.<br>
 manage.py - a Python script that
@@ -15,7 +23,7 @@ allows you to easily edit
 project.xml.<br>
 config.py - a configuration file. Contains compilation commands.
 
-##How to use manage.py
+## How to use manage.py ##
 ```
 python manage.py [options]
 ```
@@ -30,7 +38,7 @@ Compile source code: python manage.py compile<br>
 __Note__: At the moment manage.py can compile only Python, C, C++ and Lua source code. Soon there will be more supported languages.<br>
 Add dependency: python manage.py dependencies add [library-or-framework]<br>
 Remove dependency: python manage.py dependencies rm [library-or-framework]<br>
-#Structure of the project
+# Project structure #
 Simple Python project: <br>
 ```
 project-name/
@@ -55,8 +63,6 @@ project-name/
 	doc/
 		doc.xhtml - documentation
 		style.css - stylesheet for documentation
-	manage/
-		... - modules for manage.py
 	project-name/ - main project directory
 		... - source code files
 	config.py - this file contains compiler configuration
@@ -65,7 +71,7 @@ project-name/
 	project.xml  -  information about project
 ```
 
-##Examples
+## Examples ##
 
 Create a Python project named 'Test' with description: 'A simple project' and author: 'Somebody'<br>
 ```
@@ -78,13 +84,15 @@ from pro import pro
 pro("Test", "C++", "A simple project", "Somebody")
 ```
 
-##How to install
+## How to install ##
 
-###As a Python module
+### As a Python module ###
 ```
 python setup.py install
 ```
 
-1. Copy __pro/__init__.py__ to any directory you like and rename it to pro (or any other name you like)<br>
-2. Add directory with this script to your PATH<br>
-3. Run it: pro Test Python "Description" Ivan<br>
+### As a command line script ###
+```
+./install.sh \[script-name\] \[installation-path\]
+```
+By default it will install script as /usr/local/bin/pro

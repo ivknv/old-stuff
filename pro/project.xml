@@ -4,7 +4,7 @@
 Pro
 </name>
 <version>
-1.3
+1.5
 </version>
 <language>
 Python
@@ -12,10 +12,10 @@ Python
 <description>
 Pro is a simple project creator.
 Python is required (2.x or 3.x).
-Usage: pro [project_name] [language] [description] [authors] [referenced_project]
+Usage: pro(project_name, language, description, authors, referenced_project)
 </description>
 <authors>
-Ivan Konovalov aka SPython
+Ivan Konovalov 
 </authors>
 <referenced>
 </referenced>
