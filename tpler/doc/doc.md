@@ -1,0 +1,177 @@
+<head>
+<meta charset="utf-8" />
+<title>How to use tpler</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<project lang="Python" project_name="tpler">
+<h1 id="tpler"><a style="text-decoration: none; color: black;" href="#tpler">tpler</a></h1>
+<h3 id="contents"><a href="#contents">Contents</a></h3>
+<p>
+1. <a href="#description">Description</a><br/>
+2. <a href="#how-to-use">How to use</a><br/>
+3. <a href="#adding-custom-templates">Adding custom templates</a><br/>
+4. <a href="#add_template-and-rm_template-examples">add_template.py and rm_template.py examples</a><br/>
+5. <a href="#installing">Installation</a>
+</p>
+<description>
+<h3 id="description"><a style="text-decoration: none; color: black;" href="#description">Description</a></h3>
+<p>
+tpler is a <b>t</b>em<b>pl</b>at<b>er</b>. It allows you to <b style="text-decoration: underline;">stop</b> always <b style="text-decoration: underline;">writting the same code</b>.<br/>
+tpler will automatically recognize file type and write apropriate code.
+</p>
+<h3 id="how-to-use"><a style="text-decoration: none; color: black;" href="#how-to-use">How to use</a></h3>
+<p>
+Create a generic HTML file:<br/><br/>
+<span class="shell_action">tpler html_file.html</span><br/><br/>
+It will write following text to 'html_file.html':<br/>
+<div class="code">
+&lt;!DOCTYPE html&gt;<br/>
+&lt;html&gt;<br/>
+&lt;head&gt;<br/>
+&lt;meta charset="utf-8"&gt;<br/>
+&lt;title&gt;&lt;/title&gt;<br/>
+&lt;/head&gt;<br/>
+&lt;body&gt;<br/>
+<br/>
+&lt;/body&gt;<br/>
+&lt;/html&gt;<br/>
+</div>
+<br/>
+Tpler can create even more useful templates:<br/><br/>
+<span class="shell_action">
+tpler html_file_with_jquery.html jquery
+</span><br/><br/>
+Now 'html_file_with_jquery.html' look like this:<br/>
+<div class="code">
+&lt;!DOCTYPE html&gt;<br/>
+&lt;html&gt;<br/>
+&lt;head&gt;<br/>
+&lt;meta charset="utf-8"&gt;<br/>
+&lt;title&gt;&lt;/title&gt;<br/>
+&lt;script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"&gt;<br/>
+&lt;/script&gt;<br/>
+&lt;/head&gt;<br/>
+&lt;body&gt;<br/>
+<br/>
+&lt;/body&gt;<br/>
+&lt;html&gt;<br/>
+</div>
+<br/>
+Or you can include AngularJS:<br/><br/>
+<span class="shell_action">tpler html_angular.html angular</span><br/><br/>
+Or jQueryUI<br/><br/>
+You use tpler on other source code files:<br/>
+<div class="code">tpler main.py main<br/>
+tpler file.cpp<br/>
+tpler xmlfile.xml<br/>
+tpler xhtml_file.xhtml<br/>
+tpler factorial.clj factorial<br/>
+tpler ncurses_program.c ncurses<br/>
+tpler java_program.java
+</div><br/>
+You can do similiar things with other source code files.<br/>
+<ul>
+Supported are
+<li>.c</li>
+	<ul>
+	<li>ncurses</li>
+	<li>fibonacci</li>
+	<li>factorial</li>
+	<li>empty (only main function)</li></ul>
+<li>.cpp</li>
+	<ul><li>empty (only main function)</li></ul>
+<li>.html or .htm with options</li>
+	<ul><li>jquery</li>
+	<li>jqueryui</li>
+	<li>angular</li>
+	<li>base (django template) </li>
+	</ul>
+<li>.py</li>
+	<ul><li>main</li>
+	<li>pyside</li>
+	<li>fibonacci</li>
+	<li>curses</li>
+	<li>factorial</li>
+	</ul>
+<li>.xhtml</li>
+<li>.xml</li>
+	<ul><li>project</li></ul>
+<li>.xsd</li>
+<li>.xsl</li>
+<li>.svg</li>
+<li>.php</li>
+<li>.css</li>
+	<ul><li>button</li></ul>
+<li>.java</li>
+</ul>
+And also every data type supports <i>random type selection</i>. Just type "random", "rand" or "rnd" as a second argument:<br/><br/>
+<span class="shell_action">
+tpler code.py random
+</span><br/><br/>
+</p>
+<h3 id="adding-custom-templates"><a style="text-decoration: none; color: black;" href="#adding-custom-templates">Adding custom templates</a></h3>
+<p>
+If you want to add some new template(s) you can use <i><b>add_template.py</b></i> script.
+To delete templates use <i><b>rm_template.py</b></i>.<br/><br/>
+add_template.py usage:<br/><br/>
+<span class="shell_action">
+python add_template.py &lt;filename&gt;
+</span><br/><br/>
+With add_template.py you can also make an alias to your template:<br/><br/>
+<span class="shell_action">
+python add_template.py &lt;filename&gt; &lt;alias1&gt; &lt;alias2&gt; &lt;alias3&gt; &lt;aliasn&gt;
+</span><br/><br/>
+rm_template.py usage:<br/><br/>
+<span class="shell_action">
+python rm_template.py &lt;template_name&gt;
+</span>
+</p>
+<h3 id="add_template-and-rm_template-examples"><a style="text-decoration: none; color: black;" href="#add_template-and-rm_template-examples">add_template.py and rm_template.py examples</a></h3>
+<p>
+Let's say we want to add a new template called <i>setup.py</i>.<br/>
+Our <i>setup.py</i> will contain this code:<br/><br/>
+<div class="code">
+from distutils.core import setup<br/>
+<br/>
+setup(name="",<br/>
+version="1.0",<br/>
+author="",<br/>
+author_email="",<br/>
+packages=[])
+</div>
+Also, we want to make an alias to config.py.
+And if want to use tpler like this:<br/><br/>
+<span class="shell_action">
+python tpler.py mysetup.py stp
+</span><br/><br/>
+then we need to add template and make an alias:<br/><br/>
+<span class="shell_action">
+python add_template.py setup.py stp
+</span>
+<br/><br/>
+<b>Note:</b> if you have problems with adding/removing templates, make sure you're running script as root.<br/><br/>
+Now we can use this template:<br/><br/>
+<span class="shell_action">
+tpler mysetup.py stp
+</span><br/><br/>or<br/><br/>
+<span class="shell_action">
+tpler mysetup.py setup
+</span><br/><br/>
+If we want to remove this template and all its aliases we just need to run<br/><br/>
+<span class="shell_action">
+python rm_template.py config.py
+</span><br/><br/>
+add_template.py and rm_template.py can be found in <b>tpler</b> directory.
+<br/><br/>
+</p>
+<h3 id="installing"><a style="text-decoration: none; color: black;" href="#installing">Installing as a command line script</a></h3>
+<p>
+To install this script, all you need is to run <i>install.sh</i>:<br/><br/>
+<span class="shell_action">
+./install.sh
+</span><br/><br/>
+</p>
+</description>
+</project>
+</body>
