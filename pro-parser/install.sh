@@ -13,8 +13,8 @@ else
 	fi
 fi
 
-files="proParser/__init__.py"
-script="proParser/__init__.py"
+files="ProParser/__init__.py"
+script="ProParser/__init__.py"
 
 echo "installation path: $installation_path"
 for file in $files; do
