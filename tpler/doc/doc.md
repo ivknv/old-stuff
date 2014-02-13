@@ -4,8 +4,8 @@
 1. <a href="#description">Description</a><br/>
 2. <a href="#how-to-use">How to use</a><br/>
 3. <a href="#adding-custom-templates">Adding custom templates</a><br/>
-4. <a href="#add_template-and-rm_template-examples">add_template.py and rm_template.py examples</a><br/>
-5. <a href="#installing">Installation</a>
+4. <a href="#add_templatepy-and-rm_templatepy-examples">add_template.py and rm_template.py examples</a><br/>
+5. <a href="#installing-as-a-command-line-script">Installation</a>
 </p>
 <h3 id="description"><a style="text-decoration: none; color: black;" href="#description">Description</a></h3>
 <p>
@@ -49,17 +49,18 @@ Now 'html_file_with_jquery.html' look like this:<br/>
 ```
 <br/>
 Or you can include AngularJS:<br/><br/>
-<span class="shell_action">tpler html_angular.html angular</span><br/><br/>
+```tpler html_angular.html angular```
 Or jQueryUI<br/><br/>
-You use tpler on other source code files:<br/>
-<div class="code">tpler main.py main<br/>
-tpler file.cpp<br/>
-tpler xmlfile.xml<br/>
-tpler xhtml_file.xhtml<br/>
-tpler factorial.clj factorial<br/>
-tpler ncurses_program.c ncurses<br/>
+You use tpler with other source code files:<br/>
+```
+tpler main.py main
+tpler file.cpp
+tpler xmlfile.xml
+tpler xhtml_file.xhtml
+tpler factorial.clj factorial
+tpler ncurses_program.c ncurses
 tpler java_program.java
-</div><br/>
+```
 You can do similiar things with other source code files.<br/>
 <ul>
 Supported are
@@ -96,70 +97,60 @@ Supported are
 <li>.java</li>
 </ul>
 And also every data type supports <i>random type selection</i>. Just type "random", "rand" or "rnd" as a second argument:<br/><br/>
-<span class="shell_action">
-tpler code.py random
-</span><br/><br/>
+```tpler code.py random```
 </p>
 <h3 id="adding-custom-templates"><a style="text-decoration: none; color: black;" href="#adding-custom-templates">Adding custom templates</a></h3>
 <p>
-If you want to add some new template(s) you can use <i><b>add_template.py</b></i> script.
-To delete templates use <i><b>rm_template.py</b></i>.<br/><br/>
+If you want to add some new template you can use <b>add_template.py</b> script.
+To delete templates use <b>rm_template.py</b>.<br/>
 add_template.py usage:<br/><br/>
-<span class="shell_action">
-python add_template.py &lt;filename&gt;
-</span><br/><br/>
+<code>python add_template.py <filename></code>
+<br/><br/>
 With add_template.py you can also make an alias to your template:<br/><br/>
-<span class="shell_action">
-python add_template.py &lt;filename&gt; &lt;alias1&gt; &lt;alias2&gt; &lt;alias3&gt; &lt;aliasn&gt;
-</span><br/><br/>
+<code>python add_template.py <filename> <alias1> <alias2> <alias3> <aliasn></code>
+<br/><br/>
 rm_template.py usage:<br/><br/>
-<span class="shell_action">
-python rm_template.py &lt;template_name&gt;
-</span>
+<code>python rm_template.py <template_name></code>
 </p>
 <h3 id="add_template-and-rm_template-examples"><a style="text-decoration: none; color: black;" href="#add_template-and-rm_template-examples">add_template.py and rm_template.py examples</a></h3>
 <p>
 Let's say we want to add a new template called <i>setup.py</i>.<br/>
 Our <i>setup.py</i> will contain this code:<br/><br/>
-<div class="code">
-from distutils.core import setup<br/>
-<br/>
-setup(name="",<br/>
-version="1.0",<br/>
-author="",<br/>
-author_email="",<br/>
+<pre><code>from distutils.core import setup
+
+setup(name="",
+description="",
+version="1.0",
+author="",
+author_email="",
 packages=[])
-</div>
+</code></pre>
 Also, we want to make an alias to config.py.
 And if want to use tpler like this:<br/><br/>
-<span class="shell_action">
+<code>
 python tpler.py mysetup.py stp
-</span><br/><br/>
+</code>
+<br/><br/>
 then we need to add template and make an alias:<br/><br/>
-<span class="shell_action">
+<code>
 python add_template.py setup.py stp
-</span>
+</code>
 <br/><br/>
 <b>Note:</b> if you have problems with adding/removing templates, make sure you're running script as root.<br/><br/>
 Now we can use this template:<br/><br/>
-<span class="shell_action">
-tpler mysetup.py stp
-</span><br/><br/>or<br/><br/>
-<span class="shell_action">
-tpler mysetup.py setup
-</span><br/><br/>
+<code>tpler mysetup.py stp</code>
+<br/><br/>or<br/><br/>
+<code>tpler mysetup.py setup</code>
+<br/><br/>
 If we want to remove this template and all its aliases we just need to run<br/><br/>
-<span class="shell_action">
-python rm_template.py config.py
-</span><br/><br/>
+<code>python rm_template.py setup.py</code>
+<br/><br/>
 add_template.py and rm_template.py can be found in <b>tpler</b> directory.
 <br/><br/>
 </p>
-<h3 id="installing"><a style="text-decoration: none; color: black;" href="#installing">Installing as a command line script</a></h3>
+<h3 id="installation"><a style="text-decoration: none; color: black;" href="#installation">Installing as a command line script</a></h3>
 <p>
 To install this script, all you need is to run <i>install.sh</i>:<br/><br/>
-<span class="shell_action">
-./install.sh
-</span><br/><br/>
+<code>./install.sh</code>
+<br/><br/>
 </p>
-</body>
