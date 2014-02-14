@@ -17,7 +17,7 @@ Output might look like this:
 ```
 name: ProParser
 language: Python
-version: 1.1
+version: 1.2
 authors: Ivan Konovalov
 hour: 21
 month: 1
@@ -31,8 +31,8 @@ description: This script allows to get information about project (if it was crea
 
 ## Examples ##
 There are two ways to use pro-parser:<br/>
-1. As a command line script<br/>
-2. As a Python module
+1. [As a command line script](#command-line-script)<br/>
+2. [As a Python module](#python-module)
 ### Command line script ###
 First you need to create a project using [pro](https://github.com/SPython/pro).
 Let's create a project called _myproject_, its language will be _C++_, description will be empty and author will be _Somebody_:
@@ -44,10 +44,10 @@ Now we can get information about 'myproject' using proParser:
 pro-parser myproject
 ```
 ### Python module ###
-First, run setup.py to install proParser.<br/>
+First, run setup.py to install ProParser.<br/>
 Now, let's parse some project:
 ```
-from ProParser import Project
+from ProParser import *
 myproject=Project("myproject")
 ```
 To see what you can do with 'Project' object use dir:
@@ -58,7 +58,7 @@ We can print its name, authors, version, date, description and more:
 ```
 print(myproject.name)
 print(myproject.authors)
-print(myproject.date()) # Because myproject.date is an object
+print(myproject.date()) # Because myproject.date is a class
 print(myproject.hour)
 print(myproject.second)
 print(myproject.description)
@@ -67,7 +67,38 @@ print(info["date"]["hour"]) # Because info["date"] is dictionary
 print(info["date"]["minute"])
 print(info["name"])
 print(info["description"])
+# without Project class
+print(getName("myproject"))
+print(getLang("myproject"))
+print(getDate("myproject")) # getDate is a class
+print(getDate("myproject").hour)
+print(getDate("myproject").day)
+print(getAuthors("myproject"))
+print(getDescription("myproject"))
+# and of course you can check if it's a project
+if isProject("myproject"):
+	print("myproject is a project")
+else:
+	print("myproject is not a project")
 ```
+
+With ProParser you can do even more. For example, you can find projects in some directory:
+```
+projects=ProParser.listProjects(".") # it will return a list of projects in current directory
+for project in projects:
+	print(project.name)
+
+projects_dict=ProParser.listProjectsAsDict(".") # it will return a dictionary of projects in current directory
+print(projects_dict["projectName"]["authors"])
+
+all_projects=ProParser.listAllProjects("/home/ivan") # list all the projects recuresively
+for project in all_projects:
+	print(project.name)
+all_projects_dict=ProParser.listAllProjectsAsDict("/home/ivan") # almost like listAllProjects, but returns dictionary
+print(all_projects_dict["projectName"]["language"])
+```
+
+
 
 ## Installation ##
 ### As a Python module ###
