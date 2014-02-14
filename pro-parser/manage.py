@@ -26,7 +26,7 @@ elif arg1 in ["change_authors", "change_auth"]:
 elif arg1 in ["change_descr", "change_description"]:
 	change_description(full_path , sys.argv[2])
 elif arg1 in ["change_ver", "change_version"]:
-	change_version(full_path, sys.argv[3])
+	change_version(full_path, sys.argv[2])
 elif arg1 in ["update_date"]:
 	update_date(full_path)
 elif arg1 in ["dependencies"]:

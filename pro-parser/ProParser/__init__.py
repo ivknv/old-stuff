@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from xml.dom import minidom
-import os
+import os, xml
 
 class ProjectError(Exception):
 	pass
 
 def isProject(path):
 	if os.path.exists(path+os.path.sep+"project.xml"):
-		return True if minidom.parse(path+os.path.sep+"project.xml").documentElement.tagName == "project" else False
+		try:
+			return True if minidom.parse(path+os.path.sep+"project.xml").documentElement.tagName == "project" else False
+		except xml.parsers.expat.ExpatError:
+			return False
 	return False
 
 def getLang(path):
@@ -191,34 +194,115 @@ class Project(object):
 		self.referenced=getReferenced(path)
 		self.fullpath=os.path.realpath(path)
 		self.as_dict={"name": self.name, "language": self.language, "description": self.description, "authors": self.authors, "version": self.version, "date": {"day": self.day, "weekday": self.weekday, "month": self.month, "year": self.year, "hour": self.hour, "minute": self.minute, "second": self.second}, "referenced": self.referenced, "fullpath": self.fullpath}
+		self.keys=[k for k in self.as_dict]
+		self.n = -1
+	def __call__(self, key=None, key1=None):
+		if key and key1:
+			return self.as_dict[key][key]
+		elif key:
+			return self.as_dict[key]
+		else:
+			return self.as_dict
+	def __iter__(self):
+		return self
+	def __next__(self):
+		if self.n < len(self.as_dict)-1:
+			self.n+=1
+			return self.as_dict[self.keys[self.n]]
+		else:
+			raise StopIteration
+
+def listProjects(directory="."):
+	curdir=os.getcwd()
+	if os.path.exists(directory):
+		os.chdir(directory)
+		projects = [Project(d) for d in os.listdir(".") if os.path.isdir(os.path.realpath(d)) if isProject(os.path.realpath(d))]
+		os.chdir(curdir)
+		return projects
+
+def listProjectsAsDict(directory="."):
+	curdir=os.getcwd()
+	if os.path.exists(directory):
+		os.chdir(directory)
+		projects = {}
+		for d in os.listdir("."):
+			if isProject(d):
+				project=Project(d)
+				projects.setdefault(project.name, project)
+		os.chdir(curdir)
+		return projects
+
+def listAllProjects(directory=".", func="", funce="", funcelse=""):
+	if os.path.exists(directory):
+		curdir=os.getcwd()
+		os.chdir(directory)
+		projects=[]
+		for d in os.walk(directory):
+			if isProject(d[0]):
+				try:
+					if func != "":
+						exec(func)
+					projects.append(Project(d[0]))
+				except ProjectError as e:
+					if func != "":
+						exec(funce)
+				else:
+					if funcelse != "":
+						exec(funcelse)
+		os.chdir(curdir)
+		return projects
+
+def listAllProjectsAsDict(directory=".", func="", funce="", funcelse=""):
+	if os.path.exists(directory):
+		curdir=os.getcwd()
+		os.chdir(directory)
+		projects={}
+		for d in os.walk(directory):
+			if isProject(d[0]):
+				try:
+					if func != "":
+						exec(func)
+					project=Project(d[0])
+					projects.setdefault(project.name, project)
+				except ProjectError as e:
+					if funce != "":
+						exec(funce)
+				else:
+					if funcelse != "":
+						exec(funcelse)
+		os.chdir(curdir)
+		return projects
 
 if __name__ == "__main__":
 	import sys
-	if sys.argv[1].lower() in ["-e"]:
-		if len(sys.argv) > 3:
-			prj=Project(sys.argv[2]).as_dict
-			if isinstance(prj[sys.argv[3]], dict):
-				for i in prj[sys.argv[3]]:
-					print("%s: %s" %(i, prj[sys.argv[3]][i]))
-			elif isinstance(prj[sys.argv[3]], list):
-				sys.stdout.write("%s: %s" %(sys.argv[3], prj[sys.argv[3]][0]))
-				if len(prj[sys.argv[3]]) > 1:
-					for i in prj[sys.argv[3]][1::]:
-						sys.stdout.write(", %s" %(i[1::] if i.startswith(" ") else i))
-				sys.stdout.write("\n")
-			else:
-				print("%s: %s" %(sys.argv[3], prj[sys.argv[3]]))
-	else:
-		prj=Project(sys.argv[1]).as_dict
-		for i in prj:
-			if isinstance(prj[i], dict):
-				for ii in prj[i]:
-					print("%s: %s" %(ii, prj[i][ii]))
-			elif isinstance(prj[i], list):
-				sys.stdout.write("%s: %s" %(i, prj[i][0]))
-				if len(prj[i]) > 1:
-					for ii in prj[i][1::]:
-						sys.stdout.write(", %s" %(ii[1::] if ii.startswith(" ") else ii))
-				sys.stdout.write("\n")
-			else:
-				print("%s: %s" %(i, prj[i]))
+	try:
+		if sys.argv[1].lower() in ["-e"]:
+			if len(sys.argv) > 3:
+				prj=Project(sys.argv[2]).as_dict
+				if isinstance(prj[sys.argv[3]], dict):
+					for i in prj[sys.argv[3]]:
+						print("%s: %s" %(i, prj[sys.argv[3]][i]))
+				elif isinstance(prj[sys.argv[3]], list):
+					sys.stdout.write("%s: %s" %(sys.argv[3], prj[sys.argv[3]][0]))
+					if len(prj[sys.argv[3]]) > 1:
+						for i in prj[sys.argv[3]][1::]:
+							sys.stdout.write(", %s" %(i[1::] if i.startswith(" ") else i))
+					sys.stdout.write("\n")
+				else:
+					print("%s: %s" %(sys.argv[3], prj[sys.argv[3]]))
+		else:
+			prj=Project(sys.argv[1]).as_dict
+			for i in prj:
+				if isinstance(prj[i], dict):
+					for ii in prj[i]:
+						print("%s: %s" %(ii, prj[i][ii]))
+				elif isinstance(prj[i], list):
+					sys.stdout.write("%s: %s" %(i, prj[i][0]))
+					if len(prj[i]) > 1:
+						for ii in prj[i][1::]:
+							sys.stdout.write(", %s" %(ii[1::] if ii.startswith(" ") else ii))
+					sys.stdout.write("\n")
+				else:
+					print("%s: %s" %(i, prj[i]))
+	except IndexError:
+		print("usage pro-parser [-e] <project> [key]")
