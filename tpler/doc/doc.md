@@ -112,7 +112,7 @@ With add_template.py you can also make an alias to your template:<br/><br/>
 rm_template.py usage:<br/><br/>
 <code>python rm_template.py <template_name></code>
 </p>
-<h3 id="add_template-and-rm_template-examples"><a style="text-decoration: none; color: black;" href="#add_template-and-rm_template-examples">add_template.py and rm_template.py examples</a></h3>
+<h3 id="add_templatepy-and-rm_templatepy-examples"><a style="text-decoration: none; color: black;" href="#add_templatepy-and-rm_templatepy-examples">add_template.py and rm_template.py examples</a></h3>
 <p>
 Let's say we want to add a new template called <i>setup.py</i>.<br/>
 Our <i>setup.py</i> will contain this code:<br/><br/>
@@ -148,7 +148,7 @@ If we want to remove this template and all its aliases we just need to run<br/><
 add_template.py and rm_template.py can be found in <b>tpler</b> directory.
 <br/><br/>
 </p>
-<h3 id="installation"><a style="text-decoration: none; color: black;" href="#installation">Installing as a command line script</a></h3>
+<h3 id="installation"><a style="text-decoration: none; color: black;" href="#installing-as-a-command-line-script">Installing as a command line script</a></h3>
 <p>
 To install this script, all you need is to run <i>install.sh</i>:<br/><br/>
 <code>./install.sh</code>
