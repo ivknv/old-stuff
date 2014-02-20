@@ -69,3 +69,8 @@ done
 echo "going back"
 cd -
 done
+
+ln -s $installation_path/add_template.py $installation_path/add_template
+ln -s $installation_path/rm_template.py $installation_path/rm_template
+
+
