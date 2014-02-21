@@ -35,7 +35,16 @@ def second():
 	prj=ProParser.Project(".")
 	for i in prj:
 		print(i)
+def third():
+	i=ProParser.getPercentageByYear("2014", "../../../Dropbox", func="print(\"projects: %d\" %(projects_with_year));print(\"Year: %s\" %getYear(d[0]))")
+
+	print(i)
+
+def fourth():
+	print(ProParser.getPercentageLang("../../../Dropbox", func="print(d[0])", funce="print(e)"))
 
 if __name__ == "__main__":
-	main()
+	#main()
 	#second()
+	#third()
+	fourth()

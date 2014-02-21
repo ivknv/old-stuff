@@ -104,6 +104,17 @@ def getHour(path):
 	else:
 		raise ProjectError("%s is not a project" %path)
 
+def getTag(path, tag):
+	if isProject(path):
+		project_xml=path+os.path.sep+"project.xml"
+		try:
+			dom=minidom.parse(project_xml)
+			return dom.getElementsByTagName(tag)[0].childNodes[0].nodeValue[1:-1]
+		except IndexError:
+			raise ProjectError("%s is corrupted" %project_xml)
+	else:
+		raise ProjectError("%s is not a project" %path)
+
 def getMinute(path):
 	if isProject(path):
 		project_xml=path+os.path.sep+"project.xml"
@@ -194,7 +205,7 @@ class Project(object):
 		self.referenced=getReferenced(path)
 		self.fullpath=os.path.realpath(path)
 		self.as_dict={"name": self.name, "language": self.language, "description": self.description, "authors": self.authors, "version": self.version, "date": {"day": self.day, "weekday": self.weekday, "month": self.month, "year": self.year, "hour": self.hour, "minute": self.minute, "second": self.second}, "referenced": self.referenced, "fullpath": self.fullpath}
-		self.keys=[k for k in self.as_dict]
+		self.keys=["name", "version", "language", "description", "authors", "date", "referenced"]
 		self.n = -1
 	def __call__(self, key=None, key1=None):
 		if key and key1:
@@ -206,36 +217,28 @@ class Project(object):
 	def __iter__(self):
 		return self
 	def __next__(self):
-		if self.n < len(self.as_dict)-1:
+		if self.n < len(self.keys)-1:
 			self.n+=1
 			return self.as_dict[self.keys[self.n]]
 		else:
 			raise StopIteration
 
 def listProjects(directory="."):
-	curdir=os.getcwd()
 	if os.path.exists(directory):
-		os.chdir(directory)
-		projects = [Project(d) for d in os.listdir(".") if os.path.isdir(os.path.realpath(d)) if isProject(os.path.realpath(d))]
-		os.chdir(curdir)
+		projects = [Project(directory+os.path.sep+d) for d in os.listdir(directory) if os.path.isdir(os.path.realpath(directory+os.path.sep+d)) if isProject(os.path.realpath(directory+os.path.sep+d))]
 		return projects
 
 def listProjectsAsDict(directory="."):
-	curdir=os.getcwd()
 	if os.path.exists(directory):
-		os.chdir(directory)
 		projects = {}
-		for d in os.listdir("."):
-			if isProject(d):
-				project=Project(d)
+		for d in os.listdir(directory):
+			if isProject(directory+os.path.sep+d):
+				project=Project(directory+os.path.sep+d)
 				projects.setdefault(project.name, project)
-		os.chdir(curdir)
 		return projects
 
 def listAllProjects(directory=".", func="", funce="", funcelse=""):
 	if os.path.exists(directory):
-		curdir=os.getcwd()
-		os.chdir(directory)
 		projects=[]
 		for d in os.walk(directory):
 			if isProject(d[0]):
@@ -249,13 +252,10 @@ def listAllProjects(directory=".", func="", funce="", funcelse=""):
 				else:
 					if funcelse != "":
 						exec(funcelse)
-		os.chdir(curdir)
 		return projects
 
 def listAllProjectsAsDict(directory=".", func="", funce="", funcelse=""):
 	if os.path.exists(directory):
-		curdir=os.getcwd()
-		os.chdir(directory)
 		projects={}
 		for d in os.walk(directory):
 			if isProject(d[0]):
@@ -270,8 +270,206 @@ def listAllProjectsAsDict(directory=".", func="", funce="", funcelse=""):
 				else:
 					if funcelse != "":
 						exec(funcelse)
-		os.chdir(curdir)
 		return projects
+
+def getPercentageOfProjects(directory=".", func="", funce="", funcelse=""):
+	projects=0
+	dirs=0
+	for d in os.walk(directory):
+		if os.path.isdir(d[0]):
+			dirs+=1
+		if isProject(d[0]):
+			try:
+				exec(func)
+				project=Project(d[0])
+			except ProjectError as e:
+				exec(funce)
+			else:
+				projects+=1
+				exec(funcelse)
+	
+	return 100.0/dirs*projects
+
+def getPercentageByLanguage(lang, directory=".", func="", funce="", funcelse=""):
+	projects=0
+	projects_with_lang=0
+	for d in os.walk(directory):
+		if isProject(d[0]):
+			try:
+				exec(func)
+				if getLang(d[0]).lower() == lang.lower():
+					projects_with_lang+=1
+				projects+=1
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+	return 100.0/projects*projects_with_lang
+
+def getPercentageByMonth(month, directory=".", func="", funce="", funcelse=""):
+	if len(month) == 1:
+		month="0"+month
+	projects=0
+	projects_with_month=0
+	for d in os.walk(directory):
+		if isProject(d[0]):
+			try:
+				exec(func)
+				if month == getMonth(d[0]):
+					projects_with_month+=1
+				projects+=1
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+	return 100.0/projects*projects_with_month
+
+def getPercentageByYear(year, directory=".", func="", funce="", funcelse=""):
+	projects=0
+	projects_with_year=0
+	for d in os.walk(directory):
+		if isProject(d[0]):
+			try:
+				exec(func)
+				if year == getYear(d[0]):
+					projects_with_year+=1
+				projects+=1
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+	return 100.0/projects*projects_with_year
+
+def getPercentageByDay(day, directory=".", func="", funce="", funcelse=""):
+	if len(day) == 1:
+		day="0"+day
+	projects=0
+	projects_with_day=0
+	for d in os.walk(directory):
+		if isProject(d[0]):
+			try:
+				exec(func)
+				if day == getDay(d[0]):
+					projects_with_day+=1
+				projects+=1
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+	return 100.0/projects*projects_with_day
+
+def getPercentageByWeekday(weekday, directory=".", func="", funce="", funcelse=""):
+	weekdays=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+	if isinstance(weekday, int):
+		weekday=weekdays[weekday-1]
+	elif isinstance(weekday, str):
+		if weekday.isdigit():
+			weekday=weekdays[int(weekday)-1]
+	projects=0
+	projects_with_weekday=0
+	for d in os.walk(directory):
+		if isProject(d[0]):
+			try:
+				exec(func)
+				if weekday == getWeekday(d[0]):
+					projects_with_weekday+=1
+				projects+=1
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+	return 100.0/projects*projects_with_weekday
+
+def getPercentageByHour(hour, directory=".", func="", funce="", funcelse=""):
+	projects=0
+	projects_with_hour=0
+	for d in os.walk(directory):
+		if isProject(d[0]):
+			try:
+				exec(func)
+				if hour == getHour(d[0]):
+					projects_with_hour+=1
+				projects+=1
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+	return 100.0/projects*projects_with_hour
+
+def getPercentageByDescription(description, directory=".", func="", funce="", funcelse=""):
+	projects=0
+	projects_with_description=0
+	for d in os.walk(directory):
+		if isProject(d[0]):
+			try:
+				exec(func)
+				if description.lower() in getDescription(d[0]).lower():
+					projects_with_description+=1
+				projects+=1
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+	return 100.0/projects*projects_with_description
+
+def getPercentageByAuthor(author, directory=".", func="", funce="", funcelse=""):
+	projects=0
+	projects_with_author=0
+	for d in os.walk(directory):
+		if isProject(d[0]):
+			try:
+				exec(func)
+				if author.lower() in [a.lower() for a in getAuthors(d[0])]:
+					projects_with_author+=1
+				projects+=1
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+	return 100.0/projects*projects_with_author
+
+def getPercentageByReferenced(referenced, directory=".", func="", funce="", funcelse=""):
+	projects=0
+	projects_with_referenced=0
+	for d in os.walk(directory):
+		if isProject(d[0]):
+			try:
+				exec(func)
+				if referenced.lower() == getReferenced(d[0]):
+					projects_with_referenced+=1
+				projects+=1
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+	return 100.0/projects*projects_with_referenced
+
+def getPercentage(tag, directory=".", func="", funce="", funcelse=""):
+	projects={}
+	for d in os.walk(directory):
+		if isProject(d[0]):
+			try:
+				exec(func)
+				gn=getName(d[0])
+				tvalue=getTag(d[0], tag)
+				if gn and tvalue:
+					projects[gn] = tvalue
+				else:
+					continue
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+	data={}
+	for j in projects:
+		if not projects[j] in data:
+			data[projects[j]]=1
+		else:
+			data[projects[j]]+=1	
+	ds={}
+	for j in data:
+		ds[j] = 100.0/len(projects)*data[j]
+	return ds
 
 if __name__ == "__main__":
 	import sys
