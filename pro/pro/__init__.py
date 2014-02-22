@@ -107,7 +107,7 @@ project description {
 			config_text=config_py.read()
 			config_py.close()
 			config_py=open(name+os.path.sep+"config.py", "w+")
-			config_py.write(config_text)
+			config_py.write(config_text.replace("%name%", name))
 			config_py.close()
 			text3 = """\
 #!/usr/bin/env python
@@ -138,7 +138,7 @@ elif arg1 in ["change_authors", "change_auth"]:
 elif arg1 in ["change_descr", "change_description"]:
 	change_description(full_path , sys.argv[2])
 elif arg1 in ["change_ver", "change_version"]:
-	change_version(full_path, sys.argv[3])
+	change_version(full_path, sys.argv[2])
 elif arg1 in ["update_date"]:
 	update_date(full_path)
 elif arg1 in ["dependencies"]:
@@ -150,24 +150,25 @@ elif arg1 in ["dependencies"]:
 				text4="""\
 elif arg1 in ["compile"]:
 	import py_compile, distutils.core
-
-	py_files = os.listdir(full_path)
-	for py_file in py_files:
-		if py_file.endswith(".py") and py_file not in ["manage.py"]:
-			py_compile.compile(full_path+os.path.sep+py_file)
-	if os.path.exists(full_path+os.path.sep+"__pycache__"):
-		distutils.dir_util.copy_tree(full_path+os.path.sep+"__pycache__", full_path+os.path.sep+"bin")
-	else:
-		pyc_files = os.listdir(full_path)
-		for pyc_file in pyc_files:
-			if pyc_file.endswith(".pyc"):
-				os.rename(full_path+os.path.sep+pyc_file, full_path+os.path.sep+"bin"+os.path.sep+pyc_file)
-	if os.path.exists(full_path+os.path.sep+"bin"+os.path.sep+"config.pyc"):
-		os.remove(full_path+os.path.sep+"bin"+os.path.sep+"config.pyc")"""
+	
+	n=config.directories_to_compile
+	for n1 in n:
+		py_files = os.listdir(full_path+os.path.sep+n1)
+		for py_file in py_files:
+			if py_file.endswith(".py"):
+				py_compile.compile(full_path+os.path.sep+n1+os.path.sep+py_file)
+		if os.path.exists(full_path+os.path.sep+n1+os.path.sep+"__pycache__"):
+			distutils.dir_util.copy_tree(full_path+os.path.sep+n1+os.path.sep+"__pycache__", full_path+os.path.sep+"bin")
+			distutils.dir_util.remove_tree(full_path+os.path.sep+n1+os.path.sep+"__pycache__")
+		else:
+			pyc_files = os.listdir(full_path+os.path.sep+n1)
+			for pyc_file in pyc_files:
+				if pyc_file.endswith(".pyc"):
+					os.rename(full_path+os.path.sep+n1+os.path.sep+pyc_file, full_path+os.path.sep+"bin"+os.path.sep+pyc_file)"""
 				manage_py.write(text3+"\n"+text4)
 				manage_py.close()
 				curdir=os.getcwd()
-				from manage.pyinit import pyinit
+				from manage_project.pyinit import pyinit
 				os.mkdir(name+os.path.sep+name)
 				os.mkdir(name+os.path.sep+"bin")
 				pyinit(name)
@@ -189,9 +190,11 @@ elif arg1 in ["compile"]:
 				text4="""\
 elif arg1 in ["compile"]:
 	import subprocess
-	for o in os.listdir(full_path+os.path.sep+name):
-		if o.lower().endswith(".c"):
-			subprocess.call(config.c_compiler_command.replace("%shortname%", full_path+os.path.sep+"bin"+os.path.sep+o[0:o.rindex(".")]).replace("%fullname%", full_path+os.path.sep+name+os.path.sep+o).split(" "))"""
+	n=config.directories_to_compile
+	for n1 in n:
+		for o in os.listdir(full_path+os.path.sep+n1):
+			if o.lower().endswith(".c"):
+				subprocess.call(config.c_compiler_command.replace("%shortname%", full_path+os.path.sep+"bin"+os.path.sep+o[0:o.rindex(".")]).replace("%fullname%", full_path+os.path.sep+n1+os.path.sep+o).split(" "))"""
 				os.mkdir(name+os.path.sep+name)
 				_h=open(name+os.path.sep+name+os.path.sep+name+".h", "w+")
 				_h.close()
@@ -204,9 +207,13 @@ elif arg1 in ["compile"]:
 				text4="""\
 elif arg1 in ["compile"]:
 	import subprocess
-	for o in os.listdir(full_path+"/"+name):
-		if o.lower().endswith(".cpp"):
-			subprocess.call(config.cpp_compiler_command.replace("%shortname%", full_path+os.path.sep+"bin"+os.path.sep+o[0:o.rindex(".")]).replace("%fullname%", full_path+os.path.sep+name+os.path.sep+o).split(" "))"""
+	
+	n=config.directories_to_compile
+	
+	for n1 in n:
+		for o in os.listdir(full_path+os.path.sep+n1):
+			if o.lower().endswith(".cpp"):
+				subprocess.call(config.cpp_compiler_command.replace("%shortname%", full_path+os.path.sep+"bin"+os.path.sep+o[0:o.rindex(".")]).replace("%fullname%", full_path+os.path.sep+n1+os.path.sep+o).split(" "))"""
 				manage_py.write(text3+"\n"+text4)
 				manage_py.close()
 				os.mkdir(name+os.path.sep+name)
@@ -221,9 +228,13 @@ elif arg1 in ["compile"]:
 				text4="""
 elif arg1 in ["compile"]:
 	import subprocess
-	for i in os.listdir(full_path+"/"+name):
-		if i.lower().endswith(".lua"):
-			subprocess.call(config.lua_compiler_command.replace("%shortname%" full_path+os.path.sep+"bin"+os.path.sep+i[0:i.rindex(".")]+".out").replace("%fullname%", full_path+os.path.sep+name+os.path.sep+i).split(" "))"""
+	
+	n=config.directories_to_compile
+	
+	for n1 in n:
+		for i in os.listdir(full_path+os.path.sep+n1):
+			if i.lower().endswith(".lua"):
+				subprocess.call(config.lua_compiler_command.replace("%shortname%" full_path+os.path.sep+"bin"+os.path.sep+i[0:i.rindex(".")]+".out").replace("%fullname%", full_path+os.path.sep+n1+os.path.sep+i).split(" "))"""
 				manage_py.write(text3+"\n"+text4)
 				manage_py.close()
 			else:
