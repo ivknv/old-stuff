@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from xml.dom import minidom
+from math import ceil
 import os, xml
 
 class ProjectError(Exception):
@@ -186,6 +187,224 @@ def getReferenced(path):
 			raise ProjectError("%s is corrupted" %project_xml)
 	else:
 		raise ProjectError("%s is not a project" %path)
+
+def getHalfOfTheDay(path):
+		date=getDate(path)
+		m=int(date.minute)/60
+		h=int(date.hour)
+		s=int(date.second)/6000
+		return ceil((h+m+s)/12)
+
+def findProjectByName(name, directory=".", func="", funce="", funcelse=""):
+	if os.path.exists(directory):
+		name=name.lower()
+		for d in os.walk(directory):
+			try:
+				exec(func)
+				if name in getName(d[0]).lower():
+					return Project(d[0])
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+
+def findProjectByDescription(description, directory=".", func="", funce="", funcelse=""):
+	if os.path.exists(directory):
+		description=description.lower()
+		for d in os.walk(directory):
+			try:
+				exec(func)
+				if description in getDescription(d[0]).lower():
+					return Project(d[0])
+			except ProjectErrpr as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+
+def findProjectsByName(name, directory=".", func="", funce="", funcelse=""):
+	if os.path.exists(directory):
+		name=name.lower()
+		projects=[]
+		for d in os.walk(directory):
+			try:
+				exec(func)
+				if name in getName(d[0]).lower():
+					projects.append(Project(d[0]))
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+		return projects
+
+def findProjectsByNameAsDict(name, directory=".", func="", funce="", funcelse=""):
+	if os.path.exists(directory):
+		name=name.lower()
+		projects={}
+		for d in os.walk(directory):
+			try:
+				exec(func)
+				gn=getName(d[0])
+				if name in gn.lower():
+					projects[gn]=Project(d[0])
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+		return projects
+
+def findProjectsByDescription(description, directory=".", func="", funce="", funcelse=""):
+	if os.path.exists(directory):
+		description=description.lower()
+		projects=[]
+		for d in os.walk(directory):
+			try:
+				exec(func)
+				if description in getDescription().lower():
+					projects.append(Project(d[0]))
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+		return projects
+
+def findProjectsByDescriptionAsDict(description, directory=".", func="", funce="", funcelse=""):
+	if os.path.exists(directory):
+		description=description.lower()
+		projects={}
+		for d in os.walk(directory):
+			try:
+				exec(func)
+				if description in getDescription(d[0]).lower():
+					projects[getName(d[0])]=Project(d[0])
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+		return projects
+
+def findProjectsByLanguage(lang, directory=".", func="", funce="", funcelse="", strict=False):
+	if os.path.exists(directory):
+		lang=lang.lower()
+		projects=[]
+		for d in os.walk(directory):
+			try:
+				exec(func)
+				if not strict:
+					if lang in getLang(d[0]).lower():
+						projects.append(Project(d[0]))
+				else:
+					if lang == getLang(d[0]).lower():
+						projects.append(Project(d[0]))
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+		return projects
+
+def findProjectsByLanguageAsDict(lang, directory=".", func="", funce="", funcelse="", strict=False):
+	if os.path.exists(directory):
+		lang=lang.lower()
+		projects={}
+		for d in os.walk(directory):
+			try:
+				exec(func)
+				if not strict:
+					if lang in getLang(d[0]).lower():
+						projects[getName(d[0])]=Project(d[0])
+				else:
+					if lang == getLang(d[0]).lower():
+						projects[getName(d[0])]=Project(d[0])
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+		return projects
+
+def findProjectsByAuthor(author, directory=".", func="", funce="", funcelse=""):
+	if os.path.exists(directory):
+		author=author.lower()
+		projects=[]
+		for d in os.walk(directory):
+			try:
+				exec(func)
+				if author in [a.lower() for a in getAuthors(d[0])]:
+					projects.append(Project(d[0]))
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+		return projects
+
+def findProjectsByAuthorAsDict(author, directory=".", func="", funce="", funcelse=""):
+	if os.path.exists(directory):
+		author=author.lower()
+		projects={}
+		for d in os.walk(directory):
+			try:
+				exec(func)
+				if author in [a.lower() for a in getAuthors(d[0])]:
+					projects[getName(d[0])]=Project(d[0])
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+		return projects
+
+def findProjectsByAuthors(authors, directory=".", func="", funce="", funcelse="", strict=False):
+	if os.path.exists(directory):
+		authors=[a.lower() for a in authors]
+		projects=[]
+		for d in os.walk(directory):
+			try:
+				exec(func)
+				a1=[a.lower() for a in getAuthors(d[0])]
+				if not strict:
+					for author in authors:
+						if author in a1:
+							project=Project(d[0])
+							if project not in projects:
+								projects.append(project)
+				else:
+					for author in authors:
+						if author not in a1:
+							break
+						project=Project(d[0])
+						if project not in projects:
+							projects.append(project)
+
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+		return projects
+
+def findProjectsByAuthorsAsDict(authors, directory=".", func="", funce="", funcelse="", strict=False):
+	if os.path.exists(directory):
+		authors=[a.lower() for a in authors]
+		projects={}
+		for d in os.walk(directory):
+			try:
+				exec(func)
+				a1=[a.lower() for a in getAuthors(d[0])]
+				if not strict:
+					for author in authors:
+						if author in a1:
+							gn=getName(d[0])
+							if gn not in projects:
+								projects[gn]=Project(d[0])
+				else:
+					for author in authors:
+						if author not in a1:
+							break
+						gn=getName(d[0])
+						if gn not in projects:
+							projects[gn]=Project(d[0])
+
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+		return projects
 
 class Project(object):
 	def __init__(self, path):
