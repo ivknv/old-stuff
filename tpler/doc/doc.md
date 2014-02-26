@@ -17,7 +17,7 @@ Create a generic HTML file:<br/>
 ```tpler html_file.html```
 
 It will write following text to 'html_file.html':
-```
+```html
 <!DOCTYPE html>
 <html>
 head>
@@ -34,7 +34,7 @@ Tpler can create even more useful templates:<br/>
 tpler html_file_with_jquery.html jquery
 ```
 Now 'html_file_with_jquery.html' look like this:<br/>
-```
+```html
 <!DOCTYPE html>
 <html>
 <head>
