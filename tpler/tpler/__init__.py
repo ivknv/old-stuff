@@ -3,38 +3,39 @@
 
 import os, random
 
-def writeTemplate(filename, arg2="", template_dir=None):
-	ex=filename[filename.rindex(".")::].lower()
-	if ex == ".htm":
-		ex=".html"
-	arg2=arg2.lower()
-	if not isinstance(template_dir, str) or not template_dir:
-		template_dir=os.path.realpath(__file__)
-		template_dir=template_dir[0:template_dir.rindex(os.path.sep)]+os.path.sep+"templates"
-	elif os.path.exists(template_dir):
-		template_dir=os.path.realpath(template_dir)
-	templates=os.listdir(template_dir)
-	extensions=[extension[extension.rindex(".")::] for extension in templates]
-	if not ex in extensions:
-		print("Data type is not supported")
-		return False
-	if isinstance(arg2, str) and arg2 != "":
-		if arg2 in ["random", "rand", "rnd"]:
-			tname=template_dir+os.path.sep+random.choice([arg2file for arg2file in templates if arg2file.endswith(ex)])
-		else:
-			tname=template_dir+os.path.sep+arg2+ex	
-		try:
-			template=open(tname)
-		except IOError:
-			print("No such template")
+def writeTemplate(filenames, arg2="", template_dir=None):
+	for filename in filenames:
+		ex=filename[filename.rindex(".")::].lower()
+		if ex == ".htm":
+			ex=".html"
+		arg2=arg2.lower()
+		if not isinstance(template_dir, str) or not template_dir:
+			template_dir=os.path.realpath(__file__)
+			template_dir=template_dir[0:template_dir.rindex(os.path.sep)]+os.path.sep+"templates"
+		elif os.path.exists(template_dir):
+			template_dir=os.path.realpath(template_dir)
+		templates=os.listdir(template_dir)
+		extensions=[extension[extension.rindex(".")::] for extension in templates]
+		if not ex in extensions:
+			print("File type is not supported")
 			return False
-	else:
-		template=open(template_dir+os.path.sep+"default"+ex)
-	templateread=template.read()
-	template.close()
-	f1=open(filename, "w")
-	f1.write(templateread)
-	f1.close()
+		if isinstance(arg2, str) and arg2 != "":
+			if arg2 in ["random", "rand", "rnd"]:
+				tname=template_dir+os.path.sep+random.choice([arg2file for arg2file in templates if arg2file.endswith(ex)])
+			else:
+				tname=template_dir+os.path.sep+arg2+ex	
+			try:
+				template=open(tname)
+			except IOError:
+				print("No such template")
+				return False
+		else:
+			template=open(template_dir+os.path.sep+"default"+ex)
+		templateread=template.read()
+		template.close()
+		f1=open(filename, "w")
+		f1.write(templateread)
+		f1.close()
 	return True
 
 def getTemplateWithFT(ft, arg2="", template_dir=None):
@@ -64,7 +65,7 @@ if __name__ == "__main__":
 	import argparse
 	parser = argparse.ArgumentParser(description="A simple templater.")
 	parser.add_argument("-l", "--ls", "--list", help="List all available templates", action="store_true")
-	parser.add_argument("-i", "--input-file", help="File name", nargs="?", action="store")
+	parser.add_argument("-i", "--input-file", help="File name", nargs="+", action="store")
 	parser.add_argument("-t", "--template", help="Specific template", action="store", default="")
 	parser.add_argument("-f", "--filetype", help="Use a specific filetype", action="store")
 	parser.add_argument("-T", "--template-dir", help="Specific template directory", action="store")
@@ -74,19 +75,21 @@ if __name__ == "__main__":
 	else:
 		tmpldir=None
 	if not args.ls:
+		if args.template:
+			tmpl=args.template
+		else:
+			tmpl=""
 		if args.filetype:
-			f1=open(args.input_file, "w")
-			if args.template:
-				f1.write(getTemplateWithFT(args.filetype, args.template, template_dir=tmpldir))
-			else:
-				f1.write(getTemplateWithFT(args.filetype, template_dir=tmpldir))
-			f1.close()
+			for infile in args.input_file:
+				f1=open(infile, "w")
+				txt=getTemplateWithFT(args.filetype, tmpl, template_dir=tmpldir)
+				f1.write(txt)
+				f1.close()
 		else:
 			if args.input_file:
-				if args.template:
-					writeTemplate(args.input_file, args.template, template_dir=tmpldir)
-				else:
-					writeTemplate(args.input_file, template_dir=tmpldir)
+				writeTemplate(args.input_file, tmpl, template_dir=tmpldir)
+			else:
+				writeTemplate(args.input_file, tmpl, template_dir=tmpldir)
 	else:
 		from pydoc import pager
 		if tmpldir:
