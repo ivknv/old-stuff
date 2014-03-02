@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-def addTemplate(filenames, additional="", template_dir="", verbose=False):
+def addTemplate(filename, additional="", template_dir="", verbose=False):
 	if os.path.exists(filename):
 		filename=os.path.realpath(filename)
 		f1=open(filename, "r")
