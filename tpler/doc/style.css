@@ -1,31 +1,38 @@
 project {
 	font-family: Arial;
 }
-project description {
+description {
 	text-align: justify;
 }
 
-project .shell_action {
+.shell_action {
+	font-family: sans-serif;
 	background-color: #FAFAFA;
 	border: 1px solid #E1E1E1;
 	border-radius: 3px;
-	padding: 2px;
+	padding: 5px 5px 5px 5px;
 	text-align: center;
 }
 
-project .code {
+.shell_action:hover {
+	border-color: #D1D1D1;
+	box-shadow: 0 0 15px #D6D6D6;
+}
+
+.code {
+	font-family: sans-serif;
 	display: block;
-	min-width: 300px;
-	max-width: 600px;
-	min-height: 300px;
+	min-width: 250px;
+	max-width: 540px;
 	margin-top: 10px;
 	background-color: #FAFAFA;
 	border: 1px solid #E0E0E0;
-	border-radius: 3px;
+	border-radius: 5px;
 	text-align: justify;
 	padding: 5px;
 }
 
-project .code:hover {
+.code:hover {
 	border-color: #D0D0D0;
+	box-shadow: 0 0 15px #D5D5D5;
 }
