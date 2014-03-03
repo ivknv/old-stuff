@@ -14,13 +14,15 @@ tpler will automatically recognize file type and write apropriate code.
 </p>
 <h3 id="how-to-use"><a style="text-decoration: none; color: black;" href="#how-to-use">How to use</a></h3>
 Create a generic HTML file:<br/>
-```tpler html_file.html```
+```bash
+tpler -i html_file.html
+```
 
 It will write following text to 'html_file.html':
 ```html
 <!DOCTYPE html>
 <html>
-head>
+<head>
 <meta charset="utf-8">
 <title></title>
 </head>
@@ -30,8 +32,8 @@ head>
 ```
 <br/>
 Tpler can create even more useful templates:<br/>
-```
-tpler html_file_with_jquery.html jquery
+```bash
+tpler -i html_file_with_jquery.html -t jquery
 ```
 Now 'html_file_with_jquery.html' look like this:<br/>
 ```html
@@ -49,68 +51,94 @@ Now 'html_file_with_jquery.html' look like this:<br/>
 ```
 <br/>
 Or you can include AngularJS:<br/><br/>
-```tpler html_angular.html angular```
-Or jQueryUI<br/><br/>
-You use tpler with other source code files:<br/>
+```bash
+tpler -i html_angular.html -t angular
 ```
-tpler main.py main
-tpler file.cpp
-tpler xmlfile.xml
-tpler xhtml_file.xhtml
-tpler factorial.clj factorial
-tpler ncurses_program.c ncurses
-tpler java_program.java
+Or jQueryUI<br/><br/>
+You can use tpler with other source code files:<br/>
+```bash
+tpler -i main.py -t main
+tpler -i file.cpp
+tpler -i xmlfile.xml
+tpler -i xhtml_file.xhtml
+tpler -i factorial.clj -t factorial
+tpler -i ncurses_program.c -t ncurses
+tpler -i java_program.java
 ```
 You can do similiar things with other source code files.<br/>
 <ul>
 Supported are
 <li>.c</li>
 	<ul>
+	<li>default</li>
 	<li>ncurses</li>
 	<li>fibonacci</li>
 	<li>factorial</li>
 	<li>empty (only main function)</li></ul>
 <li>.cpp</li>
-	<ul><li>empty (only main function)</li></ul>
+	<ul>
+	<li>default</li>
+	<li>empty (only main function)</li>
+	</ul>
 <li>.html or .htm with options</li>
-	<ul><li>jquery</li>
+	<ul>
+	<li>default</li>
+	<li>jquery</li>
 	<li>jqueryui</li>
 	<li>angular</li>
 	<li>base (django template) </li>
 	</ul>
 <li>.py</li>
-	<ul><li>main</li>
+	<ul>
+	<li>default</li>
+	<li>main</li>
 	<li>pyside</li>
 	<li>fibonacci</li>
 	<li>curses</li>
 	<li>factorial</li>
 	</ul>
 <li>.xhtml</li>
+	<ul><li>default</li></ul>
 <li>.xml</li>
-	<ul><li>project</li></ul>
+	<ul>
+	<li>default</li>
+	<li>project</li></ul>
 <li>.xsd</li>
+	<ul><li>default</li></ul>
 <li>.xsl</li>
+	<ul><li>default</li></ul>
 <li>.svg</li>
+	<ul><li>default</li></ul>
 <li>.php</li>
+	<ul><li>default</li></ul>
 <li>.css</li>
 	<ul><li>button</li></ul>
 <li>.java</li>
+	<ul><li>default</li></ul>
+<li>.wsgi</li>
+	<ul><li>django</li></ul>
+<li>.clj</li>
+	<ul><li>factorial</li>
+	<li>fibonacci</li></ul>
 </ul>
-And also every data type supports <i>random type selection</i>. Just type "random", "rand" or "rnd" as a second argument:<br/><br/>
-```tpler code.py random```
+And also every file type supports <i>random type selection</i>. Just type "random", "rand" or "rnd" as a second argument:<br/><br/>
+```bash
+tpler -i code.py -t random
+```
+<br/><br/>
+You can list all available templates with <code>tpler -l</code>.<br/><br/>
 </p>
 <h3 id="adding-custom-templates"><a style="text-decoration: none; color: black;" href="#adding-custom-templates">Adding custom templates</a></h3>
 <p>
 If you want to add some new template you can use <b>add_template.py</b> script.
 To delete templates use <b>rm_template.py</b>.<br/>
 add_template.py usage:<br/><br/>
-<code>python add_template.py <filename></code>
-<br/><br/>
-With add_template.py you can also make an alias to your template:<br/><br/>
-<code>python add_template.py <filename> <alias1> <alias2> <alias3> <aliasn></code>
+<pre>
+<code>python add_template.py [-h] [-f filename] [-a alias]</code></pre>
 <br/><br/>
 rm_template.py usage:<br/><br/>
-<code>python rm_template.py <template_name></code>
+<pre>
+<code>python rm_template.py [-h] template_name [-a] [-v]</code></pre>
 </p>
 <h3 id="add_templatepy-and-rm_templatepy-examples"><a style="text-decoration: none; color: black;" href="#add_templatepy-and-rm_templatepy-examples">add_template.py and rm_template.py examples</a></h3>
 <p>
@@ -125,32 +153,54 @@ author="",
 author_email="",
 packages=[])
 </code></pre>
-Also, we want to make an alias to config.py.
+Also, we want to make an alias to setup.py.
 And if want to use tpler like this:<br/><br/>
-<code>
-python tpler.py mysetup.py stp
-</code>
+<pre><code>
+tpler -i mysetup.py -t stp
+</code></pre>
 <br/><br/>
-then we need to add template and make an alias:<br/><br/>
+or
+<pre><code>
+tpler -i mysetup.py -t dsetup
+</code></pre>
+we need to run the following command:<br/><br/>
+<pre>
 <code>
-python add_template.py setup.py stp
-</code>
+add_template.py -f setup.py -a stp dsetup
+</code></pre>
 <br/><br/>
 <b>Note:</b> if you have problems with adding/removing templates, make sure you're running script as root.<br/><br/>
 Now we can use this template:<br/><br/>
-<code>tpler mysetup.py stp</code>
+<pre>
+<code>tpler -i mysetup.py -t stp</code></pre>
 <br/><br/>or<br/><br/>
-<code>tpler mysetup.py setup</code>
+<code>tpler -i mysetup.py -t setup</code>
 <br/><br/>
-If we want to remove this template and all its aliases we just need to run<br/><br/>
-<code>python rm_template.py setup.py</code>
+or<br/><br/>
+<pre><code>
+tpler -i mysetup.py -t dsetup
+</code>
+</pre>
+If you want to remove some of aliases, you can run<br/><br/>
+<pre>
+<code>rm_template.py stp.py dsetup.py</code></pre>
 <br/><br/>
+Every alias is just a symlink to original template, so if you remove original template (in this case setup.py), all aliases will disapear.</br><br/>
+<pre><code>
+rm_template setup.py
+</code></pre><br/><br/>
+This command will completely remove setup.py and all it's aliases (stp.py, dsetup.py).<br/>
+If you want to completely remove template and all it's aliases and don't know which template is the real, you can use rm_template with option -a:<br/><br/>
+<pre><code>
+rm_template.py dsetup.py -a
+</pre></code><br/><br/>
+This will remove setup.py, dsetup.py and stp.py.<br/><br/>
 add_template.py and rm_template.py can be found in <b>tpler</b> directory.
 <br/><br/>
 </p>
 <h3 id="installation"><a style="text-decoration: none; color: black;" href="#installing-as-a-command-line-script">Installing as a command line script</a></h3>
 <p>
 To install this script, all you need is to run <i>install.sh</i>:<br/><br/>
-<code>./install.sh</code>
+<pre><code>./install.sh</code></pre>
 <br/><br/>
 </p>
