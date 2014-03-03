@@ -32,7 +32,7 @@ if [ $file == $script ]; then
 	echo "installing $file as $installation_path/$script_name"
 	cp $file $installation_path/$script_name
 	if [ -f "$installation_path/$script_name" ]; then
-		echo "installed $file as $installation_path/$script_name"
+		echo "successfully installed $file as $installation_path/$script_name"
 	else
 		echo "failed to install $file as $installation_path/$script_name"
 	fi
@@ -49,6 +49,8 @@ else
 fi
 if [ $file != $script ]; then
 	if [ -e $installation_path/$file ]; then
+		echo "successfully installed $file as $installation_path/$file"
+	else
 		echo "failed to install $file as $installation_path/$file"
 	fi
 fi

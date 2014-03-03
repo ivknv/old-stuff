@@ -38,16 +38,17 @@ if [ $file == $script ]; then
 	fi
 elif [ -d $file ]; then
 	echo "installing $file as $installation_path/$file"
-	cp -r $file $installation_path/$file
-	if [ -d "$installation_path/$file" ]; then
-		echo "installed $file as $installation_path/$file"
+	if [ -d $installation_path/$file ]; then
+		cp -r $file/* $installation_path/$file
 	else
-		echo "failed to install $file as $installation_path/$file"
+		cp -r $file $installation_path/$file
 	fi
-else
+elif [ -f $file ]; then
 	echo "installing $file as $installation_path/$file"
 	cp $file $installation_path/$file
-	if [ -f "$installation_path/$file" ]; then
+fi
+if [ $file != $script ]; then
+	if [ -e "$installation_path/$file" ]; then
 		echo "installed $file as $installation_path/$file"
 	else
 		echo "failed to install $file as $installation_path/$file"
