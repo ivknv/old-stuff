@@ -136,7 +136,7 @@ add_template.py usage:<br/><br/>
 <pre>
 <code>python add_template.py [-h] [-f filename] [-a alias]</code></pre>
 <br/><br/>
-rm_template.py usage:<br/><br/>
+rm_template.py usage:<br/>
 <pre>
 <code>python rm_template.py [-h] template_name [-a] [-v]</code></pre>
 </p>
@@ -155,45 +155,33 @@ packages=[])
 </code></pre>
 Also, we want to make an alias to setup.py.
 And if want to use tpler like this:<br/><br/>
-<pre><code>
-tpler -i mysetup.py -t stp
-</code></pre>
-<br/><br/>
-or
-<pre><code>
-tpler -i mysetup.py -t dsetup
-</code></pre>
-we need to run the following command:<br/><br/>
-<pre>
 <code>
-add_template.py -f setup.py -a stp dsetup
-</code></pre>
-<br/><br/>
+tpler -i mysetup.py -t stp
+</code>
+<br/>
+or
+<code>
+tpler -i mysetup.py -t dsetup
+</code>
+we need to run the following command:<br/>
+<code>add_template.py -f setup.py -a stp dsetup</code>
+<br/>
 <b>Note:</b> if you have problems with adding/removing templates, make sure you're running script as root.<br/><br/>
 Now we can use this template:<br/><br/>
-<pre>
-<code>tpler -i mysetup.py -t stp</code></pre>
-<br/><br/>or<br/><br/>
+<code>tpler -i mysetup.py -t stp</code>
+<br/>or<br/>
 <code>tpler -i mysetup.py -t setup</code>
 <br/><br/>
 or<br/><br/>
-<pre><code>
-tpler -i mysetup.py -t dsetup
-</code>
-</pre>
-If you want to remove some of aliases, you can run<br/><br/>
-<pre>
-<code>rm_template.py stp.py dsetup.py</code></pre>
+<code>tpler -i mysetup.py -t dsetup</code><br/>
+If you want to remove some of aliases, you can run<br/>
+<code>rm_template.py stp.py dsetup.py</code>
 <br/><br/>
 Every alias is just a symlink to original template, so if you remove original template (in this case setup.py), all aliases will disapear.</br><br/>
-<pre><code>
-rm_template setup.py
-</code></pre><br/><br/>
+<code>rm_template setup.py</code><br/>
 This command will completely remove setup.py and all it's aliases (stp.py, dsetup.py).<br/>
-If you want to completely remove template and all it's aliases and don't know which template is the real, you can use rm_template with option -a:<br/><br/>
-<pre><code>
-rm_template.py dsetup.py -a
-</pre></code><br/><br/>
+If you want to completely remove template and all it's aliases but don't know which template is real, you can use rm_template with option -a:<br/>
+<code>rm_template.py dsetup.py -a</code><br/>
 This will remove setup.py, dsetup.py and stp.py.<br/><br/>
 add_template.py and rm_template.py can be found in <b>tpler</b> directory.
 <br/><br/>
