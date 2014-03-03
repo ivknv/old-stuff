@@ -3,7 +3,7 @@
 from xml.dom import minidom
 from math import ceil
 import datetime
-import os, xml
+import os, xml, sys
 
 weekdays=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
@@ -166,6 +166,12 @@ class getDate(object):
 			self.day="0"+self.day
 		if len(self.month) < 2:
 			self.month="0"+self.month
+		if len(self.hour) < 2:
+			self.hour="0"+self.hour
+		if len(self.minute) < 2:
+			self.minute="0"+self.minute
+		if len(self.second) < 2:
+			self.second="0"+self.second
 	def __call__(self):
 		return "%s%s%s%s%s, %s, %s:%s:%s" %(self.day, self.sep, self.month, self.sep, self.year, self.weekday, self.hour, self.minute, self.second)
 
@@ -1179,7 +1185,7 @@ def getPercentageByReferenced(referenced, directory=".", func="", funce="", func
 				exec(funcelse)
 	return 100.0/projects*projects_with_referenced
 
-def getPercentage(tag, directory=".", func="", funce="", funcelse=""):
+def getPercentageByTag(tag, directory=".", func="", funce="", funcelse=""):
 	projects={}
 	for d in os.walk(directory):
 		if isProject(d[0]):
@@ -1206,36 +1212,139 @@ def getPercentage(tag, directory=".", func="", funce="", funcelse=""):
 		ds[j] = 100.0/len(projects)*data[j]
 	return ds
 
+def getPercentage(directory=".", func="", funce="", funcelse=""):
+	projects={}
+	for d in os.walk(directory):
+		if isProject(d[0]):
+			try:
+				exec(func)
+				project=Project(d[0])
+				if project.name:
+					projects[project.name] = project
+				else:
+					continue
+			except ProjectError as e:
+				exec(funce)
+			else:
+				exec(funcelse)
+	languages={}
+	authors={}
+	weekdays={}
+	days={}
+	months={}
+	years={}
+	referenced={}
+	versions={}
+	
+	for i in projects:
+		project=projects[i]
+		if project.language:
+			pl=project.language.lower().capitalize()
+			if not pl in languages:
+				languages[pl]=1
+			else:
+				languages[pl]+=1
+		if project.authors:
+			for a in project.authors:
+				if not a in authors:
+					authors[a]=1
+				else:
+					authors[a]+=1
+		if project.weekday:
+			w=project.weekday.lower().capitalize()
+			if not w in weekdays:
+				weekdays[w]=1
+			else:
+				weekdays[w]+=1
+		if project.day:
+			if not project.day in days:
+				days[project.day]=1
+			else:
+				days[project.day]+=1
+		if project.month:
+			if not project.month in months:
+				months[project.month]=1
+			else:
+				months[project.month]+=1
+		if project.year:
+			if not project.year in years:
+				years[project.year]=1
+			else:
+				years[project.year]+=1
+		if project.referenced:
+			if not project.referenced in referenced:
+				referenced[project.referenced]=1
+			else:
+				referenced[project.referenced]+=1
+		if project.version:
+			if not project.version in versions:
+				versions[project.version]=1
+			else:
+				versions[project.version]+=1
+	data={"languages": languages, "versions": versions, "referenced": referenced, "days": days, "weekdays": weekdays, "authors": authors, "months": months, "years": years}
+	ds={}
+	for i in data:
+		ds[i]={}
+		for j in data[i]:
+			ds[i][j] = 100.0/sum([data[i][ii] for ii in data[i]])*data[i][j]
+	return ds
+
+
 if __name__ == "__main__":
-	import sys
-	try:
-		if sys.argv[1].lower() in ["-e"]:
-			if len(sys.argv) > 3:
-				prj=Project(sys.argv[2]).as_dict
-				if isinstance(prj[sys.argv[3]], dict):
-					for i in prj[sys.argv[3]]:
-						print("%s: %s" %(i, prj[sys.argv[3]][i]))
-				elif isinstance(prj[sys.argv[3]], list):
-					sys.stdout.write("%s: %s" %(sys.argv[3], prj[sys.argv[3]][0]))
-					if len(prj[sys.argv[3]]) > 1:
-						for i in prj[sys.argv[3]][1::]:
-							sys.stdout.write(", %s" %(i[1::] if i.startswith(" ") else i))
-					sys.stdout.write("\n")
-				else:
-					print("%s: %s" %(sys.argv[3], prj[sys.argv[3]]))
+	import argparse
+	from sys import stdout
+	parser = argparse.ArgumentParser(description="The parser for projects, created with pro.")
+	parser.add_argument("path", help="path to the project")
+	parser.add_argument("-e", "--exact", nargs="+", help="keys to print")
+	args = parser.parse_args()
+	if args.path:
+		try:
+			project=Project(args.path)
+		except ProjectError:
+			print("Doesn't look like '{}' is a project, created with pro".format(path))
+		
+		if args.exact:
+			if len(args.exact) == 1:
+				try:
+					if isinstance(project.as_dict[args.exact[0]], dict):
+						for i in project.as_dict[args.exact[0]]:
+							print("\033[1m{}\033[0m: {}".format(i.capitalize(), project.as_dict[args.exact[0]][i]))
+					elif isinstance(project.as_dict[args.exact[0]], list):
+						for i in project.as_dict[args.exact[0]]:
+							print("\033[1m{}\033[0m: {}".format(args.exact[0].capitalize(), i))
+					else:
+						print("\033[1m{}\033[0m: {}".format(args.exact[0].lower().capitalize(), project.as_dict[args.exact[0]]))
+				except KeyError:
+					print("'{}' project doesn't have such key".format(project.name))
+			else:
+				for key in args.exact:
+					key=key.lower()
+					if key in project.as_dict:
+						if isinstance(project.as_dict[key], dict):
+							for k in project.as_dict[key]:
+								print("\033[1m{}\033[0m: {}".format(k.capitalize(), project.as_dict[key][k]))
+						elif isinstance(project.as_dict[key], list):
+							stdout.write("\033[1m{}\033[0m: {}".format(key.capitalize(), project.as_dict[key][0]))
+							if len(project.as_dict[key]) > 1:
+								for i in project.as_dict[key][1:]:
+									stdout.write(", {}".format(i))
+							stdout.write("\n")
+							stdout.flush()
+							print("\033[1m{}\033[0m: {}".format(key.capitalize(), project.as_dict[key]))
+						else:
+							print("\033[1m{}\033[0m: {}".format(key.capitalize(), project.as_dict[key]))
 		else:
-			prj=Project(sys.argv[1]).as_dict
-			for i in prj:
-				if isinstance(prj[i], dict):
-					for ii in prj[i]:
-						print("%s: %s" %(ii, prj[i][ii]))
-				elif isinstance(prj[i], list):
-					sys.stdout.write("%s: %s" %(i, prj[i][0]))
-					if len(prj[i]) > 1:
-						for ii in prj[i][1::]:
-							sys.stdout.write(", %s" %(ii[1::] if ii.startswith(" ") else ii))
-					sys.stdout.write("\n")
+			for i in project.as_dict:
+				if isinstance(project.as_dict[i], dict):
+					for ii in project.as_dict[i]:
+						print("\033[1m{}\033[0m: {}".format(ii.capitalize(), project.as_dict[i][ii]))
+				elif isinstance(project.as_dict[i], list):
+					stdout.write("\033[1m{}\033[0m: ".format(i.capitalize()))
+					stdout.write(project.as_dict[i][0])
+					if len(project.as_dict[i]) > 1:
+						for ii in project.as_dict[i][1::]:
+							stdout.write(", {}".format(ii))
+					stdout.write("\n")
+					stdout.flush()
 				else:
-					print("%s: %s" %(i, prj[i]))
-	except IndexError:
-		print("usage pro-parser [-e] <project> [key]")
+					print("\033[1m{}\033[0m: {}".format(i.capitalize(), project.as_dict[i]))	
