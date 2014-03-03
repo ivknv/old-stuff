@@ -26,7 +26,7 @@ elif arg1 in ["change_authors", "change_auth"]:
 elif arg1 in ["change_descr", "change_description"]:
 	change_description(full_path , sys.argv[2])
 elif arg1 in ["change_ver", "change_version"]:
-	change_version(full_path, sys.argv[3])
+	change_version(full_path, sys.argv[2])
 elif arg1 in ["update_date"]:
 	update_date(full_path)
 elif arg1 in ["dependencies"]:
@@ -36,17 +36,18 @@ elif arg1 in ["dependencies"]:
 		remove(full_path, sys.argv[3])
 elif arg1 in ["compile"]:
 	import py_compile, distutils.core
-
-	py_files = os.listdir(full_path)
-	for py_file in py_files:
-		if py_file.endswith(".py") and py_file not in ["manage.py"]:
-			py_compile.compile(full_path+os.path.sep+py_file)
-	if os.path.exists(full_path+os.path.sep+"__pycache__"):
-		distutils.dir_util.copy_tree(full_path+os.path.sep+"__pycache__", full_path+os.path.sep+"bin")
-	else:
-		pyc_files = os.listdir(full_path)
-		for pyc_file in pyc_files:
-			if pyc_file.endswith(".pyc"):
-				os.rename(full_path+os.path.sep+pyc_file, full_path+os.path.sep+"bin"+os.path.sep+pyc_file)
-	if os.path.exists(full_path+os.path.sep+"bin"+os.path.sep+"config.pyc"):
-		os.remove(full_path+os.path.sep+"bin"+os.path.sep+"config.pyc")
+	
+	n=config.directories_to_compile
+	for n1 in n:
+		py_files = os.listdir(full_path+os.path.sep+n1)
+		for py_file in py_files:
+			if py_file.endswith(".py"):
+				py_compile.compile(full_path+os.path.sep+n1+os.path.sep+py_file)
+		if os.path.exists(full_path+os.path.sep+n1+os.path.sep+"__pycache__"):
+			distutils.dir_util.copy_tree(full_path+os.path.sep+n1+os.path.sep+"__pycache__", full_path+os.path.sep+"bin")
+			distutils.dir_util.remove_tree(full_path+os.path.sep+n1+os.path.sep+"__pycache__")
+		else:
+			pyc_files = os.listdir(full_path+os.path.sep+n1)
+			for pyc_file in pyc_files:
+				if pyc_file.endswith(".pyc"):
+					os.rename(full_path+os.path.sep+n1+os.path.sep+pyc_file, full_path+os.path.sep+"bin"+os.path.sep+pyc_file)
