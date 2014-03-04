@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os#, distutils.core
+import os
 from datetime import datetime
-from manage.wrtr import wrtr
+from manage_project.wrtr import wrtr
+from manage_project.proconfig import config
 
 def pro(name, lang, description, authors, referenced=""):
 		script_directory=os.path.realpath(__file__)
@@ -14,8 +15,14 @@ def pro(name, lang, description, authors, referenced=""):
 			return False
 		else:
 			os.mkdir(name);
-			#distutils.dir_util.copy_tree(script_directory+os.path.sep+"manage", name+os.path.sep+"manage")
 			project_xml=open(name+os.path.sep+"project.xml", "w+")
+			ref=""
+			if referenced:
+				if isinstance(referenced, list):
+					ref=referenced[0]
+					if len(referenced) > 1:
+						for line in referenced[1:]:
+							ref+="\n{}".format(line)
 			text1="""\
 <?xml version='1.0' encoding='utf-8'?>
 <project>
@@ -60,13 +67,20 @@ def pro(name, lang, description, authors, referenced=""):
 <referenced>
 %s
 </referenced>
-</project>""" %(name, lang, authors, description, now.day, now.month, now.year, weekdays[now.isoweekday()-1], now.hour, now.minute, now.second, referenced)
+</project>""" %(name, lang, authors, description, now.day, now.month, now.year, weekdays[now.isoweekday()-1], now.hour, now.minute, now.second, ref)
 			project_xml.write(text1)
 			project_xml.close()
 			dependencies=open(name+os.path.sep+"dependencies", "w+")
 			dependencies.close()
-			if os.path.exists(referenced):
-				distutils.dir_util.copy_tree(referenced, name+os.path.sep+referenced)
+			if isinstance(referenced, list):
+				import distutils.core
+				for r in referenced:
+					if os.path.exists(r):
+						distutils.dir_util.copy_tree(r, name+os.path.sep+r)
+			else:
+				import distutils.core
+				if os.path.exists(referenced):
+					distutils.dir_util.copy_tree(referenced, name+os.path.sep+referenced)
 			manage_py=open(name+os.path.sep+"manage.py", "w+")
 			os.mkdir(name+os.path.sep+"doc")
 			doc_xhtml=open(name+os.path.sep+"doc"+os.path.sep+"doc.xhtml", "w+")
@@ -103,11 +117,8 @@ project description {
 }"""
 			style_css.write(css_text)
 			style_css.close()
-			config_py=open(os.path.realpath(__file__)[0:os.path.realpath(__file__).rindex(os.path.sep)]+os.path.sep+"config.py", "r")
-			config_text=config_py.read()
-			config_py.close()
 			config_py=open(name+os.path.sep+"config.py", "w+")
-			config_py.write(config_text.replace("%name%", name))
+			config_py.write(config.replace("%name%", name))
 			config_py.close()
 			text3 = """\
 #!/usr/bin/env python
@@ -241,12 +252,23 @@ elif arg1 in ["compile"]:
 				manage_py.write(text3)
 				manage_py.close()
 if __name__ == "__main__":
-	import sys
-	if len(sys.argv) == 5:
-		pro(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
-	elif len(sys.argv) > 5:
-		pro(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+	import argparse
+	parser = argparse.ArgumentParser(description="Pro is a project manager")
+	parser.add_argument("name", help="name of the project")
+	parser.add_argument("language", help="programming language of the project")
+	parser.add_argument("description", help="description of the project")
+	parser.add_argument("authors", help="authors of the project")
+	parser.add_argument("-r", "--ref", "--referenced", nargs="+", help="other directories or files to include")
+	args=parser.parse_args()
+	if args.name and args.language and args.authors:
+		if args.description:
+			d=args.description
+		else:
+			d=""
+		if args.ref:
+			r=args.ref
+		else:
+			r=""
+		pro(args.name, args.language, d, args.authors, r)
 	else:
-		print("usage: pro <name> <language> <description> <authors> <referenced_projects>")
-		exit(1)
-
+		parser.print_help()

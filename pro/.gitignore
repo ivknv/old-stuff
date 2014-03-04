@@ -1,5 +1,6 @@
 *.pyc
 *.pyo
+*.tst
 *.swp
 *.swo
 *.bak
