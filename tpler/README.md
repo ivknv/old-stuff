@@ -97,6 +97,8 @@ Supported are
 	<li>curses</li>
 	<li>factorial</li>
 	</ul>
+<li>.js</li>
+        <ul><li>jquery</li></ul>
 <li>.xhtml</li>
 	<ul><li>default</li></ul>
 <li>.xml</li>
