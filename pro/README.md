@@ -13,7 +13,7 @@ pro(project-name, language, description, authors, other_project_to_include)
 ```
 As a command line script:
 ```
-pro project-name language "description" "authors" other-project-to-include
+pro project-name language "description" "authors" [-r directories-to-include]
 ```
 
 project.xml - XML file that
