@@ -10,7 +10,7 @@
 <h3 id="description"><a style="text-decoration: none; color: black;" href="#description">Description</a></h3>
 <p>
 tpler is a <b>t</b>em<b>pl</b>at<b>er</b>. It allows you to <b style="text-decoration: underline;">stop</b> always <b style="text-decoration: underline;">writting the same code</b>.<br/>
-tpler will automatically recognize file type and write apropriate code.
+tpler will automatically recognize file type and write apropriate code (you can manually set file type with -f option. See tpler -h ).
 </p>
 <h3 id="how-to-use"><a style="text-decoration: none; color: black;" href="#how-to-use">How to use</a></h3>
 Create a generic HTML file:<br/>
