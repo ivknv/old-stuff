@@ -65,9 +65,9 @@ tpler -i factorial.clj -t factorial
 tpler -i ncurses_program.c -t ncurses
 tpler -i java_program.java
 ```
-You can do similiar things with other source code files.<br/>
+<br/>
+All supported file types and templates:
 <ul>
-Supported are
 <li>.c</li>
 	<ul>
 	<li>default</li>
@@ -161,10 +161,10 @@ And if want to use tpler like this:<br/><br/>
 tpler -i mysetup.py -t stp
 </code>
 <br/>
-or
+or<br/>
 <code>
 tpler -i mysetup.py -t dsetup
-</code>
+</code><br/>
 we need to run the following command:<br/>
 <code>add_template.py -f setup.py -a stp dsetup</code>
 <br/>
