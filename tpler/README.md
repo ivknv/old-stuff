@@ -10,7 +10,7 @@
 <h3 id="description"><a style="text-decoration: none; color: black;" href="#description">Description</a></h3>
 <p>
 tpler is a <b>t</b>em<b>pl</b>at<b>er</b>. It allows you to <b style="text-decoration: underline;">stop</b> always <b style="text-decoration: underline;">writting the same code</b>.<br/>
-tpler will automatically recognize file type and write apropriate code.
+tpler will automatically recognize file type and write apropriate code (you can manually set file type with -f option. See tpler -h ).
 </p>
 <h3 id="how-to-use"><a style="text-decoration: none; color: black;" href="#how-to-use">How to use</a></h3>
 Create a generic HTML file:<br/>
@@ -65,9 +65,9 @@ tpler -i factorial.clj -t factorial
 tpler -i ncurses_program.c -t ncurses
 tpler -i java_program.java
 ```
-You can do similiar things with other source code files.<br/>
+<br/>
+All supported file types and templates:
 <ul>
-Supported are
 <li>.c</li>
 	<ul>
 	<li>default</li>
@@ -97,6 +97,8 @@ Supported are
 	<li>curses</li>
 	<li>factorial</li>
 	</ul>
+<li>.js</li>
+        <ul><li>jquery</li></ul>
 <li>.xhtml</li>
 	<ul><li>default</li></ul>
 <li>.xml</li>
@@ -159,10 +161,10 @@ And if want to use tpler like this:<br/><br/>
 tpler -i mysetup.py -t stp
 </code>
 <br/>
-or
+or<br/>
 <code>
 tpler -i mysetup.py -t dsetup
-</code>
+</code><br/>
 we need to run the following command:<br/>
 <code>add_template.py -f setup.py -a stp dsetup</code>
 <br/>
