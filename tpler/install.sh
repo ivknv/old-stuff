@@ -71,7 +71,13 @@ echo "going back"
 cd -
 done
 
-ln -s $installation_path/add_template.py $installation_path/add_template
-ln -s $installation_path/rm_template.py $installation_path/rm_template
+if [ ! -e $installation_path/add_template ]; then
+	echo "ln -s $installation_path/add_template.py $installation_path/add_template"
+	ln -s $installation_path/add_template.py $installation_path/add_template
+fi
+if [ ! -e $installation_path/rm_template ]; then
+	echo "ln -s $installation_path/rm_template.py $installation_path/rm_template"
+	ln -s $installation_path/rm_template.py $installation_path/rm_template
+fi
 
 
