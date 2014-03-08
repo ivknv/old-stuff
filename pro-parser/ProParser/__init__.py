@@ -3,7 +3,7 @@
 from xml.dom import minidom
 from math import ceil
 import datetime
-import os, xml, sys
+import os, xml, sys, sqlite3
 
 weekdays=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
@@ -18,149 +18,297 @@ def isProject(path):
 			return False
 	return False
 
-def getLang(path):
+def getLang(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		dom=minidom.parse(project_xml)
-		try:
-			lang=dom.getElementsByTagName("language")[0]
-			lang_value=lang.childNodes[0].nodeValue
-			return lang_value.strip()
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info = path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT language FROM project;")
+				lang = cur.fetchall()
+				con.close()
+				return lang[0][0]
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			dom=minidom.parse(project_info)
+			try:
+				lang=dom.getElementsByTagName("language")[0]
+				lang_value=lang.childNodes[0].nodeValue
+				return lang_value.strip()
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getName(path):
+def getName(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		dom=minidom.parse(project_xml)
-		try:
-			return dom.getElementsByTagName("name")[0].childNodes[0].nodeValue.strip()
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info = path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT name FROM project;")
+				name = cur.fetchall()
+				con.close()
+				return name[0][0]
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			dom=minidom.parse(project_info)
+			try:
+				return dom.getElementsByTagName("name")[0].childNodes[0].nodeValue.strip()
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getVersion(path):
+def getVersion(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		dom=minidom.parse(project_xml)
-		try:
-			return dom.getElementsByTagName("version")[0].childNodes[0].nodeValue.strip()
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info = path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT version FROM project;")
+				version = cur.fetchall()
+				con.close()
+				return version[0][0]
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			dom=minidom.parse(project_info)
+			try:
+				return dom.getElementsByTagName("version")[0].childNodes[0].nodeValue.strip()
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getAuthors(path):
+def getAuthors(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		try:
-			dom=minidom.parse(project_xml)
-			return dom.getElementsByTagName("authors")[0].childNodes[0].nodeValue.strip().split(",")
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info = path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT authors FROM project;")
+				authors = cur.fetchall()[0][0]
+				if "," in authors:
+					authors=authors.split(",")
+				else:
+					authors=[authors]
+				con.close()
+				return authors
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			try:
+				dom=minidom.parse(project_info)
+				return dom.getElementsByTagName("authors")[0].childNodes[0].nodeValue.strip().split(",")
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getDay(path):
+def getDay(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		try:
-			dom=minidom.parse(project_xml)
-			return dom.getElementsByTagName("day")[0].childNodes[0].nodeValue.strip()
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info = path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT day FROM project;")
+				day = cur.fetchall()
+				con.close()
+				return str(day[0][0])
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			try:
+				dom=minidom.parse(project_info)
+				return dom.getElementsByTagName("day")[0].childNodes[0].nodeValue.strip()
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getMonth(path):
+def getMonth(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		try:
-			dom=minidom.parse(project_xml)
-			return dom.getElementsByTagName("month")[0].childNodes[0].nodeValue.strip()
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info = path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT month FROM project;")
+				month = cur.fetchall()
+				con.close()
+				return str(month[0][0])
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			try:
+				dom=minidom.parse(project_info)
+				return dom.getElementsByTagName("month")[0].childNodes[0].nodeValue.strip()
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getYear(path):
+def getYear(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		try:
-			dom=minidom.parse(project_xml)
-			return dom.getElementsByTagName("year")[0].childNodes[0].nodeValue.strip()
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info = path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT year FROM project;")
+				year = cur.fetchall()
+				con.close()
+				return str(year[0][0])
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			try:
+				dom=minidom.parse(project_info)
+				return dom.getElementsByTagName("year")[0].childNodes[0].nodeValue.strip()
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getHour(path):
+def getHour(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		try:
-			dom=minidom.parse(project_xml)
-			return dom.getElementsByTagName("hour")[0].childNodes[0].nodeValue.strip()
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info = path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT hour FROM project;")
+				hour = cur.fetchall()
+				con.close()
+				return str(hour[0][0])
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			try:
+				dom=minidom.parse(project_info)
+				return dom.getElementsByTagName("hour")[0].childNodes[0].nodeValue.strip()
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getTag(path, tag):
+def getTag(path, tag, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		try:
-			dom=minidom.parse(project_xml)
-			return dom.getElementsByTagName(tag)[0].childNodes[0].nodeValue[1:-1]
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info = path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT %s FROM project;" %tag)
+				tagres = cur.fetchall()
+				con.close()
+				return str(tagres[0][0])
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			try:
+				dom=minidom.parse(project_info)
+				return dom.getElementsByTagName(tag)[0].childNodes[0].nodeValue[1:-1]
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getMinute(path):
+def getMinute(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		try:
-			dom=minidom.parse(project_xml)
-			return dom.getElementsByTagName("minute")[0].childNodes[0].nodeValue.strip()
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info = path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT minute FROM project;")
+				minute = cur.fetchall()
+				con.close()
+				return str(minute[0][0])
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			try:
+				dom=minidom.parse(project_info)
+				return dom.getElementsByTagName("minute")[0].childNodes[0].nodeValue.strip()
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getSecond(path):
+def getSecond(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		try:
-			dom=minidom.parse(project_xml)
-			return dom.getElementsByTagName("second")[0].childNodes[0].nodeValue.strip()
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info=path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT second FROM project;")
+				second = cur.fetchall()
+				con.close()
+				return str(second[0][0])
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			try:
+				dom=minidom.parse(project_info)
+				return dom.getElementsByTagName("second")[0].childNodes[0].nodeValue.strip()
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getWeekday(path):
+def getWeekday(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		try:
-			dom=minidom.parse(project_xml)
-			return dom.getElementsByTagName("weekday")[0].childNodes[0].nodeValue.strip()
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info = path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT * FROM project;")
+				weekday = cur.fetchall()
+				con.close()
+				return weekday[0][0]
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			try:
+				dom=minidom.parse(project_info)
+				return dom.getElementsByTagName("weekday")[0].childNodes[0].nodeValue.strip()
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
 class getDate(object):
-	def __init__(self, path, sep="."):
-		self.day = getDay(path)
-		self.weekday = getWeekday(path)
-		self.month = getMonth(path)
-		self.year = getYear(path)
-		self.hour = getHour(path)
-		self.minute = getMinute(path)
-		self.second = getSecond(path)
+	def __init__(self, path, sep=".", db=False):
+		self.day = getDay(path, db=db)
+		self.weekday = getWeekday(path, db=db)
+		self.month = getMonth(path, db=db)
+		self.year = getYear(path, db=db)
+		self.hour = getHour(path, db=db)
+		self.minute = getMinute(path, db=db)
+		self.second = getSecond(path, db=db)
 		self.sep = sep
 		if len(self.day) < 2:
 			self.day="0"+self.day
@@ -175,37 +323,66 @@ class getDate(object):
 	def __call__(self):
 		return "%s%s%s%s%s, %s, %s:%s:%s" %(self.day, self.sep, self.month, self.sep, self.year, self.weekday, self.hour, self.minute, self.second)
 
-def getDescription(path):
+def getDescription(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		dom=minidom.parse(project_xml)
-		try:
-			return dom.getElementsByTagName("description")[0].childNodes[0].nodeValue[1:-1]
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info=path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT description FROM project;")			
+				description=cur.fetchall()
+				con.close()
+				return description[0][0]
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			dom=minidom.parse(project_info)
+			try:
+				return dom.getElementsByTagName("description")[0].childNodes[0].nodeValue[1:-1]
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getReferenced(path):
+def getReferenced(path, db=False):
 	if isProject(path):
-		project_xml=path+os.path.sep+"project.xml"
-		dom=minidom.parse(project_xml)
-		try:
-			return dom.getElementsByTagName("referenced")[0].childNodes[0].nodeValue.strip()
-		except IndexError:
-			raise ProjectError("%s is corrupted" %project_xml)
+		if db:
+			project_info=path+os.path.sep+"project.db"
+			con = sqlite3.connect(project_info)
+			cur = con.cursor()
+			try:
+				con.execute("SELECT referenced FROM project;")
+				ref=cur.fetchall()
+				if ref:
+					con.close()
+					if "," in ref[0][0]:
+						ref=ref[0][0].split(",")
+					else:
+						ref=[ref[0][0]]
+				return ref
+			except sqlite3.OperationalError as e:
+				print(e)
+		else:
+			project_info=path+os.path.sep+"project.xml"
+			dom=minidom.parse(project_info)
+			try:
+				return dom.getElementsByTagName("referenced")[0].childNodes[0].nodeValue.split("\n")
+			except IndexError:
+				raise ProjectError("%s is corrupted" %project_info)
 	else:
 		raise ProjectError("%s is not a project" %path)
 
-def getHalfOfTheDay(path):
-		date=getDate(path)
+def getHalfOfTheDay(path, db=False):
+		date=getDate(path, db=db)
 		m=int(date.minute)/60
 		h=int(date.hour)
 		s=int(date.second)/6000
 		return ceil((h+m+s)/12)
 
-def getWeekNumber(path):
-	date=getDate(path)
+def getWeekNumber(path, db=False):
+	date=getDate(path, db=db)
 	d=int(date.day)
 	m=int(date.month)
 	y=int(date.year)
@@ -895,23 +1072,23 @@ def findProjectsByDateAsDict(year="", month="", day="", weekday="", directory=".
 		return projects
 
 class Project(object):
-	def __init__(self, path):
+	def __init__(self, path, db=False):
 		self.name=getName(path)
 		self.language=getLang(path)
 		try:
-			self.description=getDescription(path)
+			self.description=getDescription(path, db=db)
 		except ProjectError:
 			self.description=None
 		try:
-			self.authors=getAuthors(path)
+			self.authors=getAuthors(path, db=db)
 		except ProjectError:
 			self.authors=None
 		try:
-			self.version=getVersion(path)
+			self.version=getVersion(path, db=db)
 		except ProjectError:
 			self.version=None
 		try:
-			self.date=getDate(path)
+			self.date=getDate(path, db=db)
 			self.day=self.date.day
 			self.weekday=self.date.weekday
 			self.month=self.date.month
@@ -919,7 +1096,7 @@ class Project(object):
 			self.hour=self.date.hour
 			self.minute=self.date.minute
 			self.second=self.date.second
-			self.referenced=getReferenced(path)
+			self.referenced=getReferenced(path, db=db)
 		except ProjectError:
 			self.date=None
 			self.day=None
@@ -963,6 +1140,33 @@ class Project(object):
 			return self.as_dict[self.keys[self.n]]
 		else:
 			raise StopIteration
+
+def convertProjectToSql(path):
+	project = Project(path)
+	a = project.authors
+	authors=a[0]
+	if len(authors) > 1:
+		for i in a[1:]:
+			authors+=", {}".format(i)
+	r = project.referenced
+	if r:
+		ref=r[0]
+		if len(r) > 1:
+			for i in r[1:]:
+				ref+=", {}".format(i)
+	else:
+		ref=""
+	con = sqlite3.connect(path+os.path.sep+"project.db")
+	cur = con.cursor()
+	sqls = "CREATE TABLE project(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(120), version VARCHAR(50), authors VARCHAR(300), description TEXT, day INTEGER, month INTEGER, year INTEGER, hour INTEGER, minute INTEGER, second INTEGER, weekday VARCHAR(30), referenced TEXT);"
+	sqls1="INSERT INTO project(name, version, authors, description, day, month, year, hour, minute, second, weekday, referenced) VALUES(\"{}\", \"{}\", \"{}\", \"{}\", {}, {}, {}, {}, {}, {}, \"{}\", \"{}\");".format(project.name, project.version, authors, project.description, project.day, project.month, project.year, project.hour, project.minute, project.second, project.weekday, ref)
+	try:
+		cur.execute(sqls)
+		cur.execute(sqls1)
+		con.commit()
+		con.close()
+	except sqlite3.OperationalError as e:
+		print(e)
 
 def listProjects(directory="."):
 	if os.path.exists(directory):
