@@ -4,20 +4,16 @@ pro-parser
 A parser of projects created with pro.<br>
 See also [pro](https://github.com/SPython/pro)
 ## How to use ##
-```
-pro-parser [path-to-project]
-```
-or
-```
-pro-parser -e [path-to-project] [key]
+```bash
+pro-parser [path-to-project] [-e key1 key2 key3 ... keyn]
 ```
 
-option -e is used to print information only for following key.<br>
+option -e is used to print information only for following key(s).<br>
 Output might look like this:
 ```
 name: ProParser
 language: Python
-version: 1.2
+version: 1.3
 authors: Ivan Konovalov
 hour: 21
 month: 1
@@ -36,26 +32,26 @@ There are two ways to use pro-parser:<br/>
 ### Command line script ###
 First you need to create a project using [pro](https://github.com/SPython/pro).
 Let's create a project called _myproject_, its language will be _C++_, description will be empty and author will be _Somebody_:
-```
+```bash
 pro myproject C++ "" Somebody
 ```
 Now we can get information about 'myproject' using proParser:
-```
+```bash
 pro-parser myproject
 ```
 ### Python module ###
 First, run setup.py to install ProParser.<br/>
 Now, let's parse some project:
-```
+```python
 from ProParser import *
 myproject=Project("myproject")
 ```
 To see what you can do with 'Project' object use dir:
-```
+```python
 dir(myproject)
 ```
 We can print its name, authors, version, date, description and more:
-```
+```python
 print(myproject.name)
 print(myproject.authors)
 print(myproject.date()) # Because myproject.date is a class
@@ -80,10 +76,13 @@ if isProject("myproject"):
 	print("myproject is a project")
 else:
 	print("myproject is not a project")
+percentage=getPercentage("/home/ivan")
+print(precentage["languages"]) # print percentage by languages
+print(percentage["weekdays"]) # print percentage by weekdays
 ```
 
 With ProParser you can do even more. For example, you can find projects in some directory:
-```
+```python
 projects=ProParser.listProjects(".") # it will return a list of projects in current directory
 for project in projects:
 	print(project.name)
@@ -102,11 +101,11 @@ print(all_projects_dict["projectName"]["language"])
 
 ## Installation ##
 ### As a Python module ###
-```
+```bash
 python setup.py install
 ```
 ### As a command line script  ###
-```
+```bash
 ./install.sh [script-name] [installation-dir]
 ```
 By default it will install script as /usr/local/bin/pro-parser
