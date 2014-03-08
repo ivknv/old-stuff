@@ -10,12 +10,23 @@ weekdays=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "S
 class ProjectError(Exception):
 	pass
 
-def isProject(path):
-	if os.path.exists(path+os.path.sep+"project.xml"):
-		try:
-			return True if minidom.parse(path+os.path.sep+"project.xml").documentElement.tagName == "project" else False
-		except xml.parsers.expat.ExpatError:
-			return False
+def isProject(path, db=False):
+	if db:
+		if os.path.exists(path+os.path.sep+"project.db"):
+			con = sqlite3.connect(path+os.path.sep+"project.db")
+			cur = con.cursor()
+			try:
+				cur.execute("SELECT name FROM project")
+			except sqlite3.OperationalError:
+				return False
+			else:
+				return True
+	else:
+		if os.path.exists(path+os.path.sep+"project.xml"):
+			try:
+				return True if minidom.parse(path+os.path.sep+"project.xml").documentElement.tagName == "project" else False
+			except xml.parsers.expat.ExpatError:
+				return False
 	return False
 
 def getLang(path, db=False):
@@ -1073,8 +1084,8 @@ def findProjectsByDateAsDict(year="", month="", day="", weekday="", directory=".
 
 class Project(object):
 	def __init__(self, path, db=False):
-		self.name=getName(path)
-		self.language=getLang(path)
+		self.name=getName(path, db=db)
+		self.language=getLang(path, db=db)
 		try:
 			self.description=getDescription(path, db=db)
 		except ProjectError:
@@ -1493,6 +1504,73 @@ def getPercentage(directory=".", func="", funce="", funcelse=""):
 			ds[i][j] = 100.0/sum([data[i][ii] for ii in data[i]])*data[i][j]
 	return ds
 
+def isUniqueName(path, directory=".", db=False):
+	project=Project(path, db=db)
+	projects=listAllProjectsAsDict(directory)
+	if project.name in projects:
+		return False
+	else:
+		return True
+
+def isUnique(path, directory=".", db=False, version=False):
+	project=Project(path, db=db)
+	projects=listAllProjects(directory)
+	for i in projects:
+		if project.name == i.name and project.description == i.description and project.date() == i.date() and project.referenced == i.referenced and project.authors == i.authors:
+			if version:
+				if project.version == i.version:
+					return False
+			else:
+				return False
+	return True
+
+def isUniqueDescription(path, directory=".", db=False):
+	project=Project(path, db=db)
+	projects=listAllProjects(directory)
+	for i in projects:
+		if project.description == i.description:
+			return False
+	return True
+
+def isUniqueVersion(path, directory=".", db=False):
+	project=Project(path, db=db)
+	projects=listAllProjects(directory)
+	for i in projects:
+		if project.version == i.version:
+			return False
+	return True
+
+def isUniqueDate(path, directory=".", db=False):
+	project=Project(path, db=db)
+	projects=listAllProjects(directory)
+	for i in projects:
+		if project.date() == i.date():
+			return False
+	return True
+
+def isUniqueDay(path, directory=".", db=False):
+	project=Project(path, db=db)
+	projects=listAllProjects(directory)
+	for i in projects:
+		if project.day == i.day:
+			return False
+	return True
+
+def isUniqueMonth(path, directory=".", db=False):
+	project=Project(path, db=db)
+	projects=listAllProjects(directory)
+	for i in projects:
+		if project.month == i.month:
+			return False
+	return True
+
+def isUniqueYear(path, directory=".", db=False):
+	project=Project(path, db=db)
+	projects=listAllProjects(directory)
+	for i in projects:
+		if project.year == i.year:
+			return False
+	return True
 
 if __name__ == "__main__":
 	import argparse
