@@ -2,14 +2,13 @@
 # -*- coding: utf-8
 
 import sys
-from PySide import QtGui
+from PyQt4 import QtGui
 
 class Main(QtGui.QWidget):
 	def __init__(self):
 		super(Main, self).__init__()
 		
 		self.initUI()
-	
 	def initUI(self):
 		self.setGeometry(300, 300, 640, 480)
 		self.setWindowTitle("")
