@@ -72,6 +72,7 @@ All supported file types and templates:
 	<ul>
 	<li>default</li>
 	<li>ncurses</li>
+	<li>gtk</li>
 	<li>fibonacci</li>
 	<li>factorial</li>
 	<li>empty (only main function)</li></ul>
@@ -79,6 +80,7 @@ All supported file types and templates:
 	<ul>
 	<li>default</li>
 	<li>empty (only main function)</li>
+	<li>qapplication</li>
 	</ul>
 <li>.html or .htm with options</li>
 	<ul>
@@ -93,6 +95,10 @@ All supported file types and templates:
 	<li>default</li>
 	<li>main</li>
 	<li>pyside</li>
+	<li>pyqt</li>
+	<li>gtk</li>
+	<li>setuptools_setup</li>
+	<li>distutils_setup</li>
 	<li>fibonacci</li>
 	<li>curses</li>
 	<li>factorial</li>
@@ -104,7 +110,11 @@ All supported file types and templates:
 <li>.xml</li>
 	<ul>
 	<li>default</li>
-	<li>project</li></ul>
+	<li>project</li>
+	<li>strings</li>
+	<li>android-linear-layout</li>
+	<li>androidmanifest</li>
+	</ul>
 <li>.xsd</li>
 	<ul><li>default</li></ul>
 <li>.xsl</li>
@@ -116,7 +126,10 @@ All supported file types and templates:
 <li>.css</li>
 	<ul><li>button</li></ul>
 <li>.java</li>
-	<ul><li>default</li></ul>
+	<ul>
+	<li>default</li>
+	<li>android-activity</li>
+	</ul>
 <li>.wsgi</li>
 	<ul><li>django</li></ul>
 <li>.clj</li>
