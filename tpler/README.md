@@ -149,7 +149,7 @@ If you want to add some new template you can use <b>add_template.py</b> script.
 To delete templates use <b>rm_template.py</b>.<br/>
 add_template.py usage:<br/><br/>
 <pre>
-<code>python add_template.py [-h] [-f filename] [-a alias]</code></pre>
+<code>python add_template.py [-h] [-v] [-f filename] [-a alias]</code></pre>
 <br/><br/>
 rm_template.py usage:<br/>
 <pre>
