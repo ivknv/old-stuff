@@ -1,4 +1,4 @@
-class %name% {
+class  {
 	public static void main(String args[]) {
 		
 	}
