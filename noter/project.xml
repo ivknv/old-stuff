@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project>
+<version>
+1.0
+</version>
+<name>
+Noter
+</name>
+<language>
+Python
+</language>
+<authors>
+Ivan Konovalov
+</authors>
+<description>
+Allows to write simple notes
+</description>
+<date>
+<day>
+4
+</day>
+<month>
+3
+</month>
+<year>
+2014
+</year>
+<weekday>
+Tuesday
+</weekday>
+<hour>
+23
+</hour>
+<minute>
+51
+</minute>
+<second>
+18
+</second>
+</date>
+<referenced>
+
+</referenced>
+</project>
