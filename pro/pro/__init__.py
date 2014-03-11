@@ -118,7 +118,7 @@ project description {
 			style_css.write(css_text)
 			style_css.close()
 			config_py=open(name+os.path.sep+"config.py", "w+")
-			config_py.write(config.replace("%name%", name))
+			config_py.write(config.replace("%name%", ""))
 			config_py.close()
 			text3 = """\
 #!/usr/bin/env python
@@ -227,11 +227,11 @@ elif arg1 in ["compile"]:
 				subprocess.call(config.cpp_compiler_command.replace("%shortname%", full_path+os.path.sep+"bin"+os.path.sep+o[0:o.rindex(".")]).replace("%fullname%", full_path+os.path.sep+n1+os.path.sep+o).split(" "))"""
 				manage_py.write(text3+"\n"+text4)
 				manage_py.close()
-				os.mkdir(name+os.path.sep+name)
-				_h=open(name+os.path.sep+name+os.path.sep+name+".h", "w+")
+				os.makedirs(name+os.path.sep+"src"+os.path.sep+name)
+				_h=open(name+os.path.sep+"src"+os.path.sep+name+os.path.sep+name+".h", "w+")
 				_h.close()
-				_cpp=open(name+os.path.sep+name+os.path.sep+name+".cpp", "w+")
-				wrtr(name+os.path.sep+name+os.path.sep+name+".cpp")
+				_cpp=open(name+os.path.sep+"src"+os.path.sep+name+os.path.sep+name+".cpp", "w+")
+				wrtr(name+os.path.sep+"src"+os.path.sep+name+os.path.sep+name+".cpp")
 				_cpp.close()
 			elif lang.lower() in ["lua"]:
 				os.mkdir(name+os.path.sep+"bin")
@@ -248,6 +248,10 @@ elif arg1 in ["compile"]:
 				subprocess.call(config.lua_compiler_command.replace("%shortname%" full_path+os.path.sep+"bin"+os.path.sep+i[0:i.rindex(".")]+".out").replace("%fullname%", full_path+os.path.sep+n1+os.path.sep+i).split(" "))"""
 				manage_py.write(text3+"\n"+text4)
 				manage_py.close()
+			elif lang.lower() in ["java"]:
+				os.makedirs(name+os.path.sep+"src"+os.path.sep+name)
+				os.mkdir(name+os.path.sep+"bin")
+				wrtr(name+os.path.sep+"src"+os.path.sep+name+os.path.sep+name+".java")
 			else:
 				manage_py.write(text3)
 				manage_py.close()

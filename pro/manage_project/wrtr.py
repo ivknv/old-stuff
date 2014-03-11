@@ -1,4 +1,4 @@
-import sys
+import sys, os
 
 def wrtr(filename, arg2="", arg3="1.2.8"):
 	file_extension = filename[filename.rindex(".")::].lower()
@@ -250,6 +250,16 @@ if __name__ == "__main__":
 #!/usr/bin/python
 # -*- coding: utf-8 -*-"""
 		f1=open(filename, "w+")
+		f1.write(text)
+		f1.close()
+	elif file_extension in [".java"]:
+		text="""\
+public class %name% {
+	public static void main(String args[]) {
+		
+	}
+}""".replace("%name%", filename[filename.rindex(os.path.sep)+1:filename.index(".")])
+		f1=open(filename, "w")
 		f1.write(text)
 		f1.close()
 	else:
