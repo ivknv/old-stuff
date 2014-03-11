@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project>
+<version>
+1.0
+</version>
+<name>
+Daemonizer
+</name>
+<language>
+Python
+</language>
+<authors>
+Ivan Konovalov
+</authors>
+<description>
+A small library to easily create daemons
+</description>
+<date>
+<day>
+5
+</day>
+<month>
+3
+</month>
+<year>
+2014
+</year>
+<weekday>
+Wednesday
+</weekday>
+<hour>
+19
+</hour>
+<minute>
+2
+</minute>
+<second>
+48
+</second>
+</date>
+<referenced>
+
+</referenced>
+</project>
