@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project>
+<version>
+1.0
+</version>
+<name>
+Financer
+</name>
+<language>
+Python
+</language>
+<authors>
+Ivan Konovalov
+</authors>
+<description>
+Program that helps to plan budget
+</description>
+<date>
+<day>
+13
+</day>
+<month>
+2
+</month>
+<year>
+2014
+</year>
+<weekday>
+Thursday
+</weekday>
+<hour>
+21
+</hour>
+<minute>
+39
+</minute>
+<second>
+20
+</second>
+</date>
+<referenced>
+
+</referenced>
+</project>
