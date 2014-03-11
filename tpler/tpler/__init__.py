@@ -31,7 +31,7 @@ def writeTemplate(filenames, arg2="", template_dir=None):
 				return False
 		else:
 			template=open(template_dir+os.path.sep+"default"+ex)
-		templateread=template.read()
+		templateread=template.read().replace("%name%", filename[0:filename.index(".")])
 		template.close()
 		f1=open(filename, "w")
 		f1.write(templateread)
