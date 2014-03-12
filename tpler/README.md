@@ -82,7 +82,7 @@ All supported file types and templates:
 	<li>empty (only main function)</li>
 	<li>qapplication</li>
 	</ul>
-<li>.html or .htm with options</li>
+<li>.html or .htm</li>
 	<ul>
 	<li>default</li>
 	<li>jquery</li>
