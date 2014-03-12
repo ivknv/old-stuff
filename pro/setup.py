@@ -2,7 +2,7 @@
 from distutils.core import setup
 
 setup(name="pro",
-version="1.6",
+version="1.7",
 description="A project manager",
 author="Ivan Konovalov",
 author_email="rvan.mega@gmail.com",
