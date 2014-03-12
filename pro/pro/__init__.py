@@ -122,7 +122,11 @@ project description {
 				r="\"src\"+os.path.sep+\"%s\"" %name
 			else:
 				r="\"%s\"" %name
-			config_py.write(config.replace("\"%name%\"", r))
+			if lang.lower() == "java":
+				t="\nmain=\"src\"+os.path.sep+\"%s\"+os.path.sep+\"%s\"" %(name, name+".java")
+			else:
+				t=""
+			config_py.write("import os\n\n"+config.replace("\"%name%\"", r)+t)
 			config_py.close()
 			text3 = """\
 #!/usr/bin/env python
@@ -256,7 +260,12 @@ elif arg1 in ["compile"]:
 				os.makedirs(name+os.path.sep+"src"+os.path.sep+name)
 				os.mkdir(name+os.path.sep+"bin")
 				wrtr(name+os.path.sep+"src"+os.path.sep+name+os.path.sep+name+".java")
-				manage_py.write(text3)
+				text4="""\
+elif arg1 in ["compile"]:
+	import subprocess
+	
+	subprocess.call(config.java_compiler_command.replace("%name%", full_path+os.path.sep+config.main).split(" "))"""
+				manage_py.write(text3+"\n"+text4)
 				manage_py.close()
 			else:
 				manage_py.write(text3)
