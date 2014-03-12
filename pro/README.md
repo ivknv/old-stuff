@@ -1,5 +1,5 @@
 ## Description ##
-Pro - is a simple script that allows
+Pro - is a script that allows
 you to create projects.<br>
 Requires Python. 
 
@@ -39,7 +39,7 @@ __Note__: At the moment manage.py can compile only Python, C, C++, Lua and Java 
 Add dependency: python manage.py dependencies add [library-or-framework]<br>
 Remove dependency: python manage.py dependencies rm [library-or-framework]<br>
 # Project structure #
-Simple Python project: <br>
+Python project: <br>
 ```
 project-name/
 	bin/
@@ -55,7 +55,7 @@ project-name/
 	project.xml  -  information about project
 ```
 
-Simple C++ project: <br>
+C++ project: <br>
 ```
 project-name/
 	bin/
