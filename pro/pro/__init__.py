@@ -118,7 +118,11 @@ project description {
 			style_css.write(css_text)
 			style_css.close()
 			config_py=open(name+os.path.sep+"config.py", "w+")
-			config_py.write(config.replace("%name%", ""))
+			if lang.lower() in ["java", "c", "c++", "cpp", "clojure"]:
+				r="\"src\"+os.path.sep+\"%s\"" %name
+			else:
+				r="\"%s\"" %name
+			config_py.write(config.replace("\"%name%\"", r))
 			config_py.close()
 			text3 = """\
 #!/usr/bin/env python
@@ -252,6 +256,8 @@ elif arg1 in ["compile"]:
 				os.makedirs(name+os.path.sep+"src"+os.path.sep+name)
 				os.mkdir(name+os.path.sep+"bin")
 				wrtr(name+os.path.sep+"src"+os.path.sep+name+os.path.sep+name+".java")
+				manage_py.write(text3)
+				manage_py.close()
 			else:
 				manage_py.write(text3)
 				manage_py.close()
