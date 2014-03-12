@@ -203,7 +203,9 @@ add_template.py and rm_template.py can be found in <b>tpler</b> directory.
 </p>
 <h3 id="installation"><a style="text-decoration: none; color: black;" href="#installing-as-a-command-line-script">Installing as a command line script</a></h3>
 <p>
-To install this script, all you need is to run <i>install.sh</i>:<br/><br/>
-<pre><code>./install.sh</code></pre>
+To install this script, you need to run <i>setup.py</i> and then <i>install.sh</i>:<br/><br/>
+<pre><code>python setup.py install
+./install.sh
+</code></pre>
 <br/><br/>
 </p>
