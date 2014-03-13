@@ -5,6 +5,8 @@ import os, random
 
 def writeTemplate(filenames, arg2="", template_dir=None):
 	for filename in filenames:
+		if filename.endswith("/") or filename.endswith("\\"):
+			filename=filename[0:-1]
 		ex=filename[filename.rindex(".")::].lower()
 		if ex == ".htm":
 			ex=".html"
@@ -31,7 +33,15 @@ def writeTemplate(filenames, arg2="", template_dir=None):
 				return False
 		else:
 			template=open(template_dir+os.path.sep+"default"+ex)
-		templateread=template.read().replace("%name%", filename[0:filename.index(".")])
+		if "." in filename:
+			rpl=filename[0:filename.index(".")]
+		else:
+			rpl=filename
+		if "/" in rpl:
+			rpl=rpl[rpl.rindex("/")+1:]
+		if "\\" in rpl:
+			rpl=rpl[rpl.rindex("\\")+1:]
+		templateread=template.read().replace("%name%", rpl)
 		template.close()
 		f1=open(filename, "w")
 		f1.write(templateread)

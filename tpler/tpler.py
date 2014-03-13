@@ -22,8 +22,18 @@ if __name__ == "__main__":
 			tmpl=""
 		if args.filetype:
 			for infile in args.input_file:
+				if infile.endswith("/") or infile.endswith("\\"):
+					infile=infile[0:-1]
 				f1=open(infile, "w")
-				txt=getTemplateWithFT(args.filetype, tmpl, template_dir=tmpldir)
+				if "." in args.infile:
+					rpl=args.infile[0:args.infile.index(".")]
+				else:
+					rpl=args.infile
+				if "/" in rpl:
+					rpl=rpl[rpl.rindex("/")+1:]
+				if "\\" in rpl:
+					rpl=rpl[rpl.rindex("\\")+1:]
+				txt=getTemplateWithFT(args.filetype, tmpl, template_dir=tmpldir).replace("%name%", rpl)
 				f1.write(txt)
 				f1.close()
 		else:
