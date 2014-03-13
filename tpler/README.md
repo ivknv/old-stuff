@@ -27,6 +27,7 @@ It will write following text to 'html_file.html':
 <title></title>
 </head>
 <body>
+
 </body>
 </html>
 ```
@@ -46,6 +47,7 @@ Now 'html_file_with_jquery.html' look like this:<br/>
 </script>
 </head>
 <body>
+
 </body>
 <html>
 ```
