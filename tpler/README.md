@@ -49,7 +49,7 @@ Now 'html_file_with_jquery.html' look like this:<br/>
 <body>
 
 </body>
-<html>
+</html>
 ```
 <br/>
 Or you can include AngularJS:<br/><br/>
