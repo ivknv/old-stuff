@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project>
+<version>
+1.0
+</version>
+<name>
+CodeCommenter
+</name>
+<language>
+Python
+</language>
+<authors>
+Ivan Konovalov
+</authors>
+<description>
+Allows to automate code commenting
+</description>
+<date>
+<day>
+14
+</day>
+<month>
+3
+</month>
+<year>
+2014
+</year>
+<weekday>
+Friday
+</weekday>
+<hour>
+23
+</hour>
+<minute>
+14
+</minute>
+<second>
+44
+</second>
+</date>
+<referenced>
+
+</referenced>
+</project>
