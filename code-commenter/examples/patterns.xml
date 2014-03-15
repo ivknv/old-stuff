@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<comments>
+	<comment filetype="java" commentStart="/\*\* " commentEnd=" \*/">
+		<pattern>.*System\.out\.println\(.*\).*</pattern>
+		<text>display a %test%</text>
+		<position>right</position>
+		<variable name="test" type="normal">message</variable>
+	</comment>
+	<comment filetype="java" commentStart="/\*\* " commentEnd=" \*/">
+		<pattern>\W*final Button .+ ?= ?\(Button\) findViewById\(R\.id\..*\)</pattern>
+		<text>Find a button with id==%id%</text>
+		<variable name="id" type="regex" index="-1">[a-zA-Z_]+[a-zA-Z0-9_]*</variable>
+		<position>right</position>
+	</comment>
+	<comment filetype="java" commentStart="/\*\* " commentEnd=" \*/">
+		<pattern>.+\.getText(.*).*</pattern>
+		<text>get text from text field %test%</text>
+		<position>right</position>
+		<variable name="test" type="regex">[^\W*| *][^\..*]</variable>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>\W*.*minidom.parse\(.*\)</pattern>
+		<text>Parse XML document</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>\W*.+\.getElementsByTagName\(.*\)</pattern>
+		<text>Get list of tags with name %tagname%</text>
+		<variable name="tagname" type="regex" index="-1">"[a-zA-Z_]+[a-zA-Z_0-9]*"</variable>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>\W*.*parsePatterns\(.*\)</pattern>
+		<text>Get patterns from %path%</text>
+		<position>right</position>
+		<variable name="path" type="regex" index="-1">[a-zA-Z_]+[a-zA-Z_0-9]*</variable>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>\W*[a-zA-Z_]+[a-zA-Z_0-9]*\.add_argument\(.*\)</pattern>
+		<text>Add argument to %var%</text>
+		<variable name="var" type="regex">[a-zA-Z_]+[a-zA-Z_0-9]*</variable>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>argparse.ArgumentParser\(.*\)</pattern>
+		<text>Create argument parser</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>.+\.parse_args\(.*\)</pattern>
+		<text>Parse arguments using %var% options</text>
+		<variable name="var" type="regex" index="1">[a-zA-Z_]+[a-zA-Z_0-9]*</variable>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>.+\.getAttribute\(.*\)</pattern>
+		<text>Get %var% attribute from tag</text>
+		<variable name="var" type="regex" index="-1">"[a-zA-Z_]+[a-zA-Z_0-9]*"</variable>
+		<position>right</position>
+	</comment>
+</comments>
