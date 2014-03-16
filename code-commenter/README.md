@@ -20,7 +20,7 @@ Option -ce sets ending of a comment. __Warning__: it's a regular expression too.
 Option -h shows help message.<br/><br/>
 
 Before using ccommenter you have to set up XML file that will contain patterns.<br/>
-You can see example in examples directory.
+You can see example in examples directory.<br/>
 &lt;comment filetype="extension" commentStart="" commentEnd=""&gt; - main comment tag. filetype attribute sets extension. Comment will be used only if file extension==filetype. commentStart - with what begins comment, commentEnd - comment end. You can leave commentEnd empty.<br/>
    &lt;pattern&gt; - pattern. Uses regular expression.<br/>
    &lt;text&gt; - comment text.<br/>
