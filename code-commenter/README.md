@@ -24,7 +24,7 @@ You can see example in examples directory.<br/>
 &lt;comment filetype="extension" commentStart="" commentEnd=""&gt; - main comment tag. filetype attribute sets extension. Comment will be used only if file extension==filetype. commentStart - with what begins comment, commentEnd - comment end. You can leave commentEnd empty.<br/>
    &lt;pattern&gt; - pattern. Uses regular expression.<br/>
    &lt;text&gt; - comment text.<br/>
-   &lt;variable name="name" type="type" index="0"&gt; - declare a variable. It can be used by appending and prepending %. Example: test comment number %number%. Type be can regex or overything else.
+   &lt;variable name="name" type="type" index="0"&gt; - declare a variable. It can be used by appending and prepending %. Example: test comment number %number%. Type can be regex or overything else.
    &lt;position&gt; - sets position of a comment. Default position is top. Available positions are: top, right, bottom, left.<br/>
 
 ### Installation ###
