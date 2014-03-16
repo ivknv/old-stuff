@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE xhtml>
-<html xmlns="http://www.w3.org/1999/xhtml" >
-<head>
-<meta charset="utf-8" />
-<title>CodeCommenter</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
-</head>
-<body>
-<project lang="Python" project_name="CodeCommenter">
-<h1>CodeCommenter</h1>
-<description>
-<h3>Description</h3>
-<p>
-Allows to automate code commenting
-</p>
-</description>
-</project>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8" />
+		<title>CodeCommenter</title>
+	</head>
+	<body>
+		<h2>CodeCommenter</h2>
+		<a href="#what-is-it">1. What is it</a><br/>
+		<a href="#how-to-use">2. How to use</a><br/>
+		<a href="#installation">3. Installation</a><br/>
+		<h3 id="what-is-it">What is it?</h3>
+		<p>CodeCommenter is a tool for automatic code commenting.<br/>
+It uses XML to keep patterns, texts, variables and other settings.</p>
+		<h3 id="how-to-use">How to use</h3>
+		<p><code>
+ccommenter file [-p PATH] [-f] [-h] [-rm] [-cs] [-ce]</code><br/>
+Option -p sets path to file with patterns.<br/>
+Option -f sets file type.<br/>
+Option -rm removes all the comments, it needs also -cs and -ce options.<br/>
+Option -cs sets beginning of a comment. <strong>Warning</strong>: it's a regular expression.<br/>
+Option -ce sets ending of a comment. <strong>Warning</strong>: it's a regular expression too.<br/>
+Option -h shows help message.<br/><br/></p>
+		<p>Before using ccommenter you have to set up XML file that will contain patterns.<br/>
+You can see example in examples directory<br/>.
+&lt;comment filetype="extension" commentStart="" commentEnd=""&gt; - main comment tag. filetype attribute sets extension. Comment will be used only if file extension==filetype. commentStart - with what begins comment, commentEnd - comment end. You can leave commentEnd empty.<br/>
+    &lt;pattern&gt; - pattern. Uses regular expression.<br/>
+    &lt;text&gt; - comment text.<br/>
+    &lt;variable name="name" type="type" index="0"&gt; - declare a variable. It can be used by appending and prepending %. Example: test comment #%number%. Type be can regex or overything else.<br/>
+    &lt;position&gt; - sets position of a comment. Default position is top. Available positions are: top, right, bottom, left.</p>
+		
+		<h3 id="installation">Installation</h3>
+		<p>First you have to run setup.py<br/>
+			<code>
+python setup.py install
+			</code><br/><br/>
+And then install.sh<br/>
+			<code>
+./install.sh
+			</code>
+	</p>
 </body>
 </html>
