@@ -21,11 +21,11 @@ Option -h shows help message.<br/><br/>
 
 Before using ccommenter you have to set up XML file that will contain patterns.<br/>
 You can see example in examples directory.<br/>
-&lt;comment filetype="extension" commentStart="" commentEnd=""&gt; - main comment tag. filetype attribute sets extension. Comment will be used only if file extension==filetype. commentStart - with what begins comment, commentEnd - comment end. You can leave commentEnd empty.<br/>
-   &lt;pattern&gt; - pattern. Uses regular expression.<br/>
-   &lt;text&gt; - comment text.<br/>
-   &lt;variable name="name" type="type" index="0"&gt; - declare a variable. It can be used by appending and prepending %. Example: test comment number %number%. Type can be regex or overything else.
-   &lt;position&gt; - sets position of a comment. Default position is top. Available positions are: top, right, bottom, left.<br/>
+```<comment filetype="extension" commentStart="" commentEnd="">``` - main comment tag. filetype attribute sets extension. Comment will be used only if file extension==filetype. commentStart - with what begins comment, commentEnd - comment end. You can leave commentEnd empty.<br/>
+   ```<pattern>``` - pattern. Uses regular expression.<br/>
+   ```<text>``` - comment text.<br/>
+   ```<variable name="name" type="type" index="0">``` - declare a variable. It can be used by appending and prepending %. Example: test comment number %number%. Type can be regex or overything else.<br/>
+   ```<position>``` - sets position of a comment. Default position is top. Available positions are: top, right, bottom, left.<br/>
 
 ### Installation ###
 First you have to run setup.py
