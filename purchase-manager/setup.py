@@ -3,9 +3,9 @@
 
 from distutils.core import setup
 
-setup(name="Financer",
+setup(name="PurchaseManager",
 version="1.0",
 author="Ivan Konovalov",
 author_email="rvan.mega@gmail.com",
-description="Allows you to determine what to buy first",
-packages=["Financer"])
+description="Helps to decide what to buy first",
+packages=["PurchaseManager"])

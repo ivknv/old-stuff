@@ -4,7 +4,7 @@
 1.0
 </version>
 <name>
-Financer
+PurchaseManager
 </name>
 <language>
 Python
@@ -13,7 +13,7 @@ Python
 Ivan Konovalov
 </authors>
 <description>
-Program that helps to plan budget
+Helps to plan purchases
 </description>
 <date>
 <day>

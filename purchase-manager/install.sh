@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 if [ -z $1 ]; then
-	script_name="financer"
+	script_name="pmanager"
 else
 	script_name=$1
 fi
@@ -12,10 +12,10 @@ else
 		installation_path=$2
 	fi
 fi
-name="Financer"
-packages="Financer"
-files="__init__.py"
-script="__init__.py"
+name="PurchaseManager"
+packages="."
+files="pmanager.py"
+script="pmanager.py"
 echo -n "Are you sure you want to install $name to $installation_path? (y/n) "
 read yn
 case $yn in

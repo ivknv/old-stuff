@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<comments>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>minidom.parse\(.*\)</pattern>
+		<text>Parse XML document</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>.+\.getElementsByTagName\(.*\)</pattern>
+		<text>Get list of tags</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>[a-zA-Z_]+[a-zA-Z_0-9]*\.add_argument\(.*\)</pattern>
+		<text>Add argument to parser</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>argparse.ArgumentParser\(.*\)</pattern>
+		<text>Create argument parser</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>.+\.parse_args\(.*\)</pattern>
+		<text>Parse arguments</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>.+\.getAttribute\(.*\)</pattern>
+		<text>Get attribute from tag</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>csv.reader\(.*\)</pattern>
+		<text>Parse CSV file</text>
+		<position>right</position>
+	</comment>
+</comments>
