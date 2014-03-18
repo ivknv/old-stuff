@@ -1,20 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE xhtml>
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset="utf-8" />
-<title>FinanceManager</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
+<meta charset="utf-8"/>
+<title>PurchaseManager</title>
 </head>
 <body>
-<project lang="Python" project_name="FinanceManager">
-<h1>FinanceManager</h1>
-<description>
-<h3>Description</h3>
-<p>
-Program that helps to plan budget
-</p>
-</description>
-</project>
+<h2>PurchaseManager</h2>
+<ol>
+<li><a href="#what-is-it">What is it?</a><br/></li>
+<li><a href="#how-to-use">How to use</a><br/></li>
+<li><a href="#installation">Installation</a><br/></li>
+</ol>
+<h3 id="what-is-it">What is it?</h3>
+<p>PurchaseManager is purchase manager (isn't it obvious?).<br/>
+It uses CSV file to store items.<br/></p>
+<h3 id="how-to-use">How to use</h3>
+<p><code>
+pmanager [-p PATH] -m MONEY [-a | --add-item [-n | --name] [-pr | --price] [-pri | --priority] [-am | --amount]] [-rm | --remove [-n | --name]]</code><br/>
+You can find example of CSV file in examples directory.<br/>
+First column is a name of item.<br/>
+Second column is a price of item.<br/>
+Third column is a priority of item.<br/>
+Fourth column is an amount of item.<br/><br/></p>
+<p>Example:<br/>
+<code>Test item,20,7.8,2</code></p>
+<h3 id="installation">Installation</h3>
+<p>Run setup.py:<br/>
+<code>
+python setup.py install</code><br/>
+Then run install.sh:<br/>
+<code>
+./install.sh</code></p>
 </body>
 </html>
