@@ -9,7 +9,8 @@ It uses CSV file to store items.<br/>
 ### How to use ###
 ```bash
 pmanager [-p PATH] -m MONEY [-a | --add-item [-n | --name] [-pr | --price] [-pri | --priority] [-am | --amount]] [-rm | --remove [-n | --name]]
-```<br/>
+```
+<br/>
 You can find example of CSV file in examples directory.<br/>
 First column is a name of item.<br/>
 Second column is a price of item.<br/>
@@ -24,7 +25,8 @@ Test item,20,7.8,2
 Run setup.py:<br/>
 ```bash
 python setup.py install
-```<br/>
+```
+<br/>
 Then run install.sh:<br/>
 ```bash
 ./install.sh
