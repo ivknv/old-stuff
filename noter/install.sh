@@ -13,9 +13,9 @@ else
 	fi
 fi
 name="Noter"
-packages="Noter"
-files="__init__.py"
-script="__init__.py"
+packages="."
+files="noter.py"
+script="noter.py"
 echo -n "Are you sure you want to install $name to $installation_path? (y/n) "
 read yn
 case $yn in
