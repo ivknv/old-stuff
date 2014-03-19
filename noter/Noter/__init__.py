@@ -44,32 +44,29 @@ def read(db=os.path.expanduser("~/notes.db"), slice_string="0:"):
 	con.close()
 	return notes
 
-def get(id=None, title=None, description=None, db=os.path.expanduser("~/notes.db")):
-	if id or title or description:
+def get(id, db=os.path.expanduser("~/notes.db")):
+	if id:
 		con = sqlite3.connect(db)
 		cur = con.cursor()
-	else:
-		return
-	if id and not title and not description:
 		cur.execute("SELECT * FROM notes WHERE id={};".format(id))
-	
-	elif title and not id and not description:
-		cur.execute("SELECT * FROM notes WHERE title=\"{}\";".format(title))
-	elif description and not title and not id:
-		cur.execute("SELECT * FROM notes WHERE text=\"{}\";".format(description))
-	elif id and title and description:
-		cur.execute("SELECT * FROM notes WHERE id={} AND title=\"{}\" AND text=\"{}\";".format(id, title, description))
-	elif id and title and not description:
-		cur.execute("SELECT * FROM notes WHERE id={} AND title=\"{}\";".format(id, title))
-	elif id and description and not title:
-		cur.execute("SELECT * FROM notes WHERE id={} AND text=\"{}\";".format(id, description))
-	elif title and description and not id:
-		cur.execute("SELECT * FROM notes WHERE title=\"{}\" AND text=\"{}\";".format(title, description))
-	elif title and description and id:
-		cur.execute("SELECT * FROM notes WHERE id={} AND title=\"{}\" AND text=\"{}\";".format(id, title, description))
-	found=cur.fetchall()
-	con.close()
-	return found
+		found=cur.fetchall()
+		con.close()
+		return found
+
+def edit_note(id, title=None, text=None, db=os.path.expanduser("~/notes.db")):
+	if id and (title or text):
+		con = sqlite3.connect(db)
+		cur = con.cursor()
+		if not title and text:
+			cur.execute("UPDATE notes SET text=\"{}\" WHERE id={};".format(text, id))
+		elif title and not text:
+			cur.execute("UPDATE notes SET title=\"{}\" WHERE id={};".format(title, id))
+		elif title and text:
+			cur.execute("UPDATE notes SET title=\"{}\", text=\"{}\" WHERE id={};".format(title, text, id))
+		con.commit()
+		con.close()
+		return True
+	return False
 
 if __name__ == "__main__":
 	import argparse
@@ -81,37 +78,21 @@ if __name__ == "__main__":
 	parser.add_argument("-i", "--id", help="Note id")
 	parser.add_argument("-l", "--ls", "--list", action="store_true", help="List all notes")
 	parser.add_argument("-rm", "--rm", "--remove", action="store_true", help="Remove note")
-	parser.add_argument("-d", "--db-path", help="Path to the database")
+	parser.add_argument("-d", "--db-path", default=os.path.expanduser("~/notes.db"), help="Path to the database")
 	parser.add_argument("-rs", "--reverse", action="store_true", help="Reverse sort")
 	parser.add_argument("--init", action="store_true", help="Initialize database")
 	parser.add_argument("-s", "--slice", help="Slice the note list")
+	parser.add_argument("-e", "--edit", action="store_true", help="Edit note")
 	args = parser.parse_args()
 	
-	if args.db_path:
-		db=args.db_path
-	else:
-		db=os.path.expanduser("~/notes.db")
-	
 	if args.init:
-		init(db=db)
+		init(db=args.db_path)
 	
 	if args.add:
 		if args.title and args.text:
-			add_note(title=args.title, text=args.text, db=db)
-	elif args.get:
-		if args.title:
-			t=args.title
-		else:
-			t=None
-		if args.text:
-			T=args.text
-		else:
-			T=None
-		if args.id:
-			i=args.id
-		else:
-			i=None
-		note=get(title=t, description=T, id=i, db=db)
+			add_note(title=args.title, text=args.text, db=args.db_path)
+	elif args.get and args.id:
+		note=get(id=args.id, db=args.db_path)
 		print("{}. {}\n  {}\n    {}".format(note[0], note[1], note[2], note[3]))
 	elif args.ls:
 		from pydoc import pager
@@ -120,7 +101,7 @@ if __name__ == "__main__":
 			slice_=args.slice
 		else:
 			slice_="0:"
-		read_=read(db=db, slice_string=slice_)
+		read_=read(db=args.db_path, slice_string=slice_)
 		if args.reverse:
 			read_.reverse()
 		for note in read_:
@@ -135,4 +116,18 @@ if __name__ == "__main__":
 			i=args.id
 		else:
 			i=None
-		rm_note(id=i, title=t, db=db)
+		rm_note(id=i, title=t, db=args.db_path)
+	elif args.edit and args.id:
+		if args.title:
+			title=args.title
+		else:
+			title=None
+		if args.text:
+			text=args.text
+		else:
+			text=None
+		result=edit_note(id=args.id, title=title, text=text, db=args.db_path)
+		if result:
+			print("Successfully edited note")
+		else:
+			print("Failed to edit note")
