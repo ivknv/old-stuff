@@ -1,20 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE xhtml>
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset="utf-8" />
-<title>Noter</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
+<meta charse="utf-8" />
 </head>
 <body>
-<project lang="Python" project_name="Noter">
-<h1>Noter</h1>
-<description>
-<h3>Description</h3>
-<p>
-Allows to write simple notes
-</p>
-</description>
-</project>
+<h2>Noter</h2>
+<ol>
+<li><a href="#what-is-it">What is it?</a><br/></li>
+<li><a href="#how-to-use">How to use</a><br/></li>
+<li><a href="#installation">Installation</a><br/></li>
+</ol>
+<h3>What is it?</h3>
+<p>Noter - is a program that keeps all your notes in a database.<br/></p>
+<h3>How to use</h3>
+<p><code>bash
+noter [--init] [-a | --add -t TITLE -T TEXT] [-rm | --remove -i ID] [-e | --edit -i ID -t TITLE -T TEXT] [-l | --ls | --list] [-rs | --reverse] [-s | --slice] [-d | --db-path] [-h | --help]</code>
+<br/>
+Option --init initializes database. Initializing database is required before doing something with notes.<br/>
+Option -a adds a new note. It needs -t and -T options.<br/>
+Option -t sets title.<br/>
+Option -T sets text.<br/>
+Option -rm removes note. It needs -i option.<br/>
+Option -i set ID. You cannot change ID of note.<br/>
+Option -e edits already existing note. It needs -i, -t or/and -T options.<br/>
+Option -l lists all the notes.<br/>
+Option -rs reverses the list of notes.<br/>
+Option -s slices the list of notes.<br/>
+Option -d sets path to database.<br/>
+Option -h shows help message.<br/></p>
+<h3>Installation</h3>
+<p>Run setup.py:
+<code>bash
+python setup.py install</code>
+<br/>
+Then run install.sh:
+<code>bash
+./install.sh</code></p>
 </body>
 </html>
