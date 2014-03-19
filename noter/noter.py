@@ -27,7 +27,7 @@ if __name__ == "__main__":
 		if args.title and args.text:
 			add_note(title=args.title, text=args.text, db=args.db_path)
 	elif args.get and args.id:
-		note=get(id=args.id, db=args.db_path)
+		note=get(id=args.id, db=args.db_path)[0]
 		print("{}. {}\n  {}\n    {}".format(note[0], note[1], note[2], note[3]))
 	elif args.ls:
 		from pydoc import pager
@@ -37,7 +37,7 @@ if __name__ == "__main__":
 		else:
 			slice_="0:"
 		read_=read(db=args.db_path, slice_string=slice_)
-		if args.reverse:
+		if not args.reverse:
 			read_.reverse()
 		for note in read_:
 			notes+="{}. {}\n  {}\n    {}\n\n".format(note[0], note[1], note[2], note[3])
