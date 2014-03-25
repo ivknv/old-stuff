@@ -3,7 +3,7 @@
 
 import os
 
-def rmTemplateAll(tfnames, template_dir="", verbose=False):
+def rmTemplateAll(tfnames, template_dir="", verbose=False): # Remove a template and all its symlinks
 	if template_dir and os.path.exists(template_dir):
 		template_dir=os.path.realpath(template_dir)
 	else:
@@ -33,7 +33,7 @@ def rmTemplateAll(tfnames, template_dir="", verbose=False):
 					print("%s is a symlink: unlinking it" %linkpath)
 				os.unlink(linkpath)
 
-def rmTemplate(tfnames, template_dir="", verbose=False):
+def rmTemplate(tfnames, template_dir="", verbose=False): # Remove a template
 	if template_dir and os.path.exists(template_dir):
 		template_dir=os.path.realpath(template_dir)
 	else:
@@ -54,25 +54,3 @@ def rmTemplate(tfnames, template_dir="", verbose=False):
 				if verbose:
 					print("%s is a link: unlinking it" %tfname)
 				os.unlink(template_dir+os.path.sep+tfname)
-
-if __name__ == "__main__":
-	import argparse
-	parser = argparse.ArgumentParser(description="Remove tpler template(s)")
-	parser.add_argument("filename", nargs="+", help="template name")
-	parser.add_argument("-a", "--all", help="rm template and all it's symlinks", action="store_true")
-	parser.add_argument("-T", "--template-dir", help="specific template directory", action="store_true")
-	parser.add_argument("-v", "--verbose", help="verbose", action="store_true")
-	args=parser.parse_args()
-	if args.filename:
-		if args.verbose:
-			verbose=args.verbose
-		else:
-			verbose=False
-		if args.template_dir:
-			tdir=args.template_dir
-		else:
-			tdir=""
-		if args.all:
-			rmTemplateAll(args.filename, template_dir=tdir, verbose=verbose)
-		else:
-			rmTemplate(args.filename, template_dir=tdir, verbose=verbose)

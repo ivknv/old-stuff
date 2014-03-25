@@ -14,7 +14,7 @@ else
 	fi
 fi
 name=tpler
-packages=". tpler"
+packages="."
 files="tpler.py add_template.py rm_template.py"
 script="tpler.py"
 echo -n "Are you sure you want to install $name to $installation_path? (y/n) "

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-def addTemplate(filename, additional="", template_dir="", verbose=False):
+def addTemplate(filename, additional="", template_dir="", verbose=False): # Add a new template
 	if os.path.exists(filename):
 		filename=os.path.realpath(filename)
 		f1=open(filename, "r")
@@ -35,25 +35,3 @@ def addTemplate(filename, additional="", template_dir="", verbose=False):
 		return True
 	else:
 		return False
-
-if __name__ == "__main__":
-	import argparse
-	parser = argparse.ArgumentParser(description="Add template for tpler")
-	parser.add_argument("-f", "--filename", help="file name")
-	parser.add_argument("-a", "--aliases", nargs="+", help="aliases")
-	parser.add_argument("-T", "--template-dir", help="specific template directory", action="store_true")
-	parser.add_argument("-v", "--verbose", help="verbose", action="store_true")
-	args = parser.parse_args()
-	if args.filename:
-		if args.template_dir:
-			tdir=args.template_dir
-		else:
-			tdir=None
-		if args.verbose:
-			verbose=args.verbose
-		else:
-			verbose=False
-		if args.aliases:
-			print(addTemplate(args.filename, args.aliases, template_dir=tdir, verbose=verbose))
-		else:
-			print(addTemplate(args.filename, template_dir=tdir, verbose=verbose))

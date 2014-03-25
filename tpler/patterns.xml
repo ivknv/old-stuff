@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<comments>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>.+\.add_argument\(.*\)</pattern>
+		<text>Add argument to parser</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>argparse.ArgumentParser\(.*\)</pattern>
+		<text>Create argument parser</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>.+\.parse_args\(.*\)</pattern>
+		<text>Parse arguments using %var% options</text>
+		<variable name="var" type="regex" index="1">[a-zA-Z_]+[a-zA-Z_0-9]*</variable>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>addTemplate\(.*\)</pattern>
+		<text>Add a new template</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>rmTemplate\(.*\)</pattern>
+		<text>Remove a template</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>rmTemplateAll\(.*\)</pattern>
+		<text>Remove a template and all its symlinks</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>writeTemplate\(.*\)</pattern>
+		<text>Get some of the templates and write its content to the file</text>
+		<position>right</position>
+	</comment>
+	<comment filetype="py" commentStart="# " commentEnd="">
+		<pattern>getTemplateWithFT\(.*\)</pattern>
+		<text>Get template by specific filetype and second argument (template name)</text>
+		<position>right</position>
+	</comment>
+</comments>

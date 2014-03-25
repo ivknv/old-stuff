@@ -3,7 +3,7 @@
 
 import os, random
 
-def writeTemplate(filenames, arg2="", template_dir=None):
+def writeTemplate(filenames, arg2="", template_dir=None): # Get some of the templates and write its content to the file
 	for filename in filenames:
 		if filename.endswith("/") or filename.endswith("\\"):
 			filename=filename[0:-1]
@@ -48,7 +48,7 @@ def writeTemplate(filenames, arg2="", template_dir=None):
 		f1.close()
 	return True
 
-def getTemplateWithFT(ft, arg2="", template_dir=None):
+def getTemplateWithFT(ft, arg2="", template_dir=None): # Get template by specific filetype and second argument (template name)
 	ft=ft.lower()
 	if template_dir and os.path.exists(template_dir):
 		template_dir=os.path.realpath(template_dir)
