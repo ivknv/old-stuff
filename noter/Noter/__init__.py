@@ -6,6 +6,11 @@
 
 import sqlite3, os
 
+ID=0
+TITLE=1
+TEXT=2
+DATE=3
+
 def init(db=os.path.expanduser("~/notes.db")): # Initialize database for keeping notes
 	con = sqlite3.connect(db) # Connect SQLite database
 	cur = con.cursor() # Get cursor
@@ -13,14 +18,14 @@ def init(db=os.path.expanduser("~/notes.db")): # Initialize database for keeping
 	con.commit()
 	con.close()
 
-def add_note(title, text, todo=0, db=os.path.expanduser("~/notes.db")): # Add a new note
+def add_note(title, text, db=os.path.expanduser("~/notes.db")): # Add a new note
 	con = sqlite3.connect(db) # Connect SQLite database
 	cur = con.cursor() # Get cursor
 	cur.execute("INSERT INTO notes(title, text) VALUES(\"{}\", \"{}\");".format(title, text)) # Execute SQLite command
 	con.commit()
 	con.close()
 
-def rm_note(id=None, title=None,db=os.path.expanduser("~/notes.db")): # Remove note
+def rm_note(id=None, title=None, db=os.path.expanduser("~/notes.db")): # Remove note
 	if id or title:
 		con = sqlite3.connect(db) # Connect SQLite database
 		cur = con.cursor() # Get cursor
@@ -54,7 +59,7 @@ def get(id, db=os.path.expanduser("~/notes.db")): # Get note by id
 		cur.execute("SELECT * FROM notes WHERE id={};".format(id)) # Execute SQLite command
 		found=cur.fetchall() # Get result of executing SQLite command
 		con.close()
-		return found
+		return found[0]
 
 def edit_note(id, title=None, text=None, db=os.path.expanduser("~/notes.db")): # Edit note
 	if id and (title or text):
