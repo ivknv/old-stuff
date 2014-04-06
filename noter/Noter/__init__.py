@@ -9,69 +9,114 @@ import sqlite3, os
 ID=0
 TITLE=1
 TEXT=2
-DATE=3
+TAGS=3
+DATE=4
+
+class Note(object):
+	def __init__(self, note):
+		self.id = note[ID]
+		self.title = note[TITLE]
+		self.date = note[DATE]
+		self.text = note[TEXT]
+		self.tags = note[TAGS].split(",")
+		self.tags=[tag[1:] if tag[0] == " " else tag for tag in self.tags]
+	
+	def __call__(self):
+		return [self.id, self.title, self.text, self.tags, self.date]
+	
+	def __repr__(self):
+		return "<Note: {}>".format(self.title)
+	
+	def __getitem__(self, i):
+		return self()[i]
 
 def init(db=os.path.expanduser("~/notes.db")): # Initialize database for keeping notes
 	con = sqlite3.connect(db) # Connect SQLite database
-	cur = con.cursor() # Get cursor
-	cur.execute("CREATE TABLE notes(id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(100), text TEXT, date TIMESTAMP DEFAULT CURRENT_TIMESTAMP);") # Execute SQLite command
-	con.commit()
-	con.close()
+	try:
+		cur = con.cursor() # Get cursor
+		cur.execute("CREATE TABLE notes(id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(100), text TEXT, tags VARCHAR, date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)") # Execute SQLite command
+		con.commit()
+	finally:
+		con.close()
 
-def add_note(title, text, db=os.path.expanduser("~/notes.db")): # Add a new note
+def add_note(title, text, tags="", db=os.path.expanduser("~/notes.db")): # Add a new note
 	con = sqlite3.connect(db) # Connect SQLite database
-	cur = con.cursor() # Get cursor
-	cur.execute("INSERT INTO notes(title, text) VALUES(\"{}\", \"{}\");".format(title, text)) # Execute SQLite command
-	con.commit()
-	con.close()
+	try:
+		cur = con.cursor() # Get cursor
+		cur.execute("INSERT INTO notes(title, text, tags) VALUES(\"{title}\", \"{text}\", \"{tags}\");".format(title=title, text=text, tags=tags)) # Execute SQLite command
+		con.commit()
+	finally:
+		con.close()
 
 def rm_note(id=None, title=None, db=os.path.expanduser("~/notes.db")): # Remove note
 	if id or title:
 		con = sqlite3.connect(db) # Connect SQLite database
-		cur = con.cursor() # Get cursor
-	else:
-		return None
-	if id and not title:
-		cur.execute("DELETE FROM notes WHERE id={};".format(id)) # Execute SQLite command
-	elif title and not id:
-		cur.execute("DELETE FROM notes WHERE title=\"{}\";".format(title)) # Execute SQLite command
-	elif id and title:
-		cur.execute("DELETE FROM notes WHERE id={} AND title=\"{}\"".format(id, title)) # Execute SQLite command
-	con.commit()
-	con.close()
+		try:
+			cur = con.cursor() # Get cursor
+			if id and not title:
+				cur.execute("DELETE FROM notes WHERE id={};".format(id)) # Execute SQLite command
+			elif title and not id:
+				cur.execute("DELETE FROM notes WHERE title=\"{}\";".format(title)) # Execute SQLite command
+			elif id and title:
+				cur.execute("DELETE FROM notes WHERE id={} AND title=\"{}\"".format(id, title)) # Execute SQLite command
+			con.commit()
+		finally:
+			con.close()
 
-def read(db=os.path.expanduser("~/notes.db"), slice_string="0:"):
+def read(db=os.path.expanduser("~/notes.db"), slice_string="0:", return_objects=False):
 	slice_string=[int(s) for s in slice_string.split(":") if s]
 	con = sqlite3.connect(db) # Connect SQLite database
-	cur = con.cursor() # Get cursor
-	cur.execute("SELECT * FROM notes;") # Execute SQLite command
-	if len(slice_string) == 2:
-		notes = cur.fetchall()[slice_string[0]:slice_string[1]] # Get result of executing SQLite command
-	else:
-		notes = cur.fetchall()[slice_string[0]:] # Get result of executing SQLite command
-	con.close()
-	return notes
+	try:
+		cur = con.cursor() # Get cursor
+		cur.execute("SELECT * FROM notes;") # Execute SQLite command
+		if len(slice_string) == 2:
+			notes = cur.fetchall()[slice_string[0]:slice_string[1]] # Get result of executing SQLite command
+		else:
+			notes = cur.fetchall()[slice_string[0]:] # Get result of executing SQLite command
+	finally:
+		con.close()
+	return [Note(note) for note in notes] if return_objects else notes
 
-def get(id, db=os.path.expanduser("~/notes.db")): # Get note by id
+def get(id, db=os.path.expanduser("~/notes.db"), return_object=False): # Get note by id
 	if id:
 		con = sqlite3.connect(db) # Connect SQLite database
-		cur = con.cursor() # Get cursor
-		cur.execute("SELECT * FROM notes WHERE id={};".format(id)) # Execute SQLite command
-		found=cur.fetchall() # Get result of executing SQLite command
-		con.close()
-		return found[0]
+		try:
+			cur = con.cursor() # Get cursor
+			cur.execute("SELECT * FROM notes WHERE id={};".format(id)) # Execute SQLite command
+			found=cur.fetchall() # Get result of executing SQLite command
+		finally:
+			con.close()
+		return Note(found[0]) if return_object else found[0]
 
-def edit_note(id, title=None, text=None, db=os.path.expanduser("~/notes.db")): # Edit note
+def edit_note(id, title=None, text=None, tags=None, db=os.path.expanduser("~/notes.db")): # Edit note
 	if id and (title or text):
 		con = sqlite3.connect(db) # Connect SQLite database
-		cur = con.cursor() # Get cursor
-		if not title and text:
-			cur.execute("UPDATE notes SET text=\"{}\" WHERE id={};".format(text, id)) # Execute SQLite command
-		elif title and not text:
-			cur.execute("UPDATE notes SET title=\"{}\" WHERE id={};".format(title, id)) # Execute SQLite command
-		elif title and text:
-			cur.execute("UPDATE notes SET title=\"{}\", text=\"{}\" WHERE id={};".format(title, text, id)) # Execute SQLite command
-		con.commit()
-		con.close()
+		try:
+			cur = con.cursor() # Get cursor
+			if text:
+				cur.execute("UPDATE notes SET text=\"{}\" WHERE id={};".format(text, id)) # Execute SQLite command
+			if title:
+				cur.execute("UPDATE notes SET title=\"{}\" WHERE id={};".format(title, id)) # Execute SQLite command
+			if tags:
+				cur.execute("UPDATE notes SET tags=\"{tags}\" WHERE id={id};".format(tags=tags, id=id)) # Execute SQLite command
+			con.commit()
+		finally:
+			con.close()
 		return True
 	return False
+
+def search(q, db=os.path.expanduser("~/notes.db"), return_objects=False):
+	q=q.lower()
+	found=[]
+	con = sqlite3.connect(db)
+	try:
+		cur = con.cursor()
+		cur.execute("SELECT title, text, tags FROM notes;")
+		notes = cur.fetchone()
+		for note in notes:
+			if q in note[TITLE].lower() or q in note[TEXT].lower() or q in note[TAGS].lower():
+				found.append(note)
+		found.sort(key=lambda x: -x[TITLE].lower().count(q)-x[TEXT].lower().count(q)-x[TAGS].lower().count(q))
+		return [Note(note) for note in found] if return_objects else found
+	finally:
+		con.close()
