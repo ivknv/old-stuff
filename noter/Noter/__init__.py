@@ -9,8 +9,8 @@ import sqlite3, os
 ID=0
 TITLE=1
 TEXT=2
-TAGS=3
-DATE=4
+TAGS=4
+DATE=3
 
 class Note(object):
 	def __init__(self, note):
@@ -18,8 +18,11 @@ class Note(object):
 		self.title = note[TITLE]
 		self.date = note[DATE]
 		self.text = note[TEXT]
-		self.tags = note[TAGS].split(",")
-		self.tags=[tag[1:] if tag[0] == " " else tag for tag in self.tags]
+		try:
+			self.tags = note[TAGS].split(",")
+			self.tags=[tag[1:] if tag[0] == " " else tag for tag in self.tags]
+		except TypeError:
+			self.tags = ""
 	
 	def __call__(self):
 		return [self.id, self.title, self.text, self.tags, self.date]
@@ -75,7 +78,7 @@ def read(db=os.path.expanduser("~/notes.db"), slice_string="0:", return_objects=
 			notes = cur.fetchall()[slice_string[0]:] # Get result of executing SQLite command
 	finally:
 		con.close()
-	return [Note(note) for note in notes] if return_objects else notes
+	return [Note(note) for note in notes] if return_objects else [list(note) for note in notes]
 
 def get(id, db=os.path.expanduser("~/notes.db"), return_object=False): # Get note by id
 	if id:
@@ -108,15 +111,12 @@ def edit_note(id, title=None, text=None, tags=None, db=os.path.expanduser("~/not
 def search(q, db=os.path.expanduser("~/notes.db"), return_objects=False):
 	q=q.lower()
 	found=[]
-	con = sqlite3.connect(db)
-	try:
-		cur = con.cursor()
-		cur.execute("SELECT title, text, tags FROM notes;")
-		notes = cur.fetchone()
-		for note in notes:
-			if q in note[TITLE].lower() or q in note[TEXT].lower() or q in note[TAGS].lower():
-				found.append(note)
-		found.sort(key=lambda x: -x[TITLE].lower().count(q)-x[TEXT].lower().count(q)-x[TAGS].lower().count(q))
-		return [Note(note) for note in found] if return_objects else found
-	finally:
-		con.close()
+	notes = read(db=db)
+	for i in range(len(notes)):
+		if not isinstance(notes[i][TAGS], str):
+			notes[i][TAGS] = ""
+	for note in notes:
+		if q in note[TITLE].lower() or q in note[TEXT].lower() or q in note[TAGS].lower():
+			found.append(note)
+	found.sort(key=lambda x: -x[TITLE].lower().count(q)-x[TEXT].lower().count(q)-x[TAGS].lower().count(q))
+	return [Note(note) for note in found] if return_objects else found
