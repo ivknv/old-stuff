@@ -129,13 +129,39 @@ def PlaceByRelevance(qs, notes, splitted=False, lower=False):
 
 def fix_tags(notes):
 	for i in range(len(notes)):
-		if not isinstance(notes[i][TAGS], str):
+		if notes[i][TAGS] is None:
 			notes[i][TAGS] = ""
 	return notes
 
 def search(q, db=os.path.expanduser("~/notes.db"), return_objects=False):
-	q=q.lower()
-	found=[]
+	q = q.lower()
+	found = []
 	notes = fix_tags(read(db=db))
 	found = PlaceByRelevance(q, notes, lower=True)
 	return [Note(note[1]) for note in found] if return_objects else found
+
+def transform_tags(tags, lower=False):
+	if not lower:
+		tags = tags.lower()
+	tags = tags.split(",")
+	
+	for i in range(len(tags)):
+		if tags[i][0] == " ":
+			tags[i] = tags[i][1:]
+	return tags
+
+def filter_notes(tags, db=os.path.expanduser("~/noter.db"), return_objects=False):
+	
+	notes = fix_tags(read(db=db))
+	filtered = []
+	tags = transform_tags(tags)
+	for note in notes:
+		has_tag = True
+		for tag in tags:
+			if tag not in note[TAGS]:
+				has_tag = False
+				break
+		if has_tag:
+			filtered.append(note)
+	
+	return [Note(note) for note in filtered] if return_objects else filtered

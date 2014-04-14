@@ -5,7 +5,7 @@
 # see https://github.com/SPython/code-commenter
 
 import os
-from Noter import init, get, add_note, rm_note, read, edit_note, search, ID, TITLE, TEXT, TAGS, DATE
+from Noter import init, get, add_note, rm_note, read, edit_note, search, filter_notes, ID, TITLE, TEXT, TAGS, DATE
 
 if __name__ == "__main__":
 	import argparse
@@ -24,6 +24,7 @@ if __name__ == "__main__":
 	parser.add_argument("-s", "--slice", default="0:", help="Slice note list") # Add argument to parser
 	parser.add_argument("-e", "--edit", action="store_true", help="Edit note") # Add argument to parser
 	parser.add_argument("--search", default=None, action="store", help="Search for note") # Add argument to parser
+	parser.add_argument("-f", "--filter", default=None, action="store", help="Filter notes by tags")
 	args = parser.parse_args() # Parse arguments
 	
 	if args.init:
@@ -55,8 +56,17 @@ if __name__ == "__main__":
 			print("Failed to edit note")
 	elif args.search:
 		from pydoc import pager
-		found=search(q=args.search)
-		text=""
+		found = search(q=args.search)
+		text = ""
 		for note in found:
-			text+="{id}. {title}\n {text}\n    {date}\n\n".format(id=note[1][ID], title=note[1][TITLE], text=note[1][TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[1][DATE])
+			text += "{id}. {title}\n {text}\n    {date}\n\n".format(id=note[1][ID], title=note[1][TITLE], text=note[1][TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[1][DATE])
 		pager(text)
+	elif args.filter:
+		from pydoc import pager
+		result = filter_notes(args.filter, db=args.db_path)
+		if not args.reverse:
+			result.reverse()
+		result_text = ""
+		for note in result:
+			result_text += "{id}. {title}\n {text}\n    {date}\n\n".format(id=note[ID], title=note[TITLE], text=note[TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[DATE])
+		pager(result_text)
