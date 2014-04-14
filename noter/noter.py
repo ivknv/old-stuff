@@ -58,5 +58,5 @@ if __name__ == "__main__":
 		found=search(q=args.search)
 		text=""
 		for note in found:
-			text+="{id}. {title}\n {text}\n    {date}\n\n".format(id=note[ID], title=note[TITLE], text=note[TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[DATE])
+			text+="{id}. {title}\n {text}\n    {date}\n\n".format(id=note[1][ID], title=note[1][TITLE], text=note[1][TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[1][DATE])
 		pager(text)

@@ -108,15 +108,34 @@ def edit_note(id, title=None, text=None, tags=None, db=os.path.expanduser("~/not
 		return True
 	return False
 
-def search(q, db=os.path.expanduser("~/notes.db"), return_objects=False):
-	q=q.lower()
-	found=[]
-	notes = read(db=db)
+def PlaceByRelevance(qs, notes, splitted=False, lower=False):
+	found = []
+	if not lower:
+		qs = qs.lower()
+	if not splitted:
+		qs = qs.split()
+	for note in notes:
+		for q in qs:
+			title = note[TITLE].lower()
+			text = note[TEXT].lower()
+			tags = note[TAGS].lower()
+			if q in title or q in text or q in tags:
+				found.append([
+					-title.count(q)*1.5-text.count(q)-tags.count(q)*2,
+					note
+				])
+	found.sort()
+	return found
+
+def fix_tags(notes):
 	for i in range(len(notes)):
 		if not isinstance(notes[i][TAGS], str):
 			notes[i][TAGS] = ""
-	for note in notes:
-		if q in note[TITLE].lower() or q in note[TEXT].lower() or q in note[TAGS].lower():
-			found.append(note)
-	found.sort(key=lambda x: -x[TITLE].lower().count(q)-x[TEXT].lower().count(q)-x[TAGS].lower().count(q))
-	return [Note(note) for note in found] if return_objects else found
+	return notes
+
+def search(q, db=os.path.expanduser("~/notes.db"), return_objects=False):
+	q=q.lower()
+	found=[]
+	notes = fix_tags(read(db=db))
+	found = PlaceByRelevance(q, notes, lower=True)
+	return [Note(note[1]) for note in found] if return_objects else found
