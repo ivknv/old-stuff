@@ -4,7 +4,7 @@
 from distutils.core import setup
 
 setup(name="Noter",
-version="1.2",
+version="1.3",
 author="Ivan Konovalov",
 author_email="rvan.mega@gmail.com",
 description="Simple module/program for keeping notes",
