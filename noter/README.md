@@ -9,7 +9,7 @@ Noter - is a program that keeps all your notes in a database.<br/>
 
 ### How to use ###
 ```bash
-noter [--init] [-a | --add -t TITLE -T TEXT --tags TAGS [--todo]] [-rm | --remove -i ID] [-e | --edit -i ID -t TITLE -T TEXT -tg TAGS] [-g | --get -i ID] [-l | --ls | --list] [--search QUERY] [-f | --filter TAGS] [-c | --check] [-rs | --reverse] [-s | --slice] [-d | --db-path] [-h | --help]
+noter [--init] [-a | --add -t TITLE -T TEXT --tags TAGS [--todo]] [-rm | --remove -i ID] [-e | --edit -i ID -t TITLE -T TEXT -tg TAGS] [-g | --get -i ID] [-l | --ls | --list] [--search QUERY] [-f | --filter TAGS] [-c | --check -i ID] [-rs | --reverse] [-s | --slice] [-d | --db-path] [-h | --help]
 ```
 <br/>
 Option --init initializes database. Initializing database is required before doing something with notes.<br/>
