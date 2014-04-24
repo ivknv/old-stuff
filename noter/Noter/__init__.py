@@ -11,6 +11,7 @@ TITLE=1
 TEXT=2
 TAGS=4
 DATE=3
+TODO=5
 
 class Note(object):
 	def __init__(self, note):
@@ -37,16 +38,17 @@ def init(db=os.path.expanduser("~/notes.db")): # Initialize database for keeping
 	con = sqlite3.connect(db) # Connect SQLite database
 	try:
 		cur = con.cursor() # Get cursor
-		cur.execute("CREATE TABLE notes(id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(100), text TEXT, tags VARCHAR, date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)") # Execute SQLite command
+		cur.execute("CREATE TABLE notes(id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(100), text TEXT, tags VARCHAR, todo VARCHAR DEFAULT \"0, 0\", date TIMESTAMP DEFAULT CURRENT_TIMESTAMP);") # Execute SQLite command
 		con.commit()
 	finally:
 		con.close()
 
-def add_note(title, text, tags="", db=os.path.expanduser("~/notes.db")): # Add a new note
+def add_note(title, text, tags="", todo=False, db=os.path.expanduser("~/notes.db")): # Add a new note
 	con = sqlite3.connect(db) # Connect SQLite database
+	todo_text = "1, 0" if todo else "0, 0"
 	try:
 		cur = con.cursor() # Get cursor
-		cur.execute("INSERT INTO notes(title, text, tags) VALUES(\"{title}\", \"{text}\", \"{tags}\");".format(title=title, text=text, tags=tags)) # Execute SQLite command
+		cur.execute("INSERT INTO notes(title, text, tags, todo) VALUES(\"{title}\", \"{text}\", \"{tags}\", \"{todo}\");".format(title=title, text=text, tags=tags, todo=todo_text)) # Execute SQLite command
 		con.commit()
 	finally:
 		con.close()
@@ -86,7 +88,7 @@ def get(id, db=os.path.expanduser("~/notes.db"), return_object=False): # Get not
 		try:
 			cur = con.cursor() # Get cursor
 			cur.execute("SELECT * FROM notes WHERE id={};".format(id)) # Execute SQLite command
-			found=cur.fetchall() # Get result of executing SQLite command
+			found = cur.fetchall() # Get result of executing SQLite command
 		finally:
 			con.close()
 		return Note(found[0]) if return_object else found[0]
@@ -107,6 +109,23 @@ def edit_note(id, title=None, text=None, tags=None, db=os.path.expanduser("~/not
 			con.close()
 		return True
 	return False
+
+def update_todo_status(id, status=None, db=os.path.expanduser("~/notes.db")):
+	con = sqlite3.connect(db)
+	try:
+		cur = con.cursor()
+		if not status:
+			cur.execute("SELECT todo FROM notes WHERE id={};".format(id))
+			status = cur.fetchall()[0][0].split(", ")[1]
+			if status == "1":
+				status = "0"
+			else:
+				status = "1"
+		
+		cur.execute("UPDATE notes SET todo=\"{todo}\" WHERE id={id};".format(todo="1, %s" %status, id=id))
+		con.commit()
+	finally:
+		con.close()
 
 def PlaceByRelevance(qs, notes, splitted=False, lower=False):
 	found = []

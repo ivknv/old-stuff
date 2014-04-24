@@ -5,7 +5,7 @@
 # see https://github.com/SPython/code-commenter
 
 import os
-from Noter import init, get, add_note, rm_note, read, edit_note, search, filter_notes, ID, TITLE, TEXT, TAGS, DATE
+from Noter import *
 
 if __name__ == "__main__":
 	import argparse
@@ -25,6 +25,8 @@ if __name__ == "__main__":
 	parser.add_argument("-e", "--edit", action="store_true", help="Edit note") # Add argument to parser
 	parser.add_argument("--search", default=None, action="store", help="Search for note") # Add argument to parser
 	parser.add_argument("-f", "--filter", default=None, action="store", help="Filter notes by tags")
+	parser.add_argument("--todo", action="store_true", help="Todo-type note")
+	parser.add_argument("-c", "--check", action="store_true", help="Check todo note")
 	args = parser.parse_args() # Parse arguments
 	
 	if args.init:
@@ -32,19 +34,31 @@ if __name__ == "__main__":
 	
 	if args.add:
 		if args.title and args.text:
-			add_note(title=args.title, text=args.text, tags=args.tags, db=args.db_path) # Add a new note
+			add_note(title=args.title, text=args.text, tags=args.tags, todo=args.todo, db=args.db_path) # Add a new note
 	elif args.get and args.id:
 		note=get(id=args.id, db=args.db_path) # Get note by id
-		print("{id}. {title}\n  {text}\n    {date}".format(id=note[ID], title=note[TITLE], text=note[TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[DATE]))
+		if note[TODO].split(", ")[0] == "1":
+			if note[TODO].split(", ")[1] == "1":
+				print("{id}. {title}\n {text}\n    {date}\nDone".format(id=note[ID], title=note[TITLE], text=note[TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[DATE]))
+			else:
+				print("{id}. {title}\n {text}\n    {date}\nUndone".format(id=note[ID], title=note[TITLE], text=note[TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[DATE]))
+		else:
+			print("{id}. {title}\n {text}\n    {date}".format(id=note[ID], title=note[TITLE], text=note[TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[DATE]))
 	elif args.ls:
+
 		from pydoc import pager
 		notes=""
 		read_=read(db=args.db_path, slice_string=args.slice)
 		if not args.reverse:
 			read_.reverse()
 		for note in read_:
-			notes+="{id}. {title}\n  {text}\n    {date}\n\n".format(id=note[ID], title=note[TITLE], text=note[TEXT], date=note[DATE])
-			notes.replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n ")
+			if note[TODO].split(", ")[0] == "1":
+				if note[TODO].split(", ")[1] == "1":
+					notes+="{id}. {title}\n {text}\n    {date}\nDone\n\n".format(id=note[ID], title=note[TITLE].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), text=note[TEXT], date=note[DATE])
+				else:
+					notes+="{id}. {title}\n {text}\n    {date}\nUndone\n\n".format(id=note[ID], title=note[TITLE].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), text=note[TEXT], date=note[DATE])
+			else:
+				notes+="{id}. {title}\n {text}\n    {date}\n\n".format(id=note[ID], title=note[TITLE], text=note[TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[DATE])
 		pager(notes)
 	elif args.rm:
 		rm_note(id=args.id, title=args.title, db=args.db_path) # Remove note
@@ -56,10 +70,18 @@ if __name__ == "__main__":
 			print("Failed to edit note")
 	elif args.search:
 		from pydoc import pager
-		found = search(q=args.search)
+		found = search(q=args.search, db=args.db_path)
 		text = ""
 		for note in found:
-			text += "{id}. {title}\n {text}\n    {date}\n\n".format(id=note[1][ID], title=note[1][TITLE], text=note[1][TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[1][DATE])
+			print(note)
+			if note[1][TODO].split(", ")[0] == "1":
+				if note[1][TODO].split(", ")[1] == "1":
+					text+="{id}. {title}\n  {text}\n    {date}\n\nDone\n".format(id=note[1][ID], title=note[1][TITLE], text=note[1][TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[1][DATE])
+				else:
+					text+="{id}. {title}\n  {text}\n    {date}\n\nUndone\n".format(id=note[1][ID], title=note[1][TITLE], text=note[1][TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[1][DATE])
+			else:
+				text += "{id}. {title}\n {text}\n    {date}\n\n".format(id=note[1][ID], title=note[1][TITLE], text=note[1][TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[1][DATE])
+
 		pager(text)
 	elif args.filter:
 		from pydoc import pager
@@ -68,5 +90,15 @@ if __name__ == "__main__":
 			result.reverse()
 		result_text = ""
 		for note in result:
+			if note[TODO].split(", ")[0] == "1":
+				if note[TODO].split(", ")[1] == "1":
+					result_text+="{id}. {title}\n  {text}\n    {date}\n\nDone\n".format(id=note[ID], title=note[TITLE], text=note[TEXT], date=note[DATE])
+				else:
+					result_text+="{id}. {title}\n  {text}\n    {date}\n\nUndone\n".format(id=note[ID], title=note[TITLE], text=note[TEXT], date=note[DATE])
+			else:
+				result_text+="{id}. {title}\n  {text}\n    {date}\n\n".format(id=note[ID], title=note[TITLE], text=note[TEXT], date=note[DATE])
 			result_text += "{id}. {title}\n {text}\n    {date}\n\n".format(id=note[ID], title=note[TITLE], text=note[TEXT].replace("\n", "\n ").replace("\\t", "\t").replace("\\n", "\n "), date=note[DATE])
 		pager(result_text)
+	elif args.check and args.id:
+		update_todo_status(id=args.id, db=args.db_path)
+		print("Updated status")

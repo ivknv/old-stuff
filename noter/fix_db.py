@@ -19,7 +19,7 @@ def fix(db=os.path.expanduser("~/notes.db")):
 	try:
 		cur = con.cursor() # Get cursor
 		cur.execute("PRAGMA table_info('notes');") # Execute SQLite command
-		required_columns = [("id", "INTEGER PRIMARY KEY AUTOINCREMENT"), ("title", "VARCHAR(100)"), ("text", "TEXT"), ("tags", "VARCHAR"), ("date", "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")]
+		required_columns = [("id", "INTEGER PRIMARY KEY AUTOINCREMENT"), ("title", "VARCHAR(100)"), ("text", "TEXT"), ("tags", "VARCHAR"), ("date", "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"), ("todo", "VARCHAR DEFAULT \"0, 0\"")]
 		result = [res[1] for res in cur.fetchall()] # Get result of executing SQLite command
 		for column in required_columns:
 			if not column[0] in result:
