@@ -10,7 +10,6 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 	url(r'^(?P<pn>\d*)$', 'note.views.home'),
-	url(r'^getnote/$', 'note.views.getNoteAjax'),
 	url(r'^note/(?P<id>\d+)/$', 'note.views.getNote'),
 	url(r'^addnote/$', 'note.views.addNote'),
 	url(r'^add/$', 'note.views.addNote_page'),
