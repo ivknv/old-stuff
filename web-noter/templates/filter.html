@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Filter{{ done_or_undone }} notes{% endblock %}
+{% block content %}
+	<div class="col-3-md" style="margin-bottom: 20px; min-width: 240px; margin-right: 5px; margin-left: 5px;">
+		<div class="input-group" style="min-width: 240px; max-width: 380px;">
+			<label class="label" for="tags">Tags:</label>
+			<input style="max-height: 33px;" type="text" placeholder="Separate with comma" name="tags" class="form-control" value="{{ tags|slice:"0:-1" }}" />
+			<span class="input-group-btn">
+				<button class="btn btn-primary" data-type="last" onclick="load_page('/filter/'+$('input[name=tags]').val()+'/1')">Filter</button>
+			</span>
+		</div>
+		<div class="navigation">
+			<a href="/filter/{{ tags }}" onclick="load_page('/filter/{{ tags }}'); return false;">All</a>
+			<a href="/filterdone/{{ tags }}" onclick="load_page('/filterdone/{{ tags }}'); return false;">Done</a>
+			<a href="/filterundone/{{ tags }}" onclick="load_page('/filterundone/{{ tags }}'); return false;">Undone</a>
+		</div>
+	</div> <!-- When there was no this closing tag there was an interesting "double" footer problem -->
+	{% if filtered %}
+		{% for note in filtered %}
+			{% include "include/note.html" %}
+		{% endfor %}
+		{% with current_url="/filter"|add:urlprefix|add:"/"|add:tags %}
+			{% include "include/pagination.html" %}
+		{% endwith %}
+	{% else %}
+		<strong>There's no{{ done_or_undone }} notes with such tag(s)</strong>
+	{% endif %}
+	<script type="text/javascript">
+		handleEnter();
+	</script>
+{% endblock %}

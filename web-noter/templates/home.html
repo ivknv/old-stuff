@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load addsub %}
+{% block title %}Home{% endblock %}
+{% block head %}
+	<meta name="keywords" content="Noter, notes" />
+{% endblock %}
+{% block content %}
+	{% for note in notes %}
+		{% include "include/note.html" %}
+	{% endfor %}
+	{% with current_url="/" %}
+		{% include "include/pagination.html" %}
+	{% endwith %}
+{% endblock %}

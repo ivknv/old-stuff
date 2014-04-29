@@ -1,0 +1,15 @@
+<script type="text/javascript">
+	{% if note.is_checked and note.is_todo %}
+		$("input[name=todo]").prop("checked", true);
+		$("input[name=checked]").prop("checked", true);
+	{% elif note.is_todo and not note.is_checked %}
+		$("input[name=todo]").prop("checked", true);
+	{% endif %}
+	$("input[name=todo]").change(function() {
+		if ($(this).prop("checked"))
+			$("label[for=checked]").css("display", "block");
+		else
+			$("label[for=checked]").css("display", "none");
+			$("input[name=checked]").prop("checked", false);
+	});
+</script>

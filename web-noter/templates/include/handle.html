@@ -1,0 +1,21 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		var $q = $("input[name=q]");
+		$q.keypress(function(event) {
+			if (event.which == 13) {
+				load_page('/search/'+$q.val());
+			}
+		});
+		
+		$(window).on("popstate", function(event) {
+			var state = event.originalEvent.state;
+		    if (!state) {
+				return;
+			} else {
+				var newDoc = document.open("text/html", "");
+				newDoc.write(state.content);
+				newDoc.close();
+			}
+		});
+	});
+</script>

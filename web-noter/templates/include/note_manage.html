@@ -1,0 +1,13 @@
+{% for note in notes %}
+	<div class="note {% if note.is_todo and note.is_checked %}checked{% elif note.is_todo and not note.is_checked %}unchecked{% endif %}" id="note-{{ note.id }}">
+		<a href="/note/{{ note.id }}/" onclick="load_page('/note/{{ note.id }}/'); return false;">
+			<span class="title">
+				{{ note.title }}
+			</span>
+		</a>
+		<a style="cursor: pointer" onclick='var id = {{ note.id }}; ask(id, "{{ note.title }}");'>Remove</a>
+		<a href="/edit/{{ note.id }}" onclick="load_page('/edit/{{ note.id }}/'); return false">Edit</a>
+		<div class="date">{{ note.date|date:"l, F j Y H:i" }}</div>
+		<p class="text">{{ note.text|safe }}</p>
+	</div>
+{% endfor %}

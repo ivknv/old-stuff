@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block head %}
+	<meta name="keywords" content="Noter, note, {{ note.tags }}" />
+{% endblock %}
+{% block title %}{{ note.title }}{% endblock %}
+{% block content %}
+	{% include "include/note.html" %}
+	<a href="/edit/{{ note.id }}/" onclick="load_page('/edit/{{ note.id }}/'); return false;"><div class="edit_button">Edit</div></a>
+	<div class="col-6-md" style="margin-bottom: 30px;">
+			{% if previous %}
+				<button id="previous" class="btn btn-success" style="float: left;" onclick="load_page('/note/{{ previous.id }}/'); return false;">Previous</button>
+			{% endif %}
+			{% if next %}
+				<button id="next" class="btn btn-success" style="float: right" onclick="load_page('/note/{{ next.id }}/'); return false;">Next</button>
+			{% endif %}
+	</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+<div class="note {% if note.1.is_todo and note.1.is_checked %}checked{% elif note.1.is_todo and not note.1.is_checked %}unchecked{% endif %}">
+	<a href="/note/{{ note.1.id }}">
+		<span class="title">
+			{{ note.1.title }}
+		</span>
+	</a>
+<div class="date">{{ note.1.date|date:"l, F j Y H:i" }}</div>
+	<p class="text">{{ note.1.text|safe }}</p>
+</div>

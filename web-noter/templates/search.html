@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load addsub %}
+{% block title %}{{ q }}{% endblock %}
+{% block head %}
+<!--	
+// disabled due the problems with tags
+<script type="text/javascript">
+		$(document).ready(function() {
+			highlightQuery("{{ q }}");
+		});
+	</script>
+-->
+{% endblock %}
+{% block content %}
+	{% if errors %}
+		{% for error in errors %}
+			<h4><strong class="error">{{ error }}</strong></h4>
+		{% endfor %}
+	{% endif %}
+	{% if found %}
+		{% for note in found %}
+			{% include "include/search_note.html" %}
+		{% endfor %}
+		{% with current_url="/search/"|add:q|add:"/" %}
+			{% include "include/pagination.html" %}
+		{% endwith %}
+	{% else %}
+		{% if not errors %}
+			<h5>Nothing can be found</h5>
+		{% endif %}
+	{% endif %}
+{% endblock %}

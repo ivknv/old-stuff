@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load addsub %}
+{% block title %}Note management{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+	<div class="remove-dialog alert alert-warning alert-dismissable">
+	</div>
+	<div id="result" class="alert"></div>
+	{% include "include/note_manage.html" %}
+	{% with current_url="/manage/" %}
+		{% include "include/pagination.html" %}
+	{% endwith %}
+{% endblock %}
