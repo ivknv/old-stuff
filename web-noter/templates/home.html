@@ -9,7 +9,7 @@
 		{% for note in notes %}
 			{% include "include/note.html" %}
 		{% endfor %}
-		{% if page_range|length > 1 %}
+		{% if page_range|length > 9 %}
 			{% with current_url="/" %}
 				{% include "include/pagination.html" %}
 			{% endwith %}
