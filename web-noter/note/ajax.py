@@ -19,7 +19,7 @@ def addNote(request):
 	"""Add note"""
 	
 	if not request.user.is_authenticated(): # If user is not logged in
-		raise Http404 # Display '404 Not Found' error
+		return redirect('/login?return={}'.format(request.path))
 	
 	if "title" in request.POST and "text" in request.POST and "tags" in request.POST and "todo" in request.POST:
  # If using POST method and all the variables on their own places
@@ -35,11 +35,12 @@ def addNote(request):
 				title=title,
 				text=text,
 				tags=tags,
-				id=note_id,
-				is_todo=is_todo) # Create note in a server's database
+				is_todo=is_todo,
+				author=request.user) # Create note in a server's database
 			new_note.save() # Save it
-		except: # If error occured
+		except Exception as e: # If error occured
 			context["failed"] = True # Set failed status
+			print(e)
 		else: # If there's no errors
 			context["failed"] = False # Set not failed status
 		return HttpResponse(json.dumps(context)) # Return JSON object
