@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+	<div class="col-6-md">
+		<form method="post" action="/login/">
+			{% csrf_token %}
+			<div class="col-6-md">
+				{% if "return" in request.GET %}
+					<a href="/register?return={{ request.GET.return }}">Don't have an account?</a>
+				{% else %}
+					<a href="/register">Don't have an account?</a>
+				{% endif %}
+			</div>
+			<div class="col-6-md">
+				<label class="label" for="email_or_username">Email or Username:</label>
+				<input type="text" class="form-control" name="email" placeholder="Email or Username" />
+			</div>
+			<div class="col-6-md">
+				<label class="label" for="password">Password:</label>
+				<input type="password" class="form-control" name="password" placeholder="Password" />
+				<a href="/resetpassword/">Forgot your password?</a>
+			</div>
+			{% if "return" in request.GET %}
+				<input type="hidden" name="return" value="{{ request.GET.return }}" />
+			{% endif %}
+			<div class="col-6-md">
+				<button class="btn btn-primary" type="submit">Login</button>
+			</div>
+		</form>
+	</div>
+{% endblock %}

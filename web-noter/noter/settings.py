@@ -8,8 +8,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+
+import dj_database_url
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -26,7 +31,15 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 1025
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, "noter-messages")
+
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+AUTH_USER_MODEL = 'auth.User'
 
 # Application definition
 
@@ -37,7 +50,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'south',
 	'note',
 )
 
@@ -58,12 +70,7 @@ WSGI_APPLICATION = 'noter.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'notes.db'),
-    }
-}
+DATABASES['default'] = dj_database_url.config()
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -92,4 +99,8 @@ STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (
 	os.path.join(BASE_DIR, "templates"),
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+	'django.core.context_processors.request',
 )

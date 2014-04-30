@@ -5,10 +5,16 @@
 	<meta name="keywords" content="Noter, notes" />
 {% endblock %}
 {% block content %}
-	{% for note in notes %}
-		{% include "include/note.html" %}
-	{% endfor %}
-	{% with current_url="/" %}
-		{% include "include/pagination.html" %}
-	{% endwith %}
+	{% if notes %}
+		{% for note in notes %}
+			{% include "include/note.html" %}
+		{% endfor %}
+		{% if page_range|length > 1 %}
+			{% with current_url="/" %}
+				{% include "include/pagination.html" %}
+			{% endwith %}
+		{% endif %}
+	{% else %}
+		<h5>You don't have any notes yet.</h5>
+	{% endif %}
 {% endblock %}
