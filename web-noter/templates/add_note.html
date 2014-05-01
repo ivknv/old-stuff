@@ -2,37 +2,58 @@
 {% block title %}Add note{% endblock %}
 {% block content %}
 	<div id="result" class="alert"></div>
-	<div class="col-6-md">
+	<form method="post" action="/addnote/">
+		{% csrf_token %}
 		<div class="col-6-md">
-			<label class="label" for="title">Title:</label>
-			<input type="text" class="form-control" placeholder="Title" name="title" />
+			<div class="col-6-md">
+				<label class="label" for="title">Title:</label>
+				<input type="text" class="form-control" placeholder="Title" name="title" />
+			</div>
+			<div class="col-6-md">
+				<label class="label" for="text">Text:</label>
+				<textarea name="text" spellcheck="false" class="form-control" rows="13" placeholder="Text"></textarea>
+			</div>
+			<div class="col-6-md">
+				<div class="suggested-tags"></div>
+				<label class="label" for="tags">Tags:</label>
+				<input type="text" class="form-control" placeholder="Separate with comma" name="tags" onclick="getTags(-1, $('input[name=title]').val(), $('textarea[name=text]').val())" />
+			</div>
+			<div class="col-6-md">
+				<label for="is_note">
+					<input type="radio" name="type" value="n" id="is_note" />
+					Note
+				</label>
+			</div>
+			<div class="col-6-md">
+				<label for="is_todo">
+					<input type="radio" name="type" value="t" id="is_todo" />
+					Todo
+				</label>
+			</div>
+			<div class="col-6-md">
+				<label for="is_snippet">
+					<input type="radio" name="type" value="s" id="is_snippet" />
+					Code Snippet
+				</label>
+			</div>
+			<div class="col-6-md">
+				<label for="is_warning">
+					<input type="radio" name="type" value="w" id="is_warning" />
+					Warning
+				</label>
+			</div>
+			<p>
+				<button class="btn btn-success" type="submit">Save</button>
+				<button class="btn btn-success" type="button" onclick="preview();">Preview</button>
+			</p>
+			<div class="note preview">
+				<h2></h2>
+				<a>
+					<span class="title"></span>
+				</a>
+				<div class="date"></div>
+				<p class="text"></p>
+			</div>
 		</div>
-		<div class="col-6-md">
-			<label class="label" for="text">Text:</label>
-			<textarea name="text" spellcheck="false" class="form-control" rows="13" placeholder="Text"></textarea>
-		</div>
-		<div class="col-6-md">
-			<div class="suggested-tags"></div>
-			<label class="label" for="tags">Tags:</label>
-			<input type="text" class="form-control" placeholder="Separate with comma" name="tags" onclick="getTags(-1, $('input[name=title]').val(), $('textarea[name=text]').val())" />
-		</div>
-		<div class="col-6-md">
-			<label for="todo">
-				<input type="checkbox" name="todo" />
-				Todo
-			</label>
-		</div>
-		<p>
-			<button class="btn btn-success" onclick="add($('input[name=title]').val(), $('textarea[name=text]').val(), $('input[name=tags]').val(), $('input[name=todo]').prop('checked'));">Save</button>
-			<button class="btn btn-success" onclick="preview();">Preview</button>
-		</p>
-		<div class="note preview">
-			<h2></h2>
-			<a>
-				<span class="title"></span>
-			</a>
-			<div class="date"></div>
-			<p class="text"></p>
-		</div>
-	</div>
+	</form>
 {% endblock %}

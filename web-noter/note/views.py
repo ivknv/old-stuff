@@ -86,7 +86,7 @@ def addNote_page(request):
 	if not request.user.is_authenticated(): # If user is not logged in
 		return redirect('/login?return={}'.format(request.path))
 	
-	return render_to_response("add_note.html", {}) # Render page
+	return render_to_response("add_note.html", {}, context_instance=RequestContext(request)) # Render page
 
 def manageNotes(request, pn=1):
 	"""Manage notes"""
@@ -123,7 +123,7 @@ def edit(request, id):
 	
 	if not request.user.is_authenticated(): # If user isn't logged in
 		return redirect('/login?return={}'.format(request.path))
-
+	
 	try: # Sometimes we confuse the digit with a string
 		note_id = int(id) # Convert string into integer
 		try: # Sometimes we request something that doesn't exist
@@ -134,12 +134,12 @@ def edit(request, id):
 	except TypeError: # If somebody confused the digit with the string (Sometimes it happens)
 		raise Http404 # I will raise the great '404 Not Found' error!
 	
-	note.text = note.text.replace("\\n", "\n")
 	similiar = checkSimilarity(note)[0:3] # Top 3 similiar notes
 	similiar = transformTags(similiar) # Split tags separated with commas into a list
+	
 	context = {
 		"note": note, # Note object
-		"similiar": similiar # Top 3 similiar notes
+		"similiar": similiar, # Top 3 similiar notes
 	}
 	
 	return render_to_response("edit.html", context) # Render page
@@ -194,7 +194,7 @@ def search(request, q, pn=1):
 		
 		try: # Page number can be too big
 			p = Paginator(sorted_found, 10) # Split content into pages
-			found = replaceNewLinesSearch(p.page(pn)) # Replace newlines (\n, \\n) by <br/>
+			found = replaceNewLinesSearch(p.page(pn)) # Replace newlines (\n) by <br/>
 		except EmptyPage: # If page number is too big
 			raise Http404 # Display '404 Not found' error
 		
@@ -264,7 +264,7 @@ def filterDone(request, tags="", pn=1):
 		context["tags"] = tags+"/"
 	tags = replaceNone(transformTagsSingle(tags))
 	
-	notes = Note.objects.filter(author=request.user.id, is_todo=True, is_checked=True)
+	notes = Note.objects.filter(author=request.user.id, type="t", is_checked=True)
 	filtered = []
 	
 	for note in notes:
@@ -294,7 +294,6 @@ def filterDone(request, tags="", pn=1):
 	context["current_page_number"] = pn
 	context["num_pages"] = p.num_pages
 	context["page_range"] = prange
-	context["done_or_undone"] = " checked"
 	context["urlprefix"] = "done"
 
 	return render_to_response("filter.html", context)
@@ -310,7 +309,7 @@ def filterUndone(request, tags="", pn=1):
 		context["tags"] = tags+"/"
 	tags = replaceNone(transformTagsSingle(tags))
 	
-	notes = Note.objects.filter(author=request.user.id, is_todo=True, is_checked=False)
+	notes = Note.objects.filter(author=request.user.id, type="t", is_checked=False)
 	filtered = []
 	
 	for note in notes:
@@ -340,10 +339,145 @@ def filterUndone(request, tags="", pn=1):
 	context["current_page_number"] = pn
 	context["num_pages"] = p.num_pages
 	context["page_range"] = prange
-	context["done_or_undone"] = " unchecked"
 	context["urlprefix"] = "undone"
 
 	return render_to_response("filter.html", context)
+
+def filterSnippets(request, tags="", pn=1):
+
+	if not request.user.is_authenticated():
+		return redirect('/login?return={}'.format(request.path))
+
+	context = {}
+	context["tags"] = tags
+	if tags:
+		context["tags"] = tags+"/"
+	tags = replaceNone(transformTagsSingle(tags))
+	
+	notes = Note.objects.filter(author=request.user.id, type="s")
+	filtered = []
+	
+	for note in notes:
+		ntags = replaceNone(transformTagsSingle(note.tags))
+		if tags:
+			for tag in tags:
+				if tag in ntags:
+					have_tag = True
+				else:
+					have_tag = False
+					break
+			if have_tag:
+				filtered.append(note)
+		else:
+			filtered.append(note)
+	
+	try:
+		pn = int(pn)
+	except ValueError:
+		pn=1
+	
+	p = Paginator(filtered, 10)
+	filtered_page = replaceNewLines(p.page(pn))
+	prange = page_range(pn, p.num_pages)
+
+	context["filtered"] = filtered_page
+	context["current_page_number"] = pn
+	context["num_pages"] = p.num_pages
+	context["page_range"] = prange
+	context["urlprefix"] = "snippets"
+
+	return render_to_response("filter.html", context)
+
+def filterWarnings(request, tags="", pn=1):
+
+	if not request.user.is_authenticated():
+		return redirect('/login?return={}'.format(request.path))
+
+	context = {}
+	context["tags"] = tags
+	if tags:
+		context["tags"] = tags+"/"
+	tags = replaceNone(transformTagsSingle(tags))
+	
+	notes = Note.objects.filter(author=request.user.id, type="w")
+	filtered = []
+	
+	for note in notes:
+		ntags = replaceNone(transformTagsSingle(note.tags))
+		if tags:
+			for tag in tags:
+				if tag in ntags:
+					have_tag = True
+				else:
+					have_tag = False
+					break
+			if have_tag:
+				filtered.append(note)
+		else:
+			filtered.append(note)
+	
+	try:
+		pn = int(pn)
+	except ValueError:
+		pn=1
+	
+	p = Paginator(filtered, 10)
+	filtered_page = replaceNewLines(p.page(pn))
+	prange = page_range(pn, p.num_pages)
+
+	context["filtered"] = filtered_page
+	context["current_page_number"] = pn
+	context["num_pages"] = p.num_pages
+	context["page_range"] = prange
+	context["urlprefix"] = "warnings"
+
+	return render_to_response("filter.html", context)
+
+def filterNotes(request, tags="", pn=1):
+
+	if not request.user.is_authenticated():
+		return redirect('/login?return={}'.format(request.path))
+
+	context = {}
+	context["tags"] = tags
+	if tags:
+		context["tags"] = tags+"/"
+	tags = replaceNone(transformTagsSingle(tags))
+	
+	notes = Note.objects.filter(author=request.user.id, type="n")
+	filtered = []
+	
+	for note in notes:
+		ntags = replaceNone(transformTagsSingle(note.tags))
+		if tags:
+			for tag in tags:
+				if tag in ntags:
+					have_tag = True
+				else:
+					have_tag = False
+					break
+			if have_tag:
+				filtered.append(note)
+		else:
+			filtered.append(note)
+	
+	try:
+		pn = int(pn)
+	except ValueError:
+		pn=1
+	
+	p = Paginator(filtered, 10)
+	filtered_page = replaceNewLines(p.page(pn))
+	prange = page_range(pn, p.num_pages)
+
+	context["filtered"] = filtered_page
+	context["current_page_number"] = pn
+	context["num_pages"] = p.num_pages
+	context["page_range"] = prange
+	context["urlprefix"] = "notes"
+
+	return render_to_response("filter.html", context)
+
 
 def login_view(request):
 	if 'email' in request.POST and 'password' in request.POST:

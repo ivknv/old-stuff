@@ -98,7 +98,8 @@ def replaceNewLines(obj):
 	"""Replace all the newlines (\n) in notes by <br/> HTML tags"""
 	
 	for i in range(len(obj.object_list)):
-		obj.object_list[i].text = replaceNewLinesString(obj.object_list[i].text)
+		if obj.object_list[i].type != "s":
+			obj.object_list[i].text = replaceNewLinesString(obj.object_list[i].text)
 	return obj
 
 def replaceNewLinesSearch(obj):
@@ -111,8 +112,8 @@ Works only with lists ([7.2, <Note>])."""
 
 def replaceNewLinesSingleObject(obj):
 	"""Replace all the newlines (\n) in note by <br/> HTML tags"""
-	
-	obj.text = replaceNewLinesString(obj.text)
+	if obj.type != "s":
+		obj.text = replaceNewLinesString(obj.text)
 	return obj
 
 def transformTags(notes):
@@ -153,88 +154,21 @@ def PlaceByRelevance(note, q, splitted=False, lower=False):
 	if not splitted:
 		q = q.split()
 	count = 0
-	tagcount = 0
 	note = replaceNewLinesSingleObject(note)
 	title = note.title.lower()
 	text = note.text.lower()
 	tags = note.tags.lower()
 	q_in = 0
 	for i in q:
-		q_in += 1
+		count_prev = count
 		count -= note.title.count(i)
 		count -= note.text.count(i)
-		tagcount -= note.tags.count(i)
+		count -= note.tags.count(i)
+		if count < count_prev:
+			q_in += 1 
 		if q_in > 1:
-			count *= q_in**2
-	tagcount *= 2
+			count *= q_in
 	return [
-		count-tagcount,
+		count,
 		note
 	]
-
-#def PlaceByRelevanceList(note, q, splitted=False, lower=False):
-#	"""Place notes by relevance"""
-#	if not lower:
-#		q = q.lower()
-#	if not splitted:
-#		q = q.split()
-#	count = 0
-#	tagcount = 0
-#	note = replaceNewLinesSingleObject(note)
-#	title = note.title.lower()
-#	text = note.text.lower()
-#	tags = note.tags.lower()
-#	for i in q:
-#		count -= title.count(i)*1.5
-#		count -= text.count(i)
-#		tagcount -= tags.count(i)
-#	tagcount *= 2
-#	return [
-#		count-tagcount,
-#		(note.id, note.title, note.text, note.tags, formatDate(note))
-#	]
-
-#def PlaceByRelevanceList(note, q):
-#	"""Place notes by relevance"""
-#	
-#	return [
-#		-note.title.lower().count(q)-note.text.lower().count(q)-(note.tags.lower().count(q)*1.5),
-#		(note.id, note.title, note.text, note.tags, formatDateSearch(note.date))
-#	]
-
-# Date must look good
-# So there must be a days of the week, not numbers
-#weekdays = [
-#	"Sunday",
-#	"Monday",
-#	"Tuesday",
-#	"Wednesday",
-#	"Thursday",
-#	"Friday",
-#	"Saturday"
-#]
-# And definetly there must be names of the months
-#months = [
-#	"January",
-#	"February",
-#	"March",
-#	"April",
-#	"May",
-#	"June",
-#	"Jule",
-#	"August",
-#	"Semptember",
-#	"October",
-#	"November",
-#	"December"
-#]
-
-#def formatDate(note):
-#	"""Make date look cool"""
-#	
-#	return weekdays[note.date.weekday()-1]+", "+note.date.strftime("%d ")+months[note.date.month-1]+note.date.strftime(" %Y %H:%M") # Date of the note
-#
-#def formatDateSearch(note):
-#	"""Make date look cool"""
-#	
-#	return weekdays[note.date().weekday()-1]+", "+note.date().strftime("%d ")+months[note.date().month-1]+note.date().strftime(" %Y %H:%M") # Date of the note

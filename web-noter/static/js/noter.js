@@ -61,13 +61,16 @@ function load_page(url) {
 			};
 			console.log($main.html());
 			history.pushState(state, state.title, url);
+			$("pre code").each(function(i, e) {
+				hljs.highlightBlock(e);
+			});
 		}, "html");
 	} else {
 		window.href = url;
 	}
 }
 
-// @TAG
+// @TAG @TAGS
 // ==============
 // Tag suggesting
 // ==============
@@ -118,7 +121,7 @@ function getTags(id, text, title) {
 					if (!u.contains(tags[i])) {
 						u.push(tags[i]);
 						console.log(u);
-						$stags.append("<button class='btn tag-btn' onclick='placeTag($(this).html());'>"+tags[i]+"</button>");
+						$stags.append("<button class='btn tag-btn' onclick='placeTag($(this).html());' type='button'>"+tags[i]+"</button>");
 					}
 				});
 		});
@@ -173,6 +176,23 @@ function ask(id, noteTitle) {
 	});
 }
 
+function findChecked() {
+	var isNote = $("#note").prop("checked"),
+	isTodo = $("#todo").prop("checked"),
+	isSnippet = $("#snippet").prop("checked"),
+	isWarning = $("#warning").prop("checked");
+	if (isNote)
+		return "n";
+	else if (isTodo)
+		return "t";
+	else if (isSnippet)
+		return "s";
+	else if (isWarning)
+		return "w";
+	else
+		return "Unknown";
+}
+
 function edit_success(data) {
 	if (!(data.failed)) {
 		var $result = $("#result");
@@ -192,8 +212,8 @@ function edit_fail() {
 	setTimeout('$("#result").fadeOut("slow")', 1500);
 }
 
-function edit(id, newTitle, newText, newTags, todo, checked) {
-	var result = $.post("/update/", {"id": id, "title": newTitle, "text": newText, "tags": newTags, "todo": todo, "checked": checked}, edit_success, "json");
+function edit(id, newTitle, newText, newTags, checked) {
+	var result = $.post("/update/", {"id": id, "title": newTitle, "text": newText, "tags": newTags, "type": findChecked(), "checked": checked}, edit_success, "json");
 	result.fail(edit_fail);
 }
 
@@ -230,21 +250,68 @@ function addZero(i) {
 	return i>=0 && i<10 ? ""+0+i : ""+i;
 };
 
+function escapeLtGt(code) {
+	return code.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;");
+}
+
 function preview() {
 	$(".preview h2").html("Preview");
 	$(".preview a > .title").html($(".col-6-md div input[name=title]").val());
-	$(".preview .text").html($(".col-6-md div textarea[name=text]").val().replace(/\n/g, "<br/>").replace(/ /g, "&nbsp;"));
+	if ($("#is_snippet").prop("checked")) {
+		$(".preview .text").remove();
+		if ($(".preview pre").length < 1)
+			$(".preview").append("<pre><code></code></pre>");
+		$(".preview pre code").each(function(i, e) {
+			$(this).html(escapeLtGt($(".col-6-md div textarea[name=text]").val()));
+			hljs.highlightBlock(e);
+		});
+	} else {
+		if ($(".preview .text").length < 1) {
+			if ($(".preview pre").length > 0)
+				$(".preview pre").remove();
+			$(".preview").append("<p class='text'></p>")
+		}
+			if ($("#is_warning").prop("checked")) {
+				$(".preview").attr("class", "preview warning");
+			} else {
+				$(".preview").attr("class", "preview note");
+			}
+			$(".preview .text").html($(".col-6-md div textarea[name=text]").val().replace(/\n/g, "<br/>").replace(/ /g, "&nbsp;"));
+	}
 	var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'Jule', 'August', 'September', 'October', 'November', 'December'];
 	var now = new Date(), weekday=days[now.getDay()], month=months[now.getMonth()];
 	$(".preview .date").html(weekday + ", " + month + " " + addZero(now.getDate()) + " " + now.getFullYear() + " " + addZero(now.getHours()) + ":" +addZero(now.getMinutes()));
 };
+
 function preview1(d) {
 	$(".preview h2").html("Preview");
 	$(".preview a > .title").html($(".col-6-md div input[name=title]").val());
-	$(".preview .text").html($(".col-6-md div textarea[name=text]").val().replace(/\n/g, "<br/>").replace(/ /g, "&nbsp;"));
+	if ($("#snippet").prop("checked")) {
+		if ($(".preview .text").length > 0)
+			$(".preview .text").remove();
+		if ($(".preview pre").length < 1)
+			$(".preview").append("<pre><code></code></pre>");
+		$(".preview pre code").each(function(i, e) {
+			$(this).html(escapeLtGt($(".col-6-md div textarea[name=text]").val()));
+			hljs.highlightBlock(e);
+		});
+	} else {
+		if ($(".preview .text").length < 1) {
+			if ($(".preview pre").length > 0)
+				$(".preview pre").remove();
+			$(".preview").append("<p class='text'></p>")
+		}
+			if ($("#warning").prop("checked")) {
+				$(".preview").attr("class", "preview warning");
+			} else {
+				$(".preview").attr("class", "preview note");
+			}
+			$(".preview .text").html($(".col-6-md div textarea[name=text]").val().replace(/\n/g, "<br/>").replace(/ /g, "&nbsp;"));
+
+	}
 	$(".preview .date").html(d);
-};
+}
 
 // @FILTER
 // ==================================

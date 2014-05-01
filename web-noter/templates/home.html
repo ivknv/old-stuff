@@ -9,11 +9,9 @@
 		{% for note in notes %}
 			{% include "include/note.html" %}
 		{% endfor %}
-		{% if page_range|length > 9 %}
-			{% with current_url="/" %}
-				{% include "include/pagination.html" %}
-			{% endwith %}
-		{% endif %}
+		{% with current_url="/" %}
+			{% include "include/pagination.html" %}
+		{% endwith %}
 	{% else %}
 		<h5>You don't have any notes yet.</h5>
 	{% endif %}

@@ -17,17 +17,35 @@
 		</div>
 		<div class="col-6-md">
 			<label for="todo">
-				<input type="checkbox" name="todo" />
+				<input type="radio" name="type" id="todo" value="t" />
 				Todo
 			</label>
-			<label for="checked" style="{% if not note.is_todo %}display: none;{% else %}display: block{% endif %}">
+			<label for="checked" style="{% if not note.type == "Todo" %}display: none;{% else %}display: block{% endif %}">
 				<input type="checkbox" name="checked" />
 				Checked
 			</label>
 		</div>
+		<div class="col-6-md">
+			<label for="note">
+				<input type="radio" name="type" id="note" value="n" />
+				Note
+			</label>
+		</div>
+		<div class="col-6-md">
+			<label for="snippet">
+				<input type="radio" name="type" id="snippet" value="s" />
+				Code Snippet
+			</label>
+		</div>
+		<div class="col-6-md">
+			<label for="warning">
+				<input type="radio" name="type" id="warning" value="w" />
+				Warning
+			</label>
+		</div>
 		{% include "include/edit_checkboxes.html" %}
 		<p>
-			<button class="btn btn-success" onclick="edit({{ note.id }}, $('input[name=title]').val(), $('textarea[name=text]').val(), $('input[name=tags]').val(), $('input[name=todo]').prop('checked'), $('input[name=checked]').prop('checked'));">Save</button>
+			<button class="btn btn-success" onclick="edit({{ note.id }}, $('input[name=title]').val(), $('textarea[name=text]').val(), $('input[name=tags]').val(), $('input[name=checked]').prop('checked'));">Save</button>
 			<button class="btn btn-success" onclick="preview1('{{ note.date }}');">Preview</button>
 		</p>
 		<div class="alert" id="result"></div>

@@ -47,6 +47,10 @@ body {
 	text-decoration: underline;
 }
 
+pre {
+	padding: 0;
+}
+
 .header a {
 	margin-left: 5px;
 	margin-right: 5px;
@@ -182,11 +186,15 @@ p {
 	opacity: 1;
 }
 
-.note {
+.note, .todo, .snippet, .warning {
 	word-wrap: break-word;
 	padding-bottom: 15px;
 	max-width: 1000px;
 	min-width: 240px;
+}
+
+.warning > .text {
+	color: red;
 }
 
 .edit_button {

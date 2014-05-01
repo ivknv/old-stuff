@@ -10,8 +10,12 @@ class Note(models.Model):
 	title = models.CharField(max_length=100)
 	text = models.TextField()
 	tags = models.TextField()
-	important = models.BooleanField(default=False)
-	is_todo = models.BooleanField(default=False)
+	type = models.CharField(max_length=50, choices=(
+		("n", "Note"),
+		("s", "Snippet"),
+		("t", "Todo"),
+		("w", "Warning")
+	), default="n")
 	is_checked = models.BooleanField(default=False)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL)
 	date = models.DateTimeField(auto_now_add=True)
@@ -25,8 +29,7 @@ class Note(models.Model):
 		def __unicode__(self):
 			return self.title
 
-
 class NoteAdmin(admin.ModelAdmin):
-	list_display = ("title", "author", "important", "is_todo", "date")
+	list_display = ("title", "author", "type", "date")
 
 admin.site.register(Note, NoteAdmin)

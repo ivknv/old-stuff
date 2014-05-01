@@ -1,11 +1,17 @@
 <script type="text/javascript">
-	{% if note.is_checked and note.is_todo %}
-		$("input[name=todo]").prop("checked", true);
+	{% if note.is_checked and note.type == "t" %}
+		$("input[id=todo]").prop("checked", true);
 		$("input[name=checked]").prop("checked", true);
-	{% elif note.is_todo and not note.is_checked %}
-		$("input[name=todo]").prop("checked", true);
+	{% elif note.type == "t" and not note.is_checked %}
+		$("input[id=todo]").prop("checked", true);
+	{% elif note.type == "s" %}
+		$("#snippet").prop("checked", true);
+	{% elif note.type == "w" %}
+		$("#warning").prop("checked", true);
+	{% elif note.type == "n" %}
+		$("#note").prop("checked", true);
 	{% endif %}
-	$("input[name=todo]").change(function() {
+	$("input[id=todo]").change(function() {
 		if ($(this).prop("checked"))
 			$("label[for=checked]").css("display", "block");
 		else
