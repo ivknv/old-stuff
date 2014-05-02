@@ -3,7 +3,7 @@
 		<span class="title">{{ note.1.title }}</span>
 	</a>
 	<div class="date"><time datetime="{{ note.date }}">{{ note.1.date|date:"l, F j Y H:i" }}</time></div>
-	{% if note.type == "s"  %}
+	{% if note.1.type == "s"  %}
 		<pre><code class="snippet-body">{{ note.1.text }}</code></pre>
 	{% else %}
 		<p class="text">{{ note.1.text|safe }}</p>
