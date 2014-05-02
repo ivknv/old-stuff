@@ -564,7 +564,7 @@ def contact(request):
 	if "text" in request.POST and "subject" in request.POST:
 		send_mail(
 			request.POST['subject'],
-			request.POST['text'],
+			"{text}\n    {user_email}".format(text=request.POST['text'], user_email=request.user.email),
 			request.user.email,
 			[su.email for su in User.objects.filter(is_superuser=True)],
 			fail_silently=False

@@ -31,11 +31,14 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-EMAIL_HOST = "localhost"
-EMAIL_PORT = 1025
+EMAIL_USE_TLS = True
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "noter.noreply@gmail.com"
+EMAIL_HOST_PASSWORD = os.environ["NOTER_ADMIN_PASSWORD"]
 
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, "noter-messages")
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = os.path.join(BASE_DIR, "noter-messages")
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
