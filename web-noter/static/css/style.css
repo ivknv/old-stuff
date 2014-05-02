@@ -1,9 +1,15 @@
+@font-face {
+	font-family: OpenSans;
+	src: url(/static/fonts/OpenSans-Regular.ttf);
+}
+
 body {
 	z-index: 1000;
 	background-image: url("/static/img/background2.gif");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-size: 100% 100%;
+	font-family: OpenSans, Arial;
 }
 
 .wrapper h1 {
@@ -101,7 +107,7 @@ pre {
 }
 
 .wrapper h1 {
-	font-family: OpenSans, georgia, monospace, verdana, arial;
+	font-family: OpenSans, Georgia, Monospace, Verdana, Arial;
 }
 
 .col-6-md {
@@ -144,7 +150,7 @@ pre {
 	margin-right: 13%;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 920px) {
 	.main {
 		margin-left: 5px;
 		margin-right: 5px;
@@ -172,14 +178,17 @@ p {
 
 .title {
 	margin-bottom: 5px;
-/*	max-width: 800px;*/
 	min-width: 240px;
 	text-decoration: none;
 	font-size: 24px;
-	font-family: Fira, Verdana, Arial;
+	font-family: OpenSans, Verdana, Arial;
 	color: #74A4D3;
 	opacity: 0.8;
 	transition: opacity 1s ease-in-out;
+	-moz-transition: opacity 1s ease-in-out;
+	-webkit-transition: opacity 1s ease-in-out;
+	-o-transition: opacity 1s ease-in-out;
+	-ms-transition: opacity 1s ease-in-out;
 }
 
 .title:hover {
@@ -193,8 +202,102 @@ p {
 	min-width: 240px;
 }
 
+@keyframes warning-blink {
+	0% {
+		opacity: 0.7;
+	}
+
+	50% {
+		opacity: 1;
+		color: red;
+		text-shadow: 0 0 2px red;
+	}
+	
+	100% {
+		opacity: 0.7;
+	}
+}
+
+@-moz-keyframes warning-blink {
+	0% {
+		opacity: 0.7;
+	}
+
+	50% {
+		opacity: 1;
+		color: red;
+		text-shadow: 0 0 2px red;
+	}
+	
+	100% {
+		opacity: 0.7;
+	}
+}
+
+@-webkit-keyframes warning-blink {
+	0% {
+		opacity: 0.7;
+	}
+
+	50% {
+		opacity: 1;
+		color: red;
+		text-shadow: 0 0 2px red;
+	}
+	
+	100% {
+		opacity: 0.7;
+	}
+}
+
+@-o-keyframes warning-blink {
+	0% {
+		opacity: 0.7;
+	}
+
+	50% {
+		opacity: 1;
+		color: red;
+		text-shadow: 0 0 2px red;
+	}
+	
+	100% {
+		opacity: 0.7;
+	}
+}
+
+@-ms-keyframes warning-blink {
+	0% {
+	`	opacity: 0.7;
+	}
+
+	50% {
+		opacity: 1;
+		color: red;
+		text-shadow: 0 0 2px red;
+	}
+	
+	100% {
+		opacity: 0.7;
+	}
+}
+
 .warning > .text {
 	color: red;
+	font-size: 18px;
+}
+
+.warning > a .title {
+	font-size: 28px;
+	text-shadow: 0 0 1px red;
+}
+
+.warning > a .title:hover {
+	animation: 3s warning-blink infinite;
+	-moz-animation: 3s warning-blink infinite;
+	-webkit-animation: 3s warning-blink infinite;
+	-o-animation: 3s warning-blink infinite;
+	-ms-animation: 3s warning-blink infinite;
 }
 
 .edit_button {
