@@ -107,7 +107,8 @@ def replaceNewLinesSearch(obj):
 Works only with lists ([7.2, <Note>])."""
 	
 	for i in range(len(obj.object_list)):
-		obj.object_list[i][1].text = replaceNewLinesString(obj.object_list[i][1].text)
+		if obj.object_list[i][1].type != "s":
+			obj.object_list[i][1].text = replaceNewLinesString(obj.object_list[i][1].text)
 	return obj
 
 def replaceNewLinesSingleObject(obj):
