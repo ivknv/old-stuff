@@ -2,8 +2,10 @@
 	{% if note.is_checked and note.type == "t" %}
 		$("input[id=todo]").prop("checked", true);
 		$("input[name=checked]").prop("checked", true);
+		$("label[for=checked]").css("display", "block");
 	{% elif note.type == "t" and not note.is_checked %}
 		$("input[id=todo]").prop("checked", true);
+		$("label[for=checked]").css("display", "block");
 	{% elif note.type == "s" %}
 		$("#snippet").prop("checked", true);
 	{% elif note.type == "w" %}

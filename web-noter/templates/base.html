@@ -17,6 +17,7 @@
 		<link rel="stylesheet" type="text/css" href="/static/js/highlight.js/styles/mono-blue.css" />
 		<script type="text/javascript" src="/static/js/highlight.js/highlight.pack.js"></script>
 		<script type="text/javascript">
+			hljs.configure({tabReplace: '    '}); // 4 spaces
 			hljs.initHighlightingOnLoad();
 		</script>
 		{% include "include/handle.html" %}

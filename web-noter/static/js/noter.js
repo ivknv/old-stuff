@@ -258,6 +258,7 @@ function preview() {
 	$(".preview h2").html("Preview");
 	$(".preview a > .title").html($(".col-6-md div input[name=title]").val());
 	if ($("#is_snippet").prop("checked")) {
+		$(".preview").attr("class", "preview snippet");
 		$(".preview .text").remove();
 		if ($(".preview pre").length < 1)
 			$(".preview").append("<pre><code></code></pre>");
@@ -276,7 +277,7 @@ function preview() {
 			} else {
 				$(".preview").attr("class", "preview note");
 			}
-			$(".preview .text").html($(".col-6-md div textarea[name=text]").val().replace(/\n/g, "<br/>").replace(/ /g, "&nbsp;"));
+			$(".preview .text").html($(".col-6-md div textarea[name=text]").val().replace(/\n/gm, "<br/>").replace(/ /gm, "&nbsp;").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;"));
 	}
 	var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'Jule', 'August', 'September', 'October', 'November', 'December'];
@@ -288,6 +289,7 @@ function preview1(d) {
 	$(".preview h2").html("Preview");
 	$(".preview a > .title").html($(".col-6-md div input[name=title]").val());
 	if ($("#snippet").prop("checked")) {
+		$(".preview").attr("class", "preview snippet");
 		if ($(".preview .text").length > 0)
 			$(".preview .text").remove();
 		if ($(".preview pre").length < 1)
@@ -307,7 +309,7 @@ function preview1(d) {
 			} else {
 				$(".preview").attr("class", "preview note");
 			}
-			$(".preview .text").html($(".col-6-md div textarea[name=text]").val().replace(/\n/g, "<br/>").replace(/ /g, "&nbsp;"));
+			$(".preview .text").html($(".col-6-md div textarea[name=text]").val().replace(/\n/gm, "<br/>").replace(/ /gm, "&nbsp;").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;"));
 
 	}
 	$(".preview .date").html(d);
@@ -326,4 +328,32 @@ function handleEnter() {
 			}
 		});
 	});
+}
+
+// @TAB @TTAB
+// =============================
+// Tab key handling for textarea
+// =============================
+
+function enableTab(id) {
+    var el = document.getElementById(id);
+    el.onkeydown = function(e) {
+        if (e.keyCode === 9) { // tab was pressed
+
+            // get caret position/selection
+            var val = this.value,
+                start = this.selectionStart,
+                end = this.selectionEnd;
+
+            // set textarea value to: text before caret + tab + text after caret
+            this.value = val.substring(0, start) + '\t' + val.substring(end);
+
+            // put caret at right position again
+            this.selectionStart = this.selectionEnd = start + 1;
+
+            // prevent the focus lose
+            return false;
+
+        }
+    };
 }

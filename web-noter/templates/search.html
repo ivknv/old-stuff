@@ -1,16 +1,6 @@
 {% extends "base.html" %}
 {% load addsub %}
 {% block title %}{{ q }}{% endblock %}
-{% block head %}
-<!--	
-// disabled due the problems with tags
-<script type="text/javascript">
-		$(document).ready(function() {
-			highlightQuery("{{ q }}");
-		});
-	</script>
--->
-{% endblock %}
 {% block content %}
 	{% if errors %}
 		{% for error in errors %}

@@ -8,7 +8,7 @@
 		</div>
 		<div class="col-6-md">
 			<label class="label" for="text">Text:</label>
-			<textarea name="text" spellcheck="false" class="form-control" rows="13" placeholder="Text">{{ note.text }}</textarea>
+			<textarea name="text" id="txt" spellcheck="false" class="form-control" rows="13" placeholder="Text">{{ note.text }}</textarea>
 		</div>
 		<div class="col-6-md">
 			<div class="suggested-tags"></div>
@@ -43,7 +43,7 @@
 				Warning
 			</label>
 		</div>
-		{% include "include/edit_checkboxes.html" %}
+		{% include "include/edit_radios.html" %}
 		<p>
 			<button class="btn btn-success" onclick="edit({{ note.id }}, $('input[name=title]').val(), $('textarea[name=text]').val(), $('input[name=tags]').val(), $('input[name=checked]').prop('checked'));">Save</button>
 			<button class="btn btn-success" onclick="preview1('{{ note.date }}');">Preview</button>
@@ -58,4 +58,7 @@
 			<p class="text"></p>
 		</div>
 	</div>
+	<script type="text/javascript">
+		enableTab('txt');
+	</script>
 {% endblock %}
