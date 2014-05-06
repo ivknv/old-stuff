@@ -1,53 +1,45 @@
-<div class="col-12-md">
-	<div class="footer">
-		<div class="container">
-			<div class="clearfix">
-				<div class="footer-logo">
-					<a href="#">
-						<img src="/static/img/noter-icon.png" height="32px" />
-						Noter
-					</a>
-				</div>
-				<dl class="footer-nav">
-					<dt class="nav-title">
-						About
-					</dt>
-					<dd class="nav-item">
-						<a href="/about#history" onclick="load_page('/about#history'); return false;">History</a>
-					</dd>
-					<dd class="nav-item">
-						<a href="/about#why" onclick="load_page('/about#why'); return false;">Why</a>
-					</dd>
-					<dd class="nav-item">
-						<a href="/about#developers" onclick="load_page('/about#developers'); return false;">Developers</a>
-					</dd>
-				</dl>
-				<dl class="footer-nav">
-					<dt class="nav-title">
-						Python module
-					</dt>
-					<dd class="nav-item">
-						<a href="https://github.com/SPython/noter-web">Github</a>
-					</dd>
-				</dl>
-				<dl class="footer-nav">
-					<dt class="nav-title">
-						Contact
-					</dt>
-					<dd class="nav-item">
-						<a href="/contact/" onclick="load_page('/contact/'); return false;">Contact form</a>
-					</dd>
-					<dd class="nav-item">
-						<a href="mailto:noter.noreply@gmail.com">noter.noreply@gmail.com</a>
-					</dd>
-				</dl>
-				<dl class="footer-nav">
-					<dd class="nav-item"><a href="/logout/">Log out</a></dd>
-				</dl>
-			</div>
-			<div class="footer-copyright text-center">
-				Copyright © {% now "Y" %} Ivan Konovalov. All rights reserved.
-			</div>
+<div class="footer">
+	<ul class="nav">
+		<li class="title">
+			About
+		</li>
+		<li>
+			<a href="/about#history" onclick="load_page('/about#history'); return false;">History</a>
+		</li>
+		<li>
+			<a href="/about#why" onclick="load_page('/about#why'); return false;">Why</a>
+		</li>
+		<li>
+			<a href="/about#developers" onclick="load_page('/about#developers'); return false;">Developers</a>
+		</li>
+	</ul>
+	<ul class="nav">
+		<li class="title">
+			Python module
+		</li>
+		<li>
+			<a href="https://github.com/SPython/noter-web">Github</a>
+		</li>
+	</ul>
+	<ul class="nav">
+		<li class="title">
+			Contact
+		</li>
+		<li>
+			<a href="/contact/" onclick="load_page('/contact/'); return false;">Contact form</a>
+		</li>
+		<li>
+			<a href="mailto:noter.noreply@gmail.com">noter.noreply@gmail.com</a>
+		</li>
+	</ul>
+	<ul class="nav">
+		<li>
+			<a href="/logout/">Log out</a>
+		</li>
+	</ul>
+	<div class="copyright-center">
+		<div>
+			Copyright © {% now "Y" %} Ivan Konovalov. All rights reserved.
 		</div>
 	</div>
 </div>

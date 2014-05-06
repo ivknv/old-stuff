@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 {% block title %}Filter notes{% endblock %}
 {% block content %}
-	<div class="col-3-md" style="margin-bottom: 20px; min-width: 240px; margin-right: 5px; margin-left: 5px;">
-		<div class="input-group" style="min-width: 240px; max-width: 380px;">
-			<label class="label" for="tags">Tags:</label>
-			<input style="max-height: 33px;" type="text" placeholder="Separate with comma" name="tags" class="form-control" value="{{ tags|slice:"0:-1" }}" />
-			<span class="input-group-btn">
-				<button class="btn btn-primary" data-type="last" onclick="load_page('/filter/'+$('input[name=tags]').val()+'/1')">Filter</button>
-			</span>
+	<div class="margin-bottom" style="margin-bottom: 20px; min-width: 240px; margin-right: 5px; margin-left: 5px;">
+		<div>
+			<div><label class="label" for="tags">Tags:</label></div>
+			<input class="filter-field" type="text" placeholder="Separate with comma" name="tags" value="{{ tags|slice:"0:-1" }}" />
+			<div class="filter-btn" onclick="load_page('/filter/'+$('input[name=tags]').val()+'/1')">Filter</div>
 		</div>
 		<div class="navigation">
 			<a href="/filter/{{ tags }}" onclick="load_page('/filter/{{ tags }}'); return false;">All</a>

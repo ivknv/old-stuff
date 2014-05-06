@@ -46,12 +46,13 @@ jQuery(document).ajaxSend(function(event, xhr, settings) {
 function load_page(url) {
 	if (url[0] == "/") {
 		$.get(url, function(data) {
-			var $data = $("<div/>").html(data);
+			var $data = jQuery("<div/>").html(data);
 			var $main = $data.find(".main");
+			var $realMain = jQuery(".main")
 			var $title = $data.find("title");
-			$(".main").css("opacity", "0.5");
-			$(".main").html($main.html());
-			$(".main").css("opacity", "1");
+			$realMain.css("opacity", "0.5");
+			$realMain.html($main.html());
+			$realMain.css("opacity", "1");
 			window.document.title = $title.text();
 			$.scrollTo("body");
 			var state = {
@@ -59,9 +60,8 @@ function load_page(url) {
 				title: $title.text(),
 				content: data
 			};
-			console.log($main.html());
 			history.pushState(state, state.title, url);
-			$("pre code").each(function(i, e) {
+			jQuery("pre code").each(function(i, e) {
 				hljs.highlightBlock(e);
 			});
 		}, "html");
@@ -93,7 +93,7 @@ Array.prototype.unique = function() {
 }
 
 function placeTag(tag) {
-	var $tagfield = $("input[name=tags]");
+	var $tagfield = jQuery("input[name=tags]");
 	var newval = $tagfield.val();
 	if (newval[-1] == " ")
 		newval = newval.slice(0, -1) + ", " + tag;
@@ -104,11 +104,12 @@ function placeTag(tag) {
 	else
 		newval = tag;
 	$tagfield.val(newval);
+	$tagfield.focus();
 }
 
 function getTags(id, text, title) {
 	$.post("/suggestedtags/", {"id": id, "text": text, "title": title}, function(data) {
-		var $stags = $(".suggested-tags");
+		var $stags = jQuery(".suggested-tags");
 		var u = [];
 		$stags.empty();
 		$.each(data.top3, function(i) {
@@ -120,11 +121,11 @@ function getTags(id, text, title) {
 						tags[i][0] = "";
 					if (!u.contains(tags[i])) {
 						u.push(tags[i]);
-						console.log(u);
-						$stags.append("<button class='btn tag-btn' onclick='placeTag($(this).html());' type='button'>"+tags[i]+"</button>");
+						$stags.append("<div class='tag-btn' onclick='placeTag(jQuery(this).html());' type='button'>"+tags[i]+"</div>");
 					}
 				});
 		});
+
 	}, "json");
 }
 
@@ -136,11 +137,11 @@ function getTags(id, text, title) {
 function rmNote(id) {
 	var success=function (data) {
 		if (data["success"]) {
-			var $note = $("#note-"+id);
+			var $note = jQuery("#note-"+id);
 			$note.fadeOut("slow");
-			setTimeout('$("#note-'+id+'").remove()', 1000);
-			$result = $("#result");
-			$result.addClass("alert-success");
+			setTimeout('jQuery("#note-'+id+'").remove()', 1000);
+			$result = jQuery("#result");
+			$result.addClass("okay");
 			$result.css("display", "block");
 			$result.html("<strong class=\"success\">Note was succesfully removed</strong>");
 			setTimeout('$result.fadeOut("slow")', 1500);
@@ -153,34 +154,34 @@ function rmNote(id) {
 }
 
 function rmNote_fail() {
-	$result = $("#result");
-	$result.addClass("alert-danger");
+	$result = jQuery("#result");
+	$result.addClass("fail");
 	$result.css("display", "block");
 	$result.html("<strong class=\"error\">Failed to remove note</strong>");
 	setTimeout('$result.fadeOut("slow")', 1500);
 }
 
 function ask(id, noteTitle) {
-	$dialog = $(".remove-dialog");
+	var $dialog = jQuery(".remove-dialog");
 	$dialog.css("display", "block");
-	$dialog.html("<button class=\"close\" aria-hidden=\"true\" data-dismiss=\"alert\" type=\"button\">x</button><h3>Are you sure?</h3><p>You're trying to remove '"+noteTitle+"'</p><p><button id=\"proceed\" class=\"btn\">Proceed</button><button id=\"do-not-delete\" class=\"btn\">Do not delete</button></p>");
-	$(".remove-dialog .close").click(function(e) {
+	$dialog.html("<div class=\"close\">x</div><h3>Are you sure?</h3><p>You're trying to remove '"+noteTitle+"'</p><p class='btns'><div id=\"proceed\" class=\"btn-success\">Proceed</div><div id=\"do-not-delete\" class=\"btn-success\">Do not delete</div></p>");
+	jQuery(".remove-dialog .close").click(function(e) {
 		$dialog.fadeOut("slow");
 	});
-	$(".remove-dialog #proceed").click(function(e) {
+	jQuery(".remove-dialog #proceed").click(function(e) {
 		rmNote(id, rmNote_fail);
 		$dialog.fadeOut("slow")
 	});
-	$(".remove-dialog #do-not-delete").click(function(e) {
+	jQuery(".remove-dialog #do-not-delete").click(function(e) {
 		$dialog.fadeOut("slow");
 	});
 }
 
 function findChecked() {
-	var isNote = $("#note").prop("checked"),
-	isTodo = $("#todo").prop("checked"),
-	isSnippet = $("#snippet").prop("checked"),
-	isWarning = $("#warning").prop("checked");
+	var isNote = jQuery("#note").prop("checked"),
+	isTodo = jQuery("#todo").prop("checked"),
+	isSnippet = jQuery("#snippet").prop("checked"),
+	isWarning = jQuery("#warning").prop("checked");
 	if (isNote)
 		return "n";
 	else if (isTodo)
@@ -195,21 +196,21 @@ function findChecked() {
 
 function edit_success(data) {
 	if (!(data.failed)) {
-		var $result = $("#result");
-		$result.addClass("alert-success");
+		$result = jQuery("#result");
+		$result.addClass("okay");
 		$result.css("display", "block");
-		$result.html("<strong class=\"success\">Note was successfully updated</strong>");
-		setTimeout('$("#result").fadeOut("slow")', 1500);
+		$result.html("<strong class=\"success\">Successfully updated note</strong>");
+		setTimeout('$result.fadeOut("slow")', 1500);
 	} else
 		edit_fail();
 }
 
 function edit_fail() {
-	var $result = $("#result");
-	$result.addClass("alert-danger");
+	$result = jQuery("#result");
+	$result.addClass("fail");
 	$result.css("display", "block");
 	$result.html("<strong class=\"error\">Failed to update note</strong>");
-	setTimeout('$("#result").fadeOut("slow")', 1500);
+	setTimeout('$result.fadeOut("slow")', 1500);
 }
 
 function edit(id, newTitle, newText, newTags, checked) {
@@ -219,21 +220,21 @@ function edit(id, newTitle, newText, newTags, checked) {
 
 function add_success(data) {
 	if (!(data.failed)) {
-		var $result = $("#result");
+		$result = jQuery("#result");
 		$result.addClass("alert-success");
 		$result.css("display", "block");
 		$result.html("<strong class=\"success\">Note was successfully added</strong>");
-		setTimeout('$("#result").fadeOut("slow")', 1500);
+		setTimeout('$result.fadeOut("slow")', 1500);
 	} else
 		add_fail();
 }
 
 function add_fail() {
-	var $result = $("#result");
+	$result = jQuery("#result");
 	$result.addClass("alert-danger");
 	$result.css("display", "block");
 	$result.html("<strong class=\"error\">Failed to add note</string>");
-	setTimeout('$("#result").fadeOut("slow")', 1500);
+	setTimeout('$result.fadeOut("slow")', 1500);
 }
 
 function add(title, text, tags, todo) {
@@ -254,65 +255,86 @@ function escapeLtGt(code) {
 	return code.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;");
 }
 
+function replaceNewLines(txt) {
+	return txt.replace(/\n/gm, "<br/>").replace(/ /gm, "&nbsp;").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;")
+}
+
 function preview() {
-	$(".preview h2").html("Preview");
-	$(".preview a > .title").html($(".col-6-md div input[name=title]").val());
-	if ($("#is_snippet").prop("checked")) {
-		$(".preview").attr("class", "preview snippet");
-		$(".preview .text").remove();
-		if ($(".preview pre").length < 1)
-			$(".preview").append("<pre><code></code></pre>");
-		$(".preview pre code").each(function(i, e) {
-			$(this).html(escapeLtGt($(".col-6-md div textarea[name=text]").val()));
+	var $preview = jQuery(".preview"),
+	$text = $preview.find(".text"),
+	$precode = $preview.find("pre code"),
+	$pre = $preview.find("pre"),
+	$title = jQuery("input[name=title]"),
+	$textarea = jQuery("textarea[name=text]");
+	$preview.find("h2").html("Preview");
+	$preview.find("a > .title").html($title.val());
+	if (jQuery("#is_snippet").prop("checked")) {
+		$preview.attr("class", "preview snippet");
+		$text.remove();
+		if ($pre.length < 1)
+			$preview.append("<pre><code></code></pre>");
+		$precode.each(function(i, e) {
+			jQuery(this).html(escapeLtGt($textarea.val()));
 			hljs.highlightBlock(e);
 		});
 	} else {
-		if ($(".preview .text").length < 1) {
-			if ($(".preview pre").length > 0)
-				$(".preview pre").remove();
-			$(".preview").append("<p class='text'></p>")
+		if ($text.length < 1) {
+			if ($pre.length > 0)
+				$pre.remove();
+			$preview.append("<p class='text'></p>")
 		}
-			if ($("#is_warning").prop("checked")) {
-				$(".preview").attr("class", "preview warning");
+			if (jQuery("#is_warning").prop("checked")) {
+				$preview.attr("class", "preview warning");
 			} else {
-				$(".preview").attr("class", "preview note");
+				$preview.attr("class", "preview note");
 			}
-			$(".preview .text").html($(".col-6-md div textarea[name=text]").val().replace(/\n/gm, "<br/>").replace(/ /gm, "&nbsp;").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;"));
+			$text.html(
+				replaceNewLines($textarea.val())
+			);
 	}
 	var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'Jule', 'August', 'September', 'October', 'November', 'December'];
 	var now = new Date(), weekday=days[now.getDay()], month=months[now.getMonth()];
-	$(".preview .date").html(weekday + ", " + month + " " + addZero(now.getDate()) + " " + now.getFullYear() + " " + addZero(now.getHours()) + ":" +addZero(now.getMinutes()));
+	jQuery(".preview .date").html(weekday + ", " + month + " " + addZero(now.getDate()) + " " + now.getFullYear() + " " + addZero(now.getHours()) + ":" +addZero(now.getMinutes()));
 };
 
 function preview1(d) {
-	$(".preview h2").html("Preview");
-	$(".preview a > .title").html($(".col-6-md div input[name=title]").val());
-	if ($("#snippet").prop("checked")) {
-		$(".preview").attr("class", "preview snippet");
-		if ($(".preview .text").length > 0)
-			$(".preview .text").remove();
-		if ($(".preview pre").length < 1)
-			$(".preview").append("<pre><code></code></pre>");
-		$(".preview pre code").each(function(i, e) {
-			$(this).html(escapeLtGt($(".col-6-md div textarea[name=text]").val()));
+	var $preview = jQuery(".preview"),
+	$text = $preview.find(".text"),
+	$title = jQuery("input[name=title]"),
+	$textarea = jQuery("textarea[name=text]"),
+	$pre = $preview.find("pre"),
+	$precode = $pre.find("code"),
+	$;
+	$preview.find("h2").html("Preview");
+	$preview.find("a > .title").html($title.val());
+	if (jQuery("#snippet").prop("checked")) {
+		$preview.attr("class", "preview snippet");
+		if ($text.length > 0)
+			$text.remove();
+		if ($pre.length < 1)
+			$preview.append("<pre><code></code></pre>");
+		$precode.each(function(i, e) {
+			jQuery(this).html(escapeLtGt($textarea.val()));
 			hljs.highlightBlock(e);
 		});
 	} else {
-		if ($(".preview .text").length < 1) {
-			if ($(".preview pre").length > 0)
-				$(".preview pre").remove();
-			$(".preview").append("<p class='text'></p>")
+		if ($text.length < 1) {
+			if ($pre.length > 0)
+				$pre.remove();
+			$preview.append("<p class='text'></p>")
 		}
-			if ($("#warning").prop("checked")) {
-				$(".preview").attr("class", "preview warning");
+			if (jQuery("#warning").prop("checked")) {
+				$preview.attr("class", "preview warning");
 			} else {
-				$(".preview").attr("class", "preview note");
+				$preview.attr("class", "preview note");
 			}
-			$(".preview .text").html($(".col-6-md div textarea[name=text]").val().replace(/\n/gm, "<br/>").replace(/ /gm, "&nbsp;").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;"));
+			$text.html(
+				replaceNewLines($textarea.val())
+			);
 
 	}
-	$(".preview .date").html(d);
+	$preview.find(".date").html(d);
 }
 
 // @FILTER
@@ -320,8 +342,8 @@ function preview1(d) {
 // Enter key handling for filter page
 // ==================================
 function handleEnter() {
-	$(document).ready(function() {
-		var $tags = $("input[name=tags]");
+	jQuery(document).ready(function() {
+		var $tags = jQuery("input[name=tags]");
 		$tags.keypress(function(event) {
 			if (event.which == 13) {
 				load_page("/filter/"+$tags.val()+"/1/");	

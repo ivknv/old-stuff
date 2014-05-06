@@ -6,12 +6,12 @@
 {% block content %}
 	{% include "include/note.html" %}
 	<a href="/edit/{{ note.id }}/" onclick="load_page('/edit/{{ note.id }}/'); return false;"><div class="edit_button">Edit</div></a>
-	<div class="col-6-md" style="margin-bottom: 30px;">
+	<div class="margin-bottom">
 			{% if previous %}
-				<button id="previous" class="btn btn-success" style="float: left;" onclick="load_page('/note/{{ previous.id }}/'); return false;">Previous</button>
+				<div id="previous" class="btn btn-success" onclick="load_page('/note/{{ previous.id }}/'); return false;">Previous</div>
 			{% endif %}
 			{% if next %}
-				<button id="next" class="btn btn-success" style="float: right" onclick="load_page('/note/{{ next.id }}/'); return false;">Next</button>
+				<div id="next" class="btn-success" onclick="load_page('/note/{{ next.id }}/'); return false;">Next</div>
 			{% endif %}
 	</div>
 {% endblock %}

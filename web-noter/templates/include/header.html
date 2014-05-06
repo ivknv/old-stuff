@@ -10,12 +10,10 @@
 				<a href="/filter/" onclick="load_page('/filter'); return false;">Filter</a>
 				{% block header_nav %}{% endblock %}
 			</nav>
-			<div class="col-md-3">
-				<div class="form-search input-group">
-					<input class="form-control search-query" type="text" placeholder="Search" name="q" value="{{ q }}" />
-					<span class="input-group-btn" id="s">
-						<button class="btn btn-primary" data-type="last" onclick="load_page('/search/'+$('input[name=q]').val()); return false;">Search</button>
-					</span>
+			<div id="search_box" style="margin-top: 10px;">
+				<div>
+					<input class="text-field search-query" type="text" placeholder="Search" name="q" value="{{ q }}" />
+					<div class="search-btn" onclick="load_page('/search/'+$('input[name=q]').val()); return false;">Search</div>
 				</div>
 			</div>
 		</div>

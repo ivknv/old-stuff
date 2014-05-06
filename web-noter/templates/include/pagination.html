@@ -7,11 +7,11 @@
 			<li><a href="{{ current_url }}1{{ additional_url_part }}" onclick="load_page('{{ current_url }}1{{ additional_url_part }}'); return false;">1</a></li>
 		{% endif %}
 	{% else %}
-		<li class="disabled"><a>Previous</a></li>
+		<li class="inactive"><a>Previous</a></li>
 	{% endif %}
 	{% for page in page_range %}
 		{% if page == current_page_number %}
-			<li><a class="current">{{ page }}</a></li>
+			<li class="current"><a>{{ page }}</a></li>
 		{% else %}
 			<li><a href="{{ current_url }}{{ page }}{{ additional_url_part }}" onclick="load_page('{{ current_url }}{{ page }}{{ additional_url_part }}'); return false;">{{ page }}</a></li>
 		{% endif %}
@@ -22,6 +22,6 @@
 		{% endif %}
 		<li class="active"><a href="{{ current_url }}{{ current_page_number|addd:"1" }}{{ additional_url_part }}" onclick="load_page('{{ current_url }}{{ current_page_number|addd:"1" }}{{ additional_url_part }}'); return false;">Next</a></li>
 	{% else %}
-		<li class="disabled"><a>Next</a></li>
+		<li class="inactive"><a>Next</a></li>
 	{% endif %}
 </ul>
