@@ -133,7 +133,7 @@ a:hover {
 	min-height: 95px;
 	height: 125px;
 	color: whitesmoke;
-	padding-top: 25px;
+	padding-top: 5px;
 }
 
 .container {
@@ -324,7 +324,7 @@ p {
 	min-width: 240px;
 	text-decoration: none;
 	font-size: 24px;
-	font-family: Tahoma, Helvetica, OpenSans, Verdana, Arial;
+	font-family: OpenSans, Helvetica, Verdana, Arial;
 	color: #74A4D3;
 	opacity: 0.8;
 	transition: opacity 1s ease-in-out;
@@ -575,7 +575,7 @@ Some inputs
 	padding-left: 15px;
 	padding-right: 3px;
 	font-size: 15px;
-	font-family: Tahoma, Times, OpenSans, Arial;
+	font-family: Verdana. Tahoma, Times, OpenSans, Arial;
 	min-width: 120px;
 	outline: 0;
 	margin: 0;
@@ -604,7 +604,7 @@ Some inputs
 	border-right: 1px solid #3BAFDA;
 	min-width: 165px;
 	font-size: 15px;
-	font-family: Tahoma, Times, OpenSans, Arial;
+	font-family: Verdana, Tahoma, Times, OpenSans, Arial;
 	vertical-align: top;
 	margin: 0;
 	padding-top: 0;
@@ -620,7 +620,7 @@ Some inputs
 	display: block;
 	height: 27px;
 	font-size: 14px;
-	font-family: Tahoma, Times, OpenSans, Arial;
+	font-family: Verdana, Tahoma, Times, OpenSans, Arial;
 	border: 1px solid #AAB2BD;
 	margin: 0;
 	margin-top: 4px;
@@ -665,7 +665,7 @@ Some inputs
 .textarea-field {
 	display: block;
 	font-size: 15px;
-	font-family: Tahoma, Times, OpenSans, Arial;
+	font-family: Verdana, Tahoma, Times, OpenSans, Arial;
 	border: 1px solid #AAB2BD;
 	margin: 0;
 	margin-top: 3.5px;
@@ -792,12 +792,12 @@ Footer styling
 	clear: both;
 }
 
-.footer .logo {
+/*.footer .logo {
 	display: inline-block;
 	height: 32px;
 	margin-right: 5%;
 	margin-top: 10px;
-}
+}*/
 
 .footer .nav .title {
 	font-size: 14px;
