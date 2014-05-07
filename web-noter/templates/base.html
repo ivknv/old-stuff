@@ -24,7 +24,7 @@
 	</head>
 	<body>
 		{% include "include/header.html" %}
-		<div class="main">
+		<section class="main" role="main">
 			<script type="text/javascript">
 				$(document).ready(function() {
 					var usag = navigator.userAgent.toLowerCase();
@@ -40,7 +40,7 @@
 			</script>
 			{% block content %}
 			{% endblock %}
-		</div>
+		</section>
 		{% include "include/footer.html" %}
 	</body>
 </html>
