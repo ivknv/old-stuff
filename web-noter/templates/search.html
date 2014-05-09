@@ -8,6 +8,7 @@
 		{% endfor %}
 	{% endif %}
 	{% if found %}
+		{% include "include/read_more.html" %}
 		{% for note in found %}
 			{% include "include/search_note.html" %}
 		{% endfor %}
