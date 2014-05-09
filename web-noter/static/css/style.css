@@ -762,10 +762,10 @@ Pagination
 	margin: 3px;
 }
 
-.pg a {
+.pg li a {
 	font-size: 18px;
 	color: #6DA3BD;
-	padding: 0px 3px;
+	padding: 3px 8px;
 }
 
 .pg li:not(.inactive):not(.current) a:hover {
