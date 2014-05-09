@@ -17,6 +17,11 @@
 		<script type="text/javascript">
 			hljs.configure({tabReplace: '    '}); // 4 spaces
 			hljs.initHighlightingOnLoad();
+			$(document).ready(function() {
+				$("article .text").each(function() {
+					$(this).html(antiEscapeLtGt($(this).html()));
+				});
+			});
 		</script>
 		{% include "include/handle.html" %}
 		{% block head %}
@@ -34,7 +39,6 @@
 						$(".search-btn").css("line-height", "1.75");
 						$(".input-field").css("margin-top", "4px");
 						$(".label").css("padding-bottom", "3px");
-						$(".pagination li:last-child a:last-child").css("margin-left", "1px");
 					}
 				});
 			</script>

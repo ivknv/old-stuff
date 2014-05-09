@@ -8,6 +8,7 @@
 	</div>
 	<div id="result" class="alert"></div>
 	{% if notes %}
+		{% include "include/read_more.html" %}
 		{% include "include/note_manage.html" %}
 		{% with current_url="/manage/" %}
 			{% include "include/pagination.html" %}

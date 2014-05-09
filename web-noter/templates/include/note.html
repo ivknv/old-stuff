@@ -6,6 +6,6 @@
 	{% if note.type == "s"  %}
 		<pre><code class="snippet-body">{{ note.text }}</code></pre>
 	{% else %}
-		<p class="text">{{ note.text|safe }}</p>
+		<p class="text">{{ note.text }}</p>
 	{% endif %}
 </article>

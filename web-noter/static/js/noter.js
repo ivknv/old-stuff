@@ -255,6 +255,10 @@ function escapeLtGt(code) {
 	return code.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;");
 }
 
+function antiEscapeLtGt(code) {
+	return code.replace(/&amp;/gm, "&").replace(/&lt;/gm, "<").replace(/&gt;/gm, ">").replace(/&quot;/gm, '"').replace(/&#39/gm, "");
+}
+
 function replaceNewLines(txt) {
 	return txt.replace(/\n/gm, "<br/>").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;")
 }
