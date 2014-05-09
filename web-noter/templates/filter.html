@@ -17,6 +17,7 @@
 		</div>
 	</div> <!-- When there was no this closing tag there was an interesting "double" footer problem -->
 	{% if filtered %}
+		{% include "include/read_more.html" %}
 		{% for note in filtered %}
 			{% include "include/note.html" %}
 		{% endfor %}
