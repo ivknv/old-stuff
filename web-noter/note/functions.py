@@ -92,7 +92,7 @@ def page_range(pn, num_pages, max_next=3):
 def replaceNewLinesString(s):
 	"""Replace all the newlines (\n) by <br/> in a string"""
 	
-	return s.replace("\n", "<br/>").replace(" ", "&nbsp;")
+	return s.replace("\n", "<br/>").replace("	", "&nbsp;&nbsp;&nbsp;&nbsp;")
 
 def replaceNewLines(obj):
 	"""Replace all the newlines (\n) in notes by <br/> HTML tags"""

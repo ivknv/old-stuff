@@ -6,6 +6,7 @@
 {% endblock %}
 {% block content %}
 	{% if notes %}
+		{% include "include/read_more.html" %}
 		{% for note in notes %}
 			{% include "include/note.html" %}
 		{% endfor %}
@@ -13,6 +14,7 @@
 			{% include "include/pagination.html" %}
 		{% endwith %}
 	{% else %}
-		<h5>You don't have any notes yet.</h5>
+		<h5>You don't have any notes yet</h5>
+		<p>You can always <a href="/add/" onclick="load_page('/add/'); return false;">create</a> one</p>
 	{% endif %}
 {% endblock %}

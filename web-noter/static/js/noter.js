@@ -256,7 +256,7 @@ function escapeLtGt(code) {
 }
 
 function replaceNewLines(txt) {
-	return txt.replace(/\n/gm, "<br/>").replace(/ /gm, "&nbsp;").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;")
+	return txt.replace(/\n/gm, "<br/>").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;")
 }
 
 function preview() {

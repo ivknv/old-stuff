@@ -4,11 +4,16 @@
 {% block head %}
 {% endblock %}
 {% block content %}
-	<div class="remove-dialog alert alert-warning alert-dismissable">
+	<div class="remove-dialog">
 	</div>
 	<div id="result" class="alert"></div>
-	{% include "include/note_manage.html" %}
-	{% with current_url="/manage/" %}
-		{% include "include/pagination.html" %}
-	{% endwith %}
+	{% if notes %}
+		{% include "include/note_manage.html" %}
+		{% with current_url="/manage/" %}
+			{% include "include/pagination.html" %}
+		{% endwith %}
+	{% else %}
+		<h5>You don't have any notes yet</h5>
+		<p>You can always <a href="/add/" onclick="load_page('/add/'); return false;">create</a> one</p>
+	{% endif %}
 {% endblock %}

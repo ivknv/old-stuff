@@ -3,44 +3,44 @@
 {% block content %}
 	<form method="post" action="/register/" id="register">
 		{% csrf_token %}
-		<div class="col-6-md">
+		<div class="margin-bottom">
 			{% if "return" in request.GET %}
 				<a href="/login?return={{ request.GET.return }}">Already have account?</a>
 			{% else %}
 				<a href="/login">Already have an account?</a>
 			{% endif %}
 		</div>
-		<div class="col-6-md">
-			<div class="col-6-md">
+		<div class="margin-bottom">
+			<div class="margin-bottom">
 				<label class="label" for="email">Email:</label>
-				<input type="text" name="email" class="form-control" placeholder="Email" />
+				<input type="text" name="email" class="input-field" placeholder="Email" />
 			</div>
-			<div class="col-6-md">
+			<div class="margin-bottom">
 				<label class="label" for="username">Username:</label>
-				<input type="text" name="username" class="form-control" placeholder="Username" />
+				<input type="text" name="username" class="input-field" placeholder="Username" />
 			</div>
-			<div class="col-6-md">
+			<div class="margin-bottom">
 				<label class="label" for="first_name">First name:</label>
-				<input type="text" name="first_name" class="form-control" placeholder="First name" />
+				<input type="text" name="first_name" class="input-field" placeholder="First name" />
 			</div>
-			<div class="col-6-md">
+			<div class="margin-bottom">
 				<label class="label" for="last_name">Last name:</label>
-				<input type="text" name="last_name" class="form-control" placeholder="Last name" />
+				<input type="text" name="last_name" class="input-field" placeholder="Last name" />
 			</div>
-			<div class="col-6-md">
+			<div class="margin-bottom">
 				<label class="label" for="password">Password:</label>
-				<input type="password" name="password" class="form-control" placeholder="Password" />
+				<input type="password" name="password" class="input-field" placeholder="Password" />
 			</div>
-			<div class="col-6-md">
+			<div class="margin-bottom">
 				<label class="label" for="confirm_password">Confirm password:</label>
-				<input type="password" id="confirm_password" class="form-control" placeholder="Confirm password" />
+				<input type="password" id="confirm_password" class="input-field" placeholder="Confirm password" />
 			{% if "return" in request.GET %}
 				<input type="hidden" name="return" value="{{ request.GET.return }}" />
 			{% endif %}
 			</div>
 		</div>
 	</form>
-	<div class="col-6-md">
-		<button class="btn btn-primary" onclick="$('input[name=password]').val() == $('input[id=confirm_password]').val() ? $('#register').submit() : alert('Passwords are different');">Register</button>
+	<div class="margin-bottom">
+		<div class=" btn-blue" onclick="$('input[name=password]').val() == $('input[id=confirm_password]').val() ? $('#register').submit() : alert('You entered two different passwords');">Register</div>
 	</div>
 {% endblock %}
