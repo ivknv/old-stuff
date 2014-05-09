@@ -64,12 +64,12 @@ It's a page"""
 		raise Http404 # Display '404 Not Found' error
 	
 	try: # Sometimes note can be latest
-		next_note = note.get_next_by_date() # Get next note
+		next_note = note.get_next_by_date(author=request.user.id) # Get next note
 	except ObjectDoesNotExist: # If there's no next note
 		next_note = None # Next note will be None
 	
 	try: # Sometimes note can be first
-		previous_note = note.get_previous_by_date() # Get previous note
+		previous_note = note.get_previous_by_date(author=request.user.id) # Get previous note
 	except ObjectDoesNotExist: # If there's no previous note
 		previous_note = None # Previous note will be None
 	
