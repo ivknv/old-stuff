@@ -296,6 +296,7 @@ function preview() {
 				replaceNewLines($textarea.val())
 			);
 	}
+	$preview.find("a > .title").html(escapeLtGt($title.val()))
 	var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'Jule', 'August', 'September', 'October', 'November', 'December'];
 	var now = new Date(), weekday=days[now.getDay()], month=months[now.getMonth()];
@@ -308,8 +309,7 @@ function preview1(d) {
 	$title = jQuery("input[name=title]"),
 	$textarea = jQuery("textarea[name=text]"),
 	$pre = $preview.find("pre"),
-	$precode = $pre.find("code"),
-	$;
+	$precode = $pre.find("code");
 	$preview.find("h2").html("Preview");
 	$preview.find("a > .title").html($title.val());
 	if (jQuery("#snippet").prop("checked")) {
@@ -338,6 +338,7 @@ function preview1(d) {
 			);
 
 	}
+	$preview.find("a > .title").html(escapeLtGt($title.val()))
 	$preview.find(".date").html(d);
 }
 
