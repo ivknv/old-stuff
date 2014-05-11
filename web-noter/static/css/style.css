@@ -60,6 +60,16 @@ table {
 	border-spacing: 0;
 }
 
+code {
+	display: inline-block;
+	background-color: #F9F2F4;
+	color: #E8694E;
+	padding: 2px 4px;
+	line-height: 1.42857;
+	border-radius: 4px;
+	font-size: 90%;
+}
+
 h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
 	color: #434A54;
