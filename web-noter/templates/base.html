@@ -11,13 +11,9 @@
 		<link rel="shortcut icon" href="/static/img/noter-icon.png" />
 		<script type="text/javascript" src="/static/js/jquery-2.1.0.min.js"></script>
 		<script type="text/javascript" src="/static/js/jquery.scrollTo.min.js"></script>
-		<script type="text/javascript" src="/static/js/noter.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="/static/js/highlight.js/styles/mono-blue.css" />
 		<script type="text/javascript" src="/static/js/highlight.js/highlight.pack.js"></script>
-		<script type="text/javascript">
-			hljs.configure({tabReplace: '    '}); // 4 spaces
-			hljs.initHighlightingOnLoad();
-		</script>
+		<script type="text/javascript" src="/static/js/noter.min.js"></script>
 		{% include "include/handle.html" %}
 		{% block head %}
 		{% endblock %}
@@ -26,19 +22,7 @@
 		{% include "include/header.html" %}
 		<section class="main" role="main">
 			<script type="text/javascript">
-				$(document).ready(function() {
-					var usag = navigator.userAgent.toLowerCase();
-
-					if (usag.indexOf("chrome") > -1 || usag.indexOf("applewebkit") > -1 || usag.indexOf("presto") > -1) {
-						$(".filter-btn").css("line-height", "1.5");
-						$(".search-btn").css("line-height", "1.75");
-						$(".input-field").css("margin-top", "4px");
-						$(".label").css("padding-bottom", "3px");
-					}
-					$("article .text").each(function() {
-						$(this).html(antiEscapeLtGt($(this).html()));
-					});
-				});
+				onLoad();
 			</script>
 			{% block content %}
 			{% endblock %}

@@ -255,10 +255,6 @@ function escapeLtGt(code) {
 	return code.replace(/&/gm, "&amp;").replace(/</gm, "&lt;").replace(/>/gm, "&gt;");
 }
 
-function antiEscapeLtGt(code) {
-	return code.replace(/&amp;/gm, "&").replace(/&lt;/gm, "<").replace(/&gt;/gm, ">").replace(/&quot;/gm, '"').replace(/&#39/gm, "");
-}
-
 function replaceNewLines(txt) {
 	return txt.replace(/\n/gm, "<br/>").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;")
 }
@@ -383,3 +379,39 @@ function enableTab(id) {
         }
     };
 }
+
+// @READY
+// =======
+// On load
+// =======
+// @ONREADY
+
+/*function antiEscapeLtGt(code) {
+	return code.replace(/&amp;/gm, "&").replace(/&lt;/gm, "<").replace(/&gt;/gm, ">").replace(/&quot;/gm, '"').replace(/&#39/gm, "");
+}*/
+
+function antiEscapeLtGt2(code) {
+	return code.replace(/&lt;/gm, "<").replace(/&gt;/gm, ">").replace(/&amp;lt;/gm, "&lt;").replace(/&amp;gt;/gm, "&gt;").replace(/&amp;/gm, "&");
+}
+
+function onLoad() {
+	// Fixes for various browsers
+	jQuery(document).ready(function() {
+		var usag = navigator.userAgent.toLowerCase();
+			if (usag.indexOf("chrome") > -1 || usag.indexOf("applewebkit") > -1 || usag.indexOf("presto") > -1) {
+			jQuery(".filter-btn").css("line-height", "1.5");
+			jQuery(".search-btn").css("line-height", "1.75");
+			jQuery(".input-field").css("margin-top", "4px");
+			jQuery(".label").css("padding-bottom", "3px");
+		}
+	
+		// Make text normal
+		jQuery("article .text").each(function() {
+			jQuery(this).html(antiEscapeLtGt2(jQuery(this).html()));
+		});
+	});
+}
+
+// Highlight code
+hljs.configure({tabReplace: '    '});
+hljs.initHighlightingOnLoad();
