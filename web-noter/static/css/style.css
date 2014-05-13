@@ -775,16 +775,15 @@ Pagination
 	bottom: 0
 }
 
-.pagination li {
+/*.pagination li {
 	display: inline;
 	list-style: none;
 	margin-left: -5px;
-}
+}*/
 
 .pg li {
 	display: inline;
 	list-style: none;
-	margin: 3px;
 }
 
 .pg li a {
