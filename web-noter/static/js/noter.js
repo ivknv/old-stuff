@@ -277,7 +277,7 @@ function preview() {
 		$text.remove();
 		if ($pre.length < 1)
 			$preview.append("<pre><code></code></pre>");
-		$precode.each(function(i, e) {
+		$preview.find("pre code").each(function(i, e) { // Because elements should be refreshed
 			jQuery(this).html(escapeLtGt($textarea.val()));
 			hljs.highlightBlock(e);
 		});
@@ -292,7 +292,7 @@ function preview() {
 			} else {
 				$preview.attr("class", "preview note");
 			}
-			$text.html(
+			$preview.find(".text").html(
 				replaceNewLines($textarea.val())
 			);
 	}
@@ -318,7 +318,7 @@ function preview1(d) {
 			$text.remove();
 		if ($pre.length < 1)
 			$preview.append("<pre><code></code></pre>");
-		$precode.each(function(i, e) {
+		$preview.find("pre code").each(function(i, e) {
 			jQuery(this).html(escapeLtGt($textarea.val()));
 			hljs.highlightBlock(e);
 		});
@@ -333,10 +333,9 @@ function preview1(d) {
 			} else {
 				$preview.attr("class", "preview note");
 			}
-			$text.html(
+			$preview.find(".text").html(
 				replaceNewLines($textarea.val())
 			);
-
 	}
 	$preview.find("a > .title").html(escapeLtGt($title.val()))
 	$preview.find(".date").html(d);
