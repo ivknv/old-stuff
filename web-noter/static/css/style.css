@@ -886,13 +886,11 @@ footer ul {
 footer ul li {
 	list-style: none;
 	display: block;
-	padding: 5px 0;
 }
 
 footer ul li a {
 	color: #AAB2BD;
 	font-size: 14px;
-	padding: 5px 0;
 }
 		
 footer .copyright-center {
