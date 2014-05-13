@@ -1,15 +1,14 @@
 <div class="wrapper">
 	<header role="banner">
+		<h1><span class="N-letter">N</span>oter</h1>
+		<nav role="navigation sitemap">
+			<a href="/" onclick="load_page('/'); return false;">Home</a>
+			<a href="/add/" onclick="load_page('/add/'); return false;">Add note</a>
+			<a href="/manage/" onclick="load_page('/manage/'); return false;">Manage notes</a>
+			<a href="/filter/" onclick="load_page('/filter'); return false;">Filter</a>
+			{% block header_nav %}{% endblock %}
+		</nav>
 		<div class="container">
-			
-			<h1><span class="N-letter">N</span>oter</h1>
-			<nav role="navigation sitemap">
-				<a href="/" onclick="load_page('/'); return false;">Home</a>
-				<a href="/add/" onclick="load_page('/add/'); return false;">Add note</a>
-				<a href="/manage/" onclick="load_page('/manage/'); return false;">Manage notes</a>
-				<a href="/filter/" onclick="load_page('/filter'); return false;">Filter</a>
-				{% block header_nav %}{% endblock %}
-			</nav>
 			<div id="search_box" style="margin-top: 10px;">
 				<div>
 					<input class="text-field search-query" type="text" placeholder="Search" name="q" value="{{ q }}" />
