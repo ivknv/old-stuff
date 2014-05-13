@@ -153,6 +153,7 @@ a:hover {
 	height: 145px;
 	color: whitesmoke;
 	padding: 15px;
+	padding-top: 0;
 	min-width: 240px;
 }
 
