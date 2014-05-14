@@ -45,15 +45,17 @@ jQuery(document).ajaxSend(function(event, xhr, settings) {
 // ===================
 function load_page(url) {
 	if (url[0] == "/") {
+		$realMain = jQuery(".main");
+		$realMain.css("background-color", "rgba(254, 254, 254, 0.95)");
+		
 		$.get(url, function(data) {
 			var $data = jQuery("<div/>").html(data);
 			var $main = $data.find(".main");
 			var $realMain = jQuery(".main")
 			var $title = $data.find("title");
-			$realMain.css("opacity", "0.5");
-			$realMain.html($main.html());
-			$realMain.css("opacity", "1");
 			window.document.title = $title.text();
+			$realMain.html($main.html());
+			$realMain.css("background-color", "rgba(254, 254, 254, 1)");
 			$.scrollTo("body");
 			var state = {
 				url: url,
@@ -69,6 +71,35 @@ function load_page(url) {
 		window.href = url;
 	}
 }
+
+function load_page2(url) {
+	if (url[0] == "/") {
+		$realMain = jQuery(".main");
+		$realMain.css("background-color", "rgba(254, 254, 254, 0.95)");
+		
+		$.get(url, function(data) {
+			var $data = jQuery("<div/>").html(data);
+			var $main = $data.find(".main");
+			var $title = $data.find("title");
+			window.document.title = $title.text();
+			$realMain.html($main.html());
+			$realMain.css("background-color", "rgba(254, 254, 254, 1)");
+			$.scrollTo(".note");
+			var state = {
+				url: url,
+				title: $title.text(),
+				content: data
+			};
+			history.pushState(state, state.title, url);
+			jQuery("pre code").each(function(i, e) {
+				hljs.highlightBlock(e);
+			});
+		}, "html");
+	} else {
+		window.href = url;
+	}
+}
+
 
 // @TAG @TAGS
 // ==============
@@ -143,7 +174,7 @@ function rmNote(id) {
 			$result = jQuery("#result");
 			$result.addClass("okay");
 			$result.css("display", "block");
-			$result.html("<strong class=\"success\">Note was succesfully removed</strong>");
+			$result.html("<strong class=\"success\">Succesfully removed</strong>");
 			setTimeout('$result.fadeOut("slow")', 1500);
 		}
 		else
