@@ -366,7 +366,7 @@ p {
 	text-decoration: none;
 	font-size: 24px;
 	font-family: OpenSans, Helvetica, Verdana, Arial;
-	color: #74A4D3;
+	color: rgb(116, 164, 214);
 	opacity: 0.8;
 	transition: opacity 1s ease-in-out;
 	-moz-transition: opacity 1s ease-in-out;
