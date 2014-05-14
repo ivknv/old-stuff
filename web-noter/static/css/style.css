@@ -214,9 +214,22 @@ pre {
 }
 
 #search_box {
+	display: block;
 	max-width: 275px;
 	float: right;
-	margin-right: 3px;
+	margin: 0 3px;
+	box-sizing: border-box;
+}
+
+#search_box > span {
+	float: right;
+	box-sizing: border-box;
+}
+
+@media screen and (max-width: 425px) {
+	#search_box, #search_box > span {
+		float: left;
+	}
 }
 
 .input-group-btn {
@@ -248,7 +261,7 @@ pre {
 }
 
 .wrapper h1 {
-	font-family: OpenSans, Helvetica, OpenSans, Arial, Verdana, Tahoma;
+	font-family: OpenSans, Helvetica, Arial, Verdana, Tahoma;
 	font-size: 40px;
 	font-weight: 100;
 }
