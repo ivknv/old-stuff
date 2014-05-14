@@ -124,7 +124,7 @@ Site styling
 
 body {
 	z-index: 1000;
-	background-image: url("/static/img/background2.gif");
+	background-image: url("/static/img/background2_optimized.gif");
 	background-repeat: no-repeat;
 	background-attachment: scroll;
 	background-size: 100% 100%;
@@ -152,8 +152,7 @@ a:hover {
 	background-color: rgba(71, 71, 71, 0.9);/* #474747;*/
 	height: 125px;
 	color: whitesmoke;
-	padding: 15px;
-	padding-top: 0;
+	padding-bottom: 7px;
 	min-width: 240px;
 }
 
