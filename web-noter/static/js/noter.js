@@ -56,7 +56,7 @@ function load_page(url) {
 			window.document.title = $title.text();
 			$realMain.html($main.html());
 			$realMain.css("background-color", "rgba(254, 254, 254, 1)");
-			$.scrollTo("body");
+			jQuery.scrollTo("body");
 			var state = {
 				url: url,
 				title: $title.text(),
@@ -84,7 +84,7 @@ function load_page2(url) {
 			window.document.title = $title.text();
 			$realMain.html($main.html());
 			$realMain.css("background-color", "rgba(254, 254, 254, 1)");
-			$.scrollTo(".note");
+			jQuery.scrollTo(".note");
 			var state = {
 				url: url,
 				title: $title.text(),
