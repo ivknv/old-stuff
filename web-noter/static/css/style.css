@@ -42,8 +42,8 @@ mark {
 	font-family: inherit;
 	vertical-align: baseline;
 	font-size: 100%;
-	background-color: yellow;
-	box-shadow: inset 0 0 20px #FFF;
+	background-color: rgb(255, 255, 0);
+	box-shadow: inset 0 0 20px rgb(255, 255, 255);
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -58,8 +58,8 @@ body {
 
 code {
 	display: inline-block;
-	background-color: #F9F2F4;
-	color: #E8694E;
+	background-color: rgb(249, 242, 244);
+	color: rgb(132, 105, 78);
 	padding: 2px 4px;
 	line-height: 1.42857;
 	border-radius: 4px;
@@ -68,8 +68,8 @@ code {
 
 kbd {
 	display: inline-block;
-	background-color: #333;
-	color: #FFF;
+	background-color: rgb(51, 51, 51);
+	color: rgb(255, 255, 255);
 	padding: 2px 4px;
 	border-radius: 4px;
 	line-height: 1.42587;
@@ -82,7 +82,7 @@ img {
 
 h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
-	color: #434A54;
+	color: rgb(67, 74, 84);
 }
 
 h2 {
@@ -133,25 +133,25 @@ body {
 
 a {
 	text-decoration: none;
-	color: #009BFF;
+	color: rgb(0, 155, 255);
 	outline: 0;
 }
 
 a:hover {
-	color: #00BFFF;
+	color: rgb(0, 191, 255);
 }
 
 .wrapper h1 {
-	color: whitesmoke;
+	color: rgb(245, 245, 245);
 	text-align: center;
 	margin-top: 0;
 }
 
 .wrapper header {
 	display: block;
-	background-color: rgba(71, 71, 71, 0.9);/* #474747;*/
+	background-color: rgba(71, 71, 71, 0.9);
 	height: 125px;
-	color: whitesmoke;
+	color: rgb(245, 245, 245);
 	padding-bottom: 7px;
 	min-width: 240px;
 }
@@ -210,7 +210,7 @@ pre {
 }
 
 .wrapper header nav a:hover {
-	color: #00BFFF;
+	color: rgb(0, 191, 255);
 }
 
 #search_box {
@@ -239,15 +239,15 @@ pre {
 .tag-btn {
 	display: inline-block;
 	margin: 3px;
-	background-color: #656D78;
+	background-color: rgb(101, 109, 120);
 	padding: 6px 12px;
-	color: #FEFEFE;
+	color: rgb(254, 254, 254);
 	border-radius: 5px;
 	cursor: pointer;
 }
 
 .tag-btn:hover {
-	background-color: #889095;
+	background-color: rgb(136, 144, 149);
 }
 
 .wrapper {
@@ -279,13 +279,13 @@ pre {
 }
 
 .pagination > li > .current {
-	background-color: whitesmoke;
+	background-color: rgb(245, 245, 245);
 	cursor: default;
 }
 
 .pagination > li > .current:hover {
-	color: #434A54;
-	background-color: whitesmoke;
+	color: rgb(67, 74, 84);
+	background-color: rgb(245, 245, 245);
 }
 
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span {
@@ -302,14 +302,14 @@ pre {
 
 .main {
 	position: relative;
-	background-color: #FEFEFE;
+	background-color: rgb(254, 254, 254);
 	max-width: 1280px;
 	min-width: 240px;
 	overflow: auto;
 	height: auto !important;
 	height: 100%;
 	font-family: OpenSans, Arial;
-	box-shadow: 0 0 15px #888;
+	box-shadow: 0 0 15px rgb(136, 136, 136);
 	min-height: 417px;
 	margin-top: 20px;
 	padding-top: 10px;
@@ -333,7 +333,7 @@ pre {
 }
 
 .text a {
-	color: #56A2FF;
+	color: rgb(86, 162, 255);
 }
 
 .text {
@@ -346,7 +346,7 @@ pre {
 
 .cut {
 	display: block;
-	box-shadow: inset 0 -15px 15px -15px #ABABAB;
+	box-shadow: inset 0 -15px 15px -15px rgb(171, 171, 171);
 	height: 210px;
 }
 
@@ -397,8 +397,8 @@ p {
 
 	50% {
 		opacity: 1;
-		color: red;
-		text-shadow: 0 0 2px red;
+		color: rgb(255, 0, 0);
+		text-shadow: 0 0 2px rgb(255, 0, 0);
 	}
 	
 	100% {
@@ -413,8 +413,8 @@ p {
 
 	50% {
 		opacity: 1;
-		color: red;
-		text-shadow: 0 0 2px red;
+		color: rgb(255, 0, 0);
+		text-shadow: 0 0 2px rgb(255, 0, 0);
 	}
 	
 	100% {
@@ -429,8 +429,8 @@ p {
 
 	50% {
 		opacity: 1;
-		color: red;
-		text-shadow: 0 0 2px red;
+		color: rgb(255, 0, 0);
+		text-shadow: 0 0 2px rgb(255, 0, 0);
 	}
 	
 	100% {
@@ -445,8 +445,8 @@ p {
 
 	50% {
 		opacity: 1;
-		color: red;
-		text-shadow: 0 0 2px red;
+		color: rgb(255, 0, 0);
+		text-shadow: 0 0 2px rgb(255, 0, 0);
 	}
 	
 	100% {
@@ -461,8 +461,8 @@ p {
 
 	50% {
 		opacity: 1;
-		color: red;
-		text-shadow: 0 0 2px red;
+		color: rgb(255, 0, 0);
+		text-shadow: 0 0 2px rgb(255, 0, 0);
 	}
 	
 	100% {
@@ -471,13 +471,13 @@ p {
 }
 
 .warning > .text {
-	color: red;
+	color: rgb(255, 0, 0);
 	font-size: 18px;
 }
 
 .warning > a .title {
 	font-size: 28px;
-	text-shadow: 0 0 1px red;
+	text-shadow: 0 0 1px rgb(255, 0, 0);
 }
 
 .warning > a .title:hover {
@@ -491,29 +491,29 @@ p {
 .edit_button {
 	display: inline-block;
 	margin-bottom: 50px;
-	background-color: #1A81DF;
+	background-color: rgb(26, 129, 223);
 	padding: 6px 12px;
 	vertical-align: middle;
 	max-width: 40px;
 	min-width: 30px;
 	text-align: center;
 	border-radius: 5px;
-	border: 2px solid #F1F1F1;
+	border: 2px solid rgb(241, 241, 241);
 	cursor: pointer;
-	color: white;
+	color: rgb(255, 255, 255);
 }
 
 .edit_button:hover {
-	background-color: #1A91DF;
-	color: #FEFEFE;
+	background-color: rgb(26, 145, 223);
+	color: rgb(254, 254, 254);
 }
 
 .error {
-	color: red;
+	color: rgb(255, 0, 0);
 }
 
 .success {
-	color: green;
+	color: rgb(0, 128, 0);
 }
 
 .remove-dialog {
@@ -529,7 +529,7 @@ p {
 	bottom: 0;
 	right: 0;
 	font-size: 13px;
-	background-color: #FFDD87;
+	background-color: rgb(255, 221, 135);
 	padding: 5px;
 }
 
@@ -565,19 +565,19 @@ p {
 }
 
 .okay {
-	border: 2px solid #A8CE80;
-	background-color: #B9DF90;
+	border: 2px solid rgb(255, 221, 135);
+	background-color: rgb(185, 223, 144);
 
 }
 
 .fail {
-	border: 2px solid #E1727E;
-	background-color: #F2838F;
+	border: 2px solid rgb(225, 114, 126);
+	background-color: rgb(242, 131, 143);
 }
 
 .close {
 	float: right;
-	color: red;
+	color: rgb(255, 0, 0);
 	font-size: 24px;
 	cursor: pointer;
 	font-family: Tahoma;
@@ -599,9 +599,9 @@ Some inputs
 .search-btn {
 	display: inline-block;
 	margin-left: -6px;
-	background-color: #3BAFDA;
+	background-color: rgb(59, 175, 218);
 	padding: 3px 12px 3px 12px;
-	color: #FEFEFE;
+	color: rgb(254, 254, 254);
 	cursor: pointer;
 	border-radius: 0 15px 15px 0;
 	text-align: center;
@@ -614,8 +614,8 @@ Some inputs
 .text-field {
 	height: 30px;
 	vertical-align: top;
-	border: 1px solid #AAB2BD;
-	border-right: 1px solid #3BAFDA;
+	border: 1px solid rgb(170, 178, 189);
+	border-right: 1px solid rgb(59, 175, 218);
 	border-radius: 15px 0 0 15px;
 	padding-left: 15px;
 	padding-right: 3px;
@@ -630,8 +630,8 @@ Some inputs
 		
 .filter-btn {
 	display: inline-block;
-	background-color: #3BAFDA;
-	color: #FEFEFE;
+	background-color: rgb(59, 175, 218);
+	color: rgb(254, 254, 254);
 	font-size: 15px;
 	margin-left: -6px;
 	padding: 3px 12px 3px 12px;
@@ -645,8 +645,8 @@ Some inputs
 	height: 26px;
 	padding-left: 5px;
 	padding-right: 3px;
-	border: 1px solid #AAB2BD;
-	border-right: 1px solid #3BAFDA;
+	border: 1px solid rgb(170, 178, 189);
+	border-right: 1px solid rgb(59, 175, 218);
 	min-width: 165px;
 	font-size: 15px;
 	font-family: Verdana, Tahoma, Times, OpenSans, Arial;
@@ -657,7 +657,7 @@ Some inputs
 }
 
 .filter-field:focus, .text-field:focus, .input-field:focus, .textarea-field:focus {
-	border-color: #3BAFDA;
+	border-color: rgb(59, 175, 218);
 	outline: 0;
 }
 
@@ -666,7 +666,7 @@ Some inputs
 	height: 27px;
 	font-size: 14px;
 	font-family: Verdana, Tahoma, Times, OpenSans, Arial;
-	border: 1px solid #AAB2BD;
+	border: 1px solid rgb(170, 178, 189);
 	margin: 0;
 	margin-top: 3px;
 	padding-left: 5px;
@@ -684,23 +684,22 @@ Some inputs
 	padding: 6px 12px;
 	line-height: 1.42;
 	margin: 3px;
-	background-color: #FAFAFA;
-	border: 1px solid #DADADA;
+	background-color: rgb(250, 250, 250);
+	border: 1px solid rgb(218, 218, 218);
 	border-radius: 6px;
-	color: #123;
+	color: rgb(17, 34, 51);
 	cursor: pointer;
 }
 
 .read-more-btn:hover {
-	border-color: #E1E1E1;
-	background-color: #FBFBFB;
+	border-color: rgb(225, 225, 225);
+	background-color: rgb(251, 251, 251);
 }
 
 .label {
 	font-size: 10.5px;
 	font-family: Arial;
 	font-weight: bold;
-/*	background-color: #CCD1D9;*/
 	color: black;
 	padding: 3px;
 	border-radius: 3px 3px 0 0;
@@ -710,8 +709,8 @@ Some inputs
 
 .btn-blue {
 	display: inline-block;
-	background-color: #3BAFDA;
-	color: #FEFEFE;
+	background-color: rgb(59, 175, 218);
+	color: rgb(254, 254, 254);
 	font-size: 15px;
 	margin-left: -6px;
 	padding: 6px 12px 6px 12px;
@@ -723,14 +722,14 @@ Some inputs
 }
 
 .btn-blue:hover, .filter-btn:hover, .search-btn:hover, .btn-success {
-	background-color: #0AAFDA;
+	background-color: rgb(10, 175, 218);
 }
 
 .textarea-field {
 	display: block;
 	font-size: 15px;
 	font-family: Verdana, Tahoma, Times, OpenSans, Arial;
-	border: 1px solid #AAB2BD;
+	border: 1px solid rgb(170, 178, 189);
 	margin: 0;
 	margin-top: 3.5px;
 	padding-left: 5px;
@@ -745,11 +744,11 @@ Some inputs
 
 .btn-success {
 	display: inline-block;
-	background-color: #a0d468;
-	border-color: #A0D468;
+	background-color: rgb(160, 212, 104);
+	border-color: rgb(160, 212, 104);
 	box-shadow: none;
 	outline: 0;
-	color: #FEFEFE;
+	color: rgb(254, 254, 254);
 	font-size: 15px;
 	padding: 6px 12px 6px 12px;
 	margin: 3px;
@@ -761,7 +760,7 @@ Some inputs
 }
 
 .btn-success:hover {
-	background-color: #A5D357;
+	background-color: rgb(165, 211, 87);
 }
 
 /*
@@ -792,7 +791,7 @@ Pagination
 
 .pg li a {
 	font-size: 18px;
-	color: #6DA3BD;
+	color: rgb(109, 163, 189);
 	padding: 3px 8px;
 }
 
@@ -801,20 +800,20 @@ Pagination
 }
 
 .pg .inactive a {
-	color: #D9D8E2;
+	color: rgb(217, 216, 226);
 }
 
 .pg .current a {
-	color: #000;
-	background-color: #F1F1F1;
+	color: rgb(0, 0, 0);
+	background-color: rgb(241, 241, 241);
 }
 
 /*.pagination li a {
 	padding: 6px 12px;
-	border-top: 1px solid #CCD1D9;
-	border-bottom: 1px solid #CCD1D9;
-	border-right: 1px solid #CCD1D9;
-	color: #00012B;
+	border-top: 1px solid rgb(204, 209, 217);
+	border-bottom: 1px solid rgb(204, 209, 217);
+	border-right: 1px solid rgb(204, 209, 217);
+	color: rgb(0, 1, 43);
 	margin: 0;
 	margin-left: 0.5px;
 	margin-right: 0.5px;
@@ -822,37 +821,37 @@ Pagination
 
 .pagination li:first-child a:first-child {
 	border-radius: 5px 0 0 5px;
-	border: 1px solid #CCD1D9;
+	border: 1px solid rgb(204, 209, 217);
 }
 
 .pagination li:last-child a:last-child {
 	border-radius: 0 5px 5px 0;
-	border: 1px solid #CCD1D9;
+	border: 1px solid rgb(204, 209, 217);
 	border-left: none;
 	margin-left: 0.1px;
 }
 
 .pagination .active a {
-	background-color: #8CC152;
-	color: #FEFEFE;
+	background-color: rgb(140, 193, 82);
+	color: rgb(254, 254, 254);
 }
 
 .pagination .active a:hover {
-	background-color: #8CC952;
+	background-color: rgb(140, 201, 82);
 }
 
 .pagination .inactive a {
-	background-color: #FFF;
-	color: #EAE9F3;
+	background-color: rgb(255, 255, 255);
+	color: rgb(234, 233, 243);
 	cursor: default;
 }
 
 .pagination .inactive a:hover {
-	background-color: #FFF;
+	background-color: rgb(255, 255, 255);
 }
 
 .pagination .current a {
-	background-color: #FAFAFA;
+	background-color: rgb(250, 250, 250);
 	cursor: default;
 }*/
 
@@ -865,8 +864,8 @@ Footer styling
 
 footer {
 	position: relative;
-	background-color: #434A54;
-	color: #FEFEFE;
+	background-color: rgb(67, 74, 84);
+	color: rgb(254, 254, 254);
 	margin: 0;
 	margin-top: 79px;
 	padding-right: 15px;
@@ -885,7 +884,7 @@ footer {
 
 footer ul .title {
 	font-size: 14px;
-	color: #F7FAFE;
+	color: rgb(247, 250, 254);
 }
 
 footer ul {
@@ -901,7 +900,7 @@ footer ul li {
 }
 
 footer ul li a {
-	color: #AAB2BD;
+	color: rgb(170, 178, 189);
 	font-size: 14px;
 }
 		
@@ -909,7 +908,7 @@ footer .copyright-center {
 	display: block;
 	text-align: center;
 	font-size: 14px;
-	color: #E6E9ED;
+	color: rgb(230, 233, 237);
 }
 
 footer .copyright-center div {
@@ -923,5 +922,5 @@ footer .copyright-center div {
 }
 
 footer ul li a:hover {
-	color: #F7FAFE;
+	color: rgb(247, 250, 254);
 }
