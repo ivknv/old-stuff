@@ -14,6 +14,13 @@
 			<div class="margin-bottom">
 				Also, you can <a href="javascript:void(0)" onclick="$('#email').val('guest'); $('#password').val('guest'); $('#login_form').submit();">sign in as a guest</a> for an overview.
 			</div>
+			{% if errors %}
+				<div class="margin-bottom">
+					{% for error in errors %}
+						<div><strong class="error">{{ error }}</strong></div>
+					{% endfor %}
+				</div>
+			{% endif %}
 			<div class="margin-bottom">
 				<div><label class="label" for="email_or_username" style="padding-bottom: 4px;">Email or Username:</label></div>
 				<input type="text" class="input-field" name="email" id="email" placeholder="Email or Username" />

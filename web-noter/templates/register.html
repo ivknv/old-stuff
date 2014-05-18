@@ -11,21 +11,28 @@
 			{% endif %}
 		</div>
 		<div class="margin-bottom">
+			{% if errors %}
+				<div class="margin-bottom">
+					{% for error in errors %}
+						<div><strong class="error">{{ error }}</strong></div>
+					{% endfor %}
+				</div>
+			{% endif %}
 			<div class="margin-bottom">
 				<label class="label" for="email">Email:</label>
-				<input type="text" name="email" class="input-field" placeholder="Email" />
+				<input type="email" name="email" class="input-field" placeholder="Email" value="{{ email }}" />
 			</div>
 			<div class="margin-bottom">
 				<label class="label" for="username">Username:</label>
-				<input type="text" name="username" class="input-field" placeholder="Username" />
+				<input type="text" name="username" class="input-field" placeholder="Username" value="{{ username }}" />
 			</div>
 			<div class="margin-bottom">
 				<label class="label" for="first_name">First name:</label>
-				<input type="text" name="first_name" class="input-field" placeholder="First name" />
+				<input type="text" name="first_name" class="input-field" placeholder="First name" value="{{ first_name }}" />
 			</div>
 			<div class="margin-bottom">
 				<label class="label" for="last_name">Last name:</label>
-				<input type="text" name="last_name" class="input-field" placeholder="Last name" />
+				<input type="text" name="last_name" class="input-field" placeholder="Last name" value="{{ last_name }}" />
 			</div>
 			<div class="margin-bottom">
 				<label class="label" for="password">Password:</label>
@@ -33,14 +40,14 @@
 			</div>
 			<div class="margin-bottom">
 				<label class="label" for="confirm_password">Confirm password:</label>
-				<input type="password" id="confirm_password" class="input-field" placeholder="Confirm password" />
+				<input type="password" name="confirm_password" id="confirm_password" class="input-field" placeholder="Confirm password" />
 			{% if "return" in request.GET %}
 				<input type="hidden" name="return" value="{{ request.GET.return }}" />
 			{% endif %}
 			</div>
+			<div class="margin-bottom">
+				<button class="btn-blue" onclick="if($('input[name=password]').val() != $('input[id=confirm_password]').val()) {alert('You entered 2 different passwords.'); return false;}" type="submit">Register</button>
+			</div>
 		</div>
 	</form>
-	<div class="margin-bottom">
-		<div class=" btn-blue" onclick="$('input[name=password]').val() == $('input[id=confirm_password]').val() ? $('#register').submit() : alert('You entered two different passwords');">Register</div>
-	</div>
 {% endblock %}
