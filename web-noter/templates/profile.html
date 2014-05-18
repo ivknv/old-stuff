@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{{ username }}'s profile{% endblock %}
+{% block content %}
+	<div id="result" class="alert"></div>
+	<h2>{{ username }}'s profile</h2>
+	<div class="margin-bottom">
+		<h3>Change username</h3>
+		<div class="margin-bottom">
+			<div class="data_current" id="current_username">Current username: {{ username }}</div>
+			<label class="label">Username</label>
+			<input type="text" class="input-field" name="username" id="username" value="{{ username }}" placeholder="Your username" autocomplete="off" />
+		</div>
+		<div class="margin-bottom">
+			<a class="btn-blue" onclick="update_username({{ id }}, $('#username').val());">Update</a>
+		</div>
+	</div>
+	<div class="margin-bottom">
+		<h3>Change first name</h3>
+		<div class="margin-bottom">
+			<div class="data_current" id="current_first_name">Current first name: {{ first_name }}</div>
+			<div><label class="label">First name</label></div>
+			<input type="text" class="input-field" name="firstname" id="firstname" value="{{ first_name }}" placeholder="Your first name" autocomplete="off" />
+		</div>
+		<div class="margin-bottom">
+			<a class="btn-blue" onclick="update_first_name({{ id }}, $('#firstname').val());">Update</a>
+		</div>
+	</div>
+	<div class="margin-bottom">
+		<h3>Change last name</h3>
+		<div class="margin-bottom">
+			<div class="data_current" id="current_last_name">Current last name: {{ last_name }}</div>
+			<div><label class="label">Last name</label></div>
+			<input type="text" class="input-field" name="lastname" id="lastname" value="{{ last_name }}" placeholder="Your first name" autocomplete="off" />
+		</div>
+		<div class="margin-bottom">
+			<a class="btn-blue" onclick="update_last_name({{ id }}, $('#lastname').val());">Update</a>
+		</div>
+	</div>
+	<div class="margin-bottom">
+		<h3>Change password</h3>
+		<div class="margin-bottom">
+			<div><label class="label">Current password</label></div>
+			<input type="password" class="input-field" name="current_password" id="current_password" placeholder="Your current password" autocomplete="off" />
+	
+			<div><label class="label">New password</label></div>
+			<input type="password" class="input-field" name="password" id="password" placeholder="Your new password" autocomplete="off" />
+			<div><label class="label">Confirm</label></div>
+			<input type="password" class="input-field" name="confirm_password" id="confirm_password" placeholder="Confirm password" autocomplete="off" />
+		</div>
+		<div class="margin-bottom">
+			<a class="btn-blue" onclick="$('#password').val() == $('#confirm_password').val() ? update_password({{ id }}, $('#current_password').val(), $('#password').val(), $('#confirm_password').val()) : alert('You entered two different passwords'); $('#password, #confirm_password, #current_password').val(''); return false;">Update</a>
+		</div>
+	</div>
+	<div class="margin-bottom">
+		<h3>Delete account</h3>
+		<div class="margin-bottom">
+			<label>
+				<input id="delete_or_not" type="checkbox" autocomplete="off" />
+				Delete this account
+			</label>
+		</div>
+		<div class="margin-bottom">
+			<a href="/delete-account" class="btn-blue" onclick="$('#delete_or_not').prop('checked') ? window.location.href = '/delete-account/' : alert('Check the checkbox and click this button again'); return false;">Confirm</a>
+		</div>
+	</div>
+{% endblock %}

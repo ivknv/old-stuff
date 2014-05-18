@@ -9,6 +9,8 @@ from note.models import Note # To get notes from server's database
 
 from django.db.models import Q # To make search results better
 
+from django.contrib.auth.models import User
+
 from django.core.exceptions import ObjectDoesNotExist
 
 from django.db import OperationalError
@@ -147,7 +149,7 @@ def checkSimilarityAjax(request):
 	"""Get sorted list of similiar notes.
 Can be called by AJAX request"""
 	
-	if "id" in request.POST and request.POST and "text" in request.POST and "title" in request.POST: # If using POST method and all the values on their own places
+	if "id" in request.POST and "text" in request.POST and "title" in request.POST: # If using POST method and all the values on their own places
 		id = request.POST["id"]
 		text = request.POST["text"]
 		title = request.POST["title"]
@@ -158,3 +160,123 @@ Can be called by AJAX request"""
 		return HttpResponse(json.dumps(context)) # Return JSON object
 	# If using some other request method or not having values on its own place
 	raise Http404 # Display '404 Not Found' error
+
+def update_username(request):
+	if not request.user.is_authenticated():
+		return redirect('/login/?redirect=%2F')
+	
+	if "id" in request.POST and "new_username" in request.POST:
+		userid = request.POST["id"]
+		try:
+			user = User.objects.get(id=userid)
+		except ObjectDoesNotExist:
+			success = False
+		else:
+			new_username = request.POST["new_username"]
+			if new_username:
+				user.username = new_username
+				user.save()
+				success = True
+			else:
+				success = False
+		
+		context = {
+			"success": success,
+			"result": "Current username: %s" %user.username,
+			"eid":  "#current_username"
+		}
+		
+		return HttpResponse(json.dumps(context))
+		
+	raise Http404
+
+def update_first_name(request):
+	if not request.user.is_authenticated():
+		return redirect('/login/?redirect=%2F')
+	
+	if "id" in request.POST and "new_first_name" in request.POST:
+		userid = request.POST["id"]
+		try:
+			user = User.objects.get(id=userid)
+		except ObjectDoesNotExist:
+			success = False
+		else:
+			new_first_name = request.POST["new_first_name"]
+			if new_first_name:
+				user.first_name = new_first_name
+				user.save()
+				success = True
+			else:
+				success = False
+		
+		context = {
+			"success": success,
+			"result": "Current first name: %s" % user.first_name,
+			"eid": "#current_first_name"
+		}
+		
+		return HttpResponse(json.dumps(context))
+		
+	raise Http404
+
+def update_last_name(request):
+	if not request.user.is_authenticated():
+		return redirect('/login/?redirect=%2F')
+	
+	if "id" in request.POST and "new_last_name" in request.POST:
+		userid = request.POST["id"]
+		try:
+			user = User.objects.get(id=userid)
+		except ObjectDoesNotExist:
+			success = False
+		else:
+			new_last_name = request.POST["new_last_name"]
+			if new_last_name:
+				user.last_name = new_last_name
+				user.save()
+				success = True
+			else:
+				success = False
+		
+		context = {
+			"success": success,
+			"result": "Current last name: %s" %user.last_name,
+			"eid": "#current_last_name"
+		}
+		
+		return HttpResponse(json.dumps(context))
+		
+	raise Http404
+
+def update_password(request):
+	if not request.user.is_authenticated():
+		return redirect('/login/?redirect=%2F')
+	
+	if "id" in request.POST and "new_password" in request.POST and "confirm_password" in request.POST and "current_password" in request.POST:
+		userid = request.POST["id"]
+		try:
+			user = User.objects.get(id=userid)
+		except ObjectDoesNotExist:
+			success = False
+		else:
+			new_password = request.POST["new_password"]
+			confirm_password = request.POST["confirm_password"]
+			current_password = request.POST["current_password"]
+			password_is_correct = user.check_password(current_password)
+			
+			if password_is_correct and new_password and confirm_password == new_password:
+				user.set_password(new_password)
+				user.save()
+				success = True
+			else:
+				success = False
+		
+		context = {
+			"success": success,
+			"result": "",
+			"eid": ""
+		}
+		
+		return HttpResponse(json.dumps(context))
+		
+	raise Http404

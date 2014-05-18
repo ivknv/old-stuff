@@ -443,6 +443,70 @@ function onLoad() {
 	});
 }
 
+// @HIGHLIGHT
+// ==============
 // Highlight code
+// ==============
 hljs.configure({tabReplace: '    '});
 hljs.initHighlightingOnLoad();
+
+// @USER @ACCOUNT
+// =======================
+// User account management
+// =======================
+
+function fail(str) {
+	function wrapper(data) {
+		$result = jQuery("#result");
+		$result.attr("class", "fail");
+		$result.html("<strong class='error'>"+str+"</strong>");
+		$result.css("display", "block");
+		setTimeout("$result.fadeOut('slow')", 1500);
+	}
+	
+	return wrapper;
+}
+
+function success(str) {
+	function wrapper(data) {
+		if (data.success) {
+			$result = jQuery("#result");
+			$result.attr("class", "okay");
+			$result.html("<strong class='success'>"+str+"</strong>");
+			$result.css("display", "block");
+			setTimeout("$result.fadeOut('slow')", 1500);
+			if (data.eid && data.result) {
+				jQuery(data.eid).html(data.result);
+			}
+		} else {
+			fail("Some kind of error")(data);
+		}
+	}
+	
+	return wrapper;
+}
+
+function update_first_name(id, new_first_name) {
+	var res = jQuery.post("/update-firstname/", {"id": id, "new_first_name": new_first_name}, success("First name updated", "#"), "json");
+	res.error(fail("Some kind of error"));
+}
+
+function update_last_name(id, new_last_name) {
+	var res = jQuery.post("/update-lastname/", {"id": id, "new_last_name": new_last_name}, success("Last name updated"), "json");
+	res.error(fail("Some kind of error"));
+}
+
+function update_username(id, new_username) {
+	var res = jQuery.post("/update-username/", {"id": id, "new_username": new_username}, function(data) {
+			success("Username updated")(data);
+			if (data.success) {
+				document.title = new_username + "'s profile - Noter";
+			}
+		}, "json");
+	res.error(fail("Some kind of error"));
+}
+
+function update_password(id, current_password, new_password, confirm_password) {
+	var res = jQuery.post("/update-password/", {"id": id, "new_password": new_password, "current_password": current_password, "confirm_password": confirm_password}, success("Password updated"), "json");
+	res.error(fail("Some kind of error"));
+}

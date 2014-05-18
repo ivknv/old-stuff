@@ -565,7 +565,7 @@ p {
 }
 
 .okay {
-	border: 2px solid rgb(255, 221, 135);
+	border: 2px solid rgb(165, 203, 124);
 	background-color: rgb(185, 223, 144);
 
 }
@@ -710,6 +710,7 @@ Some inputs
 .btn-blue {
 	display: inline-block;
 	background-color: rgb(59, 175, 218);
+	border: 1px solid rgb(39, 155, 198);
 	color: rgb(254, 254, 254);
 	font-size: 15px;
 	margin-left: -6px;
@@ -723,6 +724,7 @@ Some inputs
 
 .btn-blue:hover, .filter-btn:hover, .search-btn:hover, .btn-success {
 	background-color: rgb(10, 175, 218);
+	color: rgb(254, 254, 254);
 }
 
 .textarea-field {
@@ -923,4 +925,8 @@ footer .copyright-center div {
 
 footer ul li a:hover {
 	color: rgb(247, 250, 254);
+}
+
+.data_current {
+	font-size: 14px;
 }

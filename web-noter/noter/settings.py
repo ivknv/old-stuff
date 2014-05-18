@@ -34,8 +34,11 @@ ALLOWED_HOSTS = []
 EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "noter.noreply@gmail.com"
+EMAIL_HOST_USER = "noter474@gmail.com"
 EMAIL_HOST_PASSWORD = os.environ["NOTER_ADMIN_PASSWORD"]
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
 
 # EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 # EMAIL_FILE_PATH = os.path.join(BASE_DIR, "noter-messages")

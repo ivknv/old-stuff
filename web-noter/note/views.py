@@ -13,10 +13,11 @@ from django.db.models import Q # To make search results better
 from django.template import RequestContext
 
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.views import password_reset, password_reset_confirm # To reset password
 
 from django.contrib.auth.models import User
 
-from django.core.mail import send_mail
+from django.core.mail import send_mail # To send email
 
 from note.functions import *
 
@@ -177,9 +178,9 @@ def search(request, q, pn=1):
 		for i in qs:
 			found_ = Note.objects.filter( # Filter notes
 				Q(author=request.user.id) &
-				Q(title__icontains=i) |
+				(Q(title__icontains=i) |
 				Q(text__icontains=i) |
-				Q(tags__icontains=i)
+				Q(tags__icontains=i))
 			)
 			for note in found_:
 				if not note in found:
@@ -536,10 +537,6 @@ def register(request):
 			return redirect("/")
 	return render_to_response("register.html", RequestContext(request, {}), context_instance=RequestContext(request))
 
-def reset_password(request):
-	if not request.user.is_authenticated():
-		return redirect('/login/')
-
 def htmlbody(s, title):
 	return """\
 <!DOCTYPE html>
@@ -571,7 +568,56 @@ def contact(request):
 			)
 		return HttpResponse(htmlbody("Thanks for feedback. <a href='/contact/'>Back</a>", "Tnanks for feedback!"))
 	
-	return render_to_response("contact.html", RequestContext(request, {}))
+	return render_to_response("contact.html", RequestContext(request))
 
 def about(request):
 	return render_to_response("about.html", {})
+
+def profile(request):
+	"""Profile page"""
+	
+	if not request.user.is_authenticated():
+		return redirect('/login?return={}'.format(request.path))
+	
+	user = request.user
+	username = user.username
+	first_name = user.first_name
+	last_name = user.last_name
+	
+	context = {
+		"user": user,
+		"username": username,
+		"first_name": first_name,
+		"last_name": last_name,
+		"id": user.id
+	}
+	
+	return render_to_response('profile.html', context, context_instance=RequestContext(request, context))
+
+def delete_account(request):
+	if not request.user.is_authenticated():
+		raise Http404
+	
+	if "confirm" in request.POST:
+		confirm = request.POST["confirm"]
+		user = request.user
+		if user.check_password(confirm):
+			user.delete()
+		return redirect("/")
+	
+	return render_to_response("delete_account.html", context_instance=RequestContext(request))
+
+def reset_password_confirm(request, uidb64=None, token=None):
+	return password_reset_confirm(request, template_name='registration/password_reset_confirm.html',
+        uidb64=uidb64, token=token, post_reset_redirect='/reset/complete')
+
+def reset_password(request):
+    return password_reset(request, template_name='registration/password_reset_form.html',
+        subject_template_name='registration/password_reset_subject.txt',
+        post_reset_redirect="/reset/sent")
+
+def reset_password_sent(request):
+	return render_to_response("registration/password_reset_sent.html")
+
+def reset_password_complete(request):
+	return render_to_response("registration/password_reset_complete.html")
