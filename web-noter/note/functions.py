@@ -9,6 +9,10 @@ from django.core.exceptions import ObjectDoesNotExist
 
 import Diff # To find similiar notes
 
+from django.contrib.auth import authenticate
+
+from django.core import serializers
+
 if sys.version_info.major < 3: # If version of Python is lower than 3
 	range=xrange # Use xrange instead of range
 
@@ -173,3 +177,27 @@ def PlaceByRelevance(note, q, splitted=False, lower=False):
 		count,
 		note
 	]
+
+def getNotes(request):
+	if ("username" in request.POST or "email" in request.POST) and "password" in request.POST:
+		if "username" in request.POST:
+			username = request.POST["username"]
+		else:
+			username = None
+			if "email" in request.POST:
+				email = request.POST["email"]
+			else:
+				email = None
+		
+		password = request.POST["password"]
+		
+		user = authenticate(username, password)
+		assert user is not None, "Authentication failed"
+		
+		notes = Note.objects.filter(author=user)
+		
+		notes_json = serializers.serialize("json", notes)
+		
+		return HttpResponse(json.dumps(notes_json))
+	
+	raise Http404

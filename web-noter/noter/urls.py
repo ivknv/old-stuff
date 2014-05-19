@@ -59,4 +59,5 @@ urlpatterns = patterns('',
 	url(r'^reset/$', 'note.views.reset_password', name="password_reset"),
 	url(r'^reset/complete/$', 'note.views.reset_password_complete'),
 	url(r'^reset/sent/$', 'note.views.reset_password_sent'),
+	url(r'^api/getNotes/$', 'note.views.getNotes'),
 )
