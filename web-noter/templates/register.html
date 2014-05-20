@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Register - Webstore{% endblock %}
+{% block title %}Register{% endblock %}
 {% block content %}
 	<form method="post" action="/register/" id="register">
 		{% csrf_token %}
 		<div class="margin-bottom">
 			{% if "return" in request.GET %}
-				<a href="/login?return={{ request.GET.return }}">Already have account?</a>
+				<a href="/login?return={{ request.GET.return }}">Already have an account?</a>
 			{% else %}
 				<a href="/login">Already have an account?</a>
 			{% endif %}

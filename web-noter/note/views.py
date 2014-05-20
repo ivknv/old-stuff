@@ -667,8 +667,14 @@ def delete_account(request):
 	if "confirm" in request.POST:
 		confirm = request.POST["confirm"]
 		user = request.user
+		
+		user_notes = Note.objects.filter(author=user)
+		user_notes.delete()
+		
 		if user.check_password(confirm):
 			user.delete()
+		else:
+			return redirect(request.path)
 		return redirect("/")
 	
 	return render_to_response("delete_account.html", context_instance=RequestContext(request))

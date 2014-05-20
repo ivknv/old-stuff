@@ -4,6 +4,16 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
+APIPatterns = [
+	url(r'^getNotes/$', 'note.functions.API_getNotes', name="getNotes"),
+	url(r'^rmNote/$', 'note.functions.API_rmNote', name="rmNote"),
+	url(r'^rmNotes/$', 'note.functions.API_rmNotes', name="rmNotes"),
+	url(r'^register/$', 'note.functions.API_register', name="register"),
+	url(r'^addNote/$', 'note.functions.API_addNote', name="addNote"),
+	url(r'^addNotes/$', 'note.functions.API_addNotes', name="addNotes"),
+	url(r'^deleteAccount/$', 'note.functions.API_deleteAccount', name="deleteAccount"),
+]
+
 urlpatterns = patterns('',
 	
 	url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
@@ -59,5 +69,5 @@ urlpatterns = patterns('',
 	url(r'^reset/$', 'note.views.reset_password', name="password_reset"),
 	url(r'^reset/complete/$', 'note.views.reset_password_complete'),
 	url(r'^reset/sent/$', 'note.views.reset_password_sent'),
-	url(r'^api/getNotes/$', 'note.views.getNotes'),
+	url(r'^api/', include(APIPatterns, namespace="API")),
 )
