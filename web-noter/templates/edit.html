@@ -13,7 +13,7 @@
 		<div class="margin-bottom">
 			<div class="suggested-tags"></div>
 			<label class="label" for="tags">Tags:</label>
-			<input type="text" class="input-field" name="tags" placeholder="Separate with comma" value="{{ note.tags }}" onclick="getTags({{ note.id }}, $('input[name=title]').val(), $('textarea[name=text]').val())" />
+			<input type="text" class="input-field" name="tags" placeholder="Separate with comma" value="{{ note.tags }}" onclick="getTags({{ note.id }}, $('input[name=title]').val(), $('textarea[name=text]').val())" autocomplete="off" />
 		</div>
 		<div class="margin-bottom">
 			<label for="todo">

@@ -26,7 +26,7 @@ def addNote(request):
 		return redirect('/login?return={}'.format(request.path))
 	
 	if "title" in request.POST and "text" in request.POST and "tags" in request.POST and "type" in request.POST:
- # If using POST method and all the variables on their own places
+ # If using POST method and all the variables are on their own places
 		title = request.POST["title"]
 		text = request.POST["text"]
 		tags = request.POST["tags"]
@@ -44,10 +44,10 @@ def addNote(request):
 			) # Create note in a server's database
 			new_note.save() # Save it
 		except Exception as e: # If error occured
-			context["failed"] = True # Set failed status
+#			context["failed"] = True # Set failed status
 			print(e)
-		else: # If there's no errors
-			context["failed"] = False # Set not failed status
+#		else: # If there's no errors
+#			context["failed"] = False # Set not failed status
 		return redirect("/manage/") #HttpResponse(json.dumps(context)) # Return JSON object
 	
 	raise Http404 # Display '404 Not Found' error
@@ -78,7 +78,6 @@ def rmNote(request):
 def update(request):
 	"""Edit note"""
 	
-	print("Called update")
 	if not request.user.is_authenticated(): # If user is not logged in
 		return redirect("/login")
 	

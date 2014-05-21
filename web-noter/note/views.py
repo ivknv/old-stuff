@@ -12,7 +12,8 @@ from django.db.models import Q # To make search results better
 
 from django.template import RequestContext
 
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout, authenticate # For authentication
+
 from django.contrib.auth.views import password_reset, password_reset_confirm # To reset password
 
 from django.contrib.auth.models import User

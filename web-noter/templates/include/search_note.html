@@ -1,4 +1,4 @@
-<article class="{{ note.1.get_type_display|lower }} {% if note.1.type == 't' and note.1.is_checked %}checked{% elif note.1.type == 't' and not note.1.is_checked %}unchecked{% endif %}" id="note-{{ note.1.id }}">
+<article class="{{ note.1.get_type_display|lower }} {% if note.1.type == 't' and note.1.is_checked %}checked{% elif note.1.type == 't' and not note.1.is_checked %}unchecked{% endif %}" id="note-{{ note.1.id }}" role="search">
 	<a href="/note/{{ note.1.id }}" onclick="load_page2('/note/{{ note.1.id }}/'); return false;">
 		<span class="title">{{ note.1.title }}</span>
 	</a>
