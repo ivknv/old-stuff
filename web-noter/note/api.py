@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib.auth.models import User
 
+from note.models import Note
+
 import re, json
 
 def to_json(success="true", **kwargs):
