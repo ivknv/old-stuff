@@ -187,6 +187,11 @@ pre {
 	font-size: 14px;
 	font-family: Monospace, Courier, Sans-serif;
 	line-height: 1.1;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -o-pre-wrap;
+	white-space: -pre-wrap;
 }
 
 #s {
