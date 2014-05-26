@@ -637,9 +637,6 @@ def contact(request):
 	
 	return render_to_response("contact.html", RequestContext(request))
 
-def about(request):
-	return render_to_response("about.html", {})
-
 def profile(request):
 	"""Profile page"""
 	
@@ -688,9 +685,3 @@ def reset_password(request):
     return password_reset(request, template_name='registration/password_reset_form.html',
         subject_template_name='registration/password_reset_subject.txt',
         post_reset_redirect="/reset/sent")
-
-def reset_password_sent(request):
-	return render_to_response("registration/password_reset_sent.html")
-
-def reset_password_complete(request):
-	return render_to_response("registration/password_reset_complete.html")

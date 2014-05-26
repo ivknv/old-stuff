@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}API info{% endblock %}
+{% block content %}
+	<article class="note">
+		<a href="/api-info/">
+			<span class="title">How to use API</span>
+		</a>
+		<p class="text">
+			With Noter API you can build apps that use this site.<br/>
+			For example, you can command line script that prints your last created note.<br/>
+			<br/>
+			API can be accessed by sending POST request on these URLs:
+			<ul>
+				<li>{% url "API:getNotes" %} - get notes of the user</li>
+				<li>{% url "API:getNote" %} - get note by ID.</li>
+				<li>{% url "API:rmNote" %} - remove note</li>
+				<li>{% url "API:rmNotes" %} - remove multiple notes</li>
+				<li>{% url "API:getUserInfo" %} - get account info</li>
+				<li>{% url "API:addNote" %} - add single note</li>
+				<li>{% url "API:addNotes" %} - add multiple notes</li>
+				<li>{% url "API:register" %} - register</li>
+				<li>{% url "API:deleteAccount" %} - delete account</li>
+			</ul>
+			Every URL requires username and password and returns JSON.
+			
+			<h3>Python example</h3>
+			Let's say we want to get our notes.<br/>
+			It means, that we need to send POST request to {% url "API:getNotes" %}.<br/>
+			We will use <code>httplib</code> to do that.<br/>
+			Here's the code:
+			{% spaceless %}
+				<pre><code>import httplib, json
+from urllib import urlencode
+
+headers = {
+	'Content-type': "application/x-www-form-urlencoded",
+	'Accept': "text/plain"
+}
+
+parameters = urlencode({
+	'username': "guest",
+	'password': "guest"
+})
+
+conn = httplib.HTTPConnection("web-noter.herokuapp.com") # Make HTTP connection
+conn.request("POST", "{% url "API:getNotes" %}", parameters, headers) # Send request
+response_obj = conn.getresponse() # Get response
+response = response_obj.read() # Get string
+conn.close() # Close connection
+data = json.loads(response) # Convert JSON -&gt; list
+print(data)</code>
+				</pre>
+			{% endspaceless %}
+			<h3>Another Python example</h3>
+			At this time we want to add new note.<br/>
+			And we will have to send POST request to <code>{% url "API:addNote" %}</code>.<br/>
+			Code:
+			<pre><code>import httplib, json
+from urllib import urlencode
+
+headers = {
+    'Content-type': "application/x-www-form-urlencoded",
+    'Accept': "text/plain"
+}
+
+parameters = urlencode({
+    'username': "guest",
+    'password': "guest",
+	'title': "Hello from Python!",
+	'text': "Isn't it amazing?",
+	'tags': "test, api",
+	'type': "n" # Can be n(ote), t(odo), s(nippet) or w(arning)
+})
+
+conn = httplib.HTTPConnection("web-noter.herokuapp.com") # Make HTTP connection
+conn.request("POST", "{% url "API:addNote" %}", parameters, headers) # Send request
+response_obj = conn.getresponse() # Get response
+response = response_obj.read() # Get string
+conn.close() # Close connection
+data = json.loads(response) # Convert JSON -&gt; dictionary
+if data["success"]:
+	print("Hurray!")
+	print("ID of new note: {}".format(data["id"]))
+else:
+	print("Fail.")
+	print("Message: %s" %data["message"])
+</code>
+</pre>
+			You can use other URLs in similiar way.
+		</p>
+	</article>
+{% endblock %}
