@@ -53,10 +53,16 @@ function load_page(url) {
 			var $main = $data.find(".main");
 			var $realMain = jQuery(".main")
 			var $title = $data.find("title");
+			var reg = /#.+$/;
 			window.document.title = $title.text();
 			$realMain.html($main.html());
 			$realMain.css("background-color", "rgba(254, 254, 254, 1)");
-			jQuery.scrollTo("body");
+			var m = url.match(reg);
+			if (m != null && m.length > 0 && m[0].length > 0) {
+				jQuery.scrollTo(m[0]);
+			} else {
+				jQuery.scrollTo("body");
+			}
 			var state = {
 				url: url,
 				title: $title.text(),
@@ -81,10 +87,16 @@ function load_page2(url) {
 			var $data = jQuery("<div/>").html(data);
 			var $main = $data.find(".main");
 			var $title = $data.find("title");
+			var reg = /#.+$/;
 			window.document.title = $title.text();
 			$realMain.html($main.html());
 			$realMain.css("background-color", "rgba(254, 254, 254, 1)");
-			jQuery.scrollTo("article");
+			var m = url.match(reg);
+			if (m != null && m.length > 0 && m[0].length > 0) {
+				jQuery.scrollTo(m[0]);
+			} else {
+				jQuery.scrollTo("article");
+			}
 			var state = {
 				url: url,
 				title: $title.text(),
