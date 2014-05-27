@@ -17,6 +17,8 @@ from django.db import OperationalError
 
 from note.functions import replaceNone, checkSimilarityFromStringList
 
+from django.template import RequestContext
+
 import json # To send AJAX answers
 
 def addNote(request):
@@ -44,13 +46,20 @@ def addNote(request):
 			) # Create note in a server's database
 			new_note.save() # Save it
 		except Exception as e: # If error occured
-#			context["failed"] = True # Set failed status
+			context["failed"] = True # Set failed status
 			print(e)
-#		else: # If there's no errors
-#			context["failed"] = False # Set not failed status
-		return redirect("/manage/") #HttpResponse(json.dumps(context)) # Return JSON object
+		else: # If there's no errors
+			context["failed"] = False # Set not failed status
+		if context["failed"]:
+			return render_to_response('/add/', {
+				"title": title,
+				"text": text,
+				"tags": tags,
+				"type": type
+			}, context_instance=RequestContext(request))
+		return redirect("/manage/")
 	
-	raise Http404 # Display '404 Not Found' error
+	raise HttpResponse("Wrong parameters") # Display '404 Not Found' error
 
 def rmNote(request):
 	"""Remove note"""

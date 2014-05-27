@@ -240,7 +240,7 @@ function findChecked() {
 function edit_success(data) {
 	if (!(data.failed)) {
 		$result = jQuery("#result");
-		$result.addClass("okay");
+		$result.attr("class", "okay");
 		$result.css("display", "block");
 		$result.html("<strong class=\"success\">Successfully updated note</strong>");
 		setTimeout('$result.fadeOut("slow")', 1500);
@@ -250,7 +250,7 @@ function edit_success(data) {
 
 function edit_fail() {
 	$result = jQuery("#result");
-	$result.addClass("fail");
+	$result.attr("class", "fail");
 	$result.css("display", "block");
 	$result.html("<strong class=\"error\">Failed to update note</strong>");
 	setTimeout('$result.fadeOut("slow")', 1500);

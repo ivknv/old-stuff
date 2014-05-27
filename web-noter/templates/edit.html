@@ -45,8 +45,8 @@
 		</div>
 		{% include "include/edit_radios.html" %}
 		<p>
-			<div class="btn-success" onclick="edit({{ note.id }}, $('input[name=title]').val(), $('textarea[name=text]').val(), $('input[name=tags]').val(), $('input[name=checked]').prop('checked'));">Save</div>
-			<div class="btn-success" onclick="preview1('{{ note.date }}');">Preview</div>
+			<button class="btn-success" type="submit" onclick="if($('input[name=tags]').val().split(',').length > 10) {alert('Maximum amount of tags is 10.');} else {edit({{ note.id }}, $('input[name=title]').val(), $('textarea[name=text]').val(), $('input[name=tags]').val(), $('input[name=checked]').prop('checked'));}">Save</button>
+			<button class="btn-success" onclick="preview1('{{ note.date }}');">Preview</button>
 		</p>
 		<div id="result"></div>
 		<div class="note preview">

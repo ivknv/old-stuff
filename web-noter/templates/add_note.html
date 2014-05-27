@@ -7,16 +7,16 @@
 		<div class="margin-bottom">
 			<div class="margin-bottom">
 				<label class="label" for="title">Title:</label>
-				<input type="text" class="input-field" placeholder="Title" name="title" />
+				<input type="text" class="input-field" placeholder="Title" name="title" value="{{ title }}" />
 			</div>
 			<div class="margin-bottom">
 				<label class="label" for="text">Text:</label>
-				<textarea name="text" id="txt" spellcheck="false" class="textarea-field" rows="13" placeholder="Text"></textarea>
+				<textarea name="text" id="txt" spellcheck="false" class="textarea-field" rows="13" placeholder="Text" value="{{ text }}"></textarea>
 			</div>
 			<div class="margin-bottom">
 				<div class="suggested-tags"></div>
 				<label class="label" for="tags">Tags:</label>
-				<input type="text" class="input-field" placeholder="Separate with comma" name="tags" onclick="getTags(-1, $('input[name=title]').val(), $('textarea[name=text]').val())" autocomplete="off" />
+				<input type="text" class="input-field" placeholder="Separate with comma" name="tags" onclick="getTags(-1, $('input[name=title]').val(), $('textarea[name=text]').val())" autocomplete="off" value="{{ tags }}" />
 			</div>
 			<div class="margin-bottom">
 				<label for="is_note">
@@ -41,19 +41,20 @@
 					<input type="radio" name="type" value="w" id="is_warning" />
 					Warning
 				</label>
-			</div>
 			<p>
-				<div class="btn-success" onclick="$('#save-form').submit()">Save</div>
-				<div class="btn-success" type="button" onclick="preview();">Preview</div>
+				<button type="submit" class="btn-success" onclick="if($('input[name=tags]').val().split(',').length > 10) { alert('Maximum amount of tags is 10.'); return false;}">Save</button>
+				<button class="btn-success" type="button" onclick="preview();">Preview</button>
 			</p>
-			<div class="note preview">
+
+			</div>
+			<article class="note preview">
 				<h2></h2>
 				<a>
 					<span class="title"></span>
 				</a>
 				<div class="date"></div>
 				<p class="text"></p>
-			</div>
+			</article>
 		</div>
 	</form>
 	<script type="text/javascript">
