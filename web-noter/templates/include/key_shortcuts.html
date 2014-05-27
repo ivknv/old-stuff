@@ -1,0 +1,34 @@
+<script type="text/javascript">
+	jQuery(document).keypress(function(event) {
+		if(!($(event.target).is("input, textarea"))) {
+			switch(event.which) {
+				case 102: // 'f' key
+					load_page('{% url "filter" %}');
+					break;
+				case 97: // 'a' key
+					load_page('{% url "Add" %}');
+					break;
+				case 109: // 'm' key
+					load_page('/manage/');
+					break;
+				case 104: // 'h' key
+					load_page('/');
+					break;
+				case 115: // 's' key
+					jQuery('input[name=q]').focus();
+					break;
+				case 35: // '#' key
+					jQuery.scrollTo('body');
+					break;
+				case 110: // 'n' key
+					jQuery('#next').trigger('click');
+					break;
+				case 112: // 'p' key
+					jQuery('#previous').trigger('click');
+					break;
+				default:
+					break;
+			}
+		}
+	});
+</script>

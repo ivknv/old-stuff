@@ -160,17 +160,17 @@ a:hover {
 	max-width: 1280px;
 }
 
-#next, #previous {
+.next, .previous {
 	position: absolute;
 	bottom: 0;
 	margin: 15px;
 }
 
-#next {
+.next {
 	right: 0;
 }
 
-#previous {
+.previous {
 	left: 0;
 }
 

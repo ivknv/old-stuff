@@ -2,7 +2,7 @@
 
 <ul class="pg">
 	{% if current_page_number > 1 %}
-		<li><a href="{{ current_url }}{{ current_page_number|sub:"1" }}{{ additional_url_part }}" onclick="load_page('{{ current_url }}{{ current_page_number|sub:"1" }}{{ additional_url_part }}'); return false;">Previous</a></li>
+		<li><a id="previous" href="{{ current_url }}{{ current_page_number|sub:"1" }}{{ additional_url_part }}" onclick="load_page('{{ current_url }}{{ current_page_number|sub:"1" }}{{ additional_url_part }}'); return false;">Previous</a></li>
 		{% if current_page_number > 4 %}
 			<li><a href="{{ current_url }}1{{ additional_url_part }}" onclick="load_page('{{ current_url }}1{{ additional_url_part }}'); return false;">1</a></li>
 		{% endif %}
@@ -20,7 +20,7 @@
 		{% if current_page_number < num_pages|sub:"3" %}
 			<li><a href="{{ current_url }}{{ num_pages }}{{ additional_url_part }}" onclick="load_page('{{ current_url }}{{ num_pages }}{{ additional_url_part }}'); return false;">{{ num_pages }}</a></li>
 		{% endif %}
-		<li><a href="{{ current_url }}{{ current_page_number|addd:"1" }}{{ additional_url_part }}" onclick="load_page('{{ current_url }}{{ current_page_number|addd:"1" }}{{ additional_url_part }}'); return false;">Next</a></li>
+		<li><a id="next" href="{{ current_url }}{{ current_page_number|addd:"1" }}{{ additional_url_part }}" onclick="load_page('{{ current_url }}{{ current_page_number|addd:"1" }}{{ additional_url_part }}'); return false;">Next</a></li>
 	{% else %}
 		<li class="inactive"><a>Next</a></li>
 	{% endif %}
