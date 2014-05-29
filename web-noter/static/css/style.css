@@ -52,10 +52,6 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 
-body {
-	line-height: 1.42587;
-}
-
 code {
 	display: inline-block;
 	background-color: rgb(249, 242, 244);
@@ -123,13 +119,13 @@ Site styling
 */
 
 body {
-	z-index: 1000;
+	z-index: 1;
 	background-image: url("/static/img/background_greyzz.png");
 	background-repeat: repeat;
 	background-attachment: scroll;
-/*	background-size: 100% 100%;*/
 	font-family: OpenSans, Arial;
 	background-color: transparent;
+	line-height: 1.42587;
 }
 
 a {
@@ -306,14 +302,12 @@ pre {
 
 .main {
 	position: relative;
-/*	background-color: rgba(254, 254, 254, 0);*/
 	max-width: 970px;
 	min-width: 240px;
 	overflow: auto;
 	height: auto !important;
 	height: 100%;
 	font-family: OpenSans, Arial;
-	/*box-shadow: 0 0 15px rgb(136, 136, 136);*/
 	min-height: 417px;
 	margin-top: 20px;
 	padding-top: 10px;
@@ -323,6 +317,7 @@ pre {
 	margin-left: auto;
 	margin-right: auto;
 	padding-bottom: 80px;
+	z-index: 2;
 }
 
 @media screen and (max-width: 920px) {
@@ -358,7 +353,7 @@ p {
 	font-family: OpenSans, Verdana, Arial;
 	margin-top: 10px;
 	margin-bottom: 10px;
-	z-index: 1002;
+	z-index: 3;
 }
 
 article .title {
@@ -946,4 +941,5 @@ footer ul li a:hover {
 	-o-transition: width 0.5s ease-out, background-color 3s;
 	-ms-transition: width 0.5s ease-out, background-color 3s;
 	-webkit-transition: width 0,5s ease-out, background-color 3s;
+	z-index: 3;
 }
