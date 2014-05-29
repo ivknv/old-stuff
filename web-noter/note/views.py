@@ -1,58 +1,69 @@
-from django.shortcuts import render_to_response, redirect # To render templates and redirect to somewhere
+"""
+@author: Ivan Konovalov
 
-from django.http import Http404, HttpResponse # To send data to browser
+Views for Noter, Django site
+"""
 
-from note.models import Note # To get notes from server's database
+from django.shortcuts import render_to_response, redirect
 
-from django.core.paginator import Paginator, EmptyPage # To split content into pages
+from django.http import Http404, HttpResponse
+
+from note.models import Note
+
+from django.core.paginator import Paginator, EmptyPage
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from django.db.models import Q # To make search results better
+from django.db.models import Q
 
 from django.template import RequestContext
 
-from django.contrib.auth import login, logout, authenticate # For authentication
+from django.contrib.auth import login, logout, authenticate
 
-from django.contrib.auth.views import password_reset, password_reset_confirm # To reset password
+from django.contrib.auth.views import password_reset, password_reset_confirm
 
 from django.contrib.auth.models import User
 
-from django.core.mail import send_mail # To send email
+from django.core.mail import send_mail
 
-from note.functions import *
+from note.functions import check_similarity, transform_tags
+from note.functions import replace_none, htmlbody, place_by_relevance
+from note.functions import replace_newlines, page_range
+from note.functions import replace_newlines_single_object
+from note.functions import replace_newlines_search, transform_tags_single
 
-from note.ajax import *
-
-def home(request, pn=1):
+def home(request, page_number=1):
 	"""Home page"""
 	
 	if not request.user.is_authenticated(): # If user is not logged in
 		return redirect('/login?return={}'.format(request.path))
 	
 	try:
-		pn = int(pn)
+		page_number = int(page_number)
 	except ValueError:
-		pn = 1
+		page_number = 1
 
 	notes = Note.objects.filter(author=request.user.id) # Get all the notes
 	
-	p = Paginator(notes, 10) # Split into pages
+	paginator = Paginator(notes, 10) # Split into pages
 	
-	if pn > p.num_pages: # if current page number is too big show 404 error
+	if page_number > paginator.num_pages:
 		raise Http404
 	
-	current_page = replaceNewLines(p.page(pn)) # Replace all the newlines by <br/> HTML tags
-	prange = page_range(pn, p.num_pages) # Generate page range
+	current_page = replace_newlines(paginator.page(page_number))
+	prange = page_range( # Generate page range
+		page_number,
+		paginator.num_pages
+	)
 	context = {
 		"notes": current_page, # Content of current page
-		"current_page_number": pn, # Current page number
-		"num_pages": p.num_pages, # Number of pages
+		"current_page_number": page_number, # Current page number
+		"num_pages": paginator.num_pages, # Number of pages
 		"page_range": prange # Pages that will be displayed
 	}
 	return render_to_response("home.html", context) # Render page
 
-def getNote(request, id):
+def get_note(request, note_id):
 	"""Get Note by id.
 It's a page"""
 	
@@ -60,18 +71,22 @@ It's a page"""
 		return redirect('/login?return={}'.format(request.path))
 	
 	try: # Sometimes there's no such note
-		note = Note.objects.get(author=request.user.id, id=id) # Get note by ID
-		note = replaceNewLinesSingleObject(note) # Replace newlines by <br/>
-	except ObjectDoesNotExist: # I've already said that sometimes note may not exist
+		note = Note.objects.get(author=request.user.id, id=note_id)
+		note = replace_newlines_single_object(note) # Replace newlines by <br/>
+	except ObjectDoesNotExist: # Sometimes note may not exist
 		raise Http404 # Display '404 Not Found' error
 	
 	try: # Sometimes note can be latest
-		next_note = note.get_next_by_date(author=request.user.id) # Get next note
+		next_note = note.get_next_by_date( # Get next note
+			author=request.user.id
+		)
 	except ObjectDoesNotExist: # If there's no next note
 		next_note = None # Next note will be None
 	
 	try: # Sometimes note can be first
-		previous_note = note.get_previous_by_date(author=request.user.id) # Get previous note
+		previous_note = note.get_previous_by_date( # Get previous note
+			author=request.user.id
+		)
 	except ObjectDoesNotExist: # If there's no previous note
 		previous_note = None # Previous note will be None
 	
@@ -82,62 +97,71 @@ It's a page"""
 	}
 	return render_to_response("note.html", context) # Render page
 
-def addNote_page(request):
+def add_note_page(request):
 	"""Add note page"""
 
 	if not request.user.is_authenticated(): # If user is not logged in
 		return redirect('/login?return={}'.format(request.path))
 	
-	return render_to_response("add_note.html", {}, context_instance=RequestContext(request)) # Render page
+	return render_to_response(
+		"add_note.html",
+		{},
+		context_instance=RequestContext(request)
+	)
 
-def manageNotes(request, pn=1):
+def manage_notes(request, page_number=1):
 	"""Manage notes"""
 	
 	if not request.user.is_authenticated(): # If user is not logged in
 		return redirect('/login?return={}'.format(request.path))
 	
 	try:
-		pn = int(pn)
+		page_number = int(page_number)
 	except ValueError: # If page number is not set
-		pn = 1 # Go to the first page
+		page_number = 1 # Go to the first page
 	
 	notes = Note.objects.filter(author=request.user.id) # Get all the notes
-	p = Paginator(notes, 10) # Split notes into pages
+	paginator = Paginator(notes, 10) # Split notes into pages
 	
 	try: # Page number can be too big
-		current_page = replaceNewLines(p.page(pn)) # Set current page content & Replace all the newlines by <br/>
+		current_page = replace_newlines(paginator.page(page_number))
 	except EmptyPage: # If page number is too big
 		raise Http404 # Display '404 Not Found' error
 	
-	prange = page_range(pn, p.num_pages) # Generate page range
+	prange = page_range( # Generate page range
+		page_number,
+		paginator.num_pages)
 	
 	context = {
 		"notes": current_page, # Current page content
-		"current_page_number": pn, # Current page number
-		"num_pages": p.num_pages, # Number of pages
+		"current_page_number": page_number, # Current page number
+		"num_pages": paginator.num_pages, # Number of pages
 		"page_range": prange # Page range
 	}
 	
 	return render_to_response("manage.html", context) # Render page
 
-def edit(request, id):
+def edit(request, note_id):
 	"""Edit note. It's a page"""
 	
 	if not request.user.is_authenticated(): # If user isn't logged in
 		return redirect('/login?return={}'.format(request.path))
 	
 	try: # Sometimes we confuse the digit with a string
-		note_id = int(id) # Convert string into integer
+		note_id = int(note_id) # Convert string into integer
 		try: # Sometimes we request something that doesn't exist
-			note = Note.objects.get(author=request.user, id=note_id) # Get a note from server's database
-		except ObjectDoesNotExist: # If somebody mistaken with existence of the note
-			raise Http404 # Well, in this case the only thing server has to say is '404 Not Found'
-		note.tags = replaceNone(note.tags) # Replace tags with None value with empty string
-	except TypeError: # If somebody confused the digit with the string (Sometimes it happens)
+			note = Note.objects.get( # Get note from database
+				author=request.user,
+				id=note_id
+			)
+		except ObjectDoesNotExist: # If note doesn't exist
+			raise Http404
+		note.tags = replace_none(note.tags)
+	except TypeError: # If somebody confused the digit with the string
 		raise Http404 # I will raise the great '404 Not Found' error!
 	
-	similiar = checkSimilarity(note)[0:3] # Top 3 similiar notes
-	similiar = transformTags(similiar) # Split tags separated with commas into a list
+	similiar = check_similarity(note)[0:3] # Top 3 similiar notes
+	similiar = transform_tags(similiar) # Split tags into a list
 	
 	context = {
 		"note": note, # Note object
@@ -146,37 +170,37 @@ def edit(request, id):
 	
 	return render_to_response("edit.html", context) # Render page
 
-def search(request, q, pn=1):
+def search(request, query, page_number=1):
 	"""Search for notes"""
 	
 	if not request.user.is_authenticated():
 		return redirect('/login?return={}'.format(request.path))
 	
-	context = {"errors": [], "q": q}
+	context = {"errors": [], "q": query}
 	
 	# Define error messages
 	too_long_error = "Search query can contain no more than 150 symbols"
 	empty_error = "Search query cannot be empty"
 	
-	if q:
-		q = q.lower()
-		qs = q.split()
-		context["qs"] = qs
+	if query:
+		query = query.lower()
+		query_splitted = query.split()
+		context["qs"] = query_splitted
 		
-		if len(q) > 150: # If search query is too long
+		if len(query) > 150: # If search query is too long
 			context["errors"].append(too_long_error) # Append error
 		
 		try: # Page number can be invalid
-			pn = int(pn) # Try to convert string to integer
+			page_number = int(page_number) # Convert string to integer
 		except TypeError: # If page number is invalid
-			pn = 1 # Go to first page
+			page_number = 1 # Go to first page
 		
 	else: # If search query is empty
 		context["errors"].append(empty_error) # Append error
 	
 	if not context["errors"]: # If there's no errors
 		found = []
-		for i in qs:
+		for i in query_splitted:
 			found_ = Note.objects.filter( # Filter notes
 				Q(author=request.user.id) &
 				(Q(title__icontains=i) |
@@ -189,29 +213,42 @@ def search(request, q, pn=1):
 		sorted_found = [] # Will contain sorted results later
 		
 		for note in found: # Iterate over found notes
-			note.tags = replaceNone(note.tags) # Replace None in tags by empty string
-			sorted_found.append(PlaceByRelevance(note, qs, splitted=True, lower=True)) # Place by relevance
+			note.tags = replace_none(note.tags)
+			sorted_found.append( # Place by relevance
+				place_by_relevance(
+					note,
+					query_splitted,
+					splitted=True,
+					lower=True
+				)
+			)
 			
 		sorted_found.sort()	# Sort notes
 		
 		try: # Page number can be too big
-			p = Paginator(sorted_found, 10) # Split content into pages
-			found = replaceNewLinesSearch(p.page(pn)) # Replace newlines (\n) by <br/>
+			paginator = Paginator(sorted_found, 10) # Split content into pages
+			found = replace_newlines_search( # Replace newlines (\n) by <br/>
+				paginator.page(page_number)
+			)
 		except EmptyPage: # If page number is too big
 			raise Http404 # Display '404 Not found' error
 		
-		prange = page_range(pn, p.num_pages) # Generate page range
+		prange = page_range( # Generate page range
+			page_number,
+			paginator.num_pages
+		)
 		
 		# Pack context
 		context["found"] = found # Set list with found notes
-		context["num_pages"] = p.num_pages # Set number of pages
-		context["current_page_number"] = pn # Set current page number
+		context["num_pages"] = paginator.num_pages # Set number of pages
+		context["current_page_number"] = page_number # Set current page number
 		context["page_range"] = prange # Set page range
 		
 		return render_to_response("search.html", context)
 
-def filter_notes(request, tags="", pn=1):
-
+def filter_notes(request, tags="", page_number=1):
+	"""Filter all the notes"""
+	
 	if not request.user.is_authenticated():
 		return redirect('/login?return={}'.format(request.path))
 
@@ -219,13 +256,13 @@ def filter_notes(request, tags="", pn=1):
 	context["tags"] = tags
 	if tags:
 		context["tags"] = tags+"/"
-	tags = replaceNone(transformTagsSingle(tags))
+	tags = replace_none(transform_tags_single(tags))
 	
 	notes = Note.objects.filter(author=request.user.id)
 	filtered = []
 	
 	for note in notes:
-		ntags = replaceNone(transformTagsSingle(note.tags))
+		ntags = replace_none(transform_tags_single(note.tags))
 		if tags:
 			for tag in tags:
 				if tag in ntags:
@@ -239,23 +276,24 @@ def filter_notes(request, tags="", pn=1):
 			filtered.append(note)
 	
 	try:
-		pn = int(pn)
+		page_number = int(page_number)
 	except ValueError:
-		pn=1
+		page_number = 1
 	
-	p = Paginator(filtered, 10)
-	filtered_page = replaceNewLines(p.page(pn))
-	prange = page_range(pn, p.num_pages)
+	paginator = Paginator(filtered, 10)
+	filtered_page = replace_newlines(paginator.page(page_number))
+	prange = page_range(page_number, paginator.num_pages)
 
 	context["filtered"] = filtered_page
-	context["current_page_number"] = pn
-	context["num_pages"] = p.num_pages
+	context["current_page_number"] = page_number
+	context["num_pages"] = paginator.num_pages
 	context["page_range"] = prange
 	context["urlprefix"] = ""
 
 	return render_to_response("filter.html", context)
 
-def filterDone(request, tags="", pn=1):
+def filter_done(request, tags="", page_number=1):
+	"""Filter checked todo notes"""
 
 	if not request.user.is_authenticated():
 		return redirect('/login?return={}'.format(request.path))
@@ -264,13 +302,17 @@ def filterDone(request, tags="", pn=1):
 	context["tags"] = tags
 	if tags:
 		context["tags"] = tags+"/"
-	tags = replaceNone(transformTagsSingle(tags))
+	tags = replace_none(transform_tags_single(tags))
 	
-	notes = Note.objects.filter(author=request.user.id, type="t", is_checked=True)
+	notes = Note.objects.filter(
+		author=request.user.id,
+		type="t",
+		is_checked=True
+	)
 	filtered = []
 	
 	for note in notes:
-		ntags = replaceNone(transformTagsSingle(note.tags))
+		ntags = replace_none(transform_tags_single(note.tags))
 		if tags:
 			for tag in tags:
 				if tag in ntags:
@@ -284,23 +326,24 @@ def filterDone(request, tags="", pn=1):
 			filtered.append(note)
 	
 	try:
-		pn = int(pn)
+		page_number = int(page_number)
 	except ValueError:
-		pn=1
+		page_number = 1
 	
-	p = Paginator(filtered, 10)
-	filtered_page = replaceNewLines(p.page(pn))
-	prange = page_range(pn, p.num_pages)
+	paginator = Paginator(filtered, 10)
+	filtered_page = replace_newlines(paginator.page(page_number))
+	prange = page_range(page_number, paginator.num_pages)
 
 	context["filtered"] = filtered_page
-	context["current_page_number"] = pn
-	context["num_pages"] = p.num_pages
+	context["current_page_number"] = page_number
+	context["num_pages"] = paginator.num_pages
 	context["page_range"] = prange
 	context["urlprefix"] = "done"
 
 	return render_to_response("filter.html", context)
 
-def filterUndone(request, tags="", pn=1):
+def filter_undone(request, tags="", page_number=1):
+	"""Filter unchecked todo notes"""
 
 	if not request.user.is_authenticated():
 		return redirect('/login?return={}'.format(request.path))
@@ -309,13 +352,17 @@ def filterUndone(request, tags="", pn=1):
 	context["tags"] = tags
 	if tags:
 		context["tags"] = tags+"/"
-	tags = replaceNone(transformTagsSingle(tags))
+	tags = replace_none(transform_tags_single(tags))
 	
-	notes = Note.objects.filter(author=request.user.id, type="t", is_checked=False)
+	notes = Note.objects.filter(
+		author=request.user.id,
+		type="t",
+		is_checked=False
+	)
 	filtered = []
 	
 	for note in notes:
-		ntags = replaceNone(transformTagsSingle(note.tags))
+		ntags = replace_none(transform_tags_single(note.tags))
 		if tags:
 			for tag in tags:
 				if tag in ntags:
@@ -329,23 +376,24 @@ def filterUndone(request, tags="", pn=1):
 			filtered.append(note)
 	
 	try:
-		pn = int(pn)
+		page_number = int(page_number)
 	except ValueError:
-		pn=1
+		page_number = 1
 	
-	p = Paginator(filtered, 10)
-	filtered_page = replaceNewLines(p.page(pn))
-	prange = page_range(pn, p.num_pages)
+	paginator = Paginator(filtered, 10)
+	filtered_page = replace_newlines(paginator.page(page_number))
+	prange = page_range(page_number, paginator.num_pages)
 
 	context["filtered"] = filtered_page
-	context["current_page_number"] = pn
-	context["num_pages"] = p.num_pages
+	context["current_page_number"] = page_number
+	context["num_pages"] = paginator.num_pages
 	context["page_range"] = prange
 	context["urlprefix"] = "undone"
 
 	return render_to_response("filter.html", context)
 
-def filterSnippets(request, tags="", pn=1):
+def filter_snippets(request, tags="", page_number=1):
+	"""Filter snippets"""
 
 	if not request.user.is_authenticated():
 		return redirect('/login?return={}'.format(request.path))
@@ -354,13 +402,13 @@ def filterSnippets(request, tags="", pn=1):
 	context["tags"] = tags
 	if tags:
 		context["tags"] = tags+"/"
-	tags = replaceNone(transformTagsSingle(tags))
+	tags = replace_none(transform_tags_single(tags))
 	
 	notes = Note.objects.filter(author=request.user.id, type="s")
 	filtered = []
 	
 	for note in notes:
-		ntags = replaceNone(transformTagsSingle(note.tags))
+		ntags = replace_none(transform_tags_single(note.tags))
 		if tags:
 			for tag in tags:
 				if tag in ntags:
@@ -374,23 +422,24 @@ def filterSnippets(request, tags="", pn=1):
 			filtered.append(note)
 	
 	try:
-		pn = int(pn)
+		page_number = int(page_number)
 	except ValueError:
-		pn=1
+		page_number = 1
 	
-	p = Paginator(filtered, 10)
-	filtered_page = replaceNewLines(p.page(pn))
-	prange = page_range(pn, p.num_pages)
+	paginator = Paginator(filtered, 10)
+	filtered_page = replace_newlines(paginator.page(page_number))
+	prange = page_range(page_number, paginator.num_pages)
 
 	context["filtered"] = filtered_page
-	context["current_page_number"] = pn
-	context["num_pages"] = p.num_pages
+	context["current_page_number"] = page_number
+	context["num_pages"] = paginator.num_pages
 	context["page_range"] = prange
 	context["urlprefix"] = "snippets"
 
 	return render_to_response("filter.html", context)
 
-def filterWarnings(request, tags="", pn=1):
+def filter_warnings(request, tags="", page_number=1):
+	"""Filter warnings"""
 
 	if not request.user.is_authenticated():
 		return redirect('/login?return={}'.format(request.path))
@@ -399,13 +448,13 @@ def filterWarnings(request, tags="", pn=1):
 	context["tags"] = tags
 	if tags:
 		context["tags"] = tags+"/"
-	tags = replaceNone(transformTagsSingle(tags))
+	tags = replace_none(transform_tags_single(tags))
 	
 	notes = Note.objects.filter(author=request.user.id, type="w")
 	filtered = []
 	
 	for note in notes:
-		ntags = replaceNone(transformTagsSingle(note.tags))
+		ntags = replace_none(transform_tags_single(note.tags))
 		if tags:
 			for tag in tags:
 				if tag in ntags:
@@ -419,23 +468,24 @@ def filterWarnings(request, tags="", pn=1):
 			filtered.append(note)
 	
 	try:
-		pn = int(pn)
+		page_number = int(page_number)
 	except ValueError:
-		pn=1
+		page_number = 1
 	
-	p = Paginator(filtered, 10)
-	filtered_page = replaceNewLines(p.page(pn))
-	prange = page_range(pn, p.num_pages)
+	paginator = Paginator(filtered, 10)
+	filtered_page = replace_newlines(paginator.page(page_number))
+	prange = page_range(page_number, paginator.num_pages)
 
 	context["filtered"] = filtered_page
-	context["current_page_number"] = pn
-	context["num_pages"] = p.num_pages
+	context["current_page_number"] = page_number
+	context["num_pages"] = paginator.num_pages
 	context["page_range"] = prange
 	context["urlprefix"] = "warnings"
 
 	return render_to_response("filter.html", context)
 
-def filterNotes(request, tags="", pn=1):
+def filter_notes(request, tags="", page_number=1):
+	"""Filter notes"""
 
 	if not request.user.is_authenticated():
 		return redirect('/login?return={}'.format(request.path))
@@ -444,13 +494,13 @@ def filterNotes(request, tags="", pn=1):
 	context["tags"] = tags
 	if tags:
 		context["tags"] = tags+"/"
-	tags = replaceNone(transformTagsSingle(tags))
+	tags = replace_none(transform_tags_single(tags))
 	
 	notes = Note.objects.filter(author=request.user.id, type="n")
 	filtered = []
 	
 	for note in notes:
-		ntags = replaceNone(transformTagsSingle(note.tags))
+		ntags = replace_none(transform_tags_single(note.tags))
 		if tags:
 			for tag in tags:
 				if tag in ntags:
@@ -464,17 +514,17 @@ def filterNotes(request, tags="", pn=1):
 			filtered.append(note)
 	
 	try:
-		pn = int(pn)
+		page_number = int(page_number)
 	except ValueError:
-		pn=1
+		page_number = 1
 	
-	p = Paginator(filtered, 10)
-	filtered_page = replaceNewLines(p.page(pn))
-	prange = page_range(pn, p.num_pages)
+	paginator = Paginator(filtered, 10)
+	filtered_page = replace_newlines(paginator.page(page_number))
+	prange = page_range(page_number, paginator.num_pages)
 
 	context["filtered"] = filtered_page
-	context["current_page_number"] = pn
-	context["num_pages"] = p.num_pages
+	context["current_page_number"] = page_number
+	context["num_pages"] = paginator.num_pages
 	context["page_range"] = prange
 	context["urlprefix"] = "notes"
 
@@ -482,6 +532,8 @@ def filterNotes(request, tags="", pn=1):
 
 
 def login_view(request):
+	"""Log in view"""
+	
 	if 'email' in request.POST and 'password' in request.POST:
 		email = request.POST['email']
 		password = request.POST['password']
@@ -500,17 +552,28 @@ def login_view(request):
 			errors.append(empty_password)
 		
 		try:
-			username = User.objects.get(Q(email=email) | Q(username=email)).username
+			username = User.objects.get(
+				Q(email=email) |
+				Q(username=email)
+			).username
 		except ObjectDoesNotExist:
 			errors.append(incorrect_username_or_password)
 		
 		if errors:
-			return render_to_response("login.html", {"errors": errors}, context_instance=RequestContext(request))
+			return render_to_response(
+				"login.html",
+				{"errors": errors},
+				context_instance=RequestContext(request)
+			)
 		
 		user = authenticate(username=username, password=password)
 		if user is None:
 			errors.append(incorrect_username_or_password)
-			return render_to_response("login.html", {"errors": errors}, context_instance=RequestContext(request))
+			return render_to_response(
+				"login.html",
+				{"errors": errors},
+				context_instance=RequestContext(request)
+			)
 		
 		if "return" in request.POST:
 			return_page = request.POST["return"]
@@ -526,98 +589,111 @@ def login_view(request):
 			return redirect("/login/?return=%s" %return_page)
 	if request.user.is_authenticated():
 		return redirect("/")
-	return render_to_response("login.html", RequestContext(request, {}), context_instance=RequestContext(request))
+	return render_to_response(
+		"login.html",
+		RequestContext(request, {}),
+		context_instance=RequestContext(request)
+	)
 
 def logout_view(request):
+	"""Log out view"""
+	
 	if request.user.is_authenticated():
 		logout(request)
 	return redirect("/")
 
 def register(request):
+	"""Registration page"""
+	
 	if request.user.is_authenticated():
 		return redirect("/")
 	
-	if 'username' in request.POST and 'password' in request.POST and 'confirm_password' in request.POST and 'first_name' in request.POST and 'last_name' in request.POST and 'email' in request.POST:
-		username = request.POST["username"]
-		password = request.POST["password"]
-		confirm_password = request.POST["confirm_password"]
-		first_name = request.POST["first_name"]
-		last_name = request.POST["last_name"]
-		email = request.POST["email"]
-		invalid_email = "Invalid email"
-		too_long_email = "Too long email"
-		too_long_username = "Too long username"
-		too_long_firstname = "Too long first name"
-		too_long_lastname = "Too long last name"
-		passwords_are_different = "You entered 2 different passwords"
-		first_name_is_empty = "First name cannot be empty"
-		last_name_is_empty = "Last name cannot be empty"
-		username_is_empty = "Username cannot be empty"
-		password_is_empty = "Password cannot be empty"
-		email_is_empty = "Email cannot be empty"
-		errors = []
+	assert 'username' in request.POST, "Username is missing"
+	assert 'password' in request.POST, "Password is missing"
+	assert 'confirm_password' in request.POST, "Password not confirmed"
+	assert 'first_name' in request.POST, "First name is missing"
+	assert 'last_name' in request.POST, "Last name is missing"
+	assert 'email' in request.POST, "Email is missing"
+	username = request.POST["username"]
+	password = request.POST["password"]
+	confirm_password = request.POST["confirm_password"]
+	first_name = request.POST["first_name"]
+	last_name = request.POST["last_name"]
+	email = request.POST["email"]
+	invalid_email = "Invalid email"
+	too_long_email = "Too long email"
+	too_long_username = "Too long username"
+	too_long_firstname = "Too long first name"
+	too_long_lastname = "Too long last name"
+	passwords_are_different = "You entered 2 different passwords"
+	first_name_is_empty = "First name cannot be empty"
+	last_name_is_empty = "Last name cannot be empty"
+	username_is_empty = "Username cannot be empty"
+	password_is_empty = "Password cannot be empty"
+	email_is_empty = "Email cannot be empty"
+	errors = []
+	
+	if "@" not in email:
+		errors.append(invalid_email)
+	
+	if len(email) > 150:
+		errors.append(too_long_email)
+	elif not email:
+		errors.append(email_is_empty)
+	
+	if len(first_name) > 150:
+		errors.append(too_long_firstname)
+	elif not first_name:
+		errors.append(first_name_is_empty)
+	
+	if len(last_name) > 150:
+		errors.append(too_long_lastname)
+	elif not last_name:
+		errors.append(last_name_is_empty)
+	
+	if len(username) > 150:
+		errors.append(too_long_username)
+	elif not username:
+		errors.append(username_is_empty)
+	
+	if not password:
+		errors.append(password_is_empty)
+	elif password != confirm_password:
+		errors.append(passwords_are_different)
+	
+	if errors:
+		return render_to_response("register.html", {
+			"errors": errors,
+			"first_name": first_name,
+			"last_name": last_name,
+			"email": email,
+			"username": username
+		})
 		
-		if "@" not in email:
-			errors.append(invalid_email)
+	if "return" in request.POST:
+		return_page = request.POST["return"]
+	else:
+		return_page = "/"
+	try:
+		User.objects.get(username=username, email=email)
+	except ObjectDoesNotExist:
+		user = User.objects.create(
+			username=username,
+			first_name=first_name,
+			last_name=last_name,
+			email=email
+		)
+		user.set_password(password)
+		user.save()
 		
-		if len(email) > 150:
-			errors.append(too_long_email)
-		elif not email:
-			errors.append(email_is_empty)
-		
-		if len(first_name) > 150:
-			errors.append(too_long_firstname)
-		elif not first_name:
-			errors.append(first_name_is_empty)
-		
-		if len(last_name) > 150:
-			errors.append(too_long_lastname)
-		elif not last_name:
-			errors.append(last_name_is_empty)
-		
-		if len(username) > 150:
-			errors.append(too_long_username)
-		elif not username:
-			errors.append(username_is_empty)
-		
-		if not password:
-			errors.append(password_is_empty)
-		elif password != confirm_password:
-			errors.append(passwords_are_different)
-		
-		if errors:
-			return render_to_response("register.html", {"errors": errors, "first_name": first_name, "last_name": last_name, "email": email, "username": username})
-		
-		if "return" in request.POST:
-			return_page = request.POST["return"]
-		else:
-			return_page = "/"
-
-		try:
-			User.objects.get(username=username, email=email)
-		except ObjectDoesNotExist:
-			user = User.objects.create(username=username, first_name=first_name, last_name=last_name, email=email)
-			user.set_password(password)
-			user.save()
-			return redirect(return_page)
-		else:
-			return redirect("/")
-	return render_to_response("register.html", RequestContext(request, {}), context_instance=RequestContext(request))
-
-def htmlbody(s, title):
-	return """\
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, user-scalable=no" />
-		<title>{t}</title>
-	</head>
-	<body>
-		{s}
-	</body>
-</html>
-""".format(t=title, s=s)
+		return redirect(return_page)
+	else:
+		return redirect("/")
+	return render_to_response(
+		"register.html",
+		RequestContext(request, {}),
+		context_instance=RequestContext(request)
+	   )
 
 def contact(request):
 	"""Contact form"""
@@ -628,12 +704,20 @@ def contact(request):
 	if "text" in request.POST and "subject" in request.POST:
 		send_mail(
 			request.POST['subject'],
-			"{text}\n    {user_email}".format(text=request.POST['text'], user_email=request.user.email),
+			"{text}\n	{user_email}".format(
+				text=request.POST['text'],
+				user_email=request.user.email
+			),
 			request.user.email,
 			[su.email for su in User.objects.filter(is_superuser=True)],
 			fail_silently=False
 			)
-		return HttpResponse(htmlbody("Thanks for feedback. <a href='/contact/'>Back</a>", "Tnanks for feedback!"))
+		return HttpResponse(
+			htmlbody("""\
+Thanks for feedback. <a href='/contact/'>Back</a>""",
+            "Thanks for feedback!"
+            )
+		)
 	
 	return render_to_response("contact.html", RequestContext(request))
 
@@ -656,9 +740,14 @@ def profile(request):
 		"id": user.id
 	}
 	
-	return render_to_response('profile.html', context, context_instance=RequestContext(request, context))
+	return render_to_response(
+		'profile.html',
+		context,
+		context_instance=RequestContext(request, context))
 
 def delete_account(request):
+	"""Delete user account"""
+	
 	if not request.user.is_authenticated():
 		raise Http404
 	
@@ -675,13 +764,24 @@ def delete_account(request):
 			return redirect(request.path)
 		return redirect("/")
 	
-	return render_to_response("delete_account.html", context_instance=RequestContext(request))
+	return render_to_response(
+		"delete_account.html",
+		context_instance=RequestContext(request)
+	)
 
 def reset_password_confirm(request, uidb64=None, token=None):
-	return password_reset_confirm(request, template_name='registration/password_reset_confirm.html',
-        uidb64=uidb64, token=token, post_reset_redirect='/reset/complete')
+	"""Password reset confirmation"""
+	return password_reset_confirm(
+		request, template_name='registration/password_reset_confirm.html',
+		uidb64=uidb64, token=token, post_reset_redirect='/reset/complete'
+	)
 
 def reset_password(request):
-    return password_reset(request, template_name='registration/password_reset_form.html',
-        subject_template_name='registration/password_reset_subject.txt',
-        post_reset_redirect="/reset/sent")
+	"""Reset password"""
+	
+	return password_reset(
+		request,
+		template_name='registration/password_reset_form.html',
+		subject_template_name='registration/password_reset_subject.txt',
+		post_reset_redirect="/reset/sent"
+	)

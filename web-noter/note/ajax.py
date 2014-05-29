@@ -15,7 +15,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from django.db import OperationalError
 
-from note.functions import replaceNone, checkSimilarityFromStringList
+from note.functions import replace_none, check_similarity_from_string_list
 
 from django.template import RequestContext
 
@@ -162,7 +162,7 @@ Can be called by AJAX request"""
 		text = request.POST["text"]
 		title = request.POST["title"]
 		context = {"text": text, "title": title} # This is the future JSON object
-		top3 = checkSimilarityFromStringList(id, text, title)[0:3] # Top 3 similiar notes
+		top3 = check_similarity_from_string_list(id, text, title)[0:3] # Top 3 similiar notes
 		context["top3"] = top3
 		
 		return HttpResponse(json.dumps(context)) # Return JSON object

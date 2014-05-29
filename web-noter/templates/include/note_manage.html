@@ -1,6 +1,6 @@
 {% for note in notes %}
 	<article class="{{ note.get_type_display|lower }} {% if note.type == 't' and note.is_checked %}checked{% elif note.type == 't' and not note.is_checked %}unchecked{% endif %}" id="note-{{ note.id }}">
-		<a href="/note/{{ note.id }}/" onclick="load_page2('/note/{{ note.id }}/'); return false;">
+		<a href="/note/{{ note.id }}/" onclick="load_page('/note/{{ note.id }}/'); return false;">
 			<span class="title">
 				{{ note.title }}
 			</span>

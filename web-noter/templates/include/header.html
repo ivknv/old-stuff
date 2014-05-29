@@ -1,19 +1,23 @@
 <div class="wrapper">
 	<header role="banner">
-		<h1><span class="N-letter">N</span>oter</h1>
-		<nav role="navigation sitemap">
-			<a href="/" onclick="load_page('/'); return false;">Home</a>
-			<a href="/add/" onclick="load_page('/add/'); return false;">Add</a>
-			<a href="/manage/" onclick="load_page('/manage/'); return false;">Manage</a>
-			<a href="/filter/" onclick="load_page('/filter'); return false;">Filter</a>
-			{% block header_nav %}{% endblock %}
-		</nav>
 		<div class="container">
-			<div id="search_box" style="margin-top: 10px;">
-				<span>
-					<input class="text-field search-query" type="text" placeholder="Search" name="q" value="{{ q }}" />
-					<div class="search-btn" onclick="load_page('/search/'+$('input[name=q]').val()); return false;"><img src="/static/img/search-16.png" alt="Search" style="vertical-align: middle; line-height: 1;" /></div>
-				</span>
+			<div class="subcontainer">
+				<h1><span class="N-letter">N</span>oter</h1>
+				<nav role="navigation sitemap">
+					<a href="/" onclick="load_page('/'); return false;">Home</a>
+					<a href="/add/" onclick="load_page('/add/'); return false;">Add</a>
+					<a href="/manage/" onclick="load_page('/manage/'); return false;">Manage</a>
+					<a href="/filter/" onclick="load_page('/filter'); return false;">Filter</a>
+					{% block header_nav %}{% endblock %}
+				</nav>
+				<div id="search_box">
+					<span>
+						<input class="text-field search-query" type="text" placeholder="Search" name="q" value="{{ q }}" />
+						<div class="search-btn" onclick="load_page('/search/'+$('input[name=q]').val()); return false;">
+							<img src="/static/img/search-64.png" width="16" alt="Search" style="vertical-align: middle; line-height: 1;" />
+						</div>
+					</span>
+				</div>
 			</div>
 		</div>
 	</header>

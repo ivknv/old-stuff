@@ -45,18 +45,23 @@ jQuery(document).ajaxSend(function(event, xhr, settings) {
 // ===================
 function load_page(url) {
 	if (url[0] == "/") {
-		$realMain = jQuery(".main");
-		$realMain.css("background-color", "rgba(254, 254, 254, 0.95)");
+		//$realMain.css("background-color", "rgba(254, 254, 254, 0.95)");
+		$indicator = jQuery("#progress-indicator");
+		$indicator.attr("style", "");
+		$indicator.css("background-color", "white");
+		$indicator.css("display", "block");
+		$indicator.animate({width: "40%"}, 200);
+		$indicator.css("background-color", "rgb(0, 180, 0)");
 		
-		$.get(url, function(data) {
+		var req = $.get(url, function(data) {
 			var $data = jQuery("<div/>").html(data);
 			var $main = $data.find(".main");
 			var $realMain = jQuery(".main")
 			var $title = $data.find("title");
 			var reg = /#.+$/;
 			window.document.title = $title.text();
+			$indicator.animate({width: "80%"}, 200);
 			$realMain.html($main.html());
-			$realMain.css("background-color", "rgba(254, 254, 254, 1)");
 			var m = url.match(reg);
 			if (m != null && m.length > 0 && m[0].length > 0) {
 				jQuery.scrollTo(m[0]);
@@ -72,46 +77,21 @@ function load_page(url) {
 			jQuery("pre code").each(function(i, e) {
 				hljs.highlightBlock(e);
 			});
-		}, "html");
-	} else {
-		window.href = url;
-	}
-}
-
-function load_page2(url) {
-	if (url[0] == "/") {
-		$realMain = jQuery(".main");
-		$realMain.css("background-color", "rgba(254, 254, 254, 0.95)");
-		
-		$.get(url, function(data) {
-			var $data = jQuery("<div/>").html(data);
-			var $main = $data.find(".main");
-			var $title = $data.find("title");
-			var reg = /#.+$/;
-			window.document.title = $title.text();
-			$realMain.html($main.html());
-			$realMain.css("background-color", "rgba(254, 254, 254, 1)");
-			var m = url.match(reg);
-			if (m != null && m.length > 0 && m[0].length > 0) {
-				jQuery.scrollTo(m[0]);
-			} else {
-				jQuery.scrollTo("article");
-			}
-			var state = {
-				url: url,
-				title: $title.text(),
-				content: data
-			};
-			history.pushState(state, state.title, url);
-			jQuery("pre code").each(function(i, e) {
-				hljs.highlightBlock(e);
+			$indicator.animate({width: "100%"}, 100, function() {
+				$indicator.attr("style", "");
 			});
 		}, "html");
+		req.fail(function() {
+			$indicator.css("background-color", "red");
+			$indicator.animate({width: "100%"}, 500, function() {
+				$indicator.attr("style", "");
+			});
+		});
+
 	} else {
 		window.href = url;
 	}
 }
-
 
 // @TAG @TAGS
 // ==============

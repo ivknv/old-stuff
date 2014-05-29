@@ -8,10 +8,10 @@
 	<a href="/edit/{{ note.id }}/" onclick="load_page('/edit/{{ note.id }}/'); return false;"><div class="edit_button">Edit</div></a>
 	<div class="margin-bottom">
 			{% if previous %}
-				<button id="previous" class="btn-success previous" onclick="load_page2('/note/{{ previous.id }}/'); return false;">Previous</button>
+				<button id="previous" class="btn-success previous" onclick="load_page('/note/{{ previous.id }}/'); return false;">Previous</button>
 			{% endif %}
 			{% if next %}
-				<button id="next" class="btn-success next" onclick="load_page2('/note/{{ next.id }}/'); return false;">Next</button>
+				<button id="next" class="btn-success next" onclick="load_page('/note/{{ next.id }}/'); return false;">Next</button>
 			{% endif %}
 	</div>
 {% endblock %}

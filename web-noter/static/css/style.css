@@ -124,11 +124,12 @@ Site styling
 
 body {
 	z-index: 1000;
-	background-image: url("/static/img/background2_optimized.gif");
-	background-repeat: no-repeat;
+	background-image: url("/static/img/background_greyzz.png");
+	background-repeat: repeat;
 	background-attachment: scroll;
-	background-size: 100% 100%;
+/*	background-size: 100% 100%;*/
 	font-family: OpenSans, Arial;
+	background-color: transparent;
 }
 
 a {
@@ -143,21 +144,25 @@ a:hover {
 
 .wrapper h1 {
 	color: rgb(245, 245, 245);
-	text-align: center;
 	margin-top: 0;
 }
 
 .wrapper header {
+	position: relative;
 	display: block;
 	background-color: rgba(71, 71, 71, 0.9);
-	height: 125px;
+	min-height: 55px;
+	max-height: 125px;
 	color: rgb(245, 245, 245);
-	padding-bottom: 7px;
+	padding-bottom: 8px;
 	min-width: 240px;
 }
 
 .container {
-	max-width: 1280px;
+	min-width: 240px;
+	max-width: 970px;
+	margin: 0 auto;
+	padding: 0 15px;
 }
 
 .next, .previous {
@@ -205,13 +210,12 @@ pre {
 }
 
 .wrapper header nav {
-	display: block;
-	text-align: center;
+	display: inline-block;
 }
 
 .wrapper header nav a {
-	vertical-align: middle;
 	padding: 4px;
+	margin-left: -3px;
 }
 
 .wrapper header nav a:hover {
@@ -219,22 +223,14 @@ pre {
 }
 
 #search_box {
-	display: block;
+	display: inline-block;
 	max-width: 275px;
-	float: right;
 	margin: 0 3px;
 	box-sizing: border-box;
 }
 
 #search_box > span {
-	float: right;
 	box-sizing: border-box;
-}
-
-@media screen and (max-width: 425px) {
-	#search_box, #search_box > span {
-		float: left;
-	}
 }
 
 .input-group-btn {
@@ -266,6 +262,7 @@ pre {
 }
 
 .wrapper h1 {
+	display: inline-block;
 	font-family: OpenSans, Helvetica, Arial, Verdana, Tahoma;
 	font-size: 40px;
 	font-weight: 100;
@@ -307,22 +304,22 @@ pre {
 
 .main {
 	position: relative;
-	background-color: rgb(254, 254, 254);
-	max-width: 1280px;
+/*	background-color: rgba(254, 254, 254, 0);*/
+	max-width: 970px;
 	min-width: 240px;
 	overflow: auto;
 	height: auto !important;
 	height: 100%;
 	font-family: OpenSans, Arial;
-	box-shadow: 0 0 15px rgb(136, 136, 136);
+	/*box-shadow: 0 0 15px rgb(136, 136, 136);*/
 	min-height: 417px;
 	margin-top: 20px;
 	padding-top: 10px;
-	padding-right: 10px;
-	padding-left: 10px;
+	padding-right: 15px;
+	padding-left: 15px;
 	padding-bottom: 10px;
-	margin-left: 13%;
-	margin-right: 13%;
+	margin-left: auto;
+	margin-right: auto;
 	padding-bottom: 80px;
 }
 
@@ -351,11 +348,8 @@ pre {
 
 .cut {
 	display: block;
-	box-shadow: inset 0 -15px 15px -15px rgb(171, 171, 171);
+	/*box-shadow: inset 0 -15px 15px -15px rgba(171, 171, 171, 1);*/
 	height: 210px;
-}
-
-.shadow {
 }
 
 p {
@@ -365,23 +359,24 @@ p {
 	z-index: 1002;
 }
 
-.title {
+article .title {
 	margin-bottom: 5px;
 	min-width: 240px;
 	text-decoration: none;
 	font-size: 24px;
 	font-family: OpenSans, Helvetica, Verdana, Arial;
-	color: rgb(136, 184, 234);
-	opacity: 0.8;
-	transition: opacity 1s ease-in-out;
-	-moz-transition: opacity 1s ease-in-out;
-	-webkit-transition: opacity 1s ease-in-out;
-	-o-transition: opacity 1s ease-in-out;
-	-ms-transition: opacity 1s ease-in-out;
+	color: rgb(86, 174, 61);
+	opacity: 0.9;
+	transition: opacity 1s ease-in-out, color 0.5s ease-in;
+	-moz-transition: opacity 1s ease-in-out, color 0.5s ease-in;
+	-webkit-transition: opacity 1s ease-in-out, color 0.5s ease-in;
+	-o-transition: opacity 1s ease-in-out, color 0.5s ease-in;
+	-ms-transition: opacity 1s ease-in-out, color 0.5s ease-in;
 }
 
-.title:hover {
+article .title:hover {
 	opacity: 1;
+	color: rgb(106, 194, 81);
 }
 
 .note, .todo, .snippet, .warning {
@@ -871,7 +866,7 @@ Footer styling
 
 footer {
 	position: relative;
-	background-color: rgb(67, 74, 84);
+	background-color: rgb(78, 78, 80);
 	color: rgb(254, 254, 254);
 	margin: 0;
 	margin-top: 79px;
@@ -882,12 +877,14 @@ footer {
 	box-sizing: border-box;
 }
 
-/*footer .logo {
-	display: inline-block;
-	height: 32px;
-	margin-right: 5%;
-	margin-top: 10px;
-}*/
+footer > div {
+	margin: 0 auto;
+	max-width: 665px;
+}
+
+footer ul:last-child {
+	margin-right: 0;
+}
 
 footer ul .title {
 	font-size: 14px;
@@ -897,7 +894,7 @@ footer ul .title {
 footer ul {
 	display: inline-block;
 	padding: 0;
-	margin-right: 4%;
+	margin-right: 6%;
 	vertical-align: top;
 }
 
@@ -935,4 +932,16 @@ footer ul li a:hover {
 
 .data_current {
 	font-size: 14px;
+}
+
+#progress-indicator {
+	display: none;
+	position: fixed;
+	height: 2px;
+	background-color: white;
+	transition: width 0.5s ease-out, background-color 3s;
+	-moz-transition: width 0.5s ease-out, background-color 3s;
+	-o-transition: width 0.5s ease-out, background-color 3s;
+	-ms-transition: width 0.5s ease-out, background-color 3s;
+	-webkit-transition: width 0,5s ease-out, background-color 3s;
 }
