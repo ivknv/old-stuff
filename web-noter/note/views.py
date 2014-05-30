@@ -246,7 +246,7 @@ def search(request, query, page_number=1):
 		
 		return render_to_response("search.html", context)
 
-def filter_notes(request, tags="", page_number=1):
+def filter_all_notes(request, tags="", page_number=1):
 	"""Filter all the notes"""
 	
 	if not request.user.is_authenticated():
