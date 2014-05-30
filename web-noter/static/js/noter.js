@@ -375,6 +375,52 @@ function handleEnter(urlprefix) {
 	});
 }
 
+// @KEY
+// =============
+// Key shortcuts
+// =============
+// @SHORTCUTS
+
+jQuery(document).keypress(function(event) {
+	if(!($(event.target).is("input, textarea"))) {
+		switch(event.which) {
+			case 49: // '1' key
+			case 104: // 'h' key
+				load_page('/');
+				break;
+			case 50: // '2' key
+			case 97: // 'a' key
+				load_page('/add/');
+				break;
+			case 51: // '3' key
+			case 109: // 'm' key
+				load_page('/manage/');
+				break;
+			case 52: // '4' key
+			case 102: // 'f' key
+				load_page('/filter/');
+				break;
+			case 115: // 's' key
+				jQuery('input[name=q]').focus();
+				break;
+			case 35: // '#' key
+				jQuery.scrollTo('body');
+				break;
+			case 110: // 'n' key
+				jQuery('#next').trigger('click');
+				break;
+			case 112: // 'p' key
+				jQuery('#previous').trigger('click');
+				break;
+			case 101: // 'e' key
+				jQuery('.edit_button').trigger('click');
+				break;
+			default:
+				break;
+		}
+	}
+});
+
 // @TAB @TTAB
 // =============================
 // Tab key handling for textarea
@@ -412,6 +458,26 @@ function enableTab(id) {
 /*function antiEscapeLtGt(code) {
 	return code.replace(/&amp;/gm, "&").replace(/&lt;/gm, "<").replace(/&gt;/gm, ">").replace(/&quot;/gm, '"').replace(/&#39/gm, "");
 }*/
+
+$(document).ready(function() {
+	var $q = $("input[name=q]");
+	$q.keypress(function(event) {
+		if (event.which == 13) {
+			load_page('/search/'+$q.val());
+		}
+	});
+	
+	$(window).on("popstate", function(event) {
+		var state = event.originalEvent.state;
+	    if (!state) {
+			return;
+		} else {
+			var newDoc = document.open("text/html", "");
+			newDoc.write(state.content);
+			newDoc.close();
+		}
+	});
+});
 
 function antiEscapeLtGt2(code) {
 	return code.replace(/&lt;/gm, "<").replace(/&gt;/gm, ">").replace(/&amp;lt;/gm, "&lt;").replace(/&amp;gt;/gm, "&gt;").replace(/&amp;/gm, "&");
