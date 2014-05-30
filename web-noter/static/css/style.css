@@ -208,6 +208,7 @@ pre {
 .wrapper header nav {
 	display: inline-block;
 	margin-right: 16px;
+	margin-bottom: 5px;
 }
 
 .wrapper header nav a {
@@ -516,7 +517,7 @@ article .title:hover {
 .remove-dialog {
 	position: fixed;
 	display: none;
-	z-index: 1001;
+	z-index: 3;
 	overflow: auto;
 	width: 290px;
 	height: 180px;
@@ -936,10 +937,10 @@ footer ul li a:hover {
 	position: fixed;
 	height: 2px;
 	background-color: white;
-	transition: width 0.5s ease-out, background-color 3s;
-	-moz-transition: width 0.5s ease-out, background-color 3s;
-	-o-transition: width 0.5s ease-out, background-color 3s;
-	-ms-transition: width 0.5s ease-out, background-color 3s;
-	-webkit-transition: width 0,5s ease-out, background-color 3s;
-	z-index: 3;
+	transition: background-color 1s;
+	-moz-transition: background-color 1s;
+	-o-transition: background-color 1s;
+	-ms-transition: background-color 1s;
+	-webkit-transition: background-color 1s;
+	z-index: 4;
 }

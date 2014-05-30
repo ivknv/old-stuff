@@ -50,7 +50,7 @@ function load_page(url) {
 		$indicator.attr("style", "");
 		$indicator.css("background-color", "white");
 		$indicator.css("display", "block");
-		$indicator.animate({width: "40%"}, 200);
+		$indicator.animate({width: "40%"}, 450);
 		$indicator.css("background-color", "rgb(0, 180, 0)");
 		
 		var req = $.get(url, function(data) {
@@ -60,7 +60,9 @@ function load_page(url) {
 			var $title = $data.find("title");
 			var reg = /#.+$/;
 			window.document.title = $title.text();
-			$indicator.animate({width: "80%"}, 200);
+			$indicator.animate({width: "100%"}, 250, function() {
+				$indicator.attr("style", "");
+			});
 			$realMain.html($main.html());
 			var m = url.match(reg);
 			if (m != null && m.length > 0 && m[0].length > 0) {
@@ -77,13 +79,10 @@ function load_page(url) {
 			jQuery("pre code").each(function(i, e) {
 				hljs.highlightBlock(e);
 			});
-			$indicator.animate({width: "100%"}, 100, function() {
-				$indicator.attr("style", "");
-			});
 		}, "html");
 		req.fail(function() {
 			$indicator.css("background-color", "red");
-			$indicator.animate({width: "100%"}, 500, function() {
+			$indicator.animate({width: "100%"}, 700, function() {
 				$indicator.attr("style", "");
 			});
 		});
