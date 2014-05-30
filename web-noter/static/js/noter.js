@@ -54,9 +54,9 @@ function load_page(url) {
 		$indicator.css("background-color", "rgb(0, 180, 0)");
 		
 		var req = $.get(url, function(data) {
+			var $realMain = jQuery(".main");
 			var $data = jQuery("<div/>").html(data);
 			var $main = $data.find(".main");
-			var $realMain = jQuery(".main")
 			var $title = $data.find("title");
 			var reg = /#.+$/;
 			window.document.title = $title.text();
@@ -86,7 +86,6 @@ function load_page(url) {
 				$indicator.attr("style", "");
 			});
 		});
-
 	} else {
 		window.href = url;
 	}

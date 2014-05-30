@@ -707,12 +707,12 @@ Some inputs
 
 .btn-blue {
 	display: inline-block;
-	background-color: rgb(59, 175, 218);
+	background: rgb(59, 175, 218);
 	border: 2px solid rgb(39, 155, 198);
 	color: rgb(254, 254, 254);
 	font-size: 15px;
 	margin-left: -6px;
-	padding: 6px 12px 6px 12px;
+	padding: 6px 12px;
 	cursor: pointer;
 	-moz-user-select: none;
 	-webkit-user-select: none;
@@ -744,7 +744,7 @@ Some inputs
 
 .btn-success {
 	display: inline-block;
-	background-color: rgb(160, 212, 104);
+	background: rgb(160, 212, 104);
 	border: 2px solid rgb(150, 202, 94);
 	box-shadow: none;
 	outline: 0;
