@@ -5,7 +5,7 @@
 		<div>
 			<div><label class="label" for="tags">Tags:</label></div>
 			<input class="filter-field" type="text" placeholder="Separate with comma" name="tags" value="{{ tags|slice:"0:-1" }}" />
-			<div class="filter-btn" onclick="load_page('/filter/'+$('input[name=tags]').val()+'/1')">Filter</div>
+			<div class="filter-btn" onclick="load_page('/filter{{ urlprefix }}/'+$('input[name=tags]').val())">Filter</div>
 		</div>
 		<div class="navigation">
 			<a href="/filter/{{ tags }}" onclick="load_page('/filter/{{ tags }}'); return false;">All</a>
@@ -25,9 +25,9 @@
 			{% include "include/pagination.html" %}
 		{% endwith %}
 	{% else %}
-		<strong>There's no notes of this type with such tag(s)</strong>
+		<strong>Can't find any notes.</strong>
 	{% endif %}
 	<script type="text/javascript">
-		handleEnter();
+		handleEnter("{{ urlprefix }}");
 	</script>
 {% endblock %}

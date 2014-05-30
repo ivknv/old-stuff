@@ -360,16 +360,16 @@ function preview1(d) {
 	$preview.find(".date").html(d);
 }
 
-// @FILTER
+// @FILTER @HANDLEENTER @ENTER
 // ==================================
 // Enter key handling for filter page
 // ==================================
-function handleEnter() {
+function handleEnter(urlprefix) {
 	jQuery(document).ready(function() {
 		var $tags = jQuery("input[name=tags]");
 		$tags.keypress(function(event) {
 			if (event.which == 13) {
-				load_page("/filter/"+$tags.val()+"/1/");	
+				load_page("/filter"+urlprefix+"/"+$tags.val());	
 			}
 		});
 	});
