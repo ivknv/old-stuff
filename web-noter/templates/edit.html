@@ -4,7 +4,7 @@
 	<div class="margin-bottom">
 		<div class="margin-bottom">
 			<label class="label" for="title">Title:</label>
-			<input type="text" class="input-field" placeholder="Title" name="title" value="{{ note.title }}" />
+			<input autocomplete="off" type="text" class="input-field" placeholder="Title" name="title" value="{{ note.title }}" />
 		</div>
 		<div class="margin-bottom">
 			<label class="label" for="text">Text:</label>
@@ -46,17 +46,17 @@
 		{% include "include/edit_radios.html" %}
 		<p>
 			<button class="btn-success" type="submit" onclick="if($('input[name=tags]').val().split(',').length > 10) {alert('Maximum amount of tags is 10.');} else {edit({{ note.id }}, $('input[name=title]').val(), $('textarea[name=text]').val(), $('input[name=tags]').val(), $('input[name=checked]').prop('checked'));}">Save</button>
-			<button class="btn-success" onclick="preview1('{{ note.date }}');">Preview</button>
+			<button class="btn-success" onclick="preview1('{{ note.date|date:"l, F j Y H:i" }}');">Preview</button>
 		</p>
 		<div id="result"></div>
-		<div class="note preview">
+		<article class="note preview">
 			<h2></h2>
 			<a>
 				<span class="title"></span>
 			</a>
-			<div class="date"></div>
+			<div class="date"><time></time></div>
 			<p class="text"></p>
-		</div>
+		</article>
 	</div>
 	<script type="text/javascript">
 		enableTab('txt');

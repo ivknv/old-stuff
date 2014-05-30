@@ -12,7 +12,7 @@
 				</nav>
 				<div id="search_box">
 					<span>
-						<input class="text-field search-query" type="text" placeholder="Search" name="q" value="{{ q }}" />
+						<input autocomplete="off" class="text-field search-query" type="text" placeholder="Search" name="q" value="{{ q }}" />
 						<div class="search-btn" onclick="load_page('/search/'+$('input[name=q]').val()); return false;">
 							<img src="/static/img/search-64.png" width="16" alt="Search" style="vertical-align: middle; line-height: 1;" />
 						</div>

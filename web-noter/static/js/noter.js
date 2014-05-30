@@ -307,9 +307,9 @@ function preview() {
 			$preview.append("<p class='text'></p>")
 		}
 			if (jQuery("#is_warning").prop("checked")) {
-				$preview.attr("class", "preview warning");
+				$preview.attr("class", "preview .warning");
 			} else {
-				$preview.attr("class", "preview note");
+				$preview.attr("class", "preview .note");
 			}
 			$preview.find(".text").html(
 				replaceNewLines($textarea.val())
@@ -319,7 +319,9 @@ function preview() {
 	var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'Jule', 'August', 'September', 'October', 'November', 'December'];
 	var now = new Date(), weekday=days[now.getDay()], month=months[now.getMonth()];
-	jQuery(".preview .date").html(weekday + ", " + month + " " + addZero(now.getDate()) + " " + now.getFullYear() + " " + addZero(now.getHours()) + ":" +addZero(now.getMinutes()));
+	var $date = $preview.find(".date > time");
+	$date.html(weekday + ", " + month + " " + addZero(now.getDate()) + " " + now.getFullYear() + " " + addZero(now.getHours()) + ":" +addZero(now.getMinutes()));
+	$date.attr("datetime", now);
 };
 
 function preview1(d) {
@@ -357,7 +359,9 @@ function preview1(d) {
 			);
 	}
 	$preview.find("a > .title").html(escapeLtGt($title.val()))
-	$preview.find(".date").html(d);
+	var $date = $preview.find(".date > time");
+	$date.attr("datetime", d);
+	$date.html(d);
 }
 
 // @FILTER @HANDLEENTER @ENTER
