@@ -455,10 +455,6 @@ function enableTab(id) {
 // =======
 // @ONREADY
 
-/*function antiEscapeLtGt(code) {
-	return code.replace(/&amp;/gm, "&").replace(/&lt;/gm, "<").replace(/&gt;/gm, ">").replace(/&quot;/gm, '"').replace(/&#39/gm, "");
-}*/
-
 $(document).ready(function() {
 	var $q = $("input[name=q]");
 	$q.keypress(function(event) {
@@ -478,6 +474,20 @@ $(document).ready(function() {
 		}
 	});
 });
+
+function PlaceReadMoreButtons() {
+	jQuery(document).ready(function() {
+		var $note = $("article");
+		$note.each(function(i, e) {
+			var $text = $(this).find(".text");
+			if (parseInt($text.css("height")) > 210) {
+				$text.addClass("cut");
+				var href = $(this).find("a").attr("href");
+				$(this).append("<a href='"+href+"' onclick='load_page(\""+href+"\"); return false;'><div class='read-more-btn'>Continue reading</div></a>");
+			}
+		});
+	});
+}
 
 function antiEscapeLtGt2(code) {
 	return code.replace(/&lt;/gm, "<").replace(/&gt;/gm, ">").replace(/&amp;lt;/gm, "&lt;").replace(/&amp;gt;/gm, "&gt;").replace(/&amp;/gm, "&");

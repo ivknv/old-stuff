@@ -6,7 +6,9 @@
 {% endblock %}
 {% block content %}
 	{% if notes %}
-		{% include "include/read_more.html" %}
+		<script type="text/javascript">
+			PlaceReadMoreButtons();
+		</script>
 		{% for note in notes %}
 			{% include "include/note.html" %}
 		{% endfor %}

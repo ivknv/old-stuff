@@ -8,7 +8,9 @@
 		{% endfor %}
 	{% endif %}
 	{% if found %}
-		{% include "include/read_more.html" %}
+		<script type="text/javascript">
+			PlaceReadMoreButtons();
+		</script>
 		{% for note in found %}
 			{% include "include/search_note.html" %}
 		{% endfor %}

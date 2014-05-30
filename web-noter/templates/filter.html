@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Filter notes{% endblock %}
+{% block title %}Filter {{ urlprefix }}{% endblock %}
 {% block content %}
 	<div class="margin-bottom" style="margin-bottom: 20px; min-width: 240px; margin-right: 5px; margin-left: 5px;">
 		<div>
@@ -17,7 +17,9 @@
 		</div>
 	</div> <!-- When there was no this closing tag there was an interesting "double" footer problem -->
 	{% if filtered %}
-		{% include "include/read_more.html" %}
+		<script type="text/javascript">
+			PlaceReadMoreButtons();
+		</script>
 		{% for note in filtered %}
 			{% include "include/note.html" %}
 		{% endfor %}
