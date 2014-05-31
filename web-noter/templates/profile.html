@@ -4,6 +4,9 @@
 	<div id="result" class="alert"></div>
 	<h2>{{ username }}'s profile</h2>
 	<div class="margin-bottom">
+		Date joined: {{ user.date_joined|date:"l, F j Y H:i" }}
+	</div>
+	<div class="margin-bottom">
 		<h3>Change username</h3>
 		<div class="margin-bottom">
 			<div class="data_current" id="current_username">Current username: {{ username }}</div>
