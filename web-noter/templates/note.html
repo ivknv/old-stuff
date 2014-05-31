@@ -5,7 +5,16 @@
 {% block title %}{{ note.title }}{% endblock %}
 {% block content %}
 	{% include "include/note.html" %}
-	<a href="/edit/{{ note.id }}/" onclick="load_page('/edit/{{ note.id }}/'); return false;"><div class="edit_button">Edit</div></a>
+	<div class="margin-bottom">
+		<a href="/similiar/{{ note.id }}/" onclick="load_page('/similiar/{{ note.id }}/'); return false;">
+			Similiar notes
+		</a>
+	</div>
+	<div class="margin-bottom">
+		<a href="/edit/{{ note.id }}/" onclick="load_page('/edit/{{ note.id }}/'); return false;">
+			<div class="edit_button">Edit</div>
+		</a>
+	</div>
 	<div class="margin-bottom">
 			{% if previous %}
 				<button id="previous" class="btn-success previous" onclick="load_page('/note/{{ previous.id }}/'); return false;">Previous</button>

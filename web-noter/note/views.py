@@ -31,6 +31,7 @@ from note.functions import replace_none, htmlbody, place_by_relevance
 from note.functions import replace_newlines, page_range
 from note.functions import replace_newlines_single_object
 from note.functions import replace_newlines_search, transform_tags_single
+from note.functions import replace_newlines_sim
 
 def home(request, page_number=1):
 	"""Home page"""
@@ -784,4 +785,50 @@ def reset_password(request):
 		template_name='registration/password_reset_form.html',
 		subject_template_name='registration/password_reset_subject.txt',
 		post_reset_redirect="/reset/sent"
+	)
+
+def find_similiar_notes(request, note_id, page_number=1):
+	"""Find notes, similiar to some note
+	
+	@param note_id: ID of the note
+	"""
+	
+	if not request.user.is_authenticated():
+		return redirect('/login?return=%s' %request.path)
+	
+	try:
+		page_number = int(page_number)
+	except ValueError:
+		page_number = 1
+	
+	try:
+		note = Note.objects.get(id=note_id)
+	except ObjectDoesNotExist:
+		raise Http404
+	
+	notes = Note.objects.all()
+	
+	sorted_notes = check_similarity(note, notes)
+	paginator = Paginator(sorted_notes, 10)
+	try:
+		current_page = replace_newlines_sim(paginator.page(page_number))
+	except EmptyPage:
+		raise Http404
+	
+	print(current_page.object_list)
+	
+	prange = page_range(page_number, paginator.num_pages)
+	
+	context = {
+		"note_": note,
+		"notes": current_page,
+		"current_page_number": page_number,
+		"page_range": prange,
+		"current_url": "/similiar/%s/" %note_id
+	}
+	
+	return render_to_response(
+		"similiar.html",
+		context,
+		context_instance=RequestContext(request)
 	)

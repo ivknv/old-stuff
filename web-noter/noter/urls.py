@@ -75,4 +75,5 @@ urlpatterns = patterns('',
 	url(r'^reset/sent/$', TemplateView.as_view(template_name="registration/password_reset_sent.html")),
 	url(r'^api/', include(APIPatterns, namespace="API")),
 	url(r'^api-info/$', TemplateView.as_view(template_name="api-info.html")),
+	url(r'^similiar/(?P<note_id>\d+)/(?P<page_number>\d*)$', 'note.views.find_similiar_notes', name="Similiar"),
 )

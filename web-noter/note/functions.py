@@ -67,13 +67,18 @@ def check_similarity(note, notes=Note.objects.all()):
 		if note2.id == note.id: # If first note is equal to second note
 			continue # Start next iteration
 		
-		sorted_list.append([
-			similarity_percentage(title1=note.title,
+		percent = similarity_percentage(
+			title1=note.title,
 			title2=note2.title,
 			text1=note.text,
-			text2=note2.text),
-			(note, note2)
-		])
+			text2=note2.text
+		)
+		
+		if percent > 0:
+			sorted_list.append([
+				percent,
+				(note, note2)
+			])
 	
 	sorted_list.sort() # Sort list of notes
 	sorted_list.reverse() # Reverse the list of notes
@@ -169,6 +174,17 @@ Works only with lists ([7.2, <Note>])."""
 		if obj.object_list[i][1].type != "s":
 			obj.object_list[i][1].text = replace_newlines_string(
 				obj.object_list[i][1].text
+			)
+	return obj
+
+def replace_newlines_sim(obj):
+	"""Replace all the newlines (\n) in notes by <br/> HTML tags.
+Works only with lists ([7.2, <Note>])."""
+	
+	for i in range(len(obj.object_list)):
+		if obj.object_list[i][1][1].type != "s":
+			obj.object_list[i][1][1].text = replace_newlines_string(
+				obj.object_list[i][1][1].text
 			)
 	return obj
 

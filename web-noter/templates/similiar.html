@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Notes, similiar to '{{ note_.title }}'{% endblock %}
+{% block content %}
+	<script type="text/javascript">
+		PlaceReadMoreButtons();
+	</script>
+	{% for note in notes %}
+		{% include "include/similiar_note.html" %}
+	{% endfor %}
+	{% include "include/pagination.html" %}
+{% endblock %}
