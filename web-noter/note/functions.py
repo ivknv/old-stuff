@@ -33,10 +33,16 @@ def check_similarity_from_strings(string1, string2):
 	66.66666666666667
 	
 	"""
-	string1 = string1.split(" ")
-	string2 = string2.split(" ")
+	
+	string1 = remove_tags_from_string(string1)
+	string2 = remove_tags_from_string(string2)
+	
+	string1 = string1.split()
+	string2 = string2.split()
+	
 	percents = 0
 	percents_per_word = 100.0/max(len(string1), len(string2))
+	
 	for i in string1:
 		try:
 			if i in string2:
@@ -52,8 +58,7 @@ def similarity_percentage(title1, title2, text1, text2):
 	return (
 		check_similarity_from_strings(
 			text1,
-			text2
-		)
+			text2)
 			+
 			check_similarity_from_strings(
 				title1,
@@ -98,7 +103,7 @@ def check_similarity_from_string(text, title, notes=Note.objects.all()):
 			text1=text,
 			text2=note.text
 		)
-		if similarity_percent > 15:
+		if similarity_percent > 0:
 			sorted_list.append([
 				similarity_percent,
 				("<Note: {title}>".format(title=title), note)
@@ -123,7 +128,7 @@ Using lists instead of Note objects"""
 			title2=note.title,
 			text1=text,
 			text2=note.text)
-		if similarity_percent > 15:
+		if similarity_percent > 0:
 			sorted_list.append([
 				similarity_percent,
 				("<Note: {}>".format(title),
@@ -271,10 +276,15 @@ def htmlbody(string, title):
 </html>
 """.format(title, string)
 
-def remove_tags(obj):
-	"""Remove all the HTML tags from text"""
+def remove_tags_from_string(string):
+	"""Remove all the HTML tags from string"""
 	
-	obj.text = re.sub("<.*?>", "", obj.text)
+	return re.sub("<.*?>", "", string)
+
+def remove_tags(obj):
+	"""Remove all the HTML tags from the note"""
+	
+	obj.text = remove_tags_from_string(obj.text)
 	
 	return obj
 
