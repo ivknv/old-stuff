@@ -9,6 +9,8 @@ Functions that used views.py, ajax.py and api.py
 
 import sys # To check Python version
 
+import re
+
 from note.models import Note # To get notes from server's database
 
 if sys.version_info.major < 3: # If version of Python is lower than 3
@@ -268,3 +270,19 @@ def htmlbody(string, title):
 	</body>
 </html>
 """.format(title, string)
+
+def remove_tags(obj):
+	"""Remove all the HTML tags from text"""
+	
+	obj.text = re.sub("<.*?>", "", obj.text)
+	
+	return obj
+
+def remove_tags_in_all_notes(notes=Note.objects.all()):
+	"""Remove all the HTML tags from text in all the notes"""
+	
+	for note in notes:
+		if note.type != 's':
+			note = remove_tags(note)
+	
+	return notes

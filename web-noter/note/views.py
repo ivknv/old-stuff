@@ -27,11 +27,16 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 
 from note.functions import check_similarity, transform_tags
+
 from note.functions import replace_none, htmlbody, place_by_relevance
+
 from note.functions import replace_newlines, page_range
+
 from note.functions import replace_newlines_single_object
+
 from note.functions import replace_newlines_search, transform_tags_single
-from note.functions import replace_newlines_sim
+
+from note.functions import replace_newlines_sim, remove_tags_in_all_notes
 
 def home(request, page_number=1):
 	"""Home page"""
@@ -202,15 +207,17 @@ def search(request, query, page_number=1):
 	if not context["errors"]: # If there's no errors
 		found = []
 		for i in query_splitted:
-			found_ = Note.objects.filter( # Filter notes
-				Q(author=request.user.id) &
-				(Q(title__icontains=i) |
-				Q(text__icontains=i) |
-				Q(tags__icontains=i))
+			found_ = remove_tags_in_all_notes(
+				Note.objects.filter(
+					Q(author=request.user.id) &
+					(Q(title__icontains=i) |
+					Q(text__icontains=i) |
+					Q(tags__icontains=i))
+				)
 			)
 			for note in found_:
 				if not note in found:
-					found.append(note)
+					found.append(Note.objects.get(id=note.id))
 		sorted_found = [] # Will contain sorted results later
 		
 		for note in found: # Iterate over found notes
