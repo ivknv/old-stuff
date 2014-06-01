@@ -806,7 +806,7 @@ def find_similiar_notes(request, note_id, page_number=1):
 	except ObjectDoesNotExist:
 		raise Http404
 	
-	notes = Note.objects.all()
+	notes = Note.objects.filter(author=request.user.id)
 	
 	sorted_notes = check_similarity(note, notes)
 	paginator = Paginator(sorted_notes, 10)
