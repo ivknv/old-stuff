@@ -4,7 +4,15 @@
 {% endblock %}
 {% block title %}{{ note.title }}{% endblock %}
 {% block content %}
+	{% load split %}
 	{% include "include/note.html" %}
+	<div class="margin-bottom">
+		{% with tags=note|splitags %}
+			{% for tag in tags %}
+				<a href="/filter/{{ tag }}" class="tag">#{{ tag }}</a>
+			{% endfor %}
+		{% endwith %}
+	</div>
 	<div class="margin-bottom">
 		<a href="/similiar/{{ note.id }}/" onclick="load_page('/similiar/{{ note.id }}/'); return false;">
 			Similiar notes

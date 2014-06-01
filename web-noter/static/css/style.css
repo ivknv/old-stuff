@@ -945,3 +945,11 @@ footer ul li a:hover {
 	-webkit-transition: background-color 1s;
 	z-index: 4;
 }
+
+.tag {
+	color: rgb(170, 170, 170);
+}
+
+.tag:hover {
+	color: rgb(190, 190, 190);
+}
