@@ -4,7 +4,7 @@
 	<div class="margin-bottom" style="margin-bottom: 20px; min-width: 240px; margin-right: 5px; margin-left: 5px;">
 		<div>
 			<div><label class="label" for="tags">Tags:</label></div>
-			<input autocmplete="off" class="filter-field" type="text" placeholder="Separate with comma" name="tags" value="{{ tags|slice:"0:-1" }}" />
+			<input autocomplete="off" class="filter-field" type="text" placeholder="Separate with comma" name="tags" value="{{ tags|slice:"0:-1" }}" />
 			<div class="filter-btn" onclick="load_page('/filter{{ urlprefix }}/'+$('input[name=tags]').val())">Filter</div>
 		</div>
 		<div class="navigation">
