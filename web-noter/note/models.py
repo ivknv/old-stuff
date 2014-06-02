@@ -4,7 +4,7 @@ from django.contrib import admin
 
 from django.conf import settings
 
-import sys
+import sys, re
 
 class Note(models.Model):
 	title = models.CharField(max_length=100)
@@ -19,6 +19,9 @@ class Note(models.Model):
 	is_checked = models.BooleanField(default=False)
 	author = models.ForeignKey(settings.AUTH_USER_MODEL)
 	date = models.DateTimeField(auto_now_add=True)
+	
+	def no_html(self):
+		return re.sub("<.*?>", "", self.text)
 	
 	class Meta:
 		ordering = ["-date"]

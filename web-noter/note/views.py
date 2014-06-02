@@ -206,30 +206,26 @@ def search(request, query, page_number=1):
 	
 	if not context["errors"]: # If there's no errors
 		found = []
-		for i in query_splitted:
-			found_ = remove_tags_in_all_notes(
-				Note.objects.filter(
-					Q(author=request.user.id) &
-					(Q(title__icontains=i) |
-					Q(text__icontains=i) |
-					Q(tags__icontains=i))
-				)
-			)
-			for note in found_:
-				if not note in found:
-					found.append(Note.objects.get(id=note.id))
 		sorted_found = [] # Will contain sorted results later
-		
-		for note in found: # Iterate over found notes
-			note.tags = replace_none(note.tags)
-			sorted_found.append( # Place by relevance
-				place_by_relevance(
-					note,
-					query_splitted,
-					splitted=True,
-					lower=True
-				)
-			)
+		notes = Note.objects.filter(author=request.user.id)
+
+		for i in query_splitted:
+			for note in notes:
+				if (i in note.no_html().lower() \
+				or (note.type == "s" and i in note.text.lower())) \
+				or i in note.title.lower() or i in note.tags.lower():
+					if not note in found:
+						found.append(note)
+						print(note.text)
+						note.tags = replace_none(note.tags)
+						sorted_found.append( # Place by relevance
+							place_by_relevance(
+								note,
+								query_splitted,
+								splitted=True,
+								lower=True
+							)
+						)
 			
 		sorted_found.sort()	# Sort notes
 		
