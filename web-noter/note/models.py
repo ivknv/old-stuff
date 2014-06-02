@@ -21,7 +21,23 @@ class Note(models.Model):
 	date = models.DateTimeField(auto_now_add=True)
 	
 	def no_html(self):
-		return re.sub("<.*?>", "", self.text)
+		if self.type != "s":
+			return re.sub("<.*?>", "", self.text)
+		else:
+			return self.text
+	
+	def getTags(self):
+		tags = self.tags.split(",")
+		for i in range(len(tags)):
+			if tags[i][0] == " ":
+				tags[i] = tags[i][1:]
+		return tags
+	
+	def replaceNewLines(self):
+		if self.type != "s":
+			return self.text.replace("\n\r", "<br/>").replace("\n", "<br/>").replace("\t", "&nbsp;&nbsp;&nbps;&nbsp;")
+		else:
+			return self.text
 	
 	class Meta:
 		ordering = ["-date"]
@@ -31,6 +47,11 @@ class Note(models.Model):
 	else:
 		def __unicode__(self):
 			return self.title
+	
+	def save(self, *args, **kwargs):
+		self.text = re.sub("<[ \t]*script[ \t]*.*?[ \t]*>.*<[ \t]*/[ \t]*script[ \t]*>", "", self.text)
+		self.text = re.sub("<[ \t]*script[ \t]*.*?[ \t]*>.*", "", self.text)
+		super(Note, self).save(*args, **kwargs)
 
 class NoteAdmin(admin.ModelAdmin):
 	list_display = ("title", "author", "type", "date")

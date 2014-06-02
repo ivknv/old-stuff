@@ -11,9 +11,7 @@
 		<script type="text/javascript">
 			PlaceReadMoreButtons();
 		</script>
-		{% for note in found %}
-			{% include "include/search_note.html" %}
-		{% endfor %}
+		{% include "include/search_note.html" %}
 		{% with current_url="/search/"|add:q|add:"/" %}
 			{% include "include/pagination.html" %}
 		{% endwith %}

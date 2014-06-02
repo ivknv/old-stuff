@@ -136,7 +136,7 @@ Using lists instead of Note objects"""
 						note.title,
 						note.text,
 						transform_tags_single(
-							replace_none(note.tags)
+							note.tags
 						)
 					])
 			])
@@ -163,16 +163,6 @@ def replace_newlines_string(string):
 	string = string.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
 	return string
 
-def replace_newlines(obj):
-	"""Replace all the newlines (\n) in notes by <br/> HTML tags"""
-	
-	for i in range(len(obj.object_list)):
-		if obj.object_list[i].type != "s":
-			obj.object_list[i].text = replace_newlines_string(
-				obj.object_list[i].text
-			)
-	return obj
-
 def replace_newlines_search(obj):
 	"""Replace all the newlines (\n) in notes by <br/> HTML tags.
 Works only with lists ([7.2, <Note>])."""
@@ -193,12 +183,6 @@ Works only with lists ([7.2, <Note>])."""
 			obj.object_list[i][1][1].text = replace_newlines_string(
 				obj.object_list[i][1][1].text
 			)
-	return obj
-
-def replace_newlines_single_object(obj):
-	"""Replace all the newlines (\n) in note by <br/> HTML tags"""
-	if obj.type != "s":
-		obj.text = replace_newlines_string(obj.text)
 	return obj
 
 def transform_tags(notes):
@@ -223,16 +207,6 @@ def transform_tags_single(tags):
 				tags[i] = tags[i][1:]
 	return tags # return the result
 
-def replace_none(tags):
-	"""If tags column was added by ALTER TABLE command
-tags can be empty (None object).
-This function replaces tags with None value by empty string"""
-	
-	if tags == None: # If tags is a None object
-		tags = "" # Set it equal to empty string
-	
-	return tags # Return result
-
 def place_by_relevance(note, query, splitted=False, lower=False):
 	"""Place notes by relevance"""
 	if not lower:
@@ -240,9 +214,8 @@ def place_by_relevance(note, query, splitted=False, lower=False):
 	if not splitted:
 		query = query.split()
 	count = 0
-	note = replace_newlines_single_object(note)
 	title = note.title.lower()
-	text = note.text.lower()
+	text = note.no_html().lower()
 	tags = note.tags.lower()
 	q_in = 0
 	for i in query:
@@ -280,19 +253,3 @@ def remove_tags_from_string(string):
 	"""Remove all the HTML tags from string"""
 	
 	return re.sub("<.*?>", "", string)
-
-def remove_tags(obj):
-	"""Remove all the HTML tags from the note"""
-	
-	obj.text = remove_tags_from_string(obj.text)
-	
-	return obj
-
-def remove_tags_in_all_notes(notes=Note.objects.all()):
-	"""Remove all the HTML tags from text in all the notes"""
-	
-	for note in notes:
-		if note.type != 's':
-			note = remove_tags(note)
-	
-	return notes

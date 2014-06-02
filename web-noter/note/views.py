@@ -28,15 +28,13 @@ from django.core.mail import send_mail
 
 from note.functions import check_similarity, transform_tags
 
-from note.functions import replace_none, htmlbody, place_by_relevance
+from note.functions import htmlbody, place_by_relevance
 
-from note.functions import replace_newlines, page_range
-
-from note.functions import replace_newlines_single_object
+from note.functions import page_range
 
 from note.functions import replace_newlines_search, transform_tags_single
 
-from note.functions import replace_newlines_sim, remove_tags_in_all_notes
+from note.functions import replace_newlines_sim
 
 def home(request, page_number=1):
 	"""Home page"""
@@ -56,7 +54,7 @@ def home(request, page_number=1):
 	if page_number > paginator.num_pages:
 		raise Http404
 	
-	current_page = replace_newlines(paginator.page(page_number))
+	current_page = paginator.page(page_number)
 	prange = page_range( # Generate page range
 		page_number,
 		paginator.num_pages
@@ -78,7 +76,6 @@ It's a page"""
 	
 	try: # Sometimes there's no such note
 		note = Note.objects.get(author=request.user.id, id=note_id)
-		note = replace_newlines_single_object(note) # Replace newlines by <br/>
 	except ObjectDoesNotExist: # Sometimes note may not exist
 		raise Http404 # Display '404 Not Found' error
 	
@@ -130,7 +127,7 @@ def manage_notes(request, page_number=1):
 	paginator = Paginator(notes, 10) # Split notes into pages
 	
 	try: # Page number can be too big
-		current_page = replace_newlines(paginator.page(page_number))
+		current_page = paginator.page(page_number)
 	except EmptyPage: # If page number is too big
 		raise Http404 # Display '404 Not Found' error
 	
@@ -162,7 +159,6 @@ def edit(request, note_id):
 			)
 		except ObjectDoesNotExist: # If note doesn't exist
 			raise Http404
-		note.tags = replace_none(note.tags)
 	except TypeError: # If somebody confused the digit with the string
 		raise Http404 # I will raise the great '404 Not Found' error!
 	
@@ -211,13 +207,10 @@ def search(request, query, page_number=1):
 
 		for i in query_splitted:
 			for note in notes:
-				if (i in note.no_html().lower() \
-				or (note.type == "s" and i in note.text.lower())) \
+				if i in note.no_html().lower() \
 				or i in note.title.lower() or i in note.tags.lower():
 					if not note in found:
 						found.append(note)
-						print(note.text)
-						note.tags = replace_none(note.tags)
 						sorted_found.append( # Place by relevance
 							place_by_relevance(
 								note,
@@ -231,9 +224,7 @@ def search(request, query, page_number=1):
 		
 		try: # Page number can be too big
 			paginator = Paginator(sorted_found, 10) # Split content into pages
-			found = replace_newlines_search( # Replace newlines (\n) by <br/>
-				paginator.page(page_number)
-			)
+			found = paginator.page(page_number)
 		except EmptyPage: # If page number is too big
 			raise Http404 # Display '404 Not found' error
 		
@@ -260,13 +251,13 @@ def filter_all_notes(request, tags="", page_number=1):
 	context["tags"] = tags
 	if tags:
 		context["tags"] = tags+"/"
-	tags = replace_none(transform_tags_single(tags))
+	tags = transform_tags_single(tags)
 	
 	notes = Note.objects.filter(author=request.user.id)
 	filtered = []
 	
 	for note in notes:
-		ntags = replace_none(transform_tags_single(note.tags))
+		ntags = note.getTags()
 		if tags:
 			for tag in tags:
 				if tag in ntags:
@@ -285,7 +276,7 @@ def filter_all_notes(request, tags="", page_number=1):
 		page_number = 1
 	
 	paginator = Paginator(filtered, 10)
-	filtered_page = replace_newlines(paginator.page(page_number))
+	filtered_page = paginator.page(page_number)
 	prange = page_range(page_number, paginator.num_pages)
 
 	context["filtered"] = filtered_page
@@ -306,7 +297,7 @@ def filter_done(request, tags="", page_number=1):
 	context["tags"] = tags
 	if tags:
 		context["tags"] = tags+"/"
-	tags = replace_none(transform_tags_single(tags))
+	tags = transform_tags_single(tags)
 	
 	notes = Note.objects.filter(
 		author=request.user.id,
@@ -316,7 +307,7 @@ def filter_done(request, tags="", page_number=1):
 	filtered = []
 	
 	for note in notes:
-		ntags = replace_none(transform_tags_single(note.tags))
+		ntags = note.getTags()
 		if tags:
 			for tag in tags:
 				if tag in ntags:
@@ -335,7 +326,7 @@ def filter_done(request, tags="", page_number=1):
 		page_number = 1
 	
 	paginator = Paginator(filtered, 10)
-	filtered_page = replace_newlines(paginator.page(page_number))
+	filtered_page = paginator.page(page_number)
 	prange = page_range(page_number, paginator.num_pages)
 
 	context["filtered"] = filtered_page
@@ -356,7 +347,7 @@ def filter_undone(request, tags="", page_number=1):
 	context["tags"] = tags
 	if tags:
 		context["tags"] = tags+"/"
-	tags = replace_none(transform_tags_single(tags))
+	tags = transform_tags_single(tags)
 	
 	notes = Note.objects.filter(
 		author=request.user.id,
@@ -366,7 +357,7 @@ def filter_undone(request, tags="", page_number=1):
 	filtered = []
 	
 	for note in notes:
-		ntags = replace_none(transform_tags_single(note.tags))
+		ntags = note.getTags()
 		if tags:
 			for tag in tags:
 				if tag in ntags:
@@ -385,7 +376,7 @@ def filter_undone(request, tags="", page_number=1):
 		page_number = 1
 	
 	paginator = Paginator(filtered, 10)
-	filtered_page = replace_newlines(paginator.page(page_number))
+	filtered_page = paginator.page(page_number)
 	prange = page_range(page_number, paginator.num_pages)
 
 	context["filtered"] = filtered_page
@@ -406,13 +397,13 @@ def filter_snippets(request, tags="", page_number=1):
 	context["tags"] = tags
 	if tags:
 		context["tags"] = tags+"/"
-	tags = replace_none(transform_tags_single(tags))
+	tags = transform_tags_single(tags)
 	
 	notes = Note.objects.filter(author=request.user.id, type="s")
 	filtered = []
 	
 	for note in notes:
-		ntags = replace_none(transform_tags_single(note.tags))
+		ntags = note.getTags()
 		if tags:
 			for tag in tags:
 				if tag in ntags:
@@ -431,7 +422,7 @@ def filter_snippets(request, tags="", page_number=1):
 		page_number = 1
 	
 	paginator = Paginator(filtered, 10)
-	filtered_page = replace_newlines(paginator.page(page_number))
+	filtered_page = paginator.page(page_number)
 	prange = page_range(page_number, paginator.num_pages)
 
 	context["filtered"] = filtered_page
@@ -452,13 +443,13 @@ def filter_warnings(request, tags="", page_number=1):
 	context["tags"] = tags
 	if tags:
 		context["tags"] = tags+"/"
-	tags = replace_none(transform_tags_single(tags))
+	tags = transform_tags_single(tags)
 	
 	notes = Note.objects.filter(author=request.user.id, type="w")
 	filtered = []
 	
 	for note in notes:
-		ntags = replace_none(transform_tags_single(note.tags))
+		ntags = note.getTags()
 		if tags:
 			for tag in tags:
 				if tag in ntags:
@@ -477,7 +468,7 @@ def filter_warnings(request, tags="", page_number=1):
 		page_number = 1
 	
 	paginator = Paginator(filtered, 10)
-	filtered_page = replace_newlines(paginator.page(page_number))
+	filtered_page = paginator.page(page_number)
 	prange = page_range(page_number, paginator.num_pages)
 
 	context["filtered"] = filtered_page
@@ -498,13 +489,13 @@ def filter_notes(request, tags="", page_number=1):
 	context["tags"] = tags
 	if tags:
 		context["tags"] = tags+"/"
-	tags = replace_none(transform_tags_single(tags))
+	tags = transform_tags_single(tags)
 	
 	notes = Note.objects.filter(author=request.user.id, type="n")
 	filtered = []
 	
 	for note in notes:
-		ntags = replace_none(transform_tags_single(note.tags))
+		ntags = note.getTags()
 		if tags:
 			for tag in tags:
 				if tag in ntags:
@@ -523,7 +514,7 @@ def filter_notes(request, tags="", page_number=1):
 		page_number = 1
 	
 	paginator = Paginator(filtered, 10)
-	filtered_page = replace_newlines(paginator.page(page_number))
+	filtered_page = paginator.page(page_number)
 	prange = page_range(page_number, paginator.num_pages)
 
 	context["filtered"] = filtered_page

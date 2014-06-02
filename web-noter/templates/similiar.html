@@ -4,8 +4,6 @@
 	<script type="text/javascript">
 		PlaceReadMoreButtons();
 	</script>
-	{% for note in notes %}
-		{% include "include/similiar_note.html" %}
-	{% endfor %}
+	{% include "include/similiar_note.html" %}
 	{% include "include/pagination.html" %}
 {% endblock %}

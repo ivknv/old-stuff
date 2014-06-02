@@ -1,8 +1,14 @@
+"""
+@author: Ivan Konovalov
+
+API functions
+"""
+
 from django.contrib.auth import authenticate
 
 from django.core import serializers
 
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -10,9 +16,20 @@ from django.contrib.auth.models import User
 
 from note.models import Note
 
+from django.core.exceptions import ObjectDoesNotExist
+
+from django.db import OperationalError
+
 import re, json
 
 def to_json(success="true", **kwargs):
+	"""Returns JSON string
+	
+	@param success: True or False
+	
+	@rtype: str
+	"""
+	
 	response = '{"success": %s' %success
 	for arg in kwargs:
 		response += ', "{arg}": {value}'.format(arg=arg, value=kwargs[arg])
@@ -21,11 +38,17 @@ def to_json(success="true", **kwargs):
 	return response
 
 def JsonResponse(success="true", **kwargs):
+	"""Returns HttpResponse with json string as a parameter"""
+	
 	return HttpResponse(to_json(success, **kwargs))
 
 def API_authenticate(request):
-	assert "username" in request.POST or "email" in request.POST, "Authentication Failed: username or/and email are missing"
-	assert "password" in request.POST, "Authentication failed: paassword is missing"
+	"""Check username/email and password"""
+	
+	assert "username" in request.POST or "email" in request.POST, \
+	"Authentication Failed: username or/and email are missing"
+	assert "password" in request.POST, \
+	"Authentication failed: paassword is missing"
 	if "username" in request.POST:
 		username = request.POST["username"]
 	else:
@@ -38,15 +61,18 @@ def API_authenticate(request):
 	password = request.POST["password"]
 	
 	user = authenticate(username=username, password=password)
-	assert user is not None, "Authentication failed: wrong username/email or password"
+	assert user is not None, \
+	"Authentication failed: wrong username/email or password"
 	return user
 
 @csrf_exempt
 def API_getUserInfo(request):
+	"""Get user info"""
+	
 	try:
 		user = API_authenticate(request)
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	
 	return JsonResponse(
 		"true",
@@ -61,10 +87,12 @@ def API_getUserInfo(request):
 
 @csrf_exempt
 def API_getNotes(request):
+	"""Get all the notes"""
+	
 	try:
 		user = API_authenticate(request)
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	
 	notes = Note.objects.filter(author=user)
 	
@@ -74,10 +102,12 @@ def API_getNotes(request):
 
 @csrf_exempt
 def API_getNote(request):
+	"""Get note"""
+	
 	try:
 		user = API_authenticate(request)
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	
 	assert "id" in request.POST, "ID is missing"
 	id_ = id_of_note(request)
@@ -92,21 +122,33 @@ def API_getNote(request):
 	return HttpResponse(note_json)
 
 def id_of_note(request):
+	"""Get note ID from request"""
+	
 	return request.POST["id"]
 
 def type_of_note(request):
+	"""Get note type from request"""
+	
 	return request.POST["type"]
 
 def title_of_note(request):
+	"""Get note title from request"""
+	
 	return request.POST["title"]
 
 def text_of_note(request):
+	"""Get note text from request"""
+	
 	return request.POST["text"]
 
 def tags_of_note(request):
+	"""Get note tags from request"""
+	
 	return request.POST["tags"]
 
 def registration_data(request):
+	"""Validate registration data and pack it into dictionary"""
+	
 	assert "username" in request.POST, "Username is missing"
 	assert "first_name" in request.POST, "First name is missing"
 	assert "last_name" in request.POST, "Last name is missing"
@@ -121,7 +163,7 @@ def registration_data(request):
 	password = request.POST["password"]
 	confirm_password = request.POST["confirm_password"]
 	
-	email_validator = re.compile("[a-zA-Z\.]+@[a-zA-Z\.]+")
+	email_validator = re.compile(r"[a-zA-Z\.]+@[a-zA-Z\.]+")
 	
 	assert len(first_name) < 150, "First name cannot be longer than 150 symbols"
 	assert first_name, "First name cannot be empty"
@@ -131,7 +173,8 @@ def registration_data(request):
 	assert username, "Username cannot be empty"
 	assert re.match(email_validator, email) is not None, "Invalid email"
 	assert password, "Password cannot be empty"
-	assert confirm_password == password or confrim_password, "Password isn't confirmed"
+	assert confirm_password == password or confirm_password, \
+	"Password isn't confirmed"
 	
 	dictionary = {
 		"username": username,
@@ -146,59 +189,80 @@ def registration_data(request):
 
 @csrf_exempt
 def API_addNote(request):
+	"""Add single note"""
+	
 	try:
 		user = API_authenticate(request)
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	try:
 		assert "type" in request.POST, "Type is missing"
-		assert request.POST["type"] in ["n", "t", "s", "w"], "Type should be n(ote), t(odo), s(nippet) or w(arning)"
+		assert request.POST["type"] in ["n", "t", "s", "w"], \
+		"Type should be n(ote), t(odo), s(nippet) or w(arning)"
 		assert "text" in request.POST, "Text is missing"
 		assert "title" in request.POST, "Title is missing"
 		assert "tags" in request.POST, "Tags are missing"
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	type_ = type_of_note(request)
 	title = title_of_note(request)
 	text = text_of_note(request)
 	tags = tags_of_note(request)
 	
-	new_note = Note.objects.create(title=title, text=text, tags=tags, type=type_, author=user)
+	new_note = Note.objects.create(
+		title=title,
+		text=text,
+		tags=tags,
+		type=type_,
+		author=user
+	)
 	try:
 		new_note.save()
-	except Exception as e:
-		return JsonResponse("false", message='"Failed to save note: %s"' %e)
+	except OperationalError as error:
+		return JsonResponse(
+			"false",
+			message='"Failed to save note: %s"' %error.message
+		)
 	
 	return JsonResponse("true", id=new_note.id)
 
 @csrf_exempt
 def API_addNotes(request):
+	"""Add multiple notes"""
+	
 	try:
 		user = API_authenticate(request)
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	try:
 		assert "list" in request.POST, "List of notes is missing"
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	json_list = json.loads(request.POST["list"])
 	added = []
 	
-	for n in json_list:
-		assert "title" in n, "Title is missing"
-		assert "text" in n, "Text is missing"
-		assert "tags" in n, "Tags are missing"
-		assert "type" in n, "Type is missing"
+	for note in json_list:
+		assert "title" in note, "Title is missing"
+		assert "text" in note, "Text is missing"
+		assert "tags" in note, "Tags are missing"
+		assert "type" in note, "Type is missing"
 		
-		title = n["title"]
-		text = n["text"]
-		tags = n["tags"]
-		type_ = n["type"]
-		new_note = Note.objects.create(title=title, text=text, tags=tags, type=type_, author=user)
+		title = note["title"]
+		text = note["text"]
+		tags = note["tags"]
+		type_ = note["type"]
+		new_note = Note.objects.create(
+			title=title,
+			text=text,
+			tags=tags,
+			type=type_,
+			author=user
+		)
+		
 		try:
 			new_note.save()
 			added.append(new_note.id)
-		except Exception as e:
+		except OperationalError as error:
 			return JsonResponse("false", message='"Failed to add note: %s"' %new_note.id)
 		
 		j = "[%s" %added[0]
@@ -208,18 +272,19 @@ def API_addNotes(request):
 	
 	return JsonResponse("true", saved=j)
 
-
 @csrf_exempt
 def API_rmNote(request):
+	"""Delete single note"""
+	
 	try:
 		user = API_authenticate(request)
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	
 	try:
 		assert "id" in request.POST, "ID is missing"
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	id_ = id_of_note(request)
 	try:
 		note = Note.objects.get(id=id_, author=user)
@@ -231,25 +296,27 @@ def API_rmNote(request):
 
 @csrf_exempt
 def API_rmNotes(request):
+	"""Delete multiple notes"""
+	
 	try:
 		user = API_authenticate(request)
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	
 	try:
 		assert "list" in request.POST, "List of IDs is missing"
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	list_ = request.POST["list"].split(", ")
 	deleted = {}
 	
-	for j in list_:
+	for note_id in list_:
 		try:
-			note = Note.objects.get(id=j, author=user)
+			note = Note.objects.get(id=note_id, author=user)
 			note.delete()
-			deleted[int(j)] = True
+			deleted[int(note_id)] = True
 		except ObjectDoesNotExist:
-			deleted[int(j)] = False
+			deleted[int(note_id)] = False
 	
 	deleted_json = json.dumps(deleted)
 	
@@ -257,10 +324,12 @@ def API_rmNotes(request):
 
 @csrf_exempt
 def API_register(request):
+	"""Register"""
+	
 	try:
 		data = registration_data(request)
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	
 	username = data['username']
 	first_name = data['first_name']
@@ -289,10 +358,12 @@ def API_register(request):
 
 @csrf_exempt
 def API_deleteAccount(request):
+	"""Delete user's account"""
+	
 	try:
 		user = API_authenticate(request)
-	except AssertionError as e:
-		return JsonResponse("false", message='"'+e.message+'"')
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
 	
 	user_id = user.id
 	

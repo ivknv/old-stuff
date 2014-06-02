@@ -1,11 +1,14 @@
-<article class="{{ note.1.get_type_display|lower }} {% if note.1.type == 't' and note.1.is_checked %}checked{% elif note.1.type == 't' and not note.1.is_checked %}unchecked{% endif %}" id="note-{{ note.1.id }}" role="search">
-	<a href="/note/{{ note.1.id }}" onclick="load_page2('/note/{{ note.1.id }}/'); return false;">
-		<span class="title">{{ note.1.title }}</span>
-	</a>
-	<div class="date"><time datetime="{{ note.date }}">{{ note.1.date|date:"l, F j Y H:i" }}</time></div>
-	{% if note.1.type == "s"  %}
-		<pre><code class="snippet-body">{{ note.1.text }}</code></pre>
-	{% else %}
-		<p class="text">{{ note.1.text }}</p>
-	{% endif %}
-</article>
+{% load note %}
+{% for note in found %}
+	<article class="{{ note.1.get_type_display|lower }} {% if note.1.type == 't' and note.1.is_checked %}checked{% elif note.1.type == 't' and not note.1.is_checked %}unchecked{% endif %}" id="note-{{ note.1.id }}" role="search">
+		<a href="/note/{{ note.1.id }}" onclick="load_page2('/note/{{ note.1.id }}/'); return false;">
+			<span class="title">{{ note.1.title }}</span>
+		</a>
+		<div class="date"><time datetime="{{ note.date }}">{{ note.1.date|date:"l, F j Y H:i" }}</time></div>
+		{% if note.1.type == "s"  %}
+			<pre><code class="snippet-body">{{ note.1.text }}</code></pre>
+		{% else %}
+			<p class="text">{{ note.1|br }}</p>
+		{% endif %}
+	</article>
+{% endfor %}
