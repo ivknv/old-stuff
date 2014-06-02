@@ -3,6 +3,3 @@ CACHE MANIFEST
 
 CACHE:
 /static/*
-
-NETWORK:
-*
