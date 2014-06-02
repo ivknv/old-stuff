@@ -41,7 +41,13 @@ def check_similarity_from_strings(string1, string2):
 	string2 = string2.split()
 	
 	percents = 0
-	percents_per_word = 100.0/max(len(string1), len(string2))
+	try:
+		percents_per_word = 100.0/max(len(string1), len(string2))
+	except ZeroDivisionError:
+		if string1 == string2:
+			return 100.0
+		else:
+			return 0
 	
 	for i in string1:
 		try:
