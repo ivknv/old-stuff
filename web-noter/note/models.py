@@ -29,7 +29,7 @@ class Note(models.Model):
 	def getTags(self):
 		tags = self.tags.split(",")
 		for i in range(len(tags)):
-			if tags[i][0] == " ":
+			if tags[i].startswith(" "):
 				tags[i] = tags[i][1:]
 		return tags
 	
