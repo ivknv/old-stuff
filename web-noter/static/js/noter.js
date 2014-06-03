@@ -43,9 +43,8 @@ jQuery(document).ajaxSend(function(event, xhr, settings) {
 // ===================
 // Page load with AJAX
 // ===================
-function load_page(url) {
+function load_page(url, filter) {
 	if (url[0] == "/") {
-		//$realMain.css("background-color", "rgba(254, 254, 254, 0.95)");
 		$indicator = jQuery("#progress-indicator");
 		$indicator.attr("style", "");
 		$indicator.css("background-color", "white");
@@ -86,6 +85,12 @@ function load_page(url) {
 				$indicator.attr("style", "");
 			});
 		});
+
+		if (filter) {
+			req.done(function() {
+				jQuery("input[name=tags]").focus();
+			});
+		}
 	} else {
 		window.href = url;
 	}
@@ -384,7 +389,7 @@ function handleEnter(urlprefix) {
 // @SHORTCUTS
 
 jQuery(document).keypress(function(event) {
-	if(!($(event.target).is("input, textarea"))) {
+	if(!(jQuery(event.target).is("input, textarea"))) {
 		switch(event.which) {
 			case 49: // '1' key
 			case 104: // 'h' key
@@ -406,7 +411,12 @@ jQuery(document).keypress(function(event) {
 				jQuery('input[name=q]').focus();
 				break;
 			case 35: // '#' key
-				jQuery.scrollTo('body');
+				if (window.location.pathname.startsWith("/filter")) {
+					jQuery.scrollTo("body");
+					jQuery("input[name=tags]").focus();
+				} else {
+					load_page('/filter/', true);
+				}
 				break;
 			case 110: // 'n' key
 				jQuery('#next').trigger('click');
