@@ -35,7 +35,7 @@ class Note(models.Model):
 	
 	def replaceNewLines(self):
 		if self.type != "s":
-			return self.text.replace("\n\r", "<br/>").replace("\n", "<br/>").replace("\t", "&nbsp;&nbsp;&nbps;&nbsp;")
+			return self.text.replace("\n\r", "<br/>").replace("\n", "<br/>").replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
 		else:
 			return self.text
 	
