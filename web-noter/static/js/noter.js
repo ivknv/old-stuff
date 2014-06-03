@@ -285,6 +285,10 @@ function replaceNewLines(txt) {
 	return txt.replace(/\n/gm, "<br/>").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;")
 }
 
+function anti_XSS(textarea) {
+	textarea.val(textarea.val().replace(/<[ \t]*script[ \t]*.*?>.*<[ \t]*\/[ \t]*script[ \t]*>/gim, "").replace(/<[ \t]*script[ \t]*.*?>.*/gim, ""));
+}
+
 function preview() {
 	var $preview = jQuery(".preview"),
 	$text = $preview.find(".text"),
@@ -304,6 +308,7 @@ function preview() {
 			hljs.highlightBlock(e);
 		});
 	} else {
+		anti_XSS($textarea);
 		if ($text.length < 1) {
 			if ($pre.length > 0)
 				$pre.remove();
@@ -347,6 +352,7 @@ function preview1(d) {
 			hljs.highlightBlock(e);
 		});
 	} else {
+		anti_XSS($textarea);
 		if ($text.length < 1) {
 			if ($pre.length > 0)
 				$pre.remove();
