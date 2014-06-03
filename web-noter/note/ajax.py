@@ -61,12 +61,12 @@ def add_note(request):
 		)
 		new_note.save()
 	except OperationalError as error:
-		context["failed"] = True
+		context["success"] = False
 		print(error)
 	else: # If there's no errors
-		context["failed"] = False # Set not failed status
+		context["success"] = True
 	
-	if context["failed"]:
+	if not context["success"]:
 		return render_to_response('/add/', {
 			"title": title,
 			"text": text,
@@ -173,10 +173,10 @@ def update(request):
 	try:
 		note.save()
 	except OperationalError as error:
-		context["failed"] = True
+		context["success"] = False
 		print(error)
 	else:
-		context["failed"] = False
+		context["success"] = True
 		return HttpResponse(json.dumps(context)) # Return JSON object
 		
 	raise Http404 # Display '404 Not Found' error

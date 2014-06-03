@@ -64,7 +64,7 @@ function load_page(url, filter) {
 			});
 			$realMain.html($main.html());
 			var m = url.match(reg);
-			if (m != null && m.length > 0 && m[0].length > 0) {
+			if (m !== null && m.length > 0 && m[0].length > 0) {
 				jQuery.scrollTo(m[0]);
 			} else {
 				jQuery.scrollTo("body");
@@ -160,31 +160,44 @@ function getTags(id, text, title) {
 // Note management
 // ===============
 
-function rmNote(id) {
-	var success=function (data) {
-		if (data["success"]) {
-			var $note = jQuery("#note-"+id);
-			$note.fadeOut("slow");
-			setTimeout('jQuery("#note-'+id+'").remove()', 1000);
-			$result = jQuery("#result");
-			$result.addClass("okay");
-			$result.css("display", "block");
-			$result.html("<strong class=\"success\">Succesfully removed</strong>");
-			setTimeout('$result.fadeOut("slow")', 1500);
-		}
-		else
-			fail();
-	};
-	var result = $.post("/remove/", {"id": id}, success, "json");
-	result.fail(rmNote_fail);
+function fail(str) {
+	function wrapper(data) {
+		$result = jQuery("#result");
+		$result.attr("class", "fail");
+		$result.html("<strong class='error'>"+str+"</strong>");
+		$result.css("display", "block");
+		setTimeout("$result.fadeOut('slow')", 1500);
+	}
+	
+	return wrapper;
 }
 
-function rmNote_fail() {
-	$result = jQuery("#result");
-	$result.addClass("fail");
-	$result.css("display", "block");
-	$result.html("<strong class=\"error\">Failed to remove note</strong>");
-	setTimeout('$result.fadeOut("slow")', 1500);
+function success(str, failStr) {
+	function wrapper(data) {
+		if (data.success) {
+			$result = jQuery("#result");
+			$result.attr("class", "okay");
+			$result.html("<strong class='success'>"+str+"</strong>");
+			$result.css("display", "block");
+			setTimeout("$result.fadeOut('slow')", 1500);
+			if (data.eid && data.result) {
+				jQuery(data.eid).html(data.result);
+			}
+		} else {
+			if (failStr) {
+				fail(failStr)(data);
+			} else {
+				fail("Some kind of error")(data);
+			}
+		}
+	}
+	
+	return wrapper;
+}
+
+function rmNote(id) {
+	var result = $.post("/remove/", {"id": id}, success("Successfully removed note", "Failed to remove note"), "json");
+	result.fail(fail("Failed to remove note"));
 }
 
 function ask(id, noteTitle) {
@@ -195,8 +208,9 @@ function ask(id, noteTitle) {
 		$dialog.fadeOut("slow");
 	});
 	jQuery(".remove-dialog #proceed").click(function(e) {
-		rmNote(id, rmNote_fail);
-		$dialog.fadeOut("slow")
+		rmNote(id);
+		$dialog.fadeOut("slow");
+		jQuery("#note-"+id).fadeOut("slow");
 	});
 	jQuery(".remove-dialog #do-not-delete").click(function(e) {
 		$dialog.fadeOut("slow");
@@ -220,52 +234,14 @@ function findChecked() {
 		return "Unknown";
 }
 
-function edit_success(data) {
-	if (!(data.failed)) {
-		$result = jQuery("#result");
-		$result.attr("class", "okay");
-		$result.css("display", "block");
-		$result.html("<strong class=\"success\">Successfully updated note</strong>");
-		setTimeout('$result.fadeOut("slow")', 1500);
-	} else
-		edit_fail();
-}
-
-function edit_fail() {
-	$result = jQuery("#result");
-	$result.attr("class", "fail");
-	$result.css("display", "block");
-	$result.html("<strong class=\"error\">Failed to update note</strong>");
-	setTimeout('$result.fadeOut("slow")', 1500);
-}
-
 function edit(id, newTitle, newText, newTags, checked) {
-	var result = $.post("/update/", {"id": id, "title": newTitle, "text": newText, "tags": newTags, "type": findChecked(), "checked": checked}, edit_success, "json");
-	result.fail(edit_fail);
-}
-
-function add_success(data) {
-	if (!(data.failed)) {
-		$result = jQuery("#result");
-		$result.addClass("alert-success");
-		$result.css("display", "block");
-		$result.html("<strong class=\"success\">Note was successfully added</strong>");
-		setTimeout('$result.fadeOut("slow")', 1500);
-	} else
-		add_fail();
-}
-
-function add_fail() {
-	$result = jQuery("#result");
-	$result.addClass("alert-danger");
-	$result.css("display", "block");
-	$result.html("<strong class=\"error\">Failed to add note</string>");
-	setTimeout('$result.fadeOut("slow")', 1500);
+	var result = $.post("/update/", {"id": id, "title": newTitle, "text": newText, "tags": newTags, "type": findChecked(), "checked": checked}, success("Successfully updated note", "Failed to update note"), "json");
+	result.fail(fail("Failed to update note"));
 }
 
 function add(title, text, tags, todo) {
-	var result = $.post("/addnote/", {"title": title, "text": text, "tags": tags, "todo": todo}, add_success, "json");
-	result.fail(add_fail);
+	var result = $.post("/addnote/", {"title": title, "text": text, "tags": tags, "todo": todo}, success("Successfully added note", "Failed to add note"), "json");
+	result.fail(fail("Failed to add note"));
 }
 
 // @PREVIEW
@@ -282,7 +258,7 @@ function escapeLtGt(code) {
 }
 
 function replaceNewLines(txt) {
-	return txt.replace(/\n/gm, "<br/>").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;")
+	return txt.replace(/\n/gm, "<br/>").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;");
 }
 
 function anti_XSS(textarea) {
@@ -312,7 +288,7 @@ function preview() {
 		if ($text.length < 1) {
 			if ($pre.length > 0)
 				$pre.remove();
-			$preview.append("<p class='text'></p>")
+			$preview.append("<p class='text'></p>");
 		}
 			if (jQuery("#is_warning").prop("checked")) {
 				$preview.attr("class", "preview .warning");
@@ -323,7 +299,7 @@ function preview() {
 				replaceNewLines($textarea.val())
 			);
 	}
-	$preview.find("a > .title").html(escapeLtGt($title.val()))
+	$preview.find("a > .title").html(escapeLtGt($title.val()));
 	var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	var months = ['January', 'February', 'March', 'April', 'May', 'June', 'Jule', 'August', 'September', 'October', 'November', 'December'];
 	var now = new Date(), weekday=days[now.getDay()], month=months[now.getMonth()];
@@ -356,7 +332,7 @@ function preview1(d) {
 		if ($text.length < 1) {
 			if ($pre.length > 0)
 				$pre.remove();
-			$preview.append("<p class='text'></p>")
+			$preview.append("<p class='text'></p>");
 		}
 			if (jQuery("#warning").prop("checked")) {
 				$preview.attr("class", "preview warning");
@@ -367,7 +343,7 @@ function preview1(d) {
 				replaceNewLines($textarea.val())
 			);
 	}
-	$preview.find("a > .title").html(escapeLtGt($title.val()))
+	$preview.find("a > .title").html(escapeLtGt($title.val()));
 	var $date = $preview.find(".date > time");
 	$date.attr("datetime", d);
 	$date.html(d);
@@ -540,37 +516,6 @@ hljs.initHighlightingOnLoad();
 // =======================
 // User account management
 // =======================
-
-function fail(str) {
-	function wrapper(data) {
-		$result = jQuery("#result");
-		$result.attr("class", "fail");
-		$result.html("<strong class='error'>"+str+"</strong>");
-		$result.css("display", "block");
-		setTimeout("$result.fadeOut('slow')", 1500);
-	}
-	
-	return wrapper;
-}
-
-function success(str) {
-	function wrapper(data) {
-		if (data.success) {
-			$result = jQuery("#result");
-			$result.attr("class", "okay");
-			$result.html("<strong class='success'>"+str+"</strong>");
-			$result.css("display", "block");
-			setTimeout("$result.fadeOut('slow')", 1500);
-			if (data.eid && data.result) {
-				jQuery(data.eid).html(data.result);
-			}
-		} else {
-			fail("Some kind of error")(data);
-		}
-	}
-	
-	return wrapper;
-}
 
 function update_first_name(id, new_first_name) {
 	var res = jQuery.post("/update-firstname/", {"id": id, "new_first_name": new_first_name}, success("First name updated", "#"), "json");
