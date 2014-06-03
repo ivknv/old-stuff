@@ -49,8 +49,10 @@ class Note(models.Model):
 			return self.title
 	
 	def save(self, *args, **kwargs):
-		self.text = re.sub("<[ \t]*script[ \t]*.*?[ \t]*>.*<[ \t]*/[ \t]*script[ \t]*>", "", self.text)
-		self.text = re.sub("<[ \t]*script[ \t]*.*?[ \t]*>.*", "", self.text)
+		r1 = re.compile("<[ \t]*script[ \t]*.*?>.*<[ \t]*/[ \t]*script[ \t]*>", re.I)
+		r2 = re.compile("<[ \t]*script[ \t]*.*?>.*", re.I)
+		self.text = re.sub(r1, "", self.text)
+		self.text = re.sub(r2, "", self.text)
 		super(Note, self).save(*args, **kwargs)
 
 class NoteAdmin(admin.ModelAdmin):
