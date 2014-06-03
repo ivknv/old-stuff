@@ -59,6 +59,8 @@ code {
 	line-height: 1.42857;
 	border-radius: 4px;
 	font-size: 90%;
+	margin-top: 1px;
+	margin-bottom: 1px;
 }
 
 kbd {
