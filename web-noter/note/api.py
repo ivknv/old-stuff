@@ -532,6 +532,7 @@ def API_update_password(request):
 		return JsonResponse("false", message='"'+error.message+'"')
 	
 	user.set_password(new_password)
+	
 	try:
 		user.save()
 	except OperationalError as error:
@@ -541,4 +542,66 @@ def API_update_password(request):
 	
 	return JsonResponse("true",
 		id=user_id
+	)
+
+@csrf_exempt
+def API_edit_note(request):
+	"""Edit note"""
+	
+	try:
+		user = API_authenticate(request)
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
+	
+	try:
+		assert "id" in request.POST, "Note ID is missing"
+		try:
+			note_id = int(request.POST["id"])
+		except TypeError:
+			return JsonResponse("false", "Note ID must be integer")
+		try:
+			note = Note.objects.get(id=note_id)
+		except ObjectDoesNoteExist:
+			return JsonResponse("false", "Requested note doesn't exist")
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
+
+	if "title" in request.POST:
+		title = title_of_note(request)
+	else:
+		title = note.title
+	if "text" in request.POST:
+		text = text_of_note(request)
+	else:
+		text = note.text
+	if "tags" in request.POST:
+		tags = tags_of_note(request)
+	else:
+		tags = note.tags
+	if "type" in request.POST:
+		type_ = type_of_note(request)
+	else:
+		type_ = note.type
+	
+	try:
+		assert type_ in ["n", "s", "t", "w"], "Invalid note type"
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
+	
+	note.title = title
+	note.text = text
+	note.tags = tags
+	note.type = type_
+	
+	try:
+		note.save()
+	except OperationalError:
+		return JsonResponse("false", message='"Failed to save note"')
+	
+	return JsonResponse("true",
+		id=note_id,
+		title='"'+note.title+'"',
+		text='"'+note.text+'"',
+		tags='"'+note.tags+'"',
+		type='"'+note.type+'"'
 	)
