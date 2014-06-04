@@ -273,7 +273,6 @@ function preview() {
 	$title = jQuery("input[name=title]"),
 	$textarea = jQuery("textarea[name=text]");
 	$preview.find("h2").html("Preview");
-	$preview.find("a > .title").html($title.val());
 	if (jQuery("#is_snippet").prop("checked")) {
 		$preview.attr("class", "preview snippet");
 		$text.remove();
@@ -316,7 +315,6 @@ function preview1(d) {
 	$pre = $preview.find("pre"),
 	$precode = $pre.find("code");
 	$preview.find("h2").html("Preview");
-	$preview.find("a > .title").html($title.val());
 	if (jQuery("#snippet").prop("checked")) {
 		$preview.attr("class", "preview snippet");
 		if ($text.length > 0)
