@@ -422,7 +422,7 @@ def API_update_first_name(request):
 	try:
 		assert "new_first_name" in request.POST, "New first name is missing"
 		new_first_name = request.POST["new_first_name"]
-		assert new_first_name, "New first_name cannot be empty"
+		assert new_first_name, "New first name cannot be empty"
 		assert len(new_first_name) < 150, "New first name is too long"
 	except AssertionError as error:
 		return JsonResponse("false", message='"'+error.message+'"')
@@ -456,7 +456,7 @@ def API_update_last_name(request):
 	try:
 		assert "new_last_name" in request.POST, "New last name is missing"
 		new_last_name = request.POST["new_last_name"]
-		assert new_last_name, "New last_name cannot be empty"
+		assert new_last_name, "New last name cannot be empty"
 		assert len(new_last_name) < 150, "New last name is too long"
 	except AssertionError as error:
 		return JsonResponse("false", message='"'+error.message+'"')
@@ -473,4 +473,38 @@ def API_update_last_name(request):
 		id=user_id,
 		old_last_name='"'+old_last_name+'"',
 		new_last_name='"'+new_last_name+'"'
+	)
+
+@csrf_exempt
+def API_update_email(request):
+	"""Update email"""
+	
+	try:
+		user = API_authenticate(request)
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
+	
+	user_id = user.id
+	old_email = user.email
+	
+	try:
+		assert "new_email" in request.POST, "New email is missing"
+		new_email = request.POST["new_email"]
+		assert new_email, "New email cannot be empty"
+		assert len(new_email) < 150, "New email is too long"
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
+	
+	user.email = new_email
+	try:
+		user.save()
+	except OperationalError as error:
+		print(error.message)
+		return JsonResponse("false",
+			message='"Failed to save"')
+	
+	return JsonResponse("true",
+		id=user_id,
+		old_email='"'+old_email+'"',
+		new_email='"'+new_email+'"'
 	)
