@@ -1,7 +1,7 @@
 """
 @author: Ivan Konovalov
 
-API functions
+Noter API functions
 """
 
 from django.contrib.auth import authenticate
@@ -18,7 +18,7 @@ from note.models import Note
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from django.db import OperationalError
+from django.db import OperationalError, IntegrityError
 
 import re, json
 
@@ -373,3 +373,36 @@ def API_deleteAccount(request):
 	user.delete()
 	
 	return JsonResponse("true", id=user_id)
+
+@csrf_exempt
+def API_update_username(request):
+	"""Update username"""
+	
+	try:
+		user = API_authenticate(request)
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
+	
+	user_id = user.id
+	old_username = user.username
+	
+	try:
+		assert "new_username" in request.POST, "New username is missing"
+		new_username = request.POST["new_username"]
+		assert new_username, "New username cannot be empty"
+		assert len(new_username) < 150, "New username is too long"
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
+	
+	user.username = new_username
+	try:
+		user.save()
+	except IntegrityError:
+		return JsonResponse("false",
+			message='"User with this username already exists"')
+	
+	return JsonResponse("true",
+		id=user_id,
+		old_username='"'+old_username+'"',
+		new_username='"'+new_username+'"'
+	)

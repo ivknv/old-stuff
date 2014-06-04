@@ -16,6 +16,7 @@ APIPatterns = [
 	url(r'^deleteAccount/$', 'note.api.API_deleteAccount', name="deleteAccount"),
 	url(r'^getNote/$', 'note.api.API_getNote', name="getNote"),
 	url(r'^getUserInfo/$', 'note.api.API_getUserInfo', name="getUserInfo"),
+	url(r'^updateUsername/$', 'note.api.API_update_username', name="updateUsername"),
 ]
 
 urlpatterns = patterns('',
