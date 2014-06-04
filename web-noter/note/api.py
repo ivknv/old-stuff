@@ -62,7 +62,7 @@ def API_authenticate(request):
 	
 	user = authenticate(username=username, password=password)
 	assert user is not None, \
-	"Authentication failed: wrong username/email or password"
+	"Authentication failed: incorrect username/email or password"
 	return user
 
 @csrf_exempt
@@ -507,4 +507,38 @@ def API_update_email(request):
 		id=user_id,
 		old_email='"'+old_email+'"',
 		new_email='"'+new_email+'"'
+	)
+
+@csrf_exempt
+def API_update_password(request):
+	"""Update password"""
+	
+	try:
+		user = API_authenticate(request)
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
+	
+	user_id = user.id
+	
+	try:
+		assert "new_password" in request.POST, "New password is missing"
+		new_password = request.POST["new_password"]
+		assert new_password, "New password cannot be empty"
+		assert len(new_password) < 150, "New password is too long"
+		assert "confirm_password" in request.POST, "Password isn't confirmed"
+		confirm_password = request.POST["confirm_password"]
+		assert new_password == confirm_password, "You entered two different passwords"
+	except AssertionError as error:
+		return JsonResponse("false", message='"'+error.message+'"')
+	
+	user.set_password(new_password)
+	try:
+		user.save()
+	except OperationalError as error:
+		print(error.message)
+		return JsonResponse("false",
+			message='"Failed to save"')
+	
+	return JsonResponse("true",
+		id=user_id
 	)
