@@ -1,0 +1,7 @@
+*.sw[a-z]
+*.class
+*.dex
+*.d
+*.apk
+*.cache
+*.ap_
