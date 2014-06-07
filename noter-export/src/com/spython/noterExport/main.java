@@ -2,7 +2,6 @@ package com.spython.noterExport;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.content.Context;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
