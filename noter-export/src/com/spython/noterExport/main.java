@@ -310,14 +310,14 @@ public class main extends Activity implements OnClickListener {
 						"				-ms-transition: opacity 1s ease-in-out, color 0.5s ease-in;\n"+
 						"			}\n"+
 						"			article .title:hover {\n"+
-						"				opacity: 1;\n"+
-						"				color: rgb(106, 194, 81);\n"+
+						"				opacity:1;\n"+
+						"				color:rgb(106, 194, 81);\n"+
 						"			}\n"+
 						"		</style>\n"+
 						"	</head>\n"+
 						"	<body>\n"+
 						"		<article>\n"+
-						"			<a href='http://web-noter.herokuapp.com/note/'"+note_id+">\n"+
+						"			<a href='http://web-noter.herokuapp.com/note/"+note_id+"'>\n"+
 						"				<span class='title'>"+title+"</span>\n"+
 						"			</a>\n"+
 						"			<p>"+text+"</p>\n"+
