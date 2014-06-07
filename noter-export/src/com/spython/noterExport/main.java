@@ -174,6 +174,7 @@ public class main extends Activity implements OnClickListener {
 						List note = (ArrayList) notes.get(i);
 						String title = (String) note.get(1);
 						String text = (String) note.get(3);
+						text = text.replaceAll("\\n", "<br/>");
 						String note_filename = title + ".html";
 						note_filename = note_filename.replace(" ", "_");
 						note_filename = note_filename.replaceAll("/|\\\\|\\?", "");
