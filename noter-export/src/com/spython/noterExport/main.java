@@ -172,13 +172,157 @@ public class main extends Activity implements OnClickListener {
 					
 					for (int i = 0; i < notes.size(); i++) {
 						List note = (ArrayList) notes.get(i);
+						long note_id = (Long) note.get(0);
 						String title = (String) note.get(1);
 						String text = (String) note.get(3);
+//						String type = (String) note.get(5);
 						text = text.replaceAll("\\n", "<br/>");
 						String note_filename = title + ".html";
 						note_filename = note_filename.replace(" ", "_");
 						note_filename = note_filename.replaceAll("/|\\\\|\\?", "");
-						text = "<!DOCTYPE html>\n<html>\t<head>\n\t\t<meta charset='utf-8' />\n\t\t<title>"+title+"</title>\n\t</head>\n\t<body>\n\t\t"+text+"\n\t</body>\n</html>";
+						text = "<!DOCTYPE html>\n"+
+						"<html>\n"+
+						"	<head>\n"+
+						"<meta name='viewport' content='width=device-width, initial-scale=1.0' />\n"+
+						"		<meta charset='utf-8' />\n"+
+						"		<title>"+title+"</title>\n"+
+						"		<style type='text/css'>\n"+
+						"			html, body, div, span,\n"+
+						"			h1, h2, h3, h4, h5, h6, p, pre,\n"+
+						"			a, code, img, kbd, samp,\n"+
+						"			small, var,\n"+
+						"			form, label,\n"+
+						"			article, aside, canvas,\n"+
+						"			footer, header, hgroup,\n"+
+						"			nav, section,\n"+
+						"			time {\n"+
+						"				margin: 0;\n"+
+						"				padding: 0;\n"+
+						"				border: 0;\n"+
+						"				font-size: 100%;\n"+
+						"				font: inherit;\n"+
+						"				vertical-align: baseline;\n"+
+						"			}\n"+
+						"			mark {\n"+
+						"				padding: 0;\n"+
+						"				border: none;\n"+
+						"				font-family: inherit;\n"+
+						"				vertical-align: baseline;\n"+
+						"				font-size: 100%;\n"+
+						"				background-color: rgb(255, 255, 0);\n"+
+						"				box-shadow: inset 0 0 20px rgb(255, 255, 255);\n"+
+						"			}\n"+
+						"			article, aside, details, figcaption, figure,\n"+
+						"			footer, header, hgroup, menu, nav, section {\n"+
+						"				display: block;\n"+
+						"			}\n"+
+						"			code {\n"+
+						"					display: inline-block;\n"+
+						"					background-color: rgb(249, 242, 244);\n"+
+						"					color: rgb(199, 37, 78);\n"+
+						"					padding: 2px 4px;\n"+
+						"					line-height: 1.42857;\n"+
+						"					border-radius: 4px;\n"+
+						"					font-size: 90%;\n"+
+						"					margin-top: 1px;\n"+
+						"					margin-bottom: 1px;\n"+
+						"			}\n"+
+						"			kbd {\n"+
+						"				background-color:#333;\n"+
+						"				border-radius:4px;\n"+
+						"				color: #FFF;\n"+
+						"				display:inline-block;\n"+
+						"				line-height:1.42587;\n"+
+						"				margin-bottom:1px;\n"+
+						"				margin-top:1px;\n"+
+						"				padding:2px 4px;\n"+
+						"			}\n"+
+						"			img {\n"+
+						"				max-width: 100%;\n"+
+						"				max-height: 100%;\n"+
+						"			}\n"+
+						"			h1, h2, h3, h4, h5, h6 {\n"+
+						"		   		font-weight: bold;\n"+
+						"				color: rgb(67, 74, 84);\n"+
+						"			}\n"+
+						"			h2 {\n"+
+						"				font-size: 38px;\n"+
+						"			}\n"+
+						"			h1 {\n"+
+						"				font-size: 50px;\n"+
+						"			}\n"+
+						"			h3 {\n"+
+						"				font-size: 20px;\n"+
+						"			}\n"+
+						"			h4 {\n"+
+						"				font-size: 18px;\n"+
+						"			}\n"+
+						"			h5 {\n"+
+						"				font-size: 16px;\n"+
+						"			}\n"+
+						"			h6 {\n"+
+						"				font-size: 14px;\n"+
+						"			}\n"+
+						"			p {\n"+
+						"				margin-top: 5px;\n"+
+						"				margin-bottom: 5px;\n"+
+						"			}\n"+
+						"			a {\n"+
+						"				text-decoration: none;\n"+
+						"				color: rgb(0, 155, 255);\n"+
+						"				outline: 0;\n"+
+						"			}\n"+
+						"			a:hover {\n"+
+						"				color:rgb(0, 191, 255);\n"+
+						"			}\n"+
+						"			pre {\n"+
+						"				padding:0;\n"+
+						"				font-size:14px;\n"+
+						"				font-family:Monospace, Courier, Sans-serif;\n"+
+						"				line-height:1.1;\n"+
+						"				word-wrap:break-word;\n"+
+						"				white-space:pre-wrap;\n"+
+						"				white-space:-moz-pre-wrap;\n"+
+						"				white-space:-o-pre-wrap;\n"+
+						"				white-space:-pre-wrap;\n"+
+						"			}\n"+
+						"			article {\n"+
+						"				word-wrap:break-word;\n"+
+						"				max-width:1000px;\n"+
+						"				min-wdth:240px;\n"+
+						"				padding:0px 5px;\n"+
+						"			}\n"+
+						"			article p {\n"+
+						"				font-size:18px;\n"+
+						"			}\n"+
+						"			article .title {\n"+
+						"				margin-bottom: 5px;\n"+
+						"				min-width: 240px;\n"+
+						"				text-decoration: none;\n"+
+						"				font-size: 24px;\n"+
+						"				font-family: Helvetica, Verdana, Arial;\n"+
+						"				color: rgb(86, 174, 61);\n"+
+						"				opacity: 0.9;\n"+
+						"				transition: opacity 1s ease-in-out, color 0.5s ease-in;\n"+
+						"				-moz-transition: opacity 1s ease-in-out, color 0.5s ease-in;\n"+
+						"				-webkit-transition: opacity 1s ease-in-out, color 0.5s ease-in;\n"+
+						"				-o-transition: opacity 1s ease-in-out, color 0.5s ease-in;\n"+
+						"				-ms-transition: opacity 1s ease-in-out, color 0.5s ease-in;\n"+
+						"			}\n"+
+						"			article .title:hover {\n"+
+						"				opacity: 1;\n"+
+						"				color: rgb(106, 194, 81);\n"+
+						"			}\n"+
+						"		</style>\n"+
+						"	</head>\n"+
+						"	<body>\n"+
+						"		<article>\n"+
+						"			<a href='http://web-noter.herokuapp.com/note/'"+note_id+">\n"+
+						"				<span class='title'>"+title+"</span>\n"+
+						"			</a>\n"+
+						"			<p>"+text+"</p>\n"+
+						"	</body>\n"+
+						"</html>";
 						WriteFile file = new WriteFile(noter_directory_path, note_filename);
 						try {
 							file.writeToFile(text);
