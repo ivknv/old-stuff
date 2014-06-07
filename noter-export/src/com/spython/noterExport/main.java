@@ -166,6 +166,8 @@ public class main extends Activity implements OnClickListener {
 						noter_directory.mkdirs();
 					}
 					
+					String noter_directory_path = noter_directory.getAbsolutePath();
+					
 					int exported_counter = 0;
 					
 					for (int i = 0; i < notes.size(); i++) {
@@ -176,8 +178,7 @@ public class main extends Activity implements OnClickListener {
 						note_filename = note_filename.replace(" ", "_");
 						note_filename = note_filename.replaceAll("/|\\\\|\\?", "");
 						text = "<!DOCTYPE html>\n<html>\t<head>\n\t\t<meta charset='utf-8' />\n\t\t<title>"+title+"</title>\n\t</head>\n\t<body>\n\t\t"+text+"\n\t</body>\n</html>";
-						String dirname = sdCardPath + "/noter/"+ username_value;
-						WriteFile file = new WriteFile(dirname, note_filename);
+						WriteFile file = new WriteFile(noter_directory_path, note_filename);
 						try {
 							file.writeToFile(text);
 						} catch (IOException e) {
@@ -189,7 +190,7 @@ public class main extends Activity implements OnClickListener {
 						exported_counter++;
 					}
 					
-					Toast toast = Toast.makeText(getApplicationContext(), "Exported "+exported_counter+" notes", Toast.LENGTH_SHORT);
+					Toast toast = Toast.makeText(getApplicationContext(), "Exported "+exported_counter+" notes to " + noter_directory_path, Toast.LENGTH_SHORT);
 					toast.setGravity(Gravity.CENTER, 0, 0);
 					toast.show();
 					break;
