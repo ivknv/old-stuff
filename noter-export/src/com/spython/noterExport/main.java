@@ -7,12 +7,7 @@ import android.widget.EditText;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.os.Environment;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
