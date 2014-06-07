@@ -1,4 +1,4 @@
-noter-export
+Note export
 ============
 
 Export your notes from Noter (http://web-noter.herokuapp.com) into HTML. (Android app)
