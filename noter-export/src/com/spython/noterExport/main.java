@@ -159,7 +159,6 @@ public class main extends Activity implements OnClickListener {
 					
 					List notes = (ArrayList) Noter.getNotes(username_value, password_value);
 					
-					int i;
 					String sdCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
 					System.out.println(sdCardPath);
 					File noter_directory = new File(sdCardPath + "/noter/" + username_value);
@@ -167,7 +166,9 @@ public class main extends Activity implements OnClickListener {
 						noter_directory.mkdirs();
 					}
 					
-					for (i = 0; i < notes.size(); i++) {
+					int exported_counter = 0;
+					
+					for (int i = 0; i < notes.size(); i++) {
 						List note = (ArrayList) notes.get(i);
 						String title = (String) note.get(1);
 						String text = (String) note.get(3);
@@ -183,10 +184,12 @@ public class main extends Activity implements OnClickListener {
 							Toast toast = Toast.makeText(getApplicationContext(), "Failed to save note", Toast.LENGTH_SHORT);
 							toast.setGravity(Gravity.CENTER, 0, 0);
 							toast.show();
+							continue;
 						}
+						exported_counter++;
 					}
 					
-					Toast toast = Toast.makeText(getApplicationContext(), "Exported "+i+" notes", Toast.LENGTH_SHORT);
+					Toast toast = Toast.makeText(getApplicationContext(), "Exported "+exported_counter+" notes", Toast.LENGTH_SHORT);
 					toast.setGravity(Gravity.CENTER, 0, 0);
 					toast.show();
 					break;
