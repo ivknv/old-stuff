@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Note export</string>
+	<string name="username_hint">Username</string>
+	<string name="password_hint">Password</string>
+	<string name="export_btn">Export notes</string>
 </resources>
