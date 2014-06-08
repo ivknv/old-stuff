@@ -38,7 +38,7 @@ class WriteFile {
 	
 	public void writeToFile(String textLine) throws IOException {
 		File file = new File(path, filename);
-		System.out.println(filename);
+		
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -172,8 +172,10 @@ public class main extends Activity implements OnClickListener {
 						
 						text = text.replaceAll("\\n", "<br/>");
 						String note_filename = title + ".html";
-						note_filename = note_filename.replace(" ", "_");
+						note_filename = note_filename.replaceAll(" ", "_");
 						note_filename = note_filename.replaceAll("/|\\\\|\\?", "");
+						note_filename = note_filename.replaceAll("<", "lt");
+						note_filename = note_filename.replaceAll(">", "gt");
 						text = "<!DOCTYPE html>\n"+
 						"<html>\n"+
 						"	<head>\n"+
