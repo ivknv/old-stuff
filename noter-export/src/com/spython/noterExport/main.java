@@ -38,7 +38,7 @@ class WriteFile {
 	
 	public void writeToFile(String textLine) throws IOException {
 		File file = new File(path, filename);
-		System.out.println(path);
+		System.out.println(filename);
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -154,7 +154,6 @@ public class main extends Activity implements OnClickListener {
 					List notes = (ArrayList) Noter.getNotes(username_value, password_value);
 					
 					String sdCardPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-					System.out.println(sdCardPath);
 					File noter_directory = new File(sdCardPath + "/noter/" + username_value);
 					if (!noter_directory.exists()) {
 						noter_directory.mkdirs();
@@ -163,13 +162,14 @@ public class main extends Activity implements OnClickListener {
 					String noter_directory_path = noter_directory.getAbsolutePath();
 					
 					int exported_counter = 0;
+					int fail_counter = 0;
 					
 					for (int i = 0; i < notes.size(); i++) {
 						List note = (ArrayList) notes.get(i);
 						long note_id = (Long) note.get(0);
 						String title = (String) note.get(1);
 						String text = (String) note.get(3);
-//						String type = (String) note.get(5);
+						
 						text = text.replaceAll("\\n", "<br/>");
 						String note_filename = title + ".html";
 						note_filename = note_filename.replace(" ", "_");
@@ -321,17 +321,18 @@ public class main extends Activity implements OnClickListener {
 						try {
 							file.writeToFile(text);
 						} catch (IOException e) {
-							Toast toast = Toast.makeText(getApplicationContext(), "Failed to save note", Toast.LENGTH_SHORT);
-							toast.setGravity(Gravity.CENTER, 0, 0);
-							toast.show();
+							fail_counter++;
 							continue;
 						}
 						exported_counter++;
 					}
 					
-					Toast toast = Toast.makeText(getApplicationContext(), "Exported "+exported_counter+" notes to " + noter_directory_path, Toast.LENGTH_SHORT);
-					toast.setGravity(Gravity.CENTER, 0, 0);
-					toast.show();
+					Toast success_toast = Toast.makeText(getApplicationContext(), "Exported "+exported_counter+" notes to " + noter_directory_path, Toast.LENGTH_SHORT);
+					success_toast.setGravity(Gravity.CENTER, 0, 0);
+					success_toast.show();
+					Toast fail_toast = Toast.makeText(getApplicationContext(), "Failed to save "+fail_counter+" notes", Toast.LENGTH_SHORT);
+					fail_toast.setGravity(Gravity.CENTER, 0, 0);
+					fail_toast.show();
 					break;
 		}
 	}
