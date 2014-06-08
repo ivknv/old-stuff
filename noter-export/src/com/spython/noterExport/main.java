@@ -173,9 +173,11 @@ public class main extends Activity implements OnClickListener {
 						text = text.replaceAll("\\n", "<br/>");
 						String note_filename = title + ".html";
 						note_filename = note_filename.replaceAll(" ", "_");
-						note_filename = note_filename.replaceAll("/|\\\\|\\?", "");
-						note_filename = note_filename.replaceAll("<", "lt");
-						note_filename = note_filename.replaceAll(">", "gt");
+						note_filename = note_filename.replaceAll("/", "-slash-");
+						note_filename = note_filename.replaceAll("\\\\", "-backslash-");
+						note_filename = note_filename.replaceAll("\\?", "-question mark-");
+						note_filename = note_filename.replaceAll("<", "-lt-");
+						note_filename = note_filename.replaceAll(">", "-gt-");
 						text = "<!DOCTYPE html>\n"+
 						"<html>\n"+
 						"	<head>\n"+
