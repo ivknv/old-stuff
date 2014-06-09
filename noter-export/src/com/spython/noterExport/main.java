@@ -168,6 +168,9 @@ public class main extends Activity implements OnClickListener {
 						List note = (ArrayList) notes.get(i);
 						long note_id = (Long) note.get(0);
 						String title = (String) note.get(1);
+						String title1 = title.replaceAll("&", "&amp;");
+						title1 = title1.replaceAll("<", "&lt;");
+						title1 = title1.replaceAll(">", "&gt;");
 						String text = (String) note.get(3);
 						
 						text = text.replaceAll("\\n", "<br/>");
@@ -316,7 +319,7 @@ public class main extends Activity implements OnClickListener {
 						"	<body>\n"+
 						"		<article>\n"+
 						"			<a href='http://web-noter.herokuapp.com/note/"+note_id+"'>\n"+
-						"				<span class='title'>"+title+"</span>\n"+
+						"				<span class='title'>"+title1+"</span>\n"+
 						"			</a>\n"+
 						"			<p>"+text+"</p>\n"+
 						"	</body>\n"+
