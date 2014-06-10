@@ -129,7 +129,6 @@ body {
 	font-family: "District Thin", Arial;
 	background-color: transparent;
 	line-height: 1.42587;
-	color: rgb(51, 51, 51);
 }
 
 a {
@@ -218,6 +217,7 @@ pre {
 .wrapper header nav a {
 	padding: 4px;
 	margin-left: -3px;
+    font-weight: bold;
 }
 
 .wrapper header nav a:hover {
@@ -337,6 +337,10 @@ pre {
 
 .text a {
 	color: rgb(86, 162, 255);
+}
+
+.text a:hover {
+	text-decoration: underline;
 }
 
 .text {
