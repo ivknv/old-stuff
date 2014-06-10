@@ -10,7 +10,7 @@
 		{% if note.tags %}
 			{% with tags=note|splitags %}
 				{% for tag in tags %}
-					<a href="/filter/{{ tag }}" class="tag">#{{ tag }}</a>
+				<a href="/filter/{{ tag }}" onclick="load_page('/filter/{{ tag }}'); return false;" class="tag">#{{ tag }}</a>
 				{% endfor %}
 			{% endwith %}
 		{% endif %}
