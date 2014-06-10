@@ -1,6 +1,6 @@
 " ==================================================
 " Author: Ivan Konovalov
-" Version: 1.5 2014.06.10 16:45 +0600
+" Version: 1.5.1 2014.06.10 18:07 +0600
 " 
 " Warning: I never tested this vimrc under Windows!
 " ==================================================
@@ -8,13 +8,13 @@
 set backspace=2
 set shiftwidth=4
 set tabstop=4
-set expandtab
+set noexpandtab
 set smarttab
 set showcmd
 set linebreak
 set dy=lastline
 set iminsert=0
-set encoding=utf-8
+set encoding=utf8
 set term=xterm-256color
 set termencoding=utf8
 set fileencoding=utf8
