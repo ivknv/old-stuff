@@ -6,8 +6,8 @@ Load fonts
 */
 
 @font-face {
-	font-family: OpenSans;
-	src: url(/static/fonts/OpenSans-Regular.ttf);
+	font-family: "District Thin";
+	src: url(/static/fonts/DistProTh.otf) format("opentype");
 }
 
 /*
@@ -126,9 +126,10 @@ body {
 	background-image: url("/static/img/background_greyzz.png");
 	background-repeat: repeat;
 	background-attachment: scroll;
-	font-family: OpenSans, Arial;
+	font-family: "District Thin", Arial;
 	background-color: transparent;
 	line-height: 1.42587;
+	color: rgb(51, 51, 51);
 }
 
 a {
@@ -258,13 +259,13 @@ pre {
 }
 
 .N-letter {
-	font-family: OpenSans, Helvetica, Verdana, Arial, Tahoma;
+	font-family: Arial, Tahoma;
 	font-weight: 100;
 }
 
 .wrapper h1 {
 	display: inline-block;
-	font-family: OpenSans, Helvetica, Arial, Verdana, Tahoma;
+	font-family: Arial, Verdana, Tahoma;
 	font-size: 40px;
 	font-weight: 100;
 	margin-right: 16px;
@@ -311,7 +312,6 @@ pre {
 	overflow: auto;
 	height: auto !important;
 	height: 100%;
-	font-family: OpenSans, Arial;
 	min-height: 417px;
 	margin-top: 20px;
 	padding-top: 10px;
@@ -342,7 +342,7 @@ pre {
 .text {
 	display: block;
 	min-width: 240px;
-	font-size: 17px;
+	font-size: 18px;
 	overflow: hidden;
 	padding-bottom: 5px;
 }
@@ -354,7 +354,7 @@ pre {
 }
 
 p {
-	font-family: OpenSans, Verdana, Arial;
+	font-family: "District Thin", Verdana, Arial;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	z-index: 3;
@@ -365,7 +365,7 @@ article .title {
 	min-width: 240px;
 	text-decoration: none;
 	font-size: 24px;
-	font-family: OpenSans, Helvetica, Verdana, Arial;
+	font-family: "District Thin", Helvetica, Verdana, Arial;
 	color: rgb(86, 174, 61);
 	opacity: 0.9;
 	transition: opacity 1s ease-in-out, color 0.5s ease-in;
@@ -373,6 +373,7 @@ article .title {
 	-webkit-transition: opacity 1s ease-in-out, color 0.5s ease-in;
 	-o-transition: opacity 1s ease-in-out, color 0.5s ease-in;
 	-ms-transition: opacity 1s ease-in-out, color 0.5s ease-in;
+	font-weight: bold;
 }
 
 article .title:hover {
@@ -621,7 +622,7 @@ Some inputs
 	padding-left: 15px;
 	padding-right: 3px;
 	font-size: 15px;
-	font-family: Verdana, Tahoma, Times, OpenSans, Arial;
+	font-family: Verdana, Tahoma, Times, Arial;
 	min-width: 120px;
 	outline: 0;
 	margin: 0;
@@ -650,7 +651,7 @@ Some inputs
 	border-right: 1px solid rgb(59, 175, 218);
 	min-width: 165px;
 	font-size: 15px;
-	font-family: Verdana, Tahoma, Times, OpenSans, Arial;
+	font-family: Verdana, Tahoma, Times, Arial;
 	vertical-align: top;
 	margin: 0;
 	padding-top: 0;
@@ -666,7 +667,7 @@ Some inputs
 	display: block;
 	height: 27px;
 	font-size: 14px;
-	font-family: Verdana, Tahoma, Times, OpenSans, Arial;
+	font-family: Verdana, Tahoma, Times, Arial;
 	border: 1px solid rgb(170, 178, 189);
 	margin: 0;
 	margin-top: 3px;
@@ -731,7 +732,7 @@ Some inputs
 .textarea-field {
 	display: block;
 	font-size: 15px;
-	font-family: Verdana, Tahoma, Times, OpenSans, Arial;
+	font-family: Verdana, Tahoma, Times, Arial;
 	border: 1px solid rgb(170, 178, 189);
 	margin: 0;
 	margin-top: 3.5px;
