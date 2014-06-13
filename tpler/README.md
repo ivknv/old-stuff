@@ -22,17 +22,17 @@ It will write following text to 'html_file.html':
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title></title>
-</head>
-<body>
-
-</body>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		
+	</body>
 </html>
 ```
 <br/>
-Tpler can create even more useful templates:<br/>
+Tpler can create more useful templates:<br/>
 ```bash
 tpler -i html_file_with_jquery.html -t jquery
 ```
@@ -40,15 +40,15 @@ Now 'html_file_with_jquery.html' look like this:<br/>
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title></title>
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">
-</script>
-</head>
-<body>
-
-</body>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">
+		</script>
+	</head>
+	<body>
+		
+	</body>
 </html>
 ```
 <br/>
