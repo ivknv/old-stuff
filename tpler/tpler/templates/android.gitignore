@@ -1,0 +1,10 @@
+*.sw[a-z]
+*.class
+*.dex
+*.apk
+*.ap_
+
+bin/
+gen/
+
+local.properties
