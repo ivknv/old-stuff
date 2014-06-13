@@ -137,6 +137,8 @@ All supported file types and templates:
 <li>.clj</li>
 	<ul><li>factorial</li>
 	<li>fibonacci</li></ul>
+<li>.gitignore</li>
+	<ul><li>android</li></ul>
 </ul>
 And also every file type supports <i>random template selection</i>. Just type "random", "rand" or "rnd" as a second argument:<br/><br/>
 ```bash
