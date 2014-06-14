@@ -32,7 +32,7 @@ from note.functions import htmlbody, place_by_relevance
 
 from note.functions import page_range
 
-from note.functions import replace_newlines_search, transform_tags_single
+from note.functions import transform_tags_single
 
 from note.functions import replace_newlines_sim
 
@@ -708,8 +708,8 @@ def contact(request):
 			fail_silently=False
 			)
 		return HttpResponse(
-			htmlbody("""\
-				Thanks for feedback. <a href='/contact/'>Back</a>""",
+			htmlbody(
+				"""Thanks for feedback. <a href='/contact/'>Back</a>""",
 				"Thanks for feedback!"
 			)
 		)
