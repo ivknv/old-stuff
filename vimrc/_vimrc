@@ -1,14 +1,20 @@
 " ==================================================
 " Author: Ivan Konovalov
-" Version: 1.5.1 2014.06.10 18:07 +0600
+" Version: 1.5.2 2014.06.14 21:46 +0600
 " 
 " Warning: I never tested this vimrc under Windows!
 " ==================================================
 
 set backspace=2
-set shiftwidth=4
-set tabstop=4
-set noexpandtab
+
+" Tabstop
+set ts=4
+
+" Shift width
+set sw=4
+
+" Disable tab to spaces
+set noet
 set smarttab
 set showcmd
 set linebreak
@@ -221,3 +227,5 @@ iabbr <!D <!DOCTYPE><Left>
 iabbr {% {% %}<Left><Left><Left>
 iabbr {{ {{ }}<left><Left><Left>
 iabbr #i #include
+
+autocmd! BufNewFile,BufRead *.py setlocal ts=4 sw=4 noet
