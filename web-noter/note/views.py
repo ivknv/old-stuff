@@ -709,9 +709,9 @@ def contact(request):
 			)
 		return HttpResponse(
 			htmlbody("""\
-Thanks for feedback. <a href='/contact/'>Back</a>""",
-            "Thanks for feedback!"
-            )
+				Thanks for feedback. <a href='/contact/'>Back</a>""",
+				"Thanks for feedback!"
+			)
 		)
 	
 	return render_to_response("contact.html", RequestContext(request))
@@ -809,8 +809,6 @@ def find_similiar_notes(request, note_id, page_number=1):
 	except EmptyPage:
 		raise Http404
 	
-	print(current_page.object_list)
-	
 	prange = page_range(page_number, paginator.num_pages)
 	
 	context = {
@@ -818,7 +816,8 @@ def find_similiar_notes(request, note_id, page_number=1):
 		"notes": current_page,
 		"current_page_number": page_number,
 		"page_range": prange,
-		"current_url": "/similiar/%s/" %note_id
+		"current_url": "/similiar/%s/" %note_id,
+		"num_pages": paginator.num_pages
 	}
 	
 	return render_to_response(
