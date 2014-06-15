@@ -32,7 +32,6 @@ Color scheme: [Jelly Beans](https://github.com/nanotech/jellybeans.vim)<br/>
 ```#i``` - ```#include```<br/>
 ```linkhref``` - ```<link rel="stylesheet" type="text/css" href="" />```<br/>
 ```spanclass``` - ```<span class=""></span>```<br/>
-```spanid``` - ```<span id=""></span>```<br/>
 ```scriptt``` - ```<script type="text/javascript"></script>```<br/>
 ```def``` - ```def ():```<br/>
 ```<!D``` - ```<!DOCTYPE>```<br/>
