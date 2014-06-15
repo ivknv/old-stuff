@@ -1,6 +1,6 @@
 " ==================================================
 " Author: Ivan Konovalov
-" Version: 1.5.3 2014.06.15 18:43 +0600
+" Version: 1.5.4 2014.06.15 19:46 +0600
 " 
 " Warning: I never tested this vimrc under Windows!
 " ==================================================
@@ -17,7 +17,7 @@ set sw=4
 " Disable tab to spaces
 set noet
 
-set smarttab
+set nosmarttab
 
 " Show current command
 set showcmd
@@ -77,11 +77,11 @@ set showmatch
 set noerrorbells
 set novisualbell
 
-" Turn auto indent on
-set ai
+" Turn auto indent off
+set noai
 
-" Turn smart indent on
-set si
+" Turn smart indent off
+set nosi
 
 " Reset Ctrl-S key
 silent !stty stop undef
@@ -235,7 +235,7 @@ set background=dark
 colorscheme jellybeans
 set t_Co=256
 syntax on
-filetype plugin indent on
+" filetype plugin indent on
 hi StatusLine ctermbg=None ctermfg=white
 
 " Some shortcuts
@@ -258,4 +258,4 @@ iabbr {{ {{ }}<left><Left><Left>
 iabbr #i #include
 
 " Indentation fix for Python
-autocmd! BufNewFile,BufRead *.py setlocal ts=4 sw=4 noet
+" autocmd! BufNewFile,BufRead *.py setlocal ts=4 sw=4 noet
