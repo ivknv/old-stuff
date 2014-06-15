@@ -4,7 +4,7 @@ vimrc
 Configuration for Vim
 
 ## Requirements ##
-Color scheme: (Jelly Beans)[https://github.com/nanotech/jellybeans.vim]<br/>
+Color scheme: [Jelly Beans](https://github.com/nanotech/jellybeans.vim)<br/>
 
 ## Key mappings ##
 <kbd>Ctrl-S</kbd> - save file<br/>
