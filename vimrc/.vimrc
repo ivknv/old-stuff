@@ -230,6 +230,7 @@ xmap <C-C> "+y
 xmap <C-X> "+c
 imap <C-V> <C-R>+
 nmap <C-V> "+p
+xmap <C-V> "+p
 
 set background=dark
 colorscheme jellybeans
