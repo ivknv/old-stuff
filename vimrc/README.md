@@ -2,6 +2,9 @@ vimrc
 =====
 
 Configuration for Vim
+* Autocompletion with Tab
+* Templates
+* Copy(cut)-paste and selection like in regular editors
 
 ### Requirements ###
 Color scheme: [Jelly Beans](https://github.com/nanotech/jellybeans.vim)<br/>
@@ -21,6 +24,7 @@ Color scheme: [Jelly Beans](https://github.com/nanotech/jellybeans.vim)<br/>
 <kbd>F3</kbd> - run ...<br/>
 <kbd>F5</kbd> - undo<br/>
 <kbd>F6</kbd> - redo<br/>
+<kbd>Tab</kbd> - autocomplete in insert mode<br/>
 
 ### Abbreviations ###
 ```divid``` - ```<div id=""></div>```<br/>
