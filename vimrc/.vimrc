@@ -1,6 +1,6 @@
 " ==================================================
 " Author: Ivan Konovalov
-" Version: 1.5.5 2014.06.16 19:43 +0600
+" Version: 1.5.6 2014.06.16 19:55 +0600
 " 
 " Warning: I never tested this vimrc under Windows!
 " ==================================================
@@ -209,7 +209,7 @@ imap <F5> <C-O>u
 map <F6> <C-R>
 imap <F6> <C-O><C-R>
 
-filetype plugin on
+filetype plugin off
 
 " Text selection like in regular editors
 nmap <S-Left> v<Left>
@@ -260,3 +260,14 @@ iabbr #i #include
 
 " Indentation fix for Python
 " autocmd! BufNewFile,BufRead *.py setlocal ts=4 sw=4 noet
+
+" Autocomplete with Tab
+function! Tab_Or_Complete()
+  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<C-N>"
+  else
+    return "\<Tab>"
+  endif
+endfunction
+
+:inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
