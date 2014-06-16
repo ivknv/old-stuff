@@ -1,6 +1,6 @@
 " ==================================================
 " Author: Ivan Konovalov
-" Version: 1.5.6 2014.06.16 19:55 +0600
+" Version: 1.5.7 2014.06.16 20:34 +0600
 " 
 " Warning: I never tested this vimrc under Windows!
 " ==================================================
@@ -271,3 +271,6 @@ function! Tab_Or_Complete()
 endfunction
 
 :inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+
+" File templates
+au BufNewFile * silent! execute '0r ~/.vim/templates/default.%:e | normal GkJgg'
