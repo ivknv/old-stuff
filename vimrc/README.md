@@ -3,10 +3,10 @@ vimrc
 
 Configuration for Vim
 
-## Requirements ##
+### Requirements ###
 Color scheme: [Jelly Beans](https://github.com/nanotech/jellybeans.vim)<br/>
 
-## Key mappings ##
+### Key mappings ###
 <kbd>Ctrl-S</kbd> - save file<br/>
 <kbd>Ctrl-V</kbd> - paste<br/>
 <kbd>Ctrl-C</kbd> - copy<br/>
@@ -22,7 +22,7 @@ Color scheme: [Jelly Beans](https://github.com/nanotech/jellybeans.vim)<br/>
 <kbd>F5</kbd> - undo<br/>
 <kbd>F6</kbd> - redo<br/>
 
-## Abbreviations ##
+### Abbreviations ###
 ```divid``` - ```<div id=""></div>```<br/>
 ```divclass``` - ```<div class=""></div>```<br/>
 ```scriptsrc``` - ```<script type="text/javascript" src=""></script>```<br/>
