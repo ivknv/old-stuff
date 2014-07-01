@@ -1,7 +1,7 @@
 vimrc
 =====
 
-Configuration for Vim
+Amazing configuration for Vim
 * Autocompletion with Tab
 * Templates
 * Copy(cut)-paste and selection like in regular editors
