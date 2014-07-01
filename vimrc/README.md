@@ -8,6 +8,7 @@ Configuration for Vim
 
 ### Requirements ###
 Color scheme: [Jelly Beans](https://github.com/nanotech/jellybeans.vim)<br/>
+Also, if you sometimes write Lisp code I recommend to install [lisphelper.vim](https://github.com/SPython/lisphelper.vim)
 
 ### Key mappings ###
 <kbd>Ctrl-S</kbd> - save file<br/>
