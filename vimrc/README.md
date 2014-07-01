@@ -20,6 +20,7 @@ Also, if you sometimes write Lisp code I recommend to install [lisphelper.vim](h
 <kbd>F8 1</kbd> - escape &lt; and &gt;<br/>
 <kbd>F8 2</kbd> - opposite of <kbd>F8 1</kbd><br/>
 <kbd>F8 Ctrl-O</kbd> - open file<br/>
+<kbd>F8 l</kbd> - check brackets (requires [lisphelper.vim](https://github.com/SPython/lisphelper.vim))<br/>
 <kbd>F12</kbd> - exit menu<br/>
 <kbd>F9</kbd> - execute ...<br/>
 <kbd>F3</kbd> - run ...<br/>
