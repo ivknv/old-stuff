@@ -1,6 +1,6 @@
 " ==================================================
 " Author: Ivan Konovalov
-" Version: 1.5.7 2014.06.16 20:34 +0600
+" Version: 1.5.8 2014.07.01 22:25 +0600
 " 
 " Warning: I never tested this vimrc under Windows!
 " ==================================================
@@ -169,6 +169,10 @@ imap <F8>< <C-O><C-0><!--<C-O>$-->
 
 map <F8>- <C-0>i--<Esc>
 imap <F8>- <C-O><C-0>--
+
+" lisphelper.vim
+map <F8>l :call lisphelper#check_brackets()<CR>
+imap <F8>l <C-O><F8>l
 
 nmap <Tab> :tabnew 
 
