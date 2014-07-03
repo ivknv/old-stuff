@@ -37,6 +37,7 @@ Also, if you sometimes write Lisp code I recommend to install [lisphelper.vim](h
 ```#d``` - ```#define```<br/>
 ```#i``` - ```#include```<br/>
 ```linkhref``` - ```<link rel="stylesheet" type="text/css" href="" />```<br/>
+```spanid``` - ```<span id=""></span>```<br/>
 ```spanclass``` - ```<span class=""></span>```<br/>
 ```scriptt``` - ```<script type="text/javascript"></script>```<br/>
 ```def``` - ```def ():```<br/>
