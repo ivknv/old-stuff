@@ -26,21 +26,30 @@ Also, if you sometimes write Lisp code I recommend to install [lisphelper.vim](h
 <kbd>F3</kbd> - run ...<br/>
 <kbd>F5</kbd> - undo<br/>
 <kbd>F6</kbd> - redo<br/>
-<kbd>Tab</kbd> - autocomplete in insert mode<br/>
+<kbd>Tab</kbd> - autocomplete in insert mode or new tab in normal<br/>
 
 ### Abbreviations ###
+#### HTML ####
 ```divid``` - ```<div id=""></div>```<br/>
 ```divclass``` - ```<div class=""></div>```<br/>
 ```scriptsrc``` - ```<script type="text/javascript" src=""></script>```<br/>
-```im``` - ```import```<br/>
+```scriptt``` - ```<script type="text/javascript"></script>```<br/>
 ```ahref``` - ```<a href=""></a>```<br/>
-```#d``` - ```#define```<br/>
-```#i``` - ```#include```<br/>
 ```linkhref``` - ```<link rel="stylesheet" type="text/css" href="" />```<br/>
 ```spanid``` - ```<span id=""></span>```<br/>
 ```spanclass``` - ```<span class=""></span>```<br/>
-```scriptt``` - ```<script type="text/javascript"></script>```<br/>
-```def``` - ```def ():```<br/>
 ```<!D``` - ```<!DOCTYPE>```<br/>
 ```{{``` - ```{{ }}```<br/>
 ```{%``` - ```{% %}```<br/>
+
+#### Python ####
+```im``` - ```import```<br/>
+```def``` - ```def ():```<br/>
+```if``` - ```if:```<br/>
+```elif``` - ```elif:```<br/>
+```class``` - ```class:```<br/>
+```except``` - ```except:```<br/>
+
+#### C and C++ ####
+```#d``` - ```#define```<br/>
+```#i``` - ```#include```<br/>
