@@ -1,6 +1,6 @@
 " ==================================================
 " Author: Ivan Konovalov
-" Version: 1.5.8 2014.07.01 22:25 +0600
+" Version: 1.6.0 2014.07.03 20:53 +0600
 " 
 " Warning: I never tested this vimrc under Windows!
 " ==================================================
@@ -172,7 +172,7 @@ imap <F8>- <C-O><C-0>--
 
 " lisphelper.vim
 map <F8>l :call lisphelper#check_brackets()<CR>
-imap <F8>l <C-O><F8>l
+imap <F8>l <Esc><F8>l
 
 nmap <Tab> :tabnew 
 
@@ -244,23 +244,28 @@ syntax on
 hi StatusLine ctermbg=None ctermfg=white
 
 " Some shortcuts
-iabbr scriptsrc <script type="text/javascript" src=""></script><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-iabbr linkhref <link rel="stylesheet" type="text/css" href="" /><Left><Left><Left><Left>
-iabbr ahref <a href=""></a><Left><Left><Left><Left><Left><Left>
-iabbr divclass <div class=""></div><Left><Left><Left><Left><Left><Left><Left><Left>
-iabbr divid <div id=""></div><Left><Left><Left><Left><Left><Left><Left><Left>
-iabbr spanclass <span class=""></span><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-iabbr scriptsrc <script type="text/javascript" src=""></script><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-iabbr scriptt <script type="text/javascript"></script><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+au FileType html,htmldjango iabbr <buffer> linkhref <link rel="stylesheet" type="text/css" href="" /><Left><Left><Left><Left>
+au FileType html,htmldjango iabbr <buffer> ahref <a href=""></a><Left><Left><Left><Left><Left><Left>
+au FileType html,htmldjango iabbr <buffer> divclass <div class=""></div><Left><Left><Left><Left><Left><Left><Left><Left>
+au FileType html,htmldjango iabbr <buffer> divid <div id=""></div><Left><Left><Left><Left><Left><Left><Left><Left>
+au FileType html,htmldjango iabbr <buffer> spanclass <span class=""></span><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+au FileType html,htmldjango iabbr <buffer> spanid <span id=""></span><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+au FileType html,htmldjango iabbr <buffer> scriptsrc <script type="text/javascript" src=""></script><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+au FileType html,htmldjango iabbr <buffer> scriptt <script type="text/javascript"></script><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+au FileType html,htmldjango iabbr <buffer> <!D <!DOCTYPE><Left>
+au FileType html,htmldjango iabbr <buffer> {% {% %}<Left><Left><Left>
+au FileType html,htmldjango iabbr <buffer> {{ {{ }}<left><Left><Left>
 
-iabbr def def():<Left><Left><Left>
-iabbr im import
-iabbr #d #define
+au FileType python iabbr <buffer> def def():<Left><Left><Left>
+au FileType python iabbr <buffer> class class:<Left>
+au FileType python iabbr <buffer> if if:<Left>
+au FileType python iabbr <buffer> elif elif:<Left>
+au FileType python iabbr <buffer> except except:<Left>
+au FileType python,java iabbr <buffer> im import
+au FileType c,cpp iabbr <buffer> #d #define
+au FileType c,cpp iabbr <buffer> #i #include
 
-iabbr <!D <!DOCTYPE><Left>
-iabbr {% {% %}<Left><Left><Left>
-iabbr {{ {{ }}<left><Left><Left>
-iabbr #i #include
+au FileType clojure,lisp setlocal ts=2
 
 " Indentation fix for Python
 " autocmd! BufNewFile,BufRead *.py setlocal ts=4 sw=4 noet
