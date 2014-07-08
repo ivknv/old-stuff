@@ -36,11 +36,18 @@ from note.functions import transform_tags_single
 
 from note.functions import replace_newlines_sim
 
+def requires_authentication(view):
+	def wrapper(request, *args, **kwargs):
+		if not request.user.is_authenticated(): # If user is not logged in
+			return redirect('/login?return={}'.format(request.path))
+		
+		return view(request, *args, **kwargs)
+	
+	return wrapper
+
+@requires_authentication
 def home(request, page_number=1):
 	"""Home page"""
-	
-	if not request.user.is_authenticated(): # If user is not logged in
-		return redirect('/login?return={}'.format(request.path))
 	
 	try:
 		page_number = int(page_number)
@@ -67,12 +74,9 @@ def home(request, page_number=1):
 	}
 	return render_to_response("home.html", context) # Render page
 
+@requires_authentication
 def get_note(request, note_id):
-	"""Get Note by id.
-It's a page"""
-	
-	if not request.user.is_authenticated(): # If user isn't logged in
-		return redirect('/login?return={}'.format(request.path))
+	"""Get Note by id. It's a page"""
 	
 	try: # Sometimes there's no such note
 		note = Note.objects.get(author=request.user.id, id=note_id)
@@ -100,23 +104,19 @@ It's a page"""
 	}
 	return render_to_response("note.html", context) # Render page
 
+@requires_authentication
 def add_note_page(request):
 	"""Add note page"""
 
-	if not request.user.is_authenticated(): # If user is not logged in
-		return redirect('/login?return={}'.format(request.path))
-	
 	return render_to_response(
 		"add_note.html",
 		{},
 		context_instance=RequestContext(request)
 	)
 
+@requires_authentication
 def manage_notes(request, page_number=1):
 	"""Manage notes"""
-	
-	if not request.user.is_authenticated(): # If user is not logged in
-		return redirect('/login?return={}'.format(request.path))
 	
 	try:
 		page_number = int(page_number)
@@ -144,11 +144,9 @@ def manage_notes(request, page_number=1):
 	
 	return render_to_response("manage.html", context) # Render page
 
+@requires_authentication
 def edit(request, note_id):
 	"""Edit note. It's a page"""
-	
-	if not request.user.is_authenticated(): # If user isn't logged in
-		return redirect('/login?return={}'.format(request.path))
 	
 	try: # Sometimes we confuse the digit with a string
 		note_id = int(note_id) # Convert string into integer
@@ -172,11 +170,9 @@ def edit(request, note_id):
 	
 	return render_to_response("edit.html", context) # Render page
 
+@requires_authentication
 def search(request, query, page_number=1):
 	"""Search for notes"""
-	
-	if not request.user.is_authenticated():
-		return redirect('/login?return={}'.format(request.path))
 	
 	context = {"errors": [], "q": query}
 	
@@ -241,12 +237,10 @@ def search(request, query, page_number=1):
 		
 		return render_to_response("search.html", context)
 
+@requires_authentication
 def filter_all_notes(request, tags="", page_number=1):
 	"""Filter all the notes"""
 	
-	if not request.user.is_authenticated():
-		return redirect('/login?return={}'.format(request.path))
-
 	context = {}
 	context["tags"] = tags
 	if tags:
@@ -287,11 +281,9 @@ def filter_all_notes(request, tags="", page_number=1):
 
 	return render_to_response("filter.html", context)
 
+@requires_authentication
 def filter_done(request, tags="", page_number=1):
 	"""Filter checked todo notes"""
-
-	if not request.user.is_authenticated():
-		return redirect('/login?return={}'.format(request.path))
 
 	context = {}
 	context["tags"] = tags
@@ -337,11 +329,9 @@ def filter_done(request, tags="", page_number=1):
 
 	return render_to_response("filter.html", context)
 
+@requires_authentication
 def filter_undone(request, tags="", page_number=1):
 	"""Filter unchecked todo notes"""
-
-	if not request.user.is_authenticated():
-		return redirect('/login?return={}'.format(request.path))
 
 	context = {}
 	context["tags"] = tags
@@ -387,11 +377,9 @@ def filter_undone(request, tags="", page_number=1):
 
 	return render_to_response("filter.html", context)
 
+@requires_authentication
 def filter_snippets(request, tags="", page_number=1):
 	"""Filter snippets"""
-
-	if not request.user.is_authenticated():
-		return redirect('/login?return={}'.format(request.path))
 
 	context = {}
 	context["tags"] = tags
@@ -433,11 +421,9 @@ def filter_snippets(request, tags="", page_number=1):
 
 	return render_to_response("filter.html", context)
 
+@requires_authentication
 def filter_warnings(request, tags="", page_number=1):
 	"""Filter warnings"""
-
-	if not request.user.is_authenticated():
-		return redirect('/login?return={}'.format(request.path))
 
 	context = {}
 	context["tags"] = tags
@@ -479,11 +465,9 @@ def filter_warnings(request, tags="", page_number=1):
 
 	return render_to_response("filter.html", context)
 
+@requires_authentication
 def filter_notes(request, tags="", page_number=1):
 	"""Filter notes"""
-
-	if not request.user.is_authenticated():
-		return redirect('/login?return={}'.format(request.path))
 
 	context = {}
 	context["tags"] = tags
@@ -590,12 +574,12 @@ def login_view(request):
 		context_instance=RequestContext(request)
 	)
 
+@requires_authentication
 def logout_view(request):
 	"""Log out view"""
 	
-	if request.user.is_authenticated():
-		logout(request)
-	return redirect("/")
+	logout(request)
+	return redirect("/login")
 
 def register(request):
 	"""Registration page"""
@@ -690,12 +674,10 @@ def register(request):
 		context_instance=RequestContext(request)
 	   )
 
+@requires_authentication
 def contact(request):
 	"""Contact form"""
 
-	if not request.user.is_authenticated():
-		return redirect('/login?return={}'.format(request.path))
-	
 	if "text" in request.POST and "subject" in request.POST:
 		send_mail(
 			request.POST['subject'],
@@ -716,11 +698,9 @@ def contact(request):
 	
 	return render_to_response("contact.html", RequestContext(request))
 
+@requires_authentication
 def profile(request):
 	"""Profile page"""
-	
-	if not request.user.is_authenticated():
-		return redirect('/login?return={}'.format(request.path))
 	
 	user = request.user
 	username = user.username
@@ -740,11 +720,9 @@ def profile(request):
 		context,
 		context_instance=RequestContext(request, context))
 
+@requires_authentication
 def delete_account(request):
 	"""Delete user account"""
-	
-	if not request.user.is_authenticated():
-		raise Http404
 	
 	if "confirm" in request.POST:
 		confirm = request.POST["confirm"]
@@ -781,14 +759,12 @@ def reset_password(request):
 		post_reset_redirect="/reset/sent"
 	)
 
+@requires_authentication
 def find_similiar_notes(request, note_id, page_number=1):
 	"""Find notes, similiar to some note
 	
 	@param note_id: ID of the note
 	"""
-	
-	if not request.user.is_authenticated():
-		return redirect('/login?return=%s' %request.path)
 	
 	try:
 		page_number = int(page_number)

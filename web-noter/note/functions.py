@@ -4,7 +4,7 @@
 """
 @author: Ivan Konovalov
 
-Functions that used views.py, ajax.py and api.py
+Functions that used by views.py, ajax.py and api.py
 """
 
 import sys # To check Python version
@@ -219,22 +219,22 @@ def place_by_relevance(note, query, splitted=False, lower=False):
 		query = query.lower()
 	if not splitted:
 		query = query.split()
-	count = 0
+	rating = 0
 	title = note.title.lower()
 	text = note.no_html().lower()
 	tags = note.tags.lower()
 	q_in = 0
 	for i in query:
-		count_prev = count
-		count -= title.count(i)
-		count -= text.count(i)
-		count -= tags.count(i)
+		rating_prev = count
+		rating -= title.count(i)
+		rating -= text.count(i)
+		rating -= tags.count(i)
 		if count < count_prev:
 			q_in += 1 
 		if q_in > 1:
-			count *= q_in
+			rating *= q_in
 	return [
-		count,
+		rating,
 		note
 	]
 
@@ -254,8 +254,3 @@ def htmlbody(string, title):
 	</body>
 </html>
 """.format(title, string)
-
-def remove_tags_from_string(string):
-	"""Remove all the HTML tags from string"""
-	
-	return re.sub("<.*?>", "", string)
