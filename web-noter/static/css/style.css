@@ -401,8 +401,7 @@ pre {
 
 .cut {
   display: block;
-  /*box-shadow: inset 0 -15px 15px -15px rgba(171, 171, 171, 1);*/
-  height: 210px;
+  height: 400px;
 }
 
 p {
