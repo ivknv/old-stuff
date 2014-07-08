@@ -1,31 +1,33 @@
 {% extends "base.html" %}
 {% block title %}About{% endblock %}
 {% block content %}
-	<div class="note">
-		<a href="/about/" class="title">About</a>
+	<article class="note">
+		<a href="/about/">
+			<span class="title">About</span>
+		</a>
 		<div class="date">Saturday, 12 April 2014 17:04</div>
 		<p class="text">
-			<h3 id="developers">Who am I?</h3>
-			<p>
-				My name is Ivan Konovalov.<br/>
-				I'm a newbie in programming.<br/>
-				I prefer Python+Django.
-			</p>
 			<h3 id="what-is-noter">What is Noter?</h3>
 			<p>
-				Noter is a site for keeping notes.<br/>
+				Noter is an amazing site for keeping notes.<br/>
+			</p>
+			<h3 id="developers">Who am I?</h3>
+			<p>
+				My name is Ivan Konovalov (<a href="https://plus.google.com/102869158244616762491">Google+ profile</a>).<br/>
+				I'm a programmer.<br/>
+				Programming &#8212; is my hobby and I really enjoy it.
 			</p>
 			<h3 id="why">Why?</h3>
 			<p>
 				Because there's no perfect tool for keeping notes 
 				and Noter is not an exception.<br/>
-				But Noter is created with soul, it has easier <abbr title="User Interface">UI</abbr>, it has evolved from a tiny command line script to a site (and still can be used from a command line), it's <big>open source</big> and it's written in <big>Python</big>.
+				But Noter made differently, it has easier UI and it's open source (<a href="https://github.com/SPython/web-noter.git">Repository on Github</a>).
 			</p>
 			<h3 id="noter-vs-monsters">Noter vs. monsters like Evernote</h3>
 			<p>
 				I'm not trying to say that monsters like Evernote sucks.<br/>
-				I'm just trying to say Noter is much lighter and it's <strong style="font-size: 18px;">definetly</strong> not a monster.<br/>
-				It's easy to use, fully free, simple and new.<br/>
+				I'm just trying to say that Noter is much lighter and it's <strong style="font-size: 18px;">definetly</strong> not a monster.<br/>
+				It's easy to use, fully free and simple.<br/>
 				And what about our monsters?
 				Here's the list:
 				<ol>
@@ -33,22 +35,18 @@
 					<li>With limits of free usage</li>
 					<li>Too Complicated</li>
 				</ol>
-				And even if you're still not impressed I still like Noter because I wrote it by myself, <strong>with soul.</strong><br/>
 			</p>
 			<h3 id="history">History</h3>
 			<p>
-				Actually, It's weird to write history for a common app. But who cares at all?<br/>
-				First I've got an idea to make my own note keeping app after I've got my phone (Huawei U8110) broken.<br/>
-				I used to always keep notes, that was a part of my life. I used ColorNote for Android.<br/>
-				But there was so many ideas...
+				I've got an idea to create Noter after I got my phone (Huawei U8110) broken.<br/>
+				I used to always keep notes, that was a part of my common day. I used ColorNote for Android to do that.<br/>
+				But there was so many things...
 				I had to write them somewhere.<br/>
-				Before it was my phone but what should I do when I have my phone broken?<br/>
-				Of course I could write them on paper but that isn't comfortable.
-				So I decided to create Noter.
-				After few months I also decided to write this site.<br/>
-				And now Noter is one of my favorite projects.
-				I think I will keep it evolving for long time.
+				Before it was my phone but what should I do when it's broken?<br/>
+				Of course I could write them on paper but that's just inconvenient.<br/>
+				So, after some months I decided to create Noter.<br/>
+				Because I wanted to create something my own, with my own suggestions, something that I really need right now.
 			</p>
 		</p>
-	</div>
+	</article>
 {% endblock %}
