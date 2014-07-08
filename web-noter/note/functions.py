@@ -16,6 +16,11 @@ from note.models import Note # To get notes from server's database
 if sys.version_info.major < 3: # If version of Python is lower than 3
 	range = xrange # Use xrange instead of range
 
+def remove_tags_from_string(string):
+	"""Remove all HTML tags from string"""
+	
+	return re.sub("<.*?>", "", string)
+
 def check_similarity_from_strings(string1, string2):
 	"""
 	Split and check similarity of 2 strings.
