@@ -63,6 +63,7 @@ $editButtonBgColor: rgb(26, 129, 223);
 $searchBtnBgColor: rgb(59, 175, 218);
 $filterBtnBgColor: rgb(59, 175, 218);
 $readMoreBgColor: rgb(250, 250, 250);
+$readMoreBorderColor: rgb(218, 218, 218);
 $btnSuccessBgColor: rgb(160, 212, 104);
 $footerGradientColor1: rgb(90, 90, 90);
 $footerGradientColor2: rgb(78, 78, 80);
@@ -77,7 +78,6 @@ $paginationInactiveAColor: rgb(217, 216, 226);
 $paginationLiAColor: rgb(109, 163, 189);
 $fieldBorderColorHover: rgb(59, 175, 218);
 $fieldBorderColor: rgb(170, 178, 189);
-
 
 @mixin linear-gradient($color1, $color2) {
 	background-image: -webkit-gradient(
@@ -115,6 +115,10 @@ $fieldBorderColor: rgb(170, 178, 189);
 	@include transition((background-color $args));
 }
 
+@mixin colorTransition($args: 0.3s) {
+	@include transition((color $args));
+}
+
 .bgColorTransition {
 	@include bgColorTransition();
 }
@@ -135,7 +139,7 @@ $fieldBorderColor: rgb(170, 178, 189);
 }
 
 .colorTransition {
-	@include transition((color 0.3s));
+	@include colorTransition(0.3s);
 }
 
 .btn {
@@ -152,7 +156,7 @@ $fieldBorderColor: rgb(170, 178, 189);
 	&:hover {
 		$hoverColor: $baseColor;
 		
-		@if lightness($hoverColor) <= 94 {
+		@if lightness($hoverColor) <= 100 - $percent {
 			$hoverColor: lighten($hoverColor, $percent);
 		} @else {
 			$hoverColor: darken($hoverColor, $percent);
@@ -168,13 +172,29 @@ $fieldBorderColor: rgb(170, 178, 189);
 	&:hover {
 		$hoverColor: $baseColor;
 		
-		@if lightness($hoverColor) <= 94 {
+		@if lightness($hoverColor) <= 100 - $percent {
 			$hoverColor: lighten($hoverColor, $percent);
 		} @else {
 			$hoverColor: darken($hoverColor, $percent);
 		}
 		
 		color: $hoverColor;
+	}
+}
+
+@mixin setHoverBorderColor($baseColor, $percent: 6%) {
+	border-color: $baseColor;
+	
+	&:hover {
+		$hoverColor: $baseColor;
+		
+		@if lightness($hoverColor) <= 100 - $percent {
+			$hoverColor: lighten($hoverColor, $percent);
+		} @else {
+			$hoverColor: darken($hoverColor, $percent);
+		}
+		
+		border-color: $hoverColor;
 	}
 }
 
@@ -483,10 +503,9 @@ p {
 }
 
 article .title {
-	@include setHoverColor($titleColor, 4.5%);
-	@include transition((opacity 1s ease-in-out, color 0.5s ease-in));
+	@extend .colorTransition;
+	@include setHoverColor($titleColor, 7.5%);
 	margin-bottom: 5px;
-	min-width: 240px;
 	text-decoration: none;
 	font-size: 24px;
 	font-family: "Open Sans Light", Helvetica, Verdana, Arial;
@@ -591,7 +610,7 @@ article .title {
 
 .warning > a .title {
 	font-size: 28px;
-	text-shadow: 0 0 1px rgb(255, 0, 0);
+	border-bottom: 2px solid rgb(255, 0, 0);
 }
 
 .warning > a .title:hover {
@@ -775,13 +794,15 @@ Some inputs
 
 .read-more-btn {
 	@extend .btn;
-	@include setHoverBgColor($readMoreBgColor);
+	@extend .borderColorTransition;
+	@include setHoverBorderColor($readMoreBorderColor, 15%);
 	@include border-radius(6px);
+	background-color: $readMoreBgColor;
 	display: inline-block;
 	padding: 6px 12px;
 	line-height: 1.42;
 	margin: 3px;
-	border: 1px solid rgb(218, 218, 218);
+	border: 1px solid $readMoreBorderColor;
 	color: rgb(17, 34, 51);
 }
 
