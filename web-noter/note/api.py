@@ -83,8 +83,6 @@ def API_getUserInfo(request):
 		id=user.id
 	)
 
-
-
 @csrf_exempt
 def API_getNotes(request):
 	"""Get all the notes"""
@@ -558,11 +556,13 @@ def API_edit_note(request):
 		try:
 			note_id = int(request.POST["id"])
 		except TypeError:
-			return JsonResponse("false", "Note ID must be integer")
+			return JsonResponse("false",
+				message='"Note ID must be integer"')
 		try:
 			note = Note.objects.get(id=note_id)
-		except ObjectDoesNoteExist:
-			return JsonResponse("false", "Requested note doesn't exist")
+		except ObjectDoesNotExist:
+			return JsonResponse("false",
+				message='"Requested note doesn\'t exist"')
 	except AssertionError as error:
 		return JsonResponse("false", message='"'+error.message+'"')
 
