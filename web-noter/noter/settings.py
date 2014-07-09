@@ -29,7 +29,7 @@ DEBUG = False
 
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "web-noter.herokuapp.com"]
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.gmail.com"
