@@ -177,7 +177,7 @@ def search(request, query, page_number=1):
 	context = {"errors": [], "q": query}
 	
 	# Define error messages
-	too_long_error = "Search query can contain no more than 150 symbols"
+	too_long_error = "Search query cannot contain more than 150 symbols"
 	empty_error = "Search query cannot be empty"
 	
 	if query:
@@ -194,27 +194,32 @@ def search(request, query, page_number=1):
 			page_number = 1 # Go to first page
 		
 	else: # If search query is empty
-		context["errors"].append(empty_error) # Append error
+		context["errors"].append(empty_error) # Append error message
 	
 	if not context["errors"]: # If there's no errors
 		found = []
 		sorted_found = [] # Will contain sorted results later
 		notes = Note.objects.filter(author=request.user.id)
 
-		for i in query_splitted:
-			for note in notes:
+		for note in notes:
+			passing = False
+			for i in query_splitted:
 				if i in note.no_html().lower() \
 				or i in note.title.lower() or i in note.tags.lower():
 					if not note in found:
-						found.append(note)
-						sorted_found.append( # Place by relevance
-							place_by_relevance(
-								note,
-								query_splitted,
-								splitted=True,
-								lower=True
-							)
-						)
+						passing = True
+				else:
+					passing = False
+					break
+			
+			if passing:
+				found.append(note)
+				sorted_found.append( # Place by relevance
+					place_by_relevance(
+						note,
+						query_splitted,
+						splitted=True,
+					lower=True))
 			
 		sorted_found.sort()	# Sort notes
 		

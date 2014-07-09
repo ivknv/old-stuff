@@ -235,7 +235,7 @@ def place_by_relevance(note, query, splitted=False, lower=False):
 		rating -= text.count(i)
 		rating -= tags.count(i)
 		if rating < rating_prev:
-			q_in += 1 
+			q_in += 1
 		if q_in > 1:
 			rating *= q_in
 	return [
