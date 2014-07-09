@@ -53,9 +53,9 @@ function load_page(url, filter) {
 		$indicator.css("background-color", "rgb(0, 180, 0)");
 		
 		var req = $.get(url, function(data) {
-			var $realMain = jQuery(".main");
+			var $realMain = jQuery("#main");
 			var $data = jQuery("<div/>").html(data);
-			var $main = $data.find(".main");
+			var $main = $data.find("#main");
 			var $title = $data.find("title");
 			var reg = /#.+$/;
 			window.document.title = $title.text();

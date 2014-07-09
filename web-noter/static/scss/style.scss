@@ -443,7 +443,7 @@ pre {
 	margin: 2px 0;
 }
 
-.main {
+#main {
 	position: relative;
 	max-width: 970px;
 	min-width: 240px;
@@ -463,7 +463,7 @@ pre {
 }
 
 @media screen and (max-width: 920px) {
-	.main {
+	#main {
 		margin-left: 5px;
 		margin-right: 5px;
 	}
@@ -984,4 +984,14 @@ footer ul li a:hover {
 .tag {
 	@extend .colorTransition;
 	@include setHoverColor($tagColor, 13%);
+}
+
+#center-404 {
+	display: block;
+	text-align: center;
+	margin: auto;
+}
+
+#center-404 h1 {
+	font-weight: 100;
 }
