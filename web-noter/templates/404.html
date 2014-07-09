@@ -6,17 +6,24 @@
 		<meta http-equiv="content-language" content="en" />
 		<meta name="copyright" content="Ivan Konovalov" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>404 Not found - Noter</title>
+		<title>
+			{% block title %}Page Not found - Noter{% endblock %}
+		</title>
 		<link rel="stylesheet" type="text/css" href="/static/css/style.min.css" />
 		<link rel="shortcut icon" href="/static/img/noter-icon.png" />
 	</head>
 	<body>
-		<section id="center-404" role="main">
-			<div class="container">
-				<h1>404 &#8212; Page Doesn't Exist</h1>
-				<p>
+		<section id="center-error" role="main">
+			<h1>
+				{% block message-h1 %}
+					404 &#8212; Page Doesn't Exist
+				{% endblock %}
+			</h1>
+			<p>
+				{% block message-p %}
 					You're not supposed to be here. So go <a href="/">back</a>.
-			</div>
+				{% endblock %}
+			</p>
 		</section>
 	</body>
 </html>

@@ -822,10 +822,10 @@ footer ul li a:hover {
   .tag:hover {
     color: #cbcbcb; }
 
-#center-404 {
+#center-error {
   display: block;
   text-align: center;
   margin: auto; }
 
-#center-404 h1 {
+#center-error h1 {
   font-weight: 100; }
