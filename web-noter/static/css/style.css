@@ -308,10 +308,7 @@ pre {
   position: relative;
   max-width: 970px;
   min-width: 240px;
-  overflow: auto;
-  height: auto !important;
-  height: 100%;
-  min-height: 417px;
+  min-height: 100%;
   margin-top: 20px;
   padding-top: 10px;
   padding-right: 15px;
@@ -319,8 +316,18 @@ pre {
   padding-bottom: 10px;
   margin-left: auto;
   margin-right: auto;
-  padding-bottom: 80px;
+  margin-bottom: -180px;
   z-index: 2; }
+
+#main:after {
+  content: "";
+  display: block; }
+
+footer, #main:after {
+  min-height: 180px; }
+
+html, body {
+  height: 100%; }
 
 @media screen and (max-width: 920px) {
   #main {
@@ -707,11 +714,11 @@ Pagination
 ==========
 */
 .pg {
-  position: absolute;
+  position: relative;
   padding: 0;
   padding-bottom: 15px;
-  margin-top: 0;
-  bottom: 0; }
+  margin-top: 15px;
+  margin-bottom: 15px; }
 
 .pg li {
   display: inline;
@@ -745,19 +752,13 @@ footer {
   background-image: -webkit-linear-gradient(bottom, #5a5a5a 0%, #4e4e50 100%);
   background-image: -ms-linear-gradient(bottom, #5a5a5a 0%, #4e4e50 100%);
   background-image: linear-gradient(to bottom, #5a5a5a 0%, #4e4e50 100%);
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  -o-box-sizing: border-box;
   position: relative;
   color: #fefefe;
   margin: 0;
-  margin-top: 79px;
   padding-right: 15px;
   padding-left: 15px;
   padding-bottom: 25px;
-  min-height: 158px; }
+  min-height: 180px; }
 
 footer > div {
   margin: 0 auto;
