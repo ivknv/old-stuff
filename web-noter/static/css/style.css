@@ -758,7 +758,8 @@ footer {
   padding-right: 15px;
   padding-left: 15px;
   padding-bottom: 25px;
-  min-height: 180px; }
+  min-height: 180px;
+  z-index: 3; }
 
 footer > div {
   margin: 0 auto;
