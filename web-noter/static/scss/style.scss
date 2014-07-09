@@ -148,6 +148,7 @@ $fieldBorderColor: rgb(170, 178, 189);
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	cursor: pointer;
+	outline: 0 !important;
 }
 
 @mixin setHoverBgColor($baseColor, $percent: 6%) {
@@ -823,6 +824,7 @@ Some inputs
 	border: 2px solid rgb(39, 155, 198);
 	color: rgb(254, 254, 254) !important;
 	font-size: 15px;
+	font-family: "Open Sans Light", Arial;
 	margin-left: -6px;
 	padding: 6px 12px;
 	line-height: 1.42;
