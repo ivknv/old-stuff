@@ -1,83 +1,84 @@
 /*
-@FONTS
-==========
-Load fonts
-==========
-*/
+@TABLE @CONTENTS
+=================
+Table of contents
+=================
 
-@font-face {
-	font-family: "Open Sans Light";
-	src: url(/static/fonts/OpenSans-Light.ttf) format("truetype");
-}
+You can find every section by searching for special marks.
+
+In most regular editors to find text you need to press Ctrl-F.
+Press / in normal mode if using Vi(m).
+
+Every mark starts with @ and is always UPPERCASE.
+
+@EXAMPLE - this is a mark.
+
+In this table backslashes (\) are added after @ sign to exclude
+them from search.
+
+0. Table of contents @\TABLE @\CONTENTS
+1. Sass functions and variables @\SASS @\FUNCTIONS @\VARS
+2. Fonts @\FONTS
+3. CSS reset @\CSSRESET @\RESET
+4. Base classes @\BASE @\CLASS
+5. Site style @\STYLE
+6. Buttons @\BTN
+7. Text fields @\INPUT @\FIELD
+8. Pagination @\PAGINATION
+9. Footer @\FOOTER
+10. Error pages style @\ERROR
+
+*/
 
 /*
-@RESET
-=========
-CSS reset
-=========
-@CSSRESET
+@SASS @FUNCTIONS @VARS
+============================
+SASS functions and variables
+============================
+
+Here You can find variables that hold elements colors and
+shortcut functions
+
 */
 
-html, body, div, span,
-h1, h2, h3, h4, h5, h6, p, pre,
-a, code, img, kbd, samp,
-small, var,
-form, label,
-article, aside, canvas,
-footer, header, hgroup, 
-nav, section,
-time {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
+$aColor: rgb(0, 155, 255);
 
-mark {
-	padding: 0;
-	border: none;
-	font-family: inherit;
-	vertical-align: baseline;
-	font-size: 100%;
-	background-color: rgb(255, 255, 0);
-	box-shadow: inset 0 0 20px rgb(255, 255, 255);
-}
-
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
+$btnBlueBgColor: rgb(59, 175, 218);
+$btnSuccessBgColor: rgb(160, 212, 104);
 
 $codeBgColor: rgb(249, 242, 244);
 $codeColor: rgb(199, 37, 78);
-$btnBlueBgColor: rgb(59, 175, 218);
-$aColor: rgb(0, 155, 255);
-$tagBtnColor: rgb(101, 109, 120);
-$tagColor: rgb(170, 170, 170);
-$titleColor: rgb(86, 174, 61);
+
 $editButtonBgColor: rgb(26, 129, 223);
-$editButtonBgColor: rgb(26, 129, 223);
-$searchBtnBgColor: rgb(59, 175, 218);
+
+$fieldBorderColorHover: rgb(59, 175, 218);
+$fieldBorderColor: rgb(170, 178, 189);
+
 $filterBtnBgColor: rgb(59, 175, 218);
-$readMoreBgColor: rgb(250, 250, 250);
-$readMoreBorderColor: rgb(218, 218, 218);
-$btnSuccessBgColor: rgb(160, 212, 104);
+
+$footerAColor: rgb(170, 178, 189);
+$footerCopyrightColor: rgb(230, 233, 237);
 $footerGradientColor1: rgb(90, 90, 90);
 $footerGradientColor2: rgb(78, 78, 80);
+$footerTitleColor: rgb(247, 250, 254);
+
 $headerGradientColor1: rgb(100, 100, 100);
 $headerGradientColor2: rgb(71, 71, 71);
-$footerAColor: rgb(170, 178, 189);
-$footerTitleColor: rgb(247, 250, 254);
-$footerCopyrightColor: rgb(230, 233, 237);
+
 $paginationCurrentABg: rgb(241, 241, 241);
 $paginationCurrentAColor: rgb(0, 0, 0);
 $paginationInactiveAColor: rgb(217, 216, 226);
 $paginationLiAColor: rgb(109, 163, 189);
-$fieldBorderColorHover: rgb(59, 175, 218);
-$fieldBorderColor: rgb(170, 178, 189);
+
+$readMoreBgColor: rgb(250, 250, 250);
+$readMoreBorderColor: rgb(218, 218, 218);
+
+$searchBtnBgColor: rgb(59, 175, 218);
+
+$tagBtnColor: rgb(101, 109, 120);
+$tagColor: rgb(170, 170, 170);
+
+$titleColor: rgb(86, 174, 61);
 
 @mixin linear-gradient($color1, $color2) {
 	background-image: -webkit-gradient(
@@ -117,38 +118,6 @@ $fieldBorderColor: rgb(170, 178, 189);
 
 @mixin colorTransition($args: 0.3s) {
 	@include transition((color $args));
-}
-
-.bgColorTransition {
-	@include bgColorTransition();
-}
-
-.borderColorTransition {
-	@include transition((border-color 0.3s));
-}
-
-.field {
-	@extend .borderColorTransition;
-	font-family: "Open Sans Light", Verdana, Tahoma, Times, Arial;
-	outline: 0;
-}
-
-.field:hover, .field:focus {
-	border-color: $fieldBorderColorHover;
-	outline: 0;
-}
-
-.colorTransition {
-	@include colorTransition(0.3s);
-}
-
-.btn {
-	@extend .bgColorTransition;
-	user-select: none;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	cursor: pointer;
-	outline: 0 !important;
 }
 
 @mixin setHoverBgColor($baseColor, $percent: 6%) {
@@ -207,37 +176,185 @@ $fieldBorderColor: rgb(170, 178, 189);
 	-ms-border-radius: $radius;
 }
 
+/*
+@FONTS
+==========
+Load fonts
+==========
+
+This section is for loading fonts.
+
+*/
+
+@font-face {
+	font-family: "Open Sans Light";
+	src: url(/static/fonts/OpenSans-Light.ttf) format("truetype");
+}
+
+/*
+@RESET
+=========
+CSS reset
+=========
+@CSSRESET
+
+This section is for CSS reset
+
+*/
+
+html, body, div, span,
+h1, h2, h3, h4, h5, h6, p, pre,
+a, code, img, kbd, samp,
+small, var,
+form, label,
+article, aside, canvas,
+footer, header, hgroup, 
+nav, section,
+time {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+/*
+@BASE @CLASS
+============
+Base classes
+============
+
+The base classes are defined in this section.
+They're used to make CSS code shorter.
+
+*/
+
+.bgColorTransition {
+	/*Enable background-color transition*/
+	
+	@include bgColorTransition();
+}
+
+.borderColorTransition {
+	/*Enable border-color transition*/
+	
+	@include transition((border-color 0.3s));
+}
+
+.field {
+	/*Base class for fields*/
+	
+	@extend .borderColorTransition;
+	font-family: "Open Sans Light", Verdana, Tahoma, Times, Arial;
+	outline: 0;
+}
+
+.field:hover, .field:focus {
+	border-color: $fieldBorderColorHover;
+	outline: 0;
+}
+
+.colorTransition {
+	/*Enables color transition*/
+	
+	@include colorTransition(0.3s);
+}
+
+.btn {
+	/*Base class for buttons*/
+	
+	@extend .bgColorTransition;
+	cursor: pointer;
+	outline: 0 !important;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+/*
+@STYLE
+==========
+Site style
+==========
+
+This section defines style of tags like a, code, mark, kbd, displaying notes, progress bar, header and more.
+
+*/
+
+body {
+	background-attachment: scroll;
+	background-color: transparent;
+	background-image: url("/static/img/background_greyzz.png");
+	background-repeat: repeat;
+	font-family: "Open Sans Light", Arial;
+	line-height: 1.42587;
+	z-index: 1;
+}
+
+mark {
+	padding: 0;
+	border: none;
+	font-family: inherit;
+	vertical-align: baseline;
+	font-size: 100%;
+	background-color: rgb(255, 255, 0);
+	box-shadow: inset 0 0 20px rgb(255, 255, 255);
+}
+
 code {
-	display: inline-block;
+	@include border-radius(4px);
 	background-color: $codeBgColor;
 	color: $codeColor;
-	padding: 2px 4px;
-	line-height: 1.42857;
-	@include border-radius(4px);
+	display: inline-block;
 	font-size: 90%;
-	margin-top: 1px;
+	line-height: 1.42857;
 	margin-bottom: 1px;
+	margin-top: 1px;
+	padding: 2px 4px;
+}
+
+.label {
+	/*Custom label class for text fields*/
+	
+	color: black;
+	font-family: Arial;
+	font-size: 10.5px;
+	font-weight: bold;
+	line-height: 1.2;
+	padding: 3px;
+	text-align: center;
 }
 
 kbd {
+	/*Used for displaying keyboard commands*/
+	
 	@include border-radius(4px);
-	display: inline-block;
 	background-color: rgb(51, 51, 51);
 	color: rgb(255, 255, 255);
-	padding: 2px 4px;
+	display: inline-block;
 	line-height: 1.42587;
 	margin-bottom: 1px;
 	margin-top: 1px;
+	padding: 2px 4px;
 }
 
 img {
-	max-width: 100%;
+	/*Responisve image*/
+	
 	max-height: 100%;
+	max-width: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-weight: bold;
 	color: rgb(67, 74, 84);
+	font-weight: bold;
 }
 
 h2 {
@@ -265,70 +382,49 @@ h6 {
 }
 
 p {
-	margin-top: 5px;
 	margin-bottom: 5px;
-}
-
-/*
-@STYLYING
-============
-Site styling
-============
-@STYLE
-*/
-
-body {
-	z-index: 1;
-	background-image: url("/static/img/background_greyzz.png");
-	background-repeat: repeat;
-	background-attachment: scroll;
-	font-family: "Open Sans Light", Arial;
-	background-color: transparent;
-	line-height: 1.42587;
+	margin-top: 5px;
 }
 
 a {
+	/*Link*/
 	@extend .colorTransition;
 	@include setHoverColor($aColor, 20%);
-	text-decoration: none;
 	outline: 0;
-}
-
-.wrapper h1 {
-	color: rgb(245, 245, 245);
-	margin-top: 0;
+	text-decoration: none;
 }
 
 .wrapper header {
-	position: relative;
-	display: block;
+	/*Header*/
+	
 	@include linear-gradient($headerGradientColor1, $headerGradientColor2);
-	min-height: 55px;
-	max-height: 125px;
 	color: rgb(245, 245, 245);
-	padding-bottom: 8px;
+	display: block;
+	max-height: 125px;
+	min-height: 55px;
 	min-width: 240px;
+	padding-bottom: 8px;
+	position: relative;
 }
 
 .container {
-	min-width: 240px;
-	max-width: 970px;
 	margin: 0 auto;
+	max-width: 970px;
+	min-width: 240px;
 	padding: 0 15px;
 }
 
 .next, .previous {
-	position: absolute;
-	bottom: 0;
 	margin: 15px;
+	position: relative;
 }
 
 .next {
-	right: 0;
+	float: right;
 }
 
 .previous {
-	left: 0;
+	float: left;
 }
 
 .checked .title {
@@ -340,43 +436,45 @@ a {
 }
 
 pre {
-	padding: 0;
-	font-size: 14px;
 	font-family: Monospace, Courier, Sans-serif;
+	font-size: 14px;
 	line-height: 1.1;
-	word-wrap: break-word;
+	padding: 0;
 	white-space: pre-wrap;
 	white-space: -moz-pre-wrap;
 	white-space: -o-pre-wrap;
 	white-space: -pre-wrap;
-}
-
-#s {
-	vertical-align: top;
+	word-wrap: break-word;
 }
 
 .date {
+	/*Date block*/
+	
 	font-family: Times;
-	margin: 2px;
 	font-size: 13px;
+	margin: 2px 0;
 }
 
 .wrapper header nav {
+	/*Site navigation in header*/
+	
 	display: inline-block;
-	margin-right: 16px;
 	margin-bottom: 5px;
+	margin-right: 16px;
 }
 
 .wrapper header nav a {
-	padding: 4px;
-	margin-left: -3px;
+	/*Link in header*/
+	
     font-weight: bold;
+	margin-left: -3px;
+	padding: 4px;
 }
 
 #search_box {
 	display: inline-block;
-	max-width: 275px;
 	margin: 0 3px;
+	max-width: 275px;
 }
 
 #search_box, #search_box > span {
@@ -387,14 +485,18 @@ pre {
 	vertical-align: bottom;
 }
 
-.tag-btn {
-	@extend .btn;
-	@include border-radius(5px);
-	@include setHoverBgColor($tagBtnColor, 10%);
-	display: inline-block;
-	margin: 3px;
-	padding: 6px 12px;
-	color: rgb(254, 254, 254);
+#progress-indicator {
+	@include bgColorTransition(1s);
+	background-color: white;
+	display: none;
+	height: 2px;
+	position: fixed;
+	z-index: 4;
+}
+
+.tag {
+	@extend .colorTransition;
+	@include setHoverColor($tagColor, 13%);
 }
 
 .wrapper {
@@ -403,60 +505,46 @@ pre {
 }
 
 .wrapper h1 {
+	/*Site title in header*/
+	
+	color: rgb(245, 245, 245);
 	display: inline-block;
 	font-family: Arial, Verdana, Tahoma;
 	font-size: 40px;
 	font-weight: 100;
 	margin-right: 16px;
+	margin-top: 0;
 }
 
 .margin-bottom {
+	/*Simple block to separate elements*/
+	
 	display: block;
-	padding-right: 1px;
-	padding-left: 1px;
 	padding-bottom: 5px;
-}
-
-.pagination .active > a, .pagination .disabled > a {
-	padding: 6px 5px 6px 5px;
-	@include border-radius(2px);
-}
-
-.pagination > li > .current {
-	background-color: rgb(245, 245, 245);
-	cursor: default;
-}
-
-.pagination > li > .current:hover {
-	color: rgb(67, 74, 84);
-	background-color: rgb(245, 245, 245);
-}
-
-.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span {
-	cursor: pointer;
+	padding-left: 1px;
+	padding-right: 1px;
+	margin-bottom: 10px;
 }
 
 .preview {
 	font-family: "Courier New", Monospace;
 }
 
-.date {
-	margin: 2px 0;
-}
-
 #main {
-	position: relative;
-	max-width: 970px;
-	min-width: 240px;
-	min-height: 100%;
-	margin-top: 20px;
-	padding-top: 10px;
-	padding-right: 15px;
-	padding-left: 15px;
-	padding-bottom: 10px;
+	/*Main block*/
+	
+	margin-bottom: -180px;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: -180px;
+	margin-top: 20px;
+	max-width: 970px;
+	min-height: 100%;
+	min-width: 240px;
+	padding-bottom: 10px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 10px;
+	position: relative;
 	z-index: 2;
 }
 
@@ -493,9 +581,11 @@ html, body {
 }
 
 .text {
+	/*Note text*/
+	
 	display: block;
-	min-width: 240px;
 	font-size: 18px;
+	min-width: 240px;
 	overflow: hidden;
 	padding-bottom: 5px;
 }
@@ -507,26 +597,28 @@ html, body {
 
 p {
 	font-family: "Open Sans Light", Verdana, Arial;
-	margin-top: 10px;
 	margin-bottom: 10px;
+	margin-top: 10px;
 	z-index: 3;
 }
 
 article .title {
+	/*Note title*/
+	
 	@extend .colorTransition;
 	@include setHoverColor($titleColor, 7.5%);
+	font-family: "Open Sans Light", Helvetica, Verdana, Arial;
+	font-size: 24px;
+	font-weight: bold;
 	margin-bottom: 5px;
 	text-decoration: none;
-	font-size: 24px;
-	font-family: "Open Sans Light", Helvetica, Verdana, Arial;
-	font-weight: bold;
 }
 
 .note, .todo, .snippet, .warning {
-	word-wrap: break-word;
-	padding-bottom: 15px;
 	max-width: 1000px;
 	min-width: 240px;
+	padding-bottom: 15px;
+	word-wrap: break-word;
 }
 
 .snippet pre {
@@ -539,9 +631,10 @@ article .title {
 	}
 
 	50% {
-		opacity: 1;
 		color: rgb(255, 0, 0);
+		opacity: 1;
 		text-shadow: 0 0 2px rgb(255, 0, 0);
+
 	}
 	
 	100% {
@@ -555,8 +648,8 @@ article .title {
 	}
 
 	50% {
-		opacity: 1;
 		color: rgb(255, 0, 0);
+		opacity: 1;
 		text-shadow: 0 0 2px rgb(255, 0, 0);
 	}
 	
@@ -571,8 +664,8 @@ article .title {
 	}
 
 	50% {
-		opacity: 1;
 		color: rgb(255, 0, 0);
+		opacity: 1;
 		text-shadow: 0 0 2px rgb(255, 0, 0);
 	}
 	
@@ -587,8 +680,8 @@ article .title {
 	}
 
 	50% {
-		opacity: 1;
 		color: rgb(255, 0, 0);
+		opacity: 1;
 		text-shadow: 0 0 2px rgb(255, 0, 0);
 	}
 	
@@ -603,8 +696,8 @@ article .title {
 	}
 
 	50% {
-		opacity: 1;
 		color: rgb(255, 0, 0);
+		opacity: 1;
 		text-shadow: 0 0 2px rgb(255, 0, 0);
 	}
 	
@@ -619,8 +712,8 @@ article .title {
 }
 
 .warning > a .title {
-	font-size: 28px;
 	border-bottom: 2px solid rgb(255, 0, 0);
+	font-size: 28px;
 }
 
 .warning > a .title:hover {
@@ -631,48 +724,40 @@ article .title {
 	-ms-animation: 3s warning-blink infinite;
 }
 
-.edit_button {
-	@include border-radius(5px);
-	@include setHoverBgColor($editButtonBgColor);
-	display: inline-block;
-	margin-bottom: 50px;
-	padding: 6px 12px;
-	vertical-align: middle;
-	max-width: 40px;
-	min-width: 30px;
-	text-align: center;
-	border: 2px solid rgb(6, 109, 203);
-	color: rgb(255, 255, 255);
-}
-
 .error {
+	/*Used in popups to show an error*/
+	
 	color: rgb(255, 0, 0);
 }
 
 .success {
+	/*Used in popups to let user know that everything is fine*/
+	
 	color: rgb(0, 128, 0);
 }
 
 .remove-dialog {
-	position: fixed;
-	display: none;
-	z-index: 3;
-	overflow: auto;
-	width: 290px;
-	height: 180px;
-	margin: auto;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	font-size: 13px;
+	/*Remove dialog on /manage/ page*/
+	
 	background-color: rgb(255, 221, 135);
+	bottom: 0;
+	display: none;
+	font-size: 13px;
+	height: 180px;
+	left: 0;
+	margin: auto;
+	overflow: auto;
 	padding: 5px;
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 290px;
+	z-index: 4;
 }
 
 .remove-dialog .btn-success {
-	position: absolute;
 	bottom: 0;
+	position: absolute;
 }
 
 #proceed {
@@ -684,188 +769,234 @@ article .title {
 }
 
 #result {
+	/*Popup*/
+	
 	@include border-radius(8px);
-	position: fixed;
+	bottom: 0;
+	color: 14px;
 	display: none;
-	z-index: 1001;
-	width: 241px;
 	height: 1em;
+	left: 0;
 	margin: auto;
 	padding: 15px;
-	left: 0;
+	position: fixed;
 	right: 0;
-	top: 0;
-	bottom: 0;
 	text-align: center;
+	top: 0;
 	vertical-align: middle;
-	color: 14px;
+	width: 241px;
+	z-index: 5;
 }
 
 .okay {
-	border: 2px solid rgb(165, 203, 124);
 	background-color: rgb(185, 223, 144);
+	border: 2px solid rgb(165, 203, 124);
 
 }
 
 .fail {
-	border: 2px solid rgb(225, 114, 126);
 	background-color: rgb(242, 131, 143);
+	border: 2px solid rgb(225, 114, 126);
 }
 
 .close {
-	float: right;
 	color: rgb(255, 0, 0);
-	font-size: 24px;
 	cursor: pointer;
+	float: right;
 	font-family: Tahoma;
-	font-weight: bold;
+	font-size: 24px;
 	font-variant: ultra-expanded;
-}
-
-.margin-bottom {
-	margin-bottom: 10px;
+	font-weight: bold;
 }
 
 /*
-@INPUT @BTN
-===========
-Some inputs
-===========
+@BTN
+=======
+Buttons
+=======
+
+This includes classes for displaying buttons.
+
 */
 
-.search-btn {
+.tag-btn {
+	/*This button used to place tags in tag field*/
+	
 	@extend .btn;
-	@include setHoverBgColor($searchBtnBgColor, 10%);
-	@include border-radius((0 15px 15px 0));
-	display: inline-block;
-	margin-left: -6px;
-	padding: 3px 12px 3px 12px;
+	@include border-radius(5px);
+	@include setHoverBgColor($tagBtnColor, 10%);
 	color: rgb(254, 254, 254);
-	text-align: center;
-	font-size: 15px;
-	line-height: 1.7;
+	display: inline-block;
+	margin: 3px;
+	padding: 6px 12px;
 }
 
-.text-field {
-	@extend .field;
-	@include border-radius((15px 0 0 15px));
-	height: 30px;
-	vertical-align: top;
-	border: 1px solid $fieldBorderColor;
-	border-right: 1px solid $fieldBorderColorHover;
-	padding-left: 15px;
-	padding-right: 3px;
-	font-size: 15px;
-	min-width: 120px;
-	margin: 0;
-	padding-top: 0;
-	padding-bottom: 0;
+.edit_button {
+	@include border-radius(5px);
+	@include setHoverBgColor($editButtonBgColor);
+	border: 2px solid rgb(6, 109, 203);
+	color: rgb(255, 255, 255);
+	display: inline-block;
+	margin-bottom: 50px;
+	max-width: 40px;
+	min-width: 30px;
+	padding: 6px 12px;
+	text-align: center;
+	vertical-align: middle;
 }
 
 .filter-btn {
+	/*Placed near to filter-field*/
+	
 	@extend .btn;
 	@include setHoverBgColor($filterBtnBgColor);
-	display: inline-block;
 	color: rgb(254, 254, 254);
+	display: inline-block;
 	font-size: 15px;
+	line-height: 1.45;
 	margin-left: -6px;
 	padding: 3px 12px 3px 12px;
-	line-height: 1.45;
 }
 
-.filter-field {
-	@extend .field;
-	height: 26px;
-	padding-left: 5px;
-	padding-right: 3px;
-	border: 1px solid $fieldBorderColor;
-	border-right: 1px solid $fieldBorderColorHover;
-	min-width: 165px;
+.search-btn {
+	/*Used to submit search query*/
+	
+	@extend .btn;
+	@include setHoverBgColor($searchBtnBgColor, 10%);
+	@include border-radius((0 15px 15px 0));
+	color: rgb(254, 254, 254);
+	display: inline-block;
 	font-size: 15px;
-	vertical-align: top;
-	margin: 0;
-	padding-top: 0;
-	padding-bottom: 0;
-}
-
-.input-field {
-	@extend .field;
-	@include border-radius();
-	@include box-sizing();
-	display: block;
-	height: 27px;
-	font-size: 14px;
-	border: 1px solid $fieldBorderColor;
-	margin: 0;
-	margin-top: 3px;
-	padding-left: 5px;
-	width: 100%;
+	line-height: 1.7;
+	margin-left: -6px;
+	padding: 3px 12px 3px 12px;
+	text-align: center;
 }
 
 .read-more-btn {
+	/*Read more button. Should be light.*/
+	
 	@extend .btn;
 	@extend .borderColorTransition;
 	@include setHoverBorderColor($readMoreBorderColor, 15%);
 	@include border-radius(6px);
 	background-color: $readMoreBgColor;
-	display: inline-block;
-	padding: 6px 12px;
-	line-height: 1.42;
-	margin: 3px;
 	border: 1px solid $readMoreBorderColor;
 	color: rgb(17, 34, 51);
-}
-
-.label {
-	font-size: 10.5px;
-	font-family: Arial;
-	font-weight: bold;
-	color: black;
-	padding: 3px;
-	text-align: center;
-	line-height: 1.2;
+	display: inline-block;
+	line-height: 1.42;
+	margin: 3px;
+	padding: 6px 12px;
 }
 
 .btn-blue {
+	/*Simple blue button. Used to submit forms.*/
+	
 	@extend .btn;
-	@include setHoverBgColor($btnBlueBgColor, 9.5%);
 	@include border-radius(5px);
-	display: inline-block;
+	@include setHoverBgColor($btnBlueBgColor, 9.5%);
 	border: 2px solid rgb(39, 155, 198);
 	color: rgb(254, 254, 254) !important;
-	font-size: 15px;
+	display: inline-block;
 	font-family: "Open Sans Light", Arial;
+	font-size: 15px;
+	line-height: 1.42;
 	margin-left: -6px;
 	padding: 6px 12px;
-	line-height: 1.42;
 }
 
-.textarea-field {
+.btn-success {
+	/*Used for various things, sometimes to submit forms.*/
+	
+	@extend .btn;
+	@include border-radius(5px);
+	@include setHoverBgColor($btnSuccessBgColor);
+	border: 2px solid rgb(150, 202, 94);
+	box-shadow: none;
+	color: rgb(254, 254, 254);
+	font-size: 15px;
+	display: inline-block;
+	line-height: 1.42;
+	margin: 3px;
+	outline: 0;
+	padding: 6px 12px 6px 12px;
+}
+
+/*
+@INPUT
+===========
+Text fields
+===========
+@FIELD
+
+This section includes classes for displaying text fields.
+
+*/
+
+.text-field {
+	/*Search field with highly rounded corners.*/
+	
+	@extend .field;
+	@include border-radius((15px 0 0 15px));
+	border: 1px solid $fieldBorderColor;
+	border-right: 1px solid $fieldBorderColorHover;
+	font-size: 15px;
+	height: 30px;
+	margin: 0;
+	min-width: 120px;
+	padding-bottom: 0;
+	padding-left: 15px;
+	padding-right: 3px;
+	padding-top: 0;
+	vertical-align: top;
+}
+
+.filter-field {
+	/*Used on /filter/ page*/
+	
+	@extend .field;
+	border: 1px solid $fieldBorderColor;
+	border-right: 1px solid $fieldBorderColorHover;
+	font-size: 15px;
+	height: 26px;
+	margin: 0;
+	min-width: 165px;
+	padding-bottom: 0;
+	padding-left: 5px;
+	padding-right: 3px;
+	padding-top: 0;
+	vertical-align: top;
+}
+
+.input-field {
+	/*Simple input field. Used with <input> tag.*/
+	
 	@extend .field;
 	@include border-radius();
 	@include box-sizing();
+	border: 1px solid $fieldBorderColor;
+	display: block;
+	font-size: 14px;
+	height: 27px;
+	padding-left: 5px;
+	margin: 0;
+	margin-top: 3px;
+	width: 100%;
+}
+
+.textarea-field {
+	/*Simple textarea field. Used with <textarea> tag.*/
+	
+	@extend .field;
+	@include border-radius();
+	@include box-sizing();
+	border: 1px solid $fieldBorderColor;
 	display: block;
 	font-size: 15px;
-	border: 1px solid $fieldBorderColor;
 	margin: 0;
 	margin-top: 3.5px;
 	padding-left: 5px;
 	width: 100%;
-}
-
-.btn-success {
-	@extend .btn;
-	@include setHoverBgColor($btnSuccessBgColor);
-	@include border-radius(5px);
-	display: inline-block;
-	border: 2px solid rgb(150, 202, 94);
-	box-shadow: none;
-	outline: 0;
-	color: rgb(254, 254, 254);
-	font-size: 15px;
-	padding: 6px 12px 6px 12px;
-	margin: 3px;
-	line-height: 1.42;
 }
 
 /*
@@ -873,38 +1004,54 @@ Some inputs
 ==========
 Pagination
 ==========
+
+This section is responsible how page navigation will look.
+
 */
 
 .pg {
-	position: relative;
+	/*Main pagination block. Must be <ul>*/
+	
+	margin-bottom: 15px;
+	margin-top: 15px;
 	padding: 0;
 	padding-bottom: 15px;
-	margin-top: 15px;
-	margin-bottom: 15px;
+	position: relative;
 }
 
 .pg li {
+	/*Pagination element.*/
+	
 	display: inline;
 	list-style: none;
 }
 
 .pg li a {
-	font-size: 18px;
+	/*Link inside pagination block.*/
+	
 	color: $paginationLiAColor;
+	font-size: 18px;
 	padding: 3px 8px;
 }
 
 .pg li:not(.inactive):not(.current) a:hover {
+	/*Display underline at every in pagination block if it's active and
+	is not link to current page.*/
+	
 	text-decoration: underline;
 }
 
 .pg .inactive a {
+	/*Inactive elements in pagination block.*/
+	
 	color: $paginationInactiveAColor;
 }
 
 .pg .current a {
-	color: $paginationCurrentAColor;
+	/*Current page element.*/
+	
 	background-color: $paginationCurrentABg;
+	color: $paginationCurrentAColor;
 }
 	
 /*
@@ -912,66 +1059,87 @@ Pagination
 ==============
 Footer styling
 ==============
+
+This section defines footer style.
+
 */
 
 footer {
+	/*Main footer block*/
+	
 	@include linear-gradient($footerGradientColor1, $footerGradientColor2);
-	position: relative;
 	color: rgb(254, 254, 254);
 	margin: 0;
-	padding-right: 15px;
-	padding-left: 15px;
-	padding-bottom: 25px;
 	min-height: 180px;
-	z-index: 3;
+	padding-bottom: 25px;
+	padding-left: 15px;
+	padding-right: 15px;
+	position: relative;
+	z-index: 2;
 }
 
 footer > div {
+	/*Centered block inside footer*/
+	
 	margin: 0 auto;
 	max-width: 665px;
 }
 
 footer ul:last-child {
+	/*Last element inside footer shouldn't have margin to the right*/
+
 	margin-right: 0;
 }
 
 footer ul .title {
-	font-size: 14px;
+	/*Footer heading style*/
+	
 	color: $footerTitleColor;
+	font-size: 14px;
 }
 
 footer ul {
+	/*Unordered list of links in footer*/
+	
 	display: inline-block;
-	padding: 0;
 	margin-right: 6%;
+	padding: 0;
 	vertical-align: top;
 }
 
 footer ul li {
-	list-style: none;
+	/*Element inside the list*/
+	
 	display: block;
+	list-style: none;
 }
 
 footer ul li a {
+	/*Link in footer*/
+	
 	color: $footerAColor;
 	font-size: 14px;
 }
 		
 footer .copyright-center {
-	display: block;
-	text-align: center;
-	font-size: 14px;
+	/*Copyright text block*/
+	
 	color: $footerCopyrightColor;
+	display: block;
+	font-size: 14px;
 	padding-top: 15px;
+	text-align: center;
 }
 
 footer .copyright-center div {
-	position: absolute;
-	left: 0;
-	right: 0;
+	/*Subblock at copyright text block*/
+	
 	bottom: 0;
-	padding-top: 15px;
+	left: 0;
 	margin-bottom: 5px;
+	padding-top: 15px;
+	position: absolute;
+	right: 0;
 }
 
 footer ul li a:hover {
@@ -982,24 +1150,23 @@ footer ul li a:hover {
 	font-size: 14px;
 }
 
-#progress-indicator {
-	@include bgColorTransition(1s);
-	display: none;
-	position: fixed;
-	height: 2px;
-	background-color: white;
-	z-index: 4;
-}
+/*
+@ERROR
+================
+Error page style
+================
 
-.tag {
-	@extend .colorTransition;
-	@include setHoverColor($tagColor, 13%);
-}
+This section is responsible for style of pages like '404 not found' or
+'500 internal server error'
+
+*/
 
 #center-error {
+	/*Main block for error page*/
+	
 	display: block;
-	text-align: center;
 	margin: auto;
+	text-align: center;
 }
 
 #center-error h1 {
