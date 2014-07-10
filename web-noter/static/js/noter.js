@@ -473,7 +473,7 @@ function PlaceReadMoreButtons() {
 		$note.each(function(i, e) {
 			var $text = $(this).find(".text");
 			var $snippet = $(this).find("pre");
-			if (parseInt($text.css("height")) > 210) {
+			if (parseInt($text.css("height")) > 400) {
 				$text.addClass("cut");
 				var href = $(this).find("a").attr("href");
 				$(this).append("<a href='"+href+"' onclick='load_page(\""+href+"\"); return false;'><div class='read-more-btn'>Continue reading</div></a>");
