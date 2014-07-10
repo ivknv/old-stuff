@@ -10,5 +10,6 @@ It's written in Python, using Django.
 5. Supports 4 types of notes: normal note, todo, code snippet and warning
 6. API
 7. Responsive design
+8. Open source. You can always improve/add/fix something.
 
 [More info](http://web-noter.herokuapp.com/about)
