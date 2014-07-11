@@ -66,15 +66,7 @@ def add_note(request):
 	else: # If there's no errors
 		context["success"] = True
 	
-	if not context["success"]:
-		return render_to_response('/add/', {
-			"title": title,
-			"text": text,
-			"tags": tags,
-			"type": type_
-		}, context_instance=RequestContext(request))
-	
-	return redirect("/manage/")
+	return HttpResponse(json.dumps(context))
 
 def remove_note(request):
 	"""Remove note"""

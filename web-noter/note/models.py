@@ -1,7 +1,5 @@
 from django.db import models
 
-from django.contrib import admin
-
 from django.conf import settings
 
 import sys, re
@@ -74,8 +72,3 @@ class Note(models.Model):
 		self.text = re.sub(r1, "", self.text)
 		self.text = re.sub(r2, "", self.text)
 		super(Note, self).save(*args, **kwargs)
-
-class NoteAdmin(admin.ModelAdmin):
-	list_display = ("title", "author", "type", "date")
-
-admin.site.register(Note, NoteAdmin)

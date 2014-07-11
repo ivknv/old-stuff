@@ -172,9 +172,13 @@ function fail(str) {
 	return wrapper;
 }
 
-function success(str, failStr) {
+function success(str, failStr, redirect) {
 	function wrapper(data) {
 		if (data.success) {
+			if (redirect) {
+				load_page(redirect);
+				return;
+			}
 			$result = jQuery("#result");
 			$result.attr("class", "okay");
 			$result.html("<strong class='success'>"+str+"</strong>");
@@ -239,8 +243,10 @@ function edit(id, newTitle, newText, newTags, checked) {
 	result.fail(fail("Failed to update note"));
 }
 
-function add(title, text, tags, todo) {
-	var result = $.post("/addnote/", {"title": title, "text": text, "tags": tags, "todo": todo}, success("Successfully added note", "Failed to add note"), "json");
+function add(title, text, tags, type) {
+	var result = $.post("/addnote/", {"title": title, "text": text, "tags":
+tags, "type": type}, success("Successfully added note", "Failed to add note",
+"/manage/"), "json");
 	result.fail(fail("Failed to add note"));
 }
 
