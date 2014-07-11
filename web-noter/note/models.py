@@ -12,7 +12,7 @@ def replace_newlines_string(string):
 	text = ""
 	text_splitted = string.split("\n")
 	length = len(text_splitted)
-	i = 1
+	i = 0
 	
 	for line in text_splitted:
 		i += 1

@@ -258,17 +258,21 @@ function escapeLtGt(code) {
 }
 
 function replaceNewLines(txt) {
-	var text = "", count = 1;
+	var text = "", count = 0;
 	var text_splitted = txt.split("\n");
 	
 	for (i = 0; i<text_splitted.length; i++) {
+		count += 1;
 		line = text_splitted[i];
 		text += line.replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;");
 		
-		if (line.search(/<.*?>$/) == -1) {
-			text += "<br/>";
+		if (count < text_splitted.length) {
+			if (line.search(/<.*?>$/) == -1) {
+				text += "<br/>";
+			}
+			
+			text += "\n";
 		}
-		text += "\n";
 	}
 	
 	return text;
