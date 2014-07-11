@@ -6,6 +6,26 @@ from django.conf import settings
 
 import sys, re
 
+def replace_newlines_string(string):
+	"""Replace all the newlines (\n) by <br/> in a string"""
+	
+	text = ""
+	text_splitted = string.split("\n")
+	length = len(text_splitted)
+	i = 1
+	
+	for line in text_splitted:
+		i += 1
+		line = line.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+		text += line
+		
+		if i < length: # Check if it's last line:
+			if not re.search("<.*?>$", line):
+				text += "<br/>"
+			text += "\n"
+		
+	return text
+
 class Note(models.Model):
 	title = models.CharField(max_length=100)
 	text = models.TextField()
@@ -35,7 +55,7 @@ class Note(models.Model):
 	
 	def replaceNewLines(self):
 		if self.type != "s":
-			return self.text.replace("\n\r", "<br/>").replace("\n", "<br/>").replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+			return replace_newlines_string(self.text)
 		else:
 			return self.text
 	

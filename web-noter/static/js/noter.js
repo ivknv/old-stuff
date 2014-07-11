@@ -258,11 +258,29 @@ function escapeLtGt(code) {
 }
 
 function replaceNewLines(txt) {
-	return txt.replace(/\n/gm, "<br/>").replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;");
+	var text = "", count = 1;
+	var text_splitted = txt.split("\n");
+	
+	for (i = 0; i<text_splitted.length; i++) {
+		line = text_splitted[i];
+		text += line.replace(/\t/gm, "&nbsp;&nbsp;&nbsp;&nbsp;");
+		
+		if (line.search(/<.*?>$/) == -1) {
+			text += "<br/>";
+		}
+		text += "\n";
+	}
+	
+	return text;
 }
 
 function anti_XSS(textarea) {
-	textarea.val(textarea.val().replace(/<[ \t]*script[ \t]*.*?>.*<[ \t]*\/[ \t]*script[ \t]*>/gim, "").replace(/<[ \t]*script[ \t]*.*?>.*/gim, ""));
+	var textarea_val = textarea.val();
+	texarea_val = textarea_val.replace(
+		/<[ \t]*script[ \t]*.*?>.*<[ \t]*\/[ \t]*script[ \t]*>/gim, "")
+	textarea_val = textarea_val.replace(
+		/<[ \t]*script[ \t]*.*?>.*/gim, "")
+	textarea.val(textarea_val);
 }
 
 function preview() {

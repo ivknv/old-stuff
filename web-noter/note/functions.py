@@ -170,9 +170,22 @@ def page_range(page_number, num_pages, max_next=3):
 def replace_newlines_string(string):
 	"""Replace all the newlines (\n) by <br/> in a string"""
 	
-	string = string.replace("\n\r", "<br/>").replace("\n", "<br/>")
-	string = string.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
-	return string
+	text = ""
+	text_splitted = string.split("\n")
+	length = len(text_splitted)
+	i = 1
+	
+	for line in text_splitted:
+		i += 1
+		line = line.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+		text += line
+		
+		if i < length: # Check if it's last line:
+			if not re.search("<.*?>$", line):
+				text += "<br/>"
+			text += "\n"
+		
+	return text
 
 def replace_newlines_search(obj):
 	"""Replace all the newlines (\n) in notes by <br/> HTML tags.
