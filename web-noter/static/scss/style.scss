@@ -272,6 +272,7 @@ They're used to make CSS code shorter.
 	
 	@extend .bgColorTransition;
 	cursor: pointer;
+	font-family: "Open Sans Light", Arial;
 	outline: 0 !important;
 	user-select: none;
 	-moz-user-select: none;
@@ -832,12 +833,12 @@ This includes classes for displaying buttons.
 }
 
 .edit_button {
+	@extend .btn;
 	@include border-radius(5px);
-	@include setHoverBgColor($editButtonBgColor);
+	@include setHoverBgColor($editButtonBgColor, 13%);
 	border: 2px solid rgb(6, 109, 203);
 	color: rgb(255, 255, 255);
 	display: inline-block;
-	margin-bottom: 50px;
 	max-width: 40px;
 	min-width: 30px;
 	padding: 6px 12px;
@@ -849,7 +850,7 @@ This includes classes for displaying buttons.
 	/*Placed near to filter-field*/
 	
 	@extend .btn;
-	@include setHoverBgColor($filterBtnBgColor);
+	@include setHoverBgColor($filterBtnBgColor, 12%);
 	color: rgb(254, 254, 254);
 	display: inline-block;
 	font-size: 15px;
@@ -862,7 +863,7 @@ This includes classes for displaying buttons.
 	/*Used to submit search query*/
 	
 	@extend .btn;
-	@include setHoverBgColor($searchBtnBgColor, 10%);
+	@include setHoverBgColor($searchBtnBgColor, 12%);
 	@include border-radius((0 15px 15px 0));
 	color: rgb(254, 254, 254);
 	display: inline-block;
@@ -898,7 +899,6 @@ This includes classes for displaying buttons.
 	border: 2px solid rgb(39, 155, 198);
 	color: rgb(254, 254, 254) !important;
 	display: inline-block;
-	font-family: "Open Sans Light", Arial;
 	font-size: 15px;
 	line-height: 1.42;
 	margin-left: -6px;
@@ -910,7 +910,7 @@ This includes classes for displaying buttons.
 	
 	@extend .btn;
 	@include border-radius(5px);
-	@include setHoverBgColor($btnSuccessBgColor);
+	@include setHoverBgColor($btnSuccessBgColor, 8%);
 	border: 2px solid rgb(150, 202, 94);
 	box-shadow: none;
 	color: rgb(254, 254, 254);

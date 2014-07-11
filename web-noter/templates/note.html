@@ -20,12 +20,12 @@
 			Similiar notes
 		</a>
 	</div>
-	<div class="margin-bottom">
+	<div class="margin-bottom" style="margin-bottom: 50px;">
 		<a href="/edit/{{ note.id }}/" onclick="load_page('/edit/{{ note.id }}/'); return false;">
 			<div class="edit_button">Edit</div>
 		</a>
 	</div>
-	<div class="margin-bottom">
+	<div class="margin-bottom" style="margin-bottom: 60px;">
 			{% if previous %}
 				<button id="previous" class="btn-success previous" onclick="load_page('/note/{{ previous.id }}/'); return false;">Previous</button>
 			{% endif %}
