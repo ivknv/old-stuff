@@ -505,7 +505,7 @@ function PlaceReadMoreButtons() {
 				$text.addClass("cut");
 				var href = $(this).find("a").attr("href");
 				$(this).append("<a href='"+href+"' onclick='load_page(\""+href+"\"); return false;'><div class='read-more-btn'>Continue reading</div></a>");
-			} else if (parseInt($snippet.css("height")) > 210) {
+			} else if (parseInt($snippet.css("height")) > 400) {
 				$snippet.addClass("cut");
 				var href = $(this).find("a").attr("href");
 				$(this).append("<a href='"+href+"' onclick='load_page(\""+href+"\"); return false;'><div class='read-more-btn'>Continue reading</div></a>");
