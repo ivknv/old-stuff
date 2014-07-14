@@ -72,7 +72,7 @@ def API_getUserInfo(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	return JsonResponse(
 		"true",
@@ -90,7 +90,7 @@ def API_getNotes(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	notes = Note.objects.filter(author=user)
 	
@@ -105,7 +105,7 @@ def API_getNote(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	assert "id" in request.POST, "ID is missing"
 	id_ = id_of_note(request)
@@ -192,7 +192,7 @@ def API_addNote(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	try:
 		assert "type" in request.POST, "Type is missing"
 		assert request.POST["type"] in ["n", "t", "s", "w"], \
@@ -201,7 +201,7 @@ def API_addNote(request):
 		assert "title" in request.POST, "Title is missing"
 		assert "tags" in request.POST, "Tags are missing"
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	type_ = type_of_note(request)
 	title = title_of_note(request)
 	text = text_of_note(request)
@@ -219,7 +219,7 @@ def API_addNote(request):
 	except OperationalError as error:
 		return JsonResponse(
 			"false",
-			message='"Failed to save note: %s"' %error.message
+			message='"Failed to save note: %s"' %str(error)
 		)
 	
 	return JsonResponse("true", id=new_note.id)
@@ -231,11 +231,11 @@ def API_addNotes(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	try:
 		assert "list" in request.POST, "List of notes is missing"
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	json_list = json.loads(request.POST["list"])
 	added = []
 	
@@ -277,12 +277,12 @@ def API_rmNote(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	try:
 		assert "id" in request.POST, "ID is missing"
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	id_ = id_of_note(request)
 	try:
 		note = Note.objects.get(id=id_, author=user)
@@ -299,12 +299,12 @@ def API_rmNotes(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	try:
 		assert "list" in request.POST, "List of IDs is missing"
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	list_ = request.POST["list"].split(", ")
 	deleted = {}
 	
@@ -327,7 +327,7 @@ def API_register(request):
 	try:
 		data = registration_data(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	username = data['username']
 	first_name = data['first_name']
@@ -361,7 +361,7 @@ def API_deleteAccount(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	user_id = user.id
 	
@@ -379,7 +379,7 @@ def API_update_username(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	user_id = user.id
 	old_username = user.username
@@ -390,7 +390,7 @@ def API_update_username(request):
 		assert new_username, "New username cannot be empty"
 		assert len(new_username) < 150, "New username is too long"
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	user.username = new_username
 	try:
@@ -412,7 +412,7 @@ def API_update_first_name(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	user_id = user.id
 	old_first_name = user.first_name
@@ -423,13 +423,13 @@ def API_update_first_name(request):
 		assert new_first_name, "New first name cannot be empty"
 		assert len(new_first_name) < 150, "New first name is too long"
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	user.first_name = new_first_name
 	try:
 		user.save()
 	except OperationalError as error:
-		print(error.message)
+		print(str(error))
 		return JsonResponse("false",
 			message='"Failed to save"')
 	
@@ -446,7 +446,7 @@ def API_update_last_name(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	user_id = user.id
 	old_last_name = user.last_name
@@ -457,13 +457,13 @@ def API_update_last_name(request):
 		assert new_last_name, "New last name cannot be empty"
 		assert len(new_last_name) < 150, "New last name is too long"
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	user.last_name = new_last_name
 	try:
 		user.save()
 	except OperationalError as error:
-		print(error.message)
+		print(str(error))
 		return JsonResponse("false",
 			message='"Failed to save"')
 	
@@ -480,7 +480,7 @@ def API_update_email(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	user_id = user.id
 	old_email = user.email
@@ -491,13 +491,13 @@ def API_update_email(request):
 		assert new_email, "New email cannot be empty"
 		assert len(new_email) < 150, "New email is too long"
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	user.email = new_email
 	try:
 		user.save()
 	except OperationalError as error:
-		print(error.message)
+		print(str(error))
 		return JsonResponse("false",
 			message='"Failed to save"')
 	
@@ -514,7 +514,7 @@ def API_update_password(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	user_id = user.id
 	
@@ -527,14 +527,14 @@ def API_update_password(request):
 		confirm_password = request.POST["confirm_password"]
 		assert new_password == confirm_password, "You entered two different passwords"
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	user.set_password(new_password)
 	
 	try:
 		user.save()
 	except OperationalError as error:
-		print(error.message)
+		print(str(error))
 		return JsonResponse("false",
 			message='"Failed to save"')
 	
@@ -549,7 +549,7 @@ def API_edit_note(request):
 	try:
 		user = API_authenticate(request)
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	try:
 		assert "id" in request.POST, "Note ID is missing"
@@ -564,7 +564,7 @@ def API_edit_note(request):
 			return JsonResponse("false",
 				message='"Requested note doesn\'t exist"')
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 
 	if "title" in request.POST:
 		title = title_of_note(request)
@@ -586,7 +586,7 @@ def API_edit_note(request):
 	try:
 		assert type_ in ["n", "s", "t", "w"], "Invalid note type"
 	except AssertionError as error:
-		return JsonResponse("false", message='"'+error.message+'"')
+		return JsonResponse("false", message='"'+str(error)+'"')
 	
 	note.title = title
 	note.text = text
