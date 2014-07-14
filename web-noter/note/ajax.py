@@ -9,7 +9,7 @@ This module contains methods that called from JavaScript via AJAX requests
 
 from django.http import Http404, HttpResponse # To send data to browser
 
-from django.shortcuts import redirect, render_to_response
+from django.shortcuts import redirect
 
 from note.models import Note # To get notes from server's database
 
@@ -20,8 +20,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import OperationalError
 
 from note.functions import check_similarity_from_string_list
-
-from django.template import RequestContext
 
 import json # To send AJAX answers
 
