@@ -1,12 +1,10 @@
 {% load note %}
 {% for note in notes %}
 	<article class="{{ note.1.1.get_type_display|lower }} {% if note.1.1.type == 't' and note.1.1.is_checked %}checked{% elif note.1.1.type == 't' and not note.1.1.is_checked %}unchecked{% endif %}" id="note-{{ note.1.1.id }}" role="search">
-		<div>
-			<a href="/note/{{ note.1.1.id }}" onclick="load_page('/note/{{ note.1.1.id }}/'); return false;">
-				<span class="title">{{ note.1.1.title }}</span>
-			</a>
-			{{ note.0|floatformat }}%
-		</div>
+		<a href="/note/{{ note.1.1.id }}" onclick="load_page('/note/{{ note.1.1.id }}/'); return false;">
+			<span class="title">{{ note.1.1.title }}</span>
+		</a>
+		{{ note.0|floatformat }}%
 		<div class="date"><time datetime="{{ note.1.1.date }}">{{ note.1.1.date|date:"l, F j Y H:i" }}</time></div>
 		{% if note.1.1.type == "s"  %}
 			<pre><code class="snippet-body">{{ note.1.1.text }}</code></pre>
