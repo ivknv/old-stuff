@@ -13,8 +13,23 @@ import re
 
 from note.models import Note # To get notes from server's database
 
+from math import sqrt
+
 if sys.version_info.major < 3: # If version of Python is lower than 3
 	range = xrange # Use xrange instead of range
+
+def remove_empty(list_):
+	while list_.count("") > 0:
+		list_.remove("")
+	
+	return list_
+
+def leave_unique(list_):
+	for elem in list_:
+		while list_.count(elem) > 1:
+			list_.remove(elem)
+	
+	return list_
 
 def remove_tags_from_string(string):
 	"""Remove all HTML tags from string"""
@@ -32,38 +47,41 @@ def check_similarity_from_strings(string1, string2):
 	@rtype: float
 	
 	>>> check_similarity_from_strings("test number 1", "test number 1")
-	100.0
+	1.0
 	
 	>>> check_similarity_from_strings("test number 1", "test number 2")
-	66.66666666666667
+	6.66666666666667
 	
 	"""
+	
+	char = r"[\.,_\+\\/\|`~<>\?!@#\$%\^&\*\(\)\[\]\{\};:'\"=\r\t]"
 	
 	string1 = remove_tags_from_string(string1)
 	string2 = remove_tags_from_string(string2)
 	
-	string1 = string1.split()
-	string2 = string2.split()
+	string1 = re.sub(char, "", string1.lower()).replace("\n", " ")
+	string2 = re.sub(char, "", string2.lower()).replace("\n", " ")
 	
-	percents = 0
-	try:
-		percents_per_word = 100.0/max(len(string1), len(string2))
-	except ZeroDivisionError:
-		if string1 == string2:
-			return 100.0
-		else:
-			return 0
+	string1 = remove_empty(string1.split(" "))
+	string2 = remove_empty(string2.split(" "))
 	
-	for i in string1:
-		try:
-			if i in string2:
-				percents += percents_per_word * string2.count(i)
-		except IndexError:
-			pass
-	return percents
+	max_ = string1 if len(string1) > len(string2) else string2
+	min_ = string1 if max_ == string2 else string2
+	
+	max_unique = leave_unique(max_)
+	
+	counts1 = [max_.count(i) for i in max_unique]
+	counts2 = [min_.count(i) for i in max_unique]
+	
+	if sum(counts1) > 0 and sum(counts2) > 0:
+		result = sqrt((sum(counts1)-sum(counts2))**2)
+	else:
+		return 0
+	
+	return 1.0/(1+result)
 
 
-def similarity_percentage(title1, title2, text1, text2):
+def similarity_score(title1, title2, text1, text2):
 	"""Get similarity percentage of two notes"""
 	
 	return (
@@ -85,16 +103,16 @@ def check_similarity(note, notes=Note.objects.all()):
 		if note2.id == note.id: # If first note is equal to second note
 			continue # Start next iteration
 		
-		percent = similarity_percentage(
+		similarity = similarity_score(
 			title1=note.title,
 			title2=note2.title,
 			text1=note.text,
 			text2=note2.text
 		)
 		
-		if percent > 0:
+		if similarity > 0:
 			sorted_list.append([
-				percent,
+				similarity*100,
 				(note, note2)
 			])
 	
@@ -108,15 +126,15 @@ def check_similarity_from_string(text, title, notes=Note.objects.all()):
 	sorted_list = [] # This is the future sorted list
 	
 	for note in notes: # Iterate over notes
-		similarity_percent = similarity_percentage(
+		similarity = similarity_score(
 			title1=title,
 			title2=note.title,
 			text1=text,
 			text2=note.text
 		)
-		if similarity_percent > 0:
+		if similarity > 0:
 			sorted_list.append([
-				similarity_percent,
+				similarity,
 				("<Note: {title}>".format(title=title), note)
 			])
 	
@@ -135,13 +153,13 @@ Using lists instead of Note objects"""
 	for note in notes: # Iterate over notes
 		if note_id == note.id:
 			continue
-		similarity_percent = similarity_percentage(title1=title,
+		similarity = similarity_score(title1=title,
 			title2=note.title,
 			text1=text,
 			text2=note.text)
-		if similarity_percent > 0:
+		if similarity > 0:
 			sorted_list.append([
-				similarity_percent,
+				similarity,
 				("<Note: {}>".format(title),
 					[
 						note.title,
