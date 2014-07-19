@@ -139,8 +139,8 @@ function getTags(id, text, title) {
 		var u = [];
 		$stags.empty();
 		$.each(data.top3, function(i) {
-			if (data.top3[i][1][1][2].length > 0)
-				var tags = data.top3[i][1][1][2];
+			if (data.top3[i][2][1][2].length > 0)
+				var tags = data.top3[i][2][1][2];
 				
 				$.each(tags, function(i) {
 					if (tags[i][0] == " ")

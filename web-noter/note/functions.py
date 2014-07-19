@@ -13,16 +13,8 @@ import re
 
 from note.models import Note # To get notes from server's database
 
-from math import sqrt
-
 if sys.version_info.major < 3: # If version of Python is lower than 3
 	range = xrange # Use xrange instead of range
-
-def remove_empty(list_):
-	while list_.count("") > 0:
-		list_.remove("")
-	
-	return list_
 
 def leave_unique(list_):
 	for elem in list_:
@@ -31,6 +23,14 @@ def leave_unique(list_):
 	
 	return list_
 
+def get_pairs(string):
+	pairs = []
+	
+	for i in range(len(string)-1):
+		pairs.append(string[i:i+2])
+	
+	return pairs
+
 def remove_tags_from_string(string):
 	"""Remove all HTML tags from string"""
 	
@@ -38,7 +38,10 @@ def remove_tags_from_string(string):
 
 def check_similarity_from_strings(string1, string2):
 	"""
-	Split and check similarity of 2 strings.
+	Check similarity of 2 strings.
+	Returns number from 0 to 1.
+	1 means that strings are identical.
+	0 means that strings have nothing in common.
 	
 	@param string1: First string
 	@param string2: Second string
@@ -50,7 +53,10 @@ def check_similarity_from_strings(string1, string2):
 	1.0
 	
 	>>> check_similarity_from_strings("test number 1", "test number 2")
-	6.66666666666667
+	0.9166666666666666
+	
+	>>> check_similarity_from_strings("test food", "tasty food")
+	0.5882352941176471
 	
 	"""
 	
@@ -59,40 +65,35 @@ def check_similarity_from_strings(string1, string2):
 	string1 = remove_tags_from_string(string1)
 	string2 = remove_tags_from_string(string2)
 	
-	string1 = re.sub(char, "", string1.lower()).replace("\n", " ")
-	string2 = re.sub(char, "", string2.lower()).replace("\n", " ")
+	string1 = re.sub(char, "", string1.lower())
+	string2 = re.sub(char, "", string2.lower())
 	
-	string1 = remove_empty(string1.split(" "))
-	string2 = remove_empty(string2.split(" "))
+	string1 = string1.replace("\n", " ")
+	string2 = string2.replace("\n", " ")
 	
-	max_ = string1 if len(string1) > len(string2) else string2
-	min_ = string1 if max_ == string2 else string2
+	pairs1 = get_pairs(string1)
+	pairs2 = get_pairs(string2)
 	
-	max_unique = leave_unique(max_)
+	len_all_pairs = len(pairs1) + len(pairs2)
 	
-	counts1 = [max_.count(i) for i in max_unique]
-	counts2 = [min_.count(i) for i in max_unique]
+	shrd = leave_unique([pair for pair in pairs1 if pair in pairs2])
 	
-	if sum(counts1) > 0 and sum(counts2) > 0:
-		result = sqrt((sum(counts1)-sum(counts2))**2)
-	else:
+	if len_all_pairs == 0:
 		return 0
 	
-	return 1.0/(1+result)
-
-
+	return 2.0 * len(shrd) / len_all_pairs
+	
 def similarity_score(title1, title2, text1, text2):
 	"""Get similarity percentage of two notes"""
 	
 	return (
 		check_similarity_from_strings(
-			text1,
-			text2)
-			+
-			check_similarity_from_strings(
-				title1,
-				title2)
-		)/2
+			title1,
+			title2),
+		check_similarity_from_strings(
+				text1,
+				text2)
+		)
 
 def check_similarity(note, notes=Note.objects.all()):
 	"""Get sorted list of similiar notes"""
@@ -110,13 +111,14 @@ def check_similarity(note, notes=Note.objects.all()):
 			text2=note2.text
 		)
 		
-		if similarity > 0:
+		if sum(similarity) > 0:
 			sorted_list.append([
-				similarity*100,
+				similarity[1]*100,
+				similarity[0]*100,
 				(note, note2)
 			])
 	
-	sorted_list.sort() # Sort list of notes
+	sorted_list.sort(key=lambda x: (x[0]+x[1])/2.0) # Sort list of notes
 	sorted_list.reverse() # Reverse the list of notes
 	return sorted_list
 
@@ -132,9 +134,10 @@ def check_similarity_from_string(text, title, notes=Note.objects.all()):
 			text1=text,
 			text2=note.text
 		)
-		if similarity > 0:
+		if sum(similarity) > 0:
 			sorted_list.append([
-				similarity,
+				similarity[1]*100,
+				similarity[0]*100,
 				("<Note: {title}>".format(title=title), note)
 			])
 	
@@ -157,9 +160,10 @@ Using lists instead of Note objects"""
 			title2=note.title,
 			text1=text,
 			text2=note.text)
-		if similarity > 0:
+		if sum(similarity) > 0:
 			sorted_list.append([
-				similarity,
+				similarity[1]*100,
+				similarity[0]*100,
 				("<Note: {}>".format(title),
 					[
 						note.title,
@@ -221,9 +225,9 @@ def replace_newlines_sim(obj):
 Works only with lists ([7.2, <Note>])."""
 	
 	for i in range(len(obj.object_list)):
-		if obj.object_list[i][1][1].type != "s":
-			obj.object_list[i][1][1].text = replace_newlines_string(
-				obj.object_list[i][1][1].text
+		if obj.object_list[i][2][1].type != "s":
+			obj.object_list[i][2][1].text = replace_newlines_string(
+				obj.object_list[i][2][1].text
 			)
 	return obj
 
@@ -237,6 +241,18 @@ def transform_tags(notes):
 			for j in range(len(notes[i][1][1].tags)):
 				if notes[i][1][1].tags[j][0] == " ":
 					notes[i][1][1].tags[j] = notes[i][1][1].tags[j][1:]
+	return notes
+
+def transform_tags_sim(notes):
+	"""Transforms a string with commas into a list of tags"""
+	
+	for i in range(len(notes)): # Iterate over a list with index
+		if notes[i][2][1].tags \
+		and not isinstance(notes[i][2][1].tags, list):
+			notes[i][2][1].tags = notes[i][2][1].tags.split(",")
+			for j in range(len(notes[i][2][1].tags)):
+				if notes[i][2][1].tags[j][0] == " ":
+					notes[i][2][1].tags[j] = notes[i][2][1].tags[j][1:]
 	return notes
 
 def transform_tags_single(tags):

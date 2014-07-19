@@ -26,7 +26,7 @@ from django.contrib.auth.models import User
 
 from django.core.mail import send_mail
 
-from note.functions import check_similarity, transform_tags
+from note.functions import check_similarity, transform_tags_sim
 
 from note.functions import htmlbody, place_by_relevance
 
@@ -161,7 +161,7 @@ def edit(request, note_id):
 		raise Http404 # I will raise the great '404 Not Found' error!
 	
 	similiar = check_similarity(note)[0:3] # Top 3 similiar notes
-	similiar = transform_tags(similiar) # Split tags into a list
+	similiar = transform_tags_sim(similiar) # Split tags into a list
 	
 	context = {
 		"note": note, # Note object
