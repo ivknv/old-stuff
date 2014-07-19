@@ -741,6 +741,7 @@ article .title {
 	/*Remove dialog on /manage/ page*/
 	
 	background-color: rgb(255, 221, 135);
+	border-radius: 6px;
 	bottom: 0;
 	display: none;
 	font-size: 13px;
@@ -753,7 +754,7 @@ article .title {
 	right: 0;
 	top: 0;
 	width: 290px;
-	z-index: 4;
+	z-index: 5;
 }
 
 .remove-dialog .btn-success {
@@ -802,7 +803,8 @@ article .title {
 }
 
 .close {
-	color: rgb(255, 0, 0);
+	@extend .colorTransition;
+	@include setHoverColor(rgb(255, 0, 0), 25%);
 	cursor: pointer;
 	float: right;
 	font-family: Tahoma;
