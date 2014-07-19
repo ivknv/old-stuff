@@ -785,7 +785,8 @@ article .title {
 	text-align: center;
 	top: 0;
 	vertical-align: middle;
-	width: 241px;
+	min-width: 241px;
+	max-width: 281px;
 	z-index: 5;
 }
 
