@@ -829,6 +829,7 @@ This includes classes for displaying buttons.
 	@extend .btn;
 	@include border-radius(5px);
 	@include setHoverBgColor($tagBtnColor, 10%);
+	background: $tagBtnColor;
 	color: rgb(254, 254, 254);
 	display: inline-block;
 	margin: 3px;
@@ -839,6 +840,7 @@ This includes classes for displaying buttons.
 	@extend .btn;
 	@include border-radius(5px);
 	@include setHoverBgColor($editButtonBgColor, 13%);
+	background: $editButtonBgColor;
 	border: 2px solid rgb(6, 109, 203);
 	color: rgb(255, 255, 255);
 	display: inline-block;
@@ -854,6 +856,7 @@ This includes classes for displaying buttons.
 	
 	@extend .btn;
 	@include setHoverBgColor($filterBtnBgColor, 12%);
+	background: $filterBtnBgColor;
 	color: rgb(254, 254, 254);
 	display: inline-block;
 	font-size: 15px;
@@ -868,6 +871,7 @@ This includes classes for displaying buttons.
 	@extend .btn;
 	@include setHoverBgColor($searchBtnBgColor, 12%);
 	@include border-radius((0 15px 15px 0));
+	background: $searchBtnBgColor;
 	color: rgb(254, 254, 254);
 	display: inline-block;
 	font-size: 15px;
@@ -884,7 +888,7 @@ This includes classes for displaying buttons.
 	@extend .borderColorTransition;
 	@include setHoverBorderColor($readMoreBorderColor, 15%);
 	@include border-radius(6px);
-	background-color: $readMoreBgColor;
+	background: $readMoreBgColor;
 	border: 1px solid $readMoreBorderColor;
 	color: rgb(17, 34, 51);
 	display: inline-block;
@@ -899,6 +903,7 @@ This includes classes for displaying buttons.
 	@extend .btn;
 	@include border-radius(5px);
 	@include setHoverBgColor($btnBlueBgColor, 9.5%);
+	background: $btnBlueBgColor;
 	border: 2px solid rgb(39, 155, 198);
 	color: rgb(254, 254, 254) !important;
 	display: inline-block;
@@ -914,6 +919,7 @@ This includes classes for displaying buttons.
 	@extend .btn;
 	@include border-radius(5px);
 	@include setHoverBgColor($btnSuccessBgColor, 8%);
+	background: $btnSuccessBgColor;
 	border: 2px solid rgb(150, 202, 94);
 	box-shadow: none;
 	color: rgb(254, 254, 254);
