@@ -5,7 +5,7 @@
 			<span class="title">{{ note.2.1.title }}</span>
 		</a>
 		{{ note.1|floatformat }}%/{{ note.0|floatformat }}%
-		<div class="date"><time datetime="{{ note.1.1.date }}">{{ note.1.1.date|date:"l, F j Y H:i" }}</time></div>
+		<div class="date"><time datetime="{{ note.2.1.date }}">{{ note.2.1.date|date:"l, F j Y H:i" }}</time></div>
 		{% if note.2.1.type == "s"  %}
 			<pre><code class="snippet-body">{{ note.2.1.text }}</code></pre>
 		{% else %}
