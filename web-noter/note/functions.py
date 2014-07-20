@@ -122,6 +122,40 @@ def check_similarity(note, notes=Note.objects.all()):
 	sorted_list.reverse() # Reverse the list of notes
 	return sorted_list
 
+def check_similarity_list(note, notes=Note.objects.all()):
+	"""Get sorted list of similiar notes"""
+	
+	sorted_list = [] # This is the future sorted list
+	
+	for note2 in notes: # Iterate over notes
+		if note2.id == note.id: # If first note is equal to second note
+			continue # Start next iteration
+		
+		similarity = similarity_score(
+			title1=note.title,
+			title2=note2.title,
+			text1=note.text,
+			text2=note2.text)
+		
+		if sum(similarity) > 0:
+			sorted_list.append([
+				similarity[1]*100,
+				similarity[0]*100,
+				({
+					"id": note.id,
+					"title": note.title,
+					"text": note.text,
+					"tags": transform_tags_single(note.tags)},
+				{
+					"id": note2.id,
+					"title": note2.title,
+					"text": note2.text,
+					"tags": transform_tags_single(note2.tags)})])
+	
+	sorted_list.sort(key=lambda x: (x[0]+x[1])/2.0) # Sort list of notes
+	sorted_list.reverse() # Reverse the list of notes
+	return sorted_list
+
 def check_similarity_from_string(text, title, notes=Note.objects.all()):
 	"""Get sorted list of similiar notes from string"""
 	

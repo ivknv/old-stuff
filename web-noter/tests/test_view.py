@@ -162,6 +162,19 @@ class View(TestCase):
 		
 		self.assertTrue(data["success"])
 	
+	def similiarTest(self):
+		response = self.client.post(reverse("API:similiar"),
+			{
+				"username": "guest",
+				"password": "guest",
+				"id": self.test_note1.id})
+		
+		self.assertTrue(response.status_code in [200, 304])
+		
+		data = json.loads(response.content)
+		
+		self.assertTrue(isinstance(data, list))
+	
 	def rmNotesTest(self):
 		response = self.client.post(reverse("API:rmNotes"),
 			{
@@ -180,7 +193,7 @@ class View(TestCase):
 		
 		self.assertTrue(
 			data[str(self.saved[0])] and data[str(self.saved[1])])
-
+	
 	def editNoteTest(self):
 		response = self.client.post(reverse("API:editNote"),
 			{
@@ -361,6 +374,7 @@ class View(TestCase):
 		self.addNoteTest()
 		self.rmNoteTest()
 		self.addNotesTest()
+		self.similiarTest()
 		self.rmNotesTest()
 		self.editNoteTest()
 		self.getUserInfoTest()

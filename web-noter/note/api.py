@@ -20,12 +20,14 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from django.db import OperationalError, IntegrityError
 
+from note.functions import check_similarity_list
+
 import re, json
 
 def to_json(success="true", **kwargs):
 	"""Returns JSON string
 	
-	@param success: True or False
+	@param success: "true" or "false"
 	
 	@rtype: str
 	"""
@@ -603,5 +605,27 @@ def API_edit_note(request):
 		title='"'+note.title+'"',
 		text='"'+note.text+'"',
 		tags='"'+note.tags+'"',
-		type='"'+note.type+'"'
-	)
+		type='"'+note.type+'"')
+
+@csrf_exempt
+def API_find_similiar(request):
+	try:
+		user = API_authenticate(request)
+	except AssertionError as error:
+		return JsonResponse("false", message='"%s"' %str(error))
+	
+	try:
+		assert "id" in request.POST, "ID is missing."
+	except AssertionError as error:
+		return JsonResponse("false", message='"%s"' %str(error))
+	
+	try:
+		note = Note.objects.get(author=user, id=request.POST["id"])
+	except OperationalError as error:
+		print(error)
+		return JsonResponse("false", message='"Something went wrong with database."')
+	
+	result = json.dumps(check_similarity_list(note))
+	
+	return HttpResponse(result)
+	

@@ -22,6 +22,7 @@ APIPatterns = [
 	url(r'^updateEmail/$', 'note.api.API_update_email', name="updateEmail"),
 	url(r'^updatePassword/$', 'note.api.API_update_password', name="updatePassword"),
 	url(r'^editNote/$', 'note.api.API_edit_note', name="editNote"),
+	url(r'^similiar/$', 'note.api.API_find_similiar', name="similiar"),
 ]
 
 urlpatterns = patterns('',
