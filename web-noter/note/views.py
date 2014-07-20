@@ -592,92 +592,92 @@ def register(request):
 	if request.user.is_authenticated():
 		return redirect("/")
 	
-	assert 'username' in request.POST, "Username is missing"
-	assert 'password' in request.POST, "Password is missing"
-	assert 'confirm_password' in request.POST, "Password not confirmed"
-	assert 'first_name' in request.POST, "First name is missing"
-	assert 'last_name' in request.POST, "Last name is missing"
-	assert 'email' in request.POST, "Email is missing"
-	username = request.POST["username"]
-	password = request.POST["password"]
-	confirm_password = request.POST["confirm_password"]
-	first_name = request.POST["first_name"]
-	last_name = request.POST["last_name"]
-	email = request.POST["email"]
-	invalid_email = "Invalid email"
-	too_long_email = "Too long email"
-	too_long_username = "Too long username"
-	too_long_firstname = "Too long first name"
-	too_long_lastname = "Too long last name"
-	passwords_are_different = "You entered 2 different passwords"
-	first_name_is_empty = "First name cannot be empty"
-	last_name_is_empty = "Last name cannot be empty"
-	username_is_empty = "Username cannot be empty"
-	password_is_empty = "Password cannot be empty"
-	email_is_empty = "Email cannot be empty"
-	errors = []
 	
-	if "@" not in email:
-		errors.append(invalid_email)
+	if request.POST:
+		assert 'username' in request.POST, "Username is missing"
+		assert 'password' in request.POST, "Password is missing"
+		assert 'confirm_password' in request.POST, "Password not confirmed"
+		assert 'first_name' in request.POST, "First name is missing"
+		assert 'last_name' in request.POST, "Last name is missing"
+		assert 'email' in request.POST, "Email is missing"
+		username = request.POST["username"]
+		password = request.POST["password"]
+		confirm_password = request.POST["confirm_password"]
+		first_name = request.POST["first_name"]
+		last_name = request.POST["last_name"]
+		email = request.POST["email"]
+		invalid_email = "Invalid email"
+		too_long_email = "Too long email"
+		too_long_username = "Too long username"
+		too_long_firstname = "Too long first name"
+		too_long_lastname = "Too long last name"
+		passwords_are_different = "You entered 2 different passwords"
+		first_name_is_empty = "First name cannot be empty"
+		last_name_is_empty = "Last name cannot be empty"
+		username_is_empty = "Username cannot be empty"
+		password_is_empty = "Password cannot be empty"
+		email_is_empty = "Email cannot be empty"
+		errors = []
 	
-	if len(email) > 150:
-		errors.append(too_long_email)
-	elif not email:
-		errors.append(email_is_empty)
-	
-	if len(first_name) > 150:
-		errors.append(too_long_firstname)
-	elif not first_name:
-		errors.append(first_name_is_empty)
-	
-	if len(last_name) > 150:
-		errors.append(too_long_lastname)
-	elif not last_name:
-		errors.append(last_name_is_empty)
-	
-	if len(username) > 150:
-		errors.append(too_long_username)
-	elif not username:
-		errors.append(username_is_empty)
-	
-	if not password:
-		errors.append(password_is_empty)
-	elif password != confirm_password:
-		errors.append(passwords_are_different)
-	
-	if errors:
-		return render_to_response("register.html", {
+		if "@" not in email:
+			errors.append(invalid_email)
+		
+		if len(email) > 150:
+			errors.append(too_long_email)
+		elif not email:
+			errors.append(email_is_empty)
+		
+		if len(first_name) > 150:
+			errors.append(too_long_firstname)
+		elif not first_name:
+			errors.append(first_name_is_empty)
+		
+		if len(last_name) > 150:
+			errors.append(too_long_lastname)
+		elif not last_name:
+			errors.append(last_name_is_empty)
+		
+		if len(username) > 150:
+			errors.append(too_long_username)
+		elif not username:
+			errors.append(username_is_empty)
+		
+		if not password:
+			errors.append(password_is_empty)
+		elif password != confirm_password:
+			errors.append(passwords_are_different)
+		
+		if errors:
+			return render_to_response("register.html", {
 			"errors": errors,
 			"first_name": first_name,
 			"last_name": last_name,
 			"email": email,
-			"username": username
-		})
+			"username": username})
 		
-	if "return" in request.POST:
-		return_page = request.POST["return"]
-	else:
-		return_page = "/"
-	try:
-		User.objects.get(username=username, email=email)
-	except ObjectDoesNotExist:
-		user = User.objects.create(
-			username=username,
-			first_name=first_name,
-			last_name=last_name,
-			email=email
-		)
-		user.set_password(password)
-		user.save()
+		if "return" in request.POST:
+			return_page = request.POST["return"]
+		else:
+			return_page = "/"
+		try:
+			User.objects.get(username=username, email=email)
+		except ObjectDoesNotExist:
+			user = User.objects.create(
+				username=username,
+				first_name=first_name,
+				last_name=last_name,
+				email=email)
+			user.set_password(password)
+			user.save()
 		
-		return redirect(return_page)
-	else:
-		return redirect("/")
+			return redirect(return_page)
+		else:
+			return redirect("/")
+	
 	return render_to_response(
 		"register.html",
 		RequestContext(request, {}),
-		context_instance=RequestContext(request)
-	   )
+		context_instance=RequestContext(request))
 
 @requires_authentication
 def contact(request):
