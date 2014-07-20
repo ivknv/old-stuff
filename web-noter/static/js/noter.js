@@ -301,7 +301,7 @@ function preview() {
 	$title = jQuery("input[name=title]"),
 	$textarea = jQuery("textarea[name=text]");
 	$preview.find("h2").html("Preview");
-	if (jQuery("#is_snippet").prop("checked")) {
+	if (jQuery("#snippet").prop("checked")) {
 		$preview.attr("class", "preview snippet");
 		$text.remove();
 		if ($pre.length < 1)
@@ -317,7 +317,7 @@ function preview() {
 				$pre.remove();
 			$preview.append("<p class='text'></p>");
 		}
-			if (jQuery("#is_warning").prop("checked")) {
+			if (jQuery("#warning").prop("checked")) {
 				$preview.attr("class", "preview .warning");
 			} else {
 				$preview.attr("class", "preview .note");
