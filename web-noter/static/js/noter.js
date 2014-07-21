@@ -485,7 +485,8 @@ $(document).ready(function() {
 	
 	$(window).on("popstate", function(event) {
 		var state = event.originalEvent.state;
-	    if (!state) {
+		if (!state) {
+			window.location.reload();
 			return;
 		} else {
 			var newDoc = document.open("text/html", "");
