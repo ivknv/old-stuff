@@ -188,7 +188,26 @@ This section is for loading fonts.
 
 @font-face {
 	font-family: "Open Sans Light";
-	src: url(/static/fonts/OpenSans-Light.ttf) format("truetype");
+	src: url(/static/fonts/OpenSans-Light.woff) format("woff");
+}
+
+@font-face {
+	font-family: "Open Sans Light";
+	font-weight: bold;
+	src: url(/static/fonts/OpenSans-Regular.woff) format("woff");
+}
+
+@font-face {
+	font-family: "Open Sans Light";
+	font-style: italic;
+	font-weight: bold;
+	src: url(/static/fonts/OpenSans-Italic.woff) format("woff");
+}
+
+@font-face {
+	font-family: "Open Sans Light";
+	font-style: italic;
+	src: url(/static/fonts/OpenSans-LightItalic.woff) format("woff");
 }
 
 /*
