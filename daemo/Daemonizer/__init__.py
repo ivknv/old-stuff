@@ -4,49 +4,85 @@
 """
 Simple module for writting daemons.
 
-Includes functions for starting, stopping and restarting daemons.
+Includes class for creating simple daemons.
 """
 
 import os, time, signal, sys
 
-def start_daemon(obj):
-	"""Start daemon"""
-	
-	pid = os.fork()
-	obj = obj()
-	f = open(obj.pidfile_path, "w")
-	f.write(str(os.getpid()))
-	f.close()
-	
-	if pid != 0:
-		sys.exit(0)
-	
-	if hasattr(obj, "onStart"):
-		obj.onStart()
-	
-	if obj.pidfile_autoremove:
-		os.remove(obj.pidfile_path)
+class DaemonError(Exception):
+	pass
 
-def stop_daemon(obj):
-	"""Stop daemon"""
+class Daemon(object):
+	"""Daemon class"""
 	
-	obj = obj()
-	f = open(obj.pidfile_path)
-	pid = f.read()
-	f.close()
-	os.remove(obj.pidfile_path)
+	def __init__(self, pidfile_path, pidfile_autoremove=True):
+		if not os.path.exists(os.path.dirname(pidfile_path)):
+			raise DaemonError(
+				"Unable to create PID file: directory doesn't exist")
+		
+		if pidfile_autoremove is not True and pidfile_autoremove is not False:
+			pidfile_autoremove = True
+		
+		self.pidfile_path = pidfile_path
+		
+		self.pidfile_autoremove = pidfile_autoremove
 	
-	if hasattr(obj, "onStop"):
-		obj.onStop()
+	def onStart(self):
+		pass
 	
-	os.kill(int(pid), signal.SIGTERM)
+	def onStop(self):
+		pass
+	
+	def onRestart(self):
+		pass
+	
+	def start(self):
+		"""Start daemon"""
+		
+		pid = os.fork()
+		
+		try:
+			f = open(self.pidfile_path, "w")
+		except IOError:
+			raise DaemonError("Unable to create/open PID file")
+		
+		f.write(str(os.getpid()))
+		f.close()
+		
+		if pid != 0:
+			sys.exit(0)
+		
+		self.onStart()
+		
+		if self.pidfile_autoremove:
+			os.remove(self.pidfile_path)
 
-def restart_daemon(obj):
-	"""Restart daemon"""
+	def stop(self):
+		"""Stop daemon"""
+		
+		try:
+			f = open(self.pidfile_path)
+		except IOError:
+			raise DaemonError("Daemon is not running or PID file doesn't exist")
+		
+		pid = f.read()
+		f.close()
+		
+		if self.pidfile_autoremove:
+			os.remove(self.pidfile_path)
+		
+		self.onStop()
+		
+		try:
+			os.kill(int(pid), signal.SIGTERM)
+		except OSError:
+			raise DaemonError("Daemon is not running")
 	
-	stop_daemon(obj)
-	
-	if hasattr(obj, "onRestart"):
-		obj.onRestart()
-	
-	start_daemon(obj)
+	def restart(self):
+		"""Restart daemon"""
+		
+		self.stop()
+		
+		self.onRestart()
+		
+		self.start()
