@@ -7,25 +7,29 @@ Simple module for writting daemons.
 Includes class for creating simple daemons.
 """
 
-import os, time, signal, sys
+import os, time, signal, sys, atexit
 
 class DaemonError(Exception):
 	pass
 
 class Daemon(object):
-	"""Daemon class"""
+	"""Basic class for creating daemons:"""
 	
-	def __init__(self, pidfile_path, pidfile_autoremove=True):
+	def __init__(self, pidfile_path, auto_remove_pidfile=True, stdin=sys.stdin,
+		stderr=sys.stderr, stdout=sys.stdout):
+		
 		if not os.path.exists(os.path.dirname(pidfile_path)):
 			raise DaemonError(
 				"Unable to create PID file: directory doesn't exist")
 		
-		if pidfile_autoremove is not True and pidfile_autoremove is not False:
-			pidfile_autoremove = True
+		if auto_remove_pidfile is not True and auto_remove_pidfile is not False:
+			auto_remove_pidfile = True
 		
 		self.pidfile_path = pidfile_path
-		
-		self.pidfile_autoremove = pidfile_autoremove
+		self.auto_remove_pidfile = auto_remove_pidfile
+		self.stdin = stdin
+		self.stderr = stderr
+		self.stdout = stdout
 	
 	def onStart(self):
 		"""This method is being called when daemon starts"""
@@ -42,10 +46,41 @@ class Daemon(object):
 		
 		pass
 	
+	def delete_pidfile(self):
+		os.remove(self.pidfile_path)
+	
 	def start(self):
 		"""Start daemon"""
 		
-		pid = os.fork()
+		if os.path.exists(self.pidfile_path):
+			raise DaemonError("Daemon is already running")
+		
+		try:
+			pid = os.fork()
+		except OSError:
+			raise DaemonError("1st fork failed")
+		
+		if pid != 0:
+			sys.exit(0)
+		
+		os.setsid()
+		os.umask(0)
+		
+		try:
+			pid = os.fork()
+		except OSError:
+			raise DaemonError("2nd fork failed")
+		
+		if pid != 0:
+			self.pid = pid
+			sys.exit(0)
+		
+		sys.stdout.flush()
+		sys.stderr.flush()
+		
+		os.dup2(self.stdin.fileno(), sys.stdin.fileno())
+		os.dup2(self.stderr.fileno(), sys.stderr.fileno())
+		os.dup2(self.stdout.fileno(), sys.stdout.fileno())
 		
 		try:
 			f = open(self.pidfile_path, "w")
@@ -55,13 +90,10 @@ class Daemon(object):
 		f.write(str(os.getpid()))
 		f.close()
 		
-		if pid != 0:
-			sys.exit(0)
-		
 		self.onStart()
 		
-		if self.pidfile_autoremove:
-			os.remove(self.pidfile_path)
+		if self.auto_remove_pidfile:
+			self.delete_pidfile()
 
 	def stop(self):
 		"""Stop daemon"""
@@ -71,11 +103,8 @@ class Daemon(object):
 		except IOError:
 			raise DaemonError("Daemon is not running or PID file doesn't exist")
 		
-		pid = f.read()
+		pid = f.read().strip()
 		f.close()
-		
-		if self.pidfile_autoremove:
-			os.remove(self.pidfile_path)
 		
 		self.onStop()
 		
@@ -83,6 +112,9 @@ class Daemon(object):
 			os.kill(int(pid), signal.SIGTERM)
 		except OSError:
 			raise DaemonError("Daemon is not running")
+		
+		if self.auto_remove_pidfile:
+			self.delete_pidfile()
 	
 	def restart(self):
 		"""Restart daemon"""

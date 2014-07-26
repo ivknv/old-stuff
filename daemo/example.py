@@ -28,13 +28,10 @@ class TestDaemon(Daemon):
 		"""Daemon initialization function"""
 		
 		# Path to PID file
-		pidfile_path = os.path.expanduser("~/testdaemon.pid") 
-		
-		# Remove PID file after shutdown
-		pidfile_autoremove = True
+		pidfile_path = os.path.expanduser("~/testdaemon.pid")
 		
 		# Call Daemon initialization function
-		super(TestDaemon, self).__init__(pidfile_path, pidfile_autoremove)
+		super(TestDaemon, self).__init__(pidfile_path, auto_remove_pidfile=True)
 	
 	def onStart(self):
 		"""This function is being called when daemon starts"""
@@ -49,8 +46,6 @@ class TestDaemon(Daemon):
 			f.write("""Daemon is working
 This file will be removed after %d seconds\n""" %j)
 			f.close()
-		
-		self.stop()
 	
 	def onStop(self):
 		"""This function is being called when daemon stops"""
