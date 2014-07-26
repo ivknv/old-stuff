@@ -28,12 +28,18 @@ class Daemon(object):
 		self.pidfile_autoremove = pidfile_autoremove
 	
 	def onStart(self):
+		"""This method is being called when daemon starts"""
+		
 		pass
 	
 	def onStop(self):
+		"""This method is being called when daemon stops"""
+		
 		pass
 	
 	def onRestart(self):
+		"""This method is being called when daemon restarts"""
+		
 		pass
 	
 	def start(self):

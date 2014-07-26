@@ -3,9 +3,9 @@
 
 from distutils.core import setup
 
-setup(name="Daemonizer",
-version="1.0",
+setup(name="Daemo",
+version="1.1",
 author="Ivan Konovalov",
 author_email="rvan.mega@gmail.com",
 description="Module for creating daemons",
-packages=["Daemonizer"])
+packages=["Daemo"])

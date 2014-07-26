@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Example daemon created by using Daemonizer.
+Example daemon created by using Daemo.
 
 It writes message with countdown to ~/testdaemon.
 After 30 seconds it shuts down and removes ~/testdaemon.
@@ -19,10 +19,10 @@ And to restart daemon run
 
 import os, time
 
-from Daemonizer import Daemon, DaemonError
+from Daemo import Daemon, DaemonError
 
 class TestDaemon(Daemon):
-	"""Example daemon created with Daemonizer"""
+	"""Example daemon created with Daemo"""
 	
 	def __init__(self):
 		"""Daemon initialization function"""
