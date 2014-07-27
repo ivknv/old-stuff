@@ -7,7 +7,7 @@ Simple module for writting daemons.
 Includes class for creating simple daemons.
 """
 
-import os, time, signal, sys, atexit
+import os, time, signal, sys
 
 class DaemonError(Exception):
 	pass
@@ -97,14 +97,16 @@ class Daemon(object):
 
 	def stop(self):
 		"""Stop daemon"""
-		
+				
 		try:
-			f = open(self.pidfile_path)
-		except IOError:
-			raise DaemonError("Daemon is not running or PID file doesn't exist")
-		
-		pid = f.read().strip()
-		f.close()
+			pid = self.pid
+		except AttributeError:
+			try:
+				f = open(self.pidfile_path)
+				pid = f.read().strip()
+				f.close()
+			except IOError:
+				raise DaemonError("Daemon is not running")
 		
 		self.onStop()
 		
