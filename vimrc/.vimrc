@@ -1,6 +1,6 @@
 " ==================================================
 " Author: Ivan Konovalov
-" Version: 1.6.0 2014.07.03 20:53 +0600
+" Version: 1.6.1 2014.08.01 13:00 +0600
 " 
 " Warning: I never tested this vimrc under Windows!
 " ==================================================
@@ -279,7 +279,18 @@ function! Tab_Or_Complete()
   endif
 endfunction
 
-:inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 
 " File templates
 au BufNewFile * silent! execute '0r ~/.vim/templates/default.%:e | normal GkJgg'
+
+" Some functions
+function! SpacesToTabs(num)
+	let num_spaces = repeat(" ", a:num)
+	execute "%s/" . num_spaces . "/\t/g"
+endfunction
+
+function! TabsToSpaces(num)
+	let num_spaces = repeat(" ", a:num)
+	execute "%s/\t/" . num_spaces ."/g"
+endfunction
