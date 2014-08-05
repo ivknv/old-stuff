@@ -486,9 +486,14 @@ pre {
 .wrapper header nav a {
 	/*Link in header*/
 	
+	color: rgb(103, 179, 238);
     font-weight: bold;
 	margin-left: -3px;
 	padding: 4px;
+}
+
+.wrapper header nav a:hover {
+	color: rgb(137, 213, 255);
 }
 
 #search_box {
@@ -531,7 +536,7 @@ pre {
 	display: inline-block;
 	font-family: Arial, Verdana, Tahoma;
 	font-size: 40px;
-	font-weight: 100;
+	font-weight: 500;
 	margin-right: 16px;
 	margin-top: 0;
 }
@@ -1198,5 +1203,5 @@ This section is responsible for style of pages like '404 not found' or
 }
 
 #center-error h1 {
-	font-weight: 100;
+	font-weight: 500;
 }
