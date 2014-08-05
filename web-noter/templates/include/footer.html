@@ -42,7 +42,7 @@
 				<a href="/logout/">Log out</a>
 			</li>
 			<li>
-				<a href="/profile/">Profile</a>
+				<a href="/profile/" onclick="load_page('/profile/'); return false;">Profile</a>
 			</li>
 		</ul>
 		<ul>
@@ -54,7 +54,7 @@
 	</div>
 	<div class="copyright-center">
 		<div>
-			Copyright © {% now "Y" %} Ivan Konovalov. All rights reserved.
+			Copyright &copy; {% now "Y" %} Ivan Konovalov. All rights reserved.
 		</div>
 	</div>
 </footer>

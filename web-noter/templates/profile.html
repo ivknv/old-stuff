@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}{{ username }}'s profile{% endblock %}
+{% block title %}Your profile{% endblock %}
 {% block content %}
 	<div id="result" class="alert"></div>
-	<h2>{{ username }}'s profile</h2>
+	<h2>Your profile</h2>
 	<div class="margin-bottom">
 		Date joined: {{ user.date_joined|date:"l, F j Y H:i" }}
 	</div>
