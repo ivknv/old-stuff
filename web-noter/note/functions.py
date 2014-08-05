@@ -7,14 +7,9 @@
 Functions that used by views.py, ajax.py and api.py
 """
 
-import sys # To check Python version
-
 import re
 
 from note.models import Note # To get notes from server's database
-
-if sys.version_info.major < 3: # If version of Python is lower than 3
-	range = xrange # Use xrange instead of range
 
 def leave_unique(list_):
 	for elem in list_:
@@ -294,10 +289,12 @@ def transform_tags_single(tags):
 	
 	if tags and not isinstance(tags, list):
 		tags = tags.split(",")
+		
 		for i in range(len(tags)):
-			if tags[i][0] == " ":
-				tags[i] = tags[i][1:]
-	return tags # return the result
+			if tags[i].startswith(" "):
+				if len(tags[i]) > 1:
+					tags[i] = tags[i][1:]
+	return tags
 
 def place_by_relevance(note, query, splitted=False, lower=False):
 	"""Place notes by relevance"""
