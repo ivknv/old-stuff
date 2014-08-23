@@ -135,7 +135,16 @@ sites_to_parse = {
 		
 		"Medium": { # medium.com
 			"module": medium,
-			"kwargs": {"collections": []}
+			"kwargs": {"collections": ["programming-stories",
+				"python-programming-language",
+				"programming-ideas-tutorial-and-experience",
+				"software-development-2", "developer-developers-developers",
+				"web-design-and-development", "desenvolvimento-web",
+				"web-development-9", "coding-design", "cool-code-pal",
+				"html-css-and-happiness", "html-css", "front-end-developers",
+				"web-design-tutorials", "written-in-code", "ui-designs",
+				"design-creativity-1", "this-could-be-better",
+				"user-experience-design-1", "design-ui-and-shenanigans"]}
 		},
 		
 		"Planet Clojure": { # planet.clojure.in
@@ -168,5 +177,5 @@ port = "8080" # Server port
 # Server to use
 server = "auto" # See http://bottlepy.org/docs/dev/deployment.html#switching-the-server-backend
 
-save_articles = True # Save articles into db.
+save_articles = False # Save articles into db.
 # Can be found at ~/.tech-parser/archive.db
