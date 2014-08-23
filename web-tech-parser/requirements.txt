@@ -4,4 +4,4 @@ lxml
 mako
 pycurl
 Daemo
-TechParser==1.4.4
+TechParser==1.4.5
