@@ -1,1 +1,1 @@
-web: python -m TechParser run 0.0.0.0:$PORT
+web: python -m TechParser run 0.0.0.0:$PORT --config user_parser_config.py
