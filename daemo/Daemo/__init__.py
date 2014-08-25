@@ -7,26 +7,25 @@ Simple module for writting daemons.
 Includes class for creating simple daemons.
 """
 
-import os, time, signal, sys
+import os, time, signal, sys, atexit
 
 class DaemonError(Exception):
+	pass
+
+def pass_(*args):
 	pass
 
 class Daemon(object):
 	"""Basic class for creating daemons:"""
 	
-	def __init__(self, pidfile_path, auto_remove_pidfile=True, stdin=sys.stdin,
+	def __init__(self, pidfile_path, stdin=sys.stdin,
 		stderr=sys.stderr, stdout=sys.stdout):
 		
 		if not os.path.exists(os.path.dirname(pidfile_path)):
 			raise DaemonError(
 				"Unable to create PID file: directory doesn't exist")
 		
-		if auto_remove_pidfile is not True and auto_remove_pidfile is not False:
-			auto_remove_pidfile = True
-		
 		self.pidfile_path = pidfile_path
-		self.auto_remove_pidfile = auto_remove_pidfile
 		self.stdin = stdin
 		self.stderr = stderr
 		self.stdout = stdout
@@ -89,11 +88,10 @@ class Daemon(object):
 		
 		f.write(str(os.getpid()))
 		f.close()
+		signal.signal(signal.SIGTERM, lambda *args: sys.exit(0))
+		atexit.register(self.delete_pidfile)
 		
 		self.onStart()
-		
-		if self.auto_remove_pidfile:
-			self.delete_pidfile()
 
 	def stop(self):
 		"""Stop daemon"""
@@ -114,9 +112,6 @@ class Daemon(object):
 			os.kill(int(pid), signal.SIGTERM)
 		except OSError:
 			raise DaemonError("Daemon is not running")
-		
-		if self.auto_remove_pidfile:
-			self.delete_pidfile()
 	
 	def restart(self):
 		"""Restart daemon"""

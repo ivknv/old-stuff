@@ -31,7 +31,7 @@ class TestDaemon(Daemon):
 		pidfile_path = os.path.expanduser("~/testdaemon.pid")
 		
 		# Call Daemon initialization function
-		super(TestDaemon, self).__init__(pidfile_path, auto_remove_pidfile=True)
+		super(TestDaemon, self).__init__(pidfile_path)
 	
 	def onStart(self):
 		"""This function is being called when daemon starts"""
