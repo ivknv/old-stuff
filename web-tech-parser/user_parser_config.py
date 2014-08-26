@@ -25,11 +25,18 @@ from TechParser import wired
 from TechParser import medium
 from TechParser import planetclojure
 from TechParser import reddit
+from TechParser import trashbox
+from TechParser import droider
+from TechParser import redroid
+from TechParser import threednews
+from TechParser import ixbt
+from TechParser import mobilereview
+from TechParser import helpix
 
 sites_to_parse = {
 		"Habrahabr": { # habrahabr.ru
 			"module": habrahabr,
-			"kwargs": {}
+			"kwargs": {"hubs": []}
 		},
 		
 		"VentureBeat": { # venturebeat.com
@@ -158,6 +165,41 @@ sites_to_parse = {
 				"clojure", "python", "html", "css",
 				"html5", "java", "javascript", "google",
 				"django", "functionalprogramming"]}
+		},
+		
+		"Trashbox": { # trashbox.ru
+			"module": trashbox,
+			"kwargs": {"end_page": 3}
+		},
+		
+		"Droider": { # droider.ru
+			"module": droider,
+			"kwargs": {"start_page": 1, "end_page": 2}
+		},
+		
+		"Redroid": { # redroid.ru
+			"module": redroid,
+			"kwargs": {"start_page": 1, "end_page": 1}
+		},
+		
+		"3DNews": { # www.3dnews.ru
+			"module": threednews,
+			"kwargs": {}
+		},
+		
+		"IXBT": { # www.ixbt.ru
+			"module": ixbt,
+			"kwargs": {}
+		},
+		
+		"Mobile Review": { # mobile-review.com
+			"module": mobilereview,
+			"kwargs": {}
+		},
+		
+		"Helpix": { # helpix.ru
+			"module": helpix,
+			"kwargs": {}
 		}
 	}
 
