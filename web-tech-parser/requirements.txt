@@ -1,8 +1,8 @@
 bottle
+pycurl
 grab
 lxml
 mako
-pycurl
 Daemo==1.1.4
 feedparser
 TechParser==1.6.1
