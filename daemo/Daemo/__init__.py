@@ -40,11 +40,6 @@ class Daemon(object):
 		
 		pass
 	
-	def onRestart(self):
-		"""This method is being called when daemon restarts"""
-		
-		pass
-	
 	def delete_pidfile(self):
 		os.remove(self.pidfile_path)
 	
@@ -116,12 +111,3 @@ class Daemon(object):
 			os.kill(int(pid), signal.SIGTERM)
 		except OSError:
 			raise DaemonError("Daemon is not running")
-	
-	def restart(self):
-		"""Restart daemon"""
-		
-		self.stop()
-		
-		self.onRestart()
-		
-		self.start()

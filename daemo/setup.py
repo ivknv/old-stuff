@@ -4,7 +4,7 @@
 from distutils.core import setup
 
 setup(name="Daemo",
-	version="1.1.3",
+	version="1.1.4",
 	author="Ivan Konovalov",
 	author_email="rvan.mega@gmail.com",
 	description="Module for creating daemons",
