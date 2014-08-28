@@ -32,6 +32,7 @@ from TechParser import threednews
 from TechParser import ixbt
 from TechParser import mobilereview
 from TechParser import helpix
+from TechParser import recode
 
 sites_to_parse = {
 		"Habrahabr": { # habrahabr.ru
@@ -200,6 +201,11 @@ sites_to_parse = {
 		"Helpix": { # helpix.ru
 			"module": helpix,
 			"kwargs": {}
+		},
+		
+		"Re/code": { # recode.net
+			"module": recode,
+			"kwargs": {}
 		}
 	}
 
@@ -213,6 +219,7 @@ filters = {
 
 update_interval = 1800 # Parse articles every 30 minutes
 
+db = 'postgresql'
 host = "0.0.0.0" # Server host
 port = "8080" # Server port
 

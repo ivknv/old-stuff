@@ -5,4 +5,5 @@ lxml
 mako
 Daemo==1.1.4
 feedparser
-TechParser==1.6.3
+psycopg2
+TechParser==1.6.6
