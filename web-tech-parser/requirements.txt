@@ -6,4 +6,4 @@ mako
 Daemo==1.1.4
 feedparser
 psycopg2
-TechParser==1.6.9
+TechParser==1.6.10
