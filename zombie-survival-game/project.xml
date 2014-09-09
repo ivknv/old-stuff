@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project>
+<version>
+1.0
+</version>
+<name>
+ZombieKiller
+</name>
+<language>
+Python
+</language>
+<authors>
+Ivan Konovalov
+</authors>
+<description>
+Some sort of zombie survival game
+</description>
+<date>
+<day>
+9
+</day>
+<month>
+9
+</month>
+<year>
+2014
+</year>
+<weekday>
+Tuesday
+</weekday>
+<hour>
+18
+</hour>
+<minute>
+14
+</minute>
+<second>
+22
+</second>
+</date>
+<referenced>
+
+</referenced>
+</project>
