@@ -3,40 +3,40 @@
 // CSRF
 // ====
 jQuery(document).ajaxSend(function(event, xhr, settings) {
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    function sameOrigin(url) {
-        // url could be relative or scheme relative or absolute
-        var host = document.location.host; // host + port
-        var protocol = document.location.protocol;
-        var sr_origin = '//' + host;
-        var origin = protocol + sr_origin;
-        // Allow absolute or scheme relative URLs to same origin
-        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
-            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
-            // or any other URL that isn't scheme relative or absolute i.e relative.
-            !(/^(\/\/|http:|https:).*/.test(url));
-    }
-    function safeMethod(method) {
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
+	function getCookie(name) {
+		var cookieValue = null;
+		if (document.cookie && document.cookie != '') {
+			var cookies = document.cookie.split(';');
+			for (var i = 0; i < cookies.length; i++) {
+				var cookie = jQuery.trim(cookies[i]);
+				// Does this cookie string begin with the name we want?
+				if (cookie.substring(0, name.length + 1) == (name + '=')) {
+					cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+					break;
+				}
+			}
+		}
+		return cookieValue;
+	}
+	function sameOrigin(url) {
+		// url could be relative or scheme relative or absolute
+		var host = document.location.host; // host + port
+		var protocol = document.location.protocol;
+		var sr_origin = '//' + host;
+		var origin = protocol + sr_origin;
+		// Allow absolute or scheme relative URLs to same origin
+		return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+			(url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+			// or any other URL that isn't scheme relative or absolute i.e relative.
+			!(/^(\/\/|http:|https:).*/.test(url));
+	}
+	function safeMethod(method) {
+		return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}
 
-    if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
-        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-    }
+	if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+		xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+	}
 });
 
 // @PAGELOAD @PLA @PAGE
@@ -102,28 +102,34 @@ function load_page(url, filter) {
 // ==============
 
 Array.prototype.contains = function(v) {
-    for(var i = 0; i < this.length; i++) {
-        if(this[i] === v) return true;
-    }
-    return false;
+	for(var i = 0; i < this.length; i++) {
+		if(this[i] === v) return true;
+	}
+	return false;
 };
 
 Array.prototype.unique = function() {
-    var arr = [];
-    for(var i = 0; i < this.length; i++) {
-        if(!arr.contains(this[i])) {
-            arr.push(this[i]);
-        }
-    }
-    return arr; 
+	var arr = [];
+	for(var i = 0; i < this.length; i++) {
+		if(!arr.contains(this[i])) {
+			arr.push(this[i]);
+		}
+	}
+	return arr;
+}
+
+if (typeof String.prototype.endsWith !== 'function') {
+	String.prototype.endsWith = function(suffix) {
+		return this.indexOf(suffix, this.length - suffix.length) !== -1;
+	};
 }
 
 function placeTag(tag) {
 	var $tagfield = jQuery("input[name=tags]");
 	var newval = $tagfield.val();
-	if (newval[-1] == " ")
+	if (newval.endsWith(" "))
 		newval = newval.slice(0, -1) + ", " + tag;
-	else if (newval[-1] == ",")
+	else if (newval.endsWith(","))
 		newval = newval + " " + tag;
 	else if (newval)
 		newval = newval + ", " + tag;
@@ -131,6 +137,11 @@ function placeTag(tag) {
 		newval = tag;
 	$tagfield.val(newval);
 	$tagfield.focus();
+}
+
+function makeTagButton(tag) {
+	return "<div class='tag-btn' onclick='placeTag(jQuery(this).html());' "
+			+"type='button'>"+tag+"</div>"
 }
 
 function getTags(id, text, title) {
@@ -147,7 +158,7 @@ function getTags(id, text, title) {
 						tags[i][0] = "";
 					if (!u.contains(tags[i])) {
 						u.push(tags[i]);
-						$stags.append("<div class='tag-btn' onclick='placeTag(jQuery(this).html());' type='button'>"+tags[i]+"</div>");
+						$stags.append(makeTagButton(tags[i]));
 					}
 				});
 		});
@@ -161,29 +172,27 @@ function getTags(id, text, title) {
 // ===============
 
 function fail(str) {
-	function wrapper(data) {
-		$result = jQuery("#result");
+	return function(data) {
+		var $result = jQuery("#result");
 		$result.attr("class", "fail");
 		$result.html("<strong class='error'>"+str+"</strong>");
 		$result.css("display", "block");
-		setTimeout("$result.fadeOut('slow')", 1500);
+		setTimeout(function() {$result.fadeOut('slow')}, 1500);
 	}
-	
-	return wrapper;
 }
 
 function success(str, failStr, redirect) {
-	function wrapper(data) {
+	return function(data) {
 		if (data.success) {
 			if (redirect) {
 				load_page(redirect);
 				return;
 			}
-			$result = jQuery("#result");
+			var $result = jQuery("#result");
 			$result.attr("class", "okay");
 			$result.html("<strong class='success'>"+str+"</strong>");
 			$result.css("display", "block");
-			setTimeout("$result.fadeOut('slow')", 1500);
+			setTimeout(function() {$result.fadeOut('slow')}, 1500);
 			if (data.eid && data.result) {
 				jQuery(data.eid).html(data.result);
 			}
@@ -195,8 +204,6 @@ function success(str, failStr, redirect) {
 			}
 		}
 	}
-	
-	return wrapper;
 }
 
 function rmNote(id) {
@@ -447,26 +454,26 @@ jQuery(document).keypress(function(event) {
 // =============================
 
 function enableTab(id) {
-    var el = document.getElementById(id);
-    el.onkeydown = function(e) {
-        if (e.keyCode === 9) { // tab was pressed
+	var el = document.getElementById(id);
+	el.onkeydown = function(e) {
+		if (e.keyCode === 9) { // tab was pressed
 
-            // get caret position/selection
-            var val = this.value,
-                start = this.selectionStart,
-                end = this.selectionEnd;
+			// get caret position/selection
+			var val = this.value,
+				start = this.selectionStart,
+				end = this.selectionEnd;
 
-            // set textarea value to: text before caret + tab + text after caret
-            this.value = val.substring(0, start) + '\t' + val.substring(end);
+			// set textarea value to: text before caret + tab + text after caret
+			this.value = val.substring(0, start) + '\t' + val.substring(end);
 
-            // put caret at right position again
-            this.selectionStart = this.selectionEnd = start + 1;
+			// put caret at right position again
+			this.selectionStart = this.selectionEnd = start + 1;
 
-            // prevent the focus lose
-            return false;
+			// prevent the focus lose
+			return false;
 
-        }
-    };
+		}
+	};
 }
 
 // @READY
@@ -541,7 +548,7 @@ function onLoad() {
 // ==============
 // Highlight code
 // ==============
-hljs.configure({tabReplace: '    '});
+hljs.configure({tabReplace: '	'});
 hljs.initHighlightingOnLoad();
 
 // @USER @ACCOUNT
