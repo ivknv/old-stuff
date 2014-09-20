@@ -205,13 +205,12 @@ Using lists instead of Note objects"""
 				similarity[1]*100,
 				similarity[0]*100,
 				("<Note: {}>".format(title),
-					[
-						note.title,
-						note.text,
-						transform_tags_single(note.tags)])])
+					[note.title,
+					note.text,
+					transform_tags_single(note.tags)])])
 	
-	sorted_list.sort() # Sort list of notes
-	sorted_list.reverse() # Reverse the list of notes
+	# Sort list of notes
+	sorted_list.sort(key=lambda x: (x[0]+x[1])/2.0, reverse=True)
 	
 	return sorted_list
 

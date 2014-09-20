@@ -11,7 +11,7 @@ from django.http import Http404, HttpResponse # To send data to browser
 
 from django.shortcuts import redirect
 
-from note.models import Note # To get notes from server's database
+from note.models import Note # To get notes from database
 
 from django.contrib.auth.models import User
 
@@ -21,7 +21,7 @@ from django.db import OperationalError
 
 from note.functions import check_similarity_from_string_list
 
-import json # To send AJAX answers
+import json # To send JSON responses
 
 def add_note(request):
 	"""Add note"""
@@ -55,8 +55,8 @@ def add_note(request):
 			text=text,
 			tags=tags,
 			type=type_,
-			author=request.user
-		)
+			author=request.user)
+		
 		new_note.save()
 	except OperationalError as error:
 		context["success"] = False
@@ -187,13 +187,12 @@ Can be called by AJAX request"""
 	title = request.POST["title"]
 	context = { # This is the future JSON object
 		"text": text,
-		"title": title
-	}
+		"title": title}
+	
 	top3 = check_similarity_from_string_list( # top 3 similiar notes
 		id_,
 		text,
-		title
-	)[0:3]
+		title)[0:3]
 	
 	context["top3"] = top3
 	
