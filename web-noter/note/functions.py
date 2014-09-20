@@ -9,27 +9,65 @@ Functions that used by views.py, ajax.py and api.py
 
 import re
 
-from note.models import Note # To get notes from server's database
+from note.models import Note # To get notes from database
 
-def leave_unique(list_):
-	for elem in list_:
-		while list_.count(elem) > 1:
-			list_.remove(elem)
-	
-	return list_
+default_excluded_words = ["a", "an", "the", "is", "am", "are",
+	"for", "that", "of", "to", "so", "in", "on"]
 
-def get_pairs(string):
+def get_pairs(words):
 	pairs = []
-	
-	for i in range(len(string)-1):
-		pairs.append(string[i:i+2])
-	
+	for word in words:
+		if len(word) == 1:
+			pairs.append(word)
+		else:
+			pairs += [word[i:i+2] for i in range(len(word))]
 	return pairs
 
 def remove_tags_from_string(string):
 	"""Remove all HTML tags from string"""
 	
 	return re.sub("<.*?>", "", string)
+
+def prepare_string(s):
+	"""Remove non-letters, HTML tags,
+	   some common words and split string into words"""
+	
+	s = s.strip().lower()
+	r1 = re.compile(r"(?P<g1>\w+)n['\u2019]t", re.UNICODE)
+	r2 = re.compile(r"(?P<g1>\w+)['\u2019]s", re.UNICODE)
+	r3 = re.compile(r"(?P<g1>\w+)['\u2019]m", re.UNICODE)
+	r4 = re.compile(r"(?P<g1>\w+)['\u2019]re", re.UNICODE)
+	r5 = re.compile(r"(?P<g1>\w+)['\u2019]ve", re.UNICODE)
+	r6 = re.compile(r"(?P<g1>\w+)['\u2019]d", re.UNICODE)
+	r7 = re.compile(r"(?P<g1>\w+)['\u2019]ll", re.UNICODE)
+	r8 = re.compile(r"gonna", re.UNICODE)
+	
+	s = remove_tags_from_string(s)
+	s = r1.sub(r"\g<g1> not", s)
+	s = r2.sub(r"\g<g1>", s)
+	s = r3.sub(r"\g<g1> am", s)
+	s = r4.sub(r"\g<g1> are", s)
+	s = r5.sub(r"\g<g1> have", s)
+	s = r6.sub(r"\g<g1> would", s)
+	s = r7.sub(r"\g<g1> will", s)
+	s = r8.sub(r"going to", s)
+	words = re.split(r"\W", s)
+	for word in default_excluded_words:
+		while words.count(word) > 0:
+			words.remove(word)
+	
+	return [word for word in words if len(word)]
+
+def get_shrd(pairs1, pairs2):
+	"""Get list of common pairs"""
+	
+	shrd = []
+	for pair in pairs1:
+		if pair in pairs2:
+			if shrd.count(pair) < min(pairs1.count(pair), pairs2.count(pair)):
+				shrd.append(pair)
+	
+	return shrd
 
 def check_similarity_from_strings(string1, string2):
 	"""
@@ -43,52 +81,28 @@ def check_similarity_from_strings(string1, string2):
 	@type string1: str
 	@type string2: str
 	@rtype: float
-	
-	>>> check_similarity_from_strings("test number 1", "test number 1")
-	1.0
-	
-	>>> check_similarity_from_strings("test number 1", "test number 2")
-	0.9166666666666666
-	
-	>>> check_similarity_from_strings("test food", "tasty food")
-	0.5882352941176471
-	
 	"""
 	
-	char = r"[\.,_\+\\/\|`~<>\?!@#\$%\^&\*\(\)\[\]\{\};:'\"=\r\t]"
+	words1 = prepare_string(string1)
+	words2 = prepare_string(string2)
 	
-	string1 = remove_tags_from_string(string1)
-	string2 = remove_tags_from_string(string2)
-	
-	string1 = re.sub(char, "", string1.lower())
-	string2 = re.sub(char, "", string2.lower())
-	
-	string1 = string1.replace("\n", " ")
-	string2 = string2.replace("\n", " ")
-	
-	pairs1 = get_pairs(string1)
-	pairs2 = get_pairs(string2)
+	pairs1 = get_pairs(words1)
+	pairs2 = get_pairs(words2)
 	
 	len_all_pairs = len(pairs1) + len(pairs2)
 	
-	shrd = leave_unique([pair for pair in pairs1 if pair in pairs2])
+	shrd = get_shrd(pairs1, pairs2)
 	
 	if len_all_pairs == 0:
-		return 0
+		return 0.0
 	
 	return 2.0 * len(shrd) / len_all_pairs
 	
 def similarity_score(title1, title2, text1, text2):
 	"""Get similarity percentage of two notes"""
 	
-	return (
-		check_similarity_from_strings(
-			title1,
-			title2),
-		check_similarity_from_strings(
-				text1,
-				text2)
-		)
+	return (check_similarity_from_strings(title1, title2),
+			check_similarity_from_strings(text1, text2))
 
 def check_similarity(note, notes=Note.objects.all()):
 	"""Get sorted list of similiar notes"""
@@ -103,15 +117,13 @@ def check_similarity(note, notes=Note.objects.all()):
 			title1=note.title,
 			title2=note2.title,
 			text1=note.text,
-			text2=note2.text
-		)
+			text2=note2.text)
 		
 		if sum(similarity) > 0:
 			sorted_list.append([
 				similarity[1]*100,
 				similarity[0]*100,
-				(note, note2)
-			])
+				(note, note2)])
 	
 	sorted_list.sort(key=lambda x: (x[0]+x[1])/2.0) # Sort list of notes
 	sorted_list.reverse() # Reverse the list of notes
@@ -161,14 +173,13 @@ def check_similarity_from_string(text, title, notes=Note.objects.all()):
 			title1=title,
 			title2=note.title,
 			text1=text,
-			text2=note.text
-		)
+			text2=note.text)
+		
 		if sum(similarity) > 0:
 			sorted_list.append([
 				similarity[1]*100,
 				similarity[0]*100,
-				("<Note: {title}>".format(title=title), note)
-			])
+				("<Note: {title}>".format(title=title), note)])
 	
 	sorted_list.sort() # Sort list of notes
 	sorted_list.reverse() # Reverse the list of notes
@@ -197,11 +208,7 @@ Using lists instead of Note objects"""
 					[
 						note.title,
 						note.text,
-						transform_tags_single(
-							note.tags
-						)
-					])
-			])
+						transform_tags_single(note.tags)])])
 	
 	sorted_list.sort() # Sort list of notes
 	sorted_list.reverse() # Reverse the list of notes
