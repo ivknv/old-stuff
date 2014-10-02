@@ -23,8 +23,7 @@ total_frames, total_frames_before = 0, 0
 paused = False
 clock = pygame.time.Clock()
 
-button1 = PygButton((WIDTH / 2 - 60, 100, 120, 40), 'New game')
-button2 = PygButton((WIDTH / 2 - 60, 150, 120, 40), 'Continue')
+button1 = PygButton((WIDTH / 2 - 60, 100, 120, 40), 'Play')
 quitButton = PygButton((WIDTH / 2 - 60, 200, 120, 40), 'Quit')
 button3 = PygButton((WIDTH / 2 - 60, 100, 120, 40), 'Continue')
 button4 = PygButton((WIDTH / 2 - 60, 150, 120, 40), 'Quit')
@@ -55,7 +54,7 @@ buyGrenadesButton = PygButton((WIDTH / 2 - 125, 150, 250, 40), 'Buy Grenades $80
 backButton = PygButton((WIDTH / 2 - 125, 420, 250, 40), 'Back')
 backToUpgradesButton = PygButton((WIDTH / 2 - 125, 320, 250, 40), 'Back')
 upgrade_buttons = [pistolButton, shotgunButton, machineGunButton, bazookaButton, grenadesButton, backButton]
-menu_buttons = [button1, button2, quitButton]
+menu_buttons = [button1, upgradesButton, quitButton]
 pause_menu_buttons = [button3, button4]
 buttons3 = [button5, upgradesButton]
 survivor = Survivor(WIDTH / 2, HEIGHT / 2)
@@ -599,6 +598,8 @@ def menu_screen(*args, **kwargs):
 		if 'click' in button1.handleEvent(event):
 			reset_game()
 			current_screen = game_screen
+		elif 'click' in upgradesButton.handleEvent(event):
+			current_screen = upgrade_screen
 		elif 'click' in quitButton.handleEvent(event):
 			pygame.quit()
 			sys.exit(0)
@@ -608,4 +609,4 @@ def menu_screen(*args, **kwargs):
 	pygame.display.update()
 	clock.tick(FPS)
 
-current_screen = upgrade_screen
+current_screen = menu_screen
