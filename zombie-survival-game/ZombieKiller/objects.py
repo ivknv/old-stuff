@@ -173,6 +173,7 @@ class Wave(object):
 	@staticmethod
 	def reset():
 		Wave.types = [[0, 100], [1, -1], [2, -1], [3, -1]]
+		Wave.multiplier = 1.0
 
 class BaseClass(pygame.sprite.DirtySprite):
 	List = pygame.sprite.LayeredDirty()

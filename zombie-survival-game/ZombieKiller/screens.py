@@ -4,7 +4,7 @@
 import pygame, sys
 import func
 from variables import *
-from pygbutton import PygButton, DARKGRAY
+from pygbutton import PygButton, DARKGRAY, LIGHTGRAY
 
 pygame.mixer.pre_init(44100, -16, 1, 512)
 pygame.init()
@@ -59,6 +59,30 @@ pause_menu_buttons = [button3, button4]
 buttons3 = [button5, upgradesButton]
 survivor = Survivor(WIDTH / 2, HEIGHT / 2)
 
+def get_upgrade_cost(weapon, feature):
+	feature_level = '{}_level'.format(feature)
+	weapon_specs = player_progress.weapons[weapon]
+	return weapon_specs[feature_level]*weapon_specs['cost_multiplier']
+
+def update_cost(button, weapon, feature):
+	regex = re.compile('\$\d+')
+	new_cost = '$' + str(get_upgrade_cost(weapon, feature))
+	button.caption = regex.sub(new_cost, button.caption)
+
+update_cost(upgradePistol1, PISTOL, 'accuracy')
+update_cost(upgradePistol2, PISTOL, 'delay')
+update_cost(upgradePistol3, PISTOL, 'damage')
+update_cost(upgradeShotgun1, SHOTGUN, 'delay')
+update_cost(upgradeShotgun2, SHOTGUN, 'damage')
+update_cost(upgradeShotgun3, SHOTGUN, 'number_of_pellets')
+update_cost(upgradeMGun1, AUTOMATIC, 'delay')
+update_cost(upgradeMGun2, AUTOMATIC, 'damage')
+update_cost(upgradeMGun3, AUTOMATIC, 'accuracy')
+update_cost(upgradeBazooka1, BAZOOKA, 'delay')
+update_cost(upgradeBazooka2, BAZOOKA, 'explosion_damage')
+update_cost(upgradeBazooka3, BAZOOKA, 'accuracy')
+update_cost(upgradeGrenades1, GRENADE, 'damage')
+
 def find_path(survivor):
 	for zombie in Zombie.List:
 		zombie.tx = survivor.rect.centerx 
@@ -66,11 +90,6 @@ def find_path(survivor):
 		zombie.angle = func.get_angle(zombie.x, zombie.y,
 			survivor.rect.centerx, survivor.rect.centery)
 		zombie.update()
-
-def get_upgrade_cost(weapon, feature):
-	feature_level = '{}_level'.format(feature)
-	weapon_specs = player_progress.weapons[weapon]
-	return weapon_specs[feature_level]*weapon_specs['cost_multiplier']
 
 def pause_menu(screen, survivor, events):
 	global current_screen, paused
@@ -113,11 +132,6 @@ def show_money():
 	font = pygame.font.SysFont('monospace', 35)
 	text = font.render('$' + str(Survivor.money), True, (173, 227, 141))
 	screen.blit(text, (20, 20))
-
-def update_cost(button, weapon, feature):
-	regex = re.compile('\$\d+')
-	new_cost = '$' + str(get_upgrade_cost(weapon, feature))
-	button.caption = regex.sub(new_cost, button.caption)
 
 def game_screen(*args, **kwargs):
 	global total_frames, current_screen, total_frames_before, survivor
@@ -238,12 +252,18 @@ def upgrade_pistol_screen(*args, **kwargs):
 	delay_cost = get_upgrade_cost(PISTOL, 'delay')
 	damage_cost = get_upgrade_cost(PISTOL, 'damage')
 	
-	if survivor.money < accuracy_cost:
+	if Survivor.money < accuracy_cost:
 		upgradePistol1.bgcolor = DARKGRAY
-	if survivor.money < delay_cost:
+	else:
+		upgradePistol1.bgcolor = LIGHTGRAY
+	if Survivor.money < delay_cost:
 		upgradePistol2.bgcolor = DARKGRAY
-	if survivor.money < damage_cost:
+	else:
+		upgradePistol2.bgcolor = LIGHTGRAY
+	if Survivor.money < damage_cost:
 		upgradePistol3.bgcolor = DARKGRAY
+	else:
+		upgradePistol3.bgcolor = LIGHTGRAY
 	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -253,7 +273,7 @@ def upgrade_pistol_screen(*args, **kwargs):
 			current_screen = upgrade_screen
 		elif 'click' in upgradePistol1.handleEvent(event):
 			if player_progress.weapons[PISTOL]['accuracy_level'] < 4:
-				if survivor.money >= accuracy_cost:
+				if Survivor.money >= accuracy_cost:
 					new_accuracy = Bullet.specs['accuracy'][PISTOL] + 0.1
 					Bullet.specs['accuracy'][PISTOL] = new_accuracy
 					player_progress.update_weapon(PISTOL, accuracy=new_accuracy)
@@ -263,7 +283,7 @@ def upgrade_pistol_screen(*args, **kwargs):
 					update_cost(upgradePistol1, PISTOL, 'accuracy')
 		elif 'click' in upgradePistol2.handleEvent(event):
 			if player_progress.weapons[PISTOL]['delay_level'] < 4:
-				if survivor.money >= delay_cost:
+				if Survivor.money >= delay_cost:
 					new_delay = Bullet.specs['delay'][PISTOL] - 0.05
 					Bullet.specs['delay'][PISTOL] = new_delay
 					player_progress.update_weapon(PISTOL, delay=new_delay)
@@ -273,7 +293,7 @@ def upgrade_pistol_screen(*args, **kwargs):
 					update_cost(upgradePistol2, PISTOL, 'delay')
 		elif 'click' in upgradePistol3.handleEvent(event):
 			if player_progress.weapons[PISTOL]['damage_level'] < 4:
-				if survivor.money >= damage_cost:
+				if Survivor.money >= damage_cost:
 					new_damage = Bullet.specs['damage'][PISTOL] + 10
 					Bullet.specs['damage'][PISTOL] = new_damage
 					player_progress.update_weapon(PISTOL, damage=new_damage)
@@ -303,14 +323,22 @@ def upgrade_shotgun_screen(*args, **kwargs):
 	delay_cost = get_upgrade_cost(SHOTGUN, 'delay')
 	damage_cost = get_upgrade_cost(SHOTGUN, 'damage')
 	
-	if survivor.money < delay_cost:
+	if Survivor.money < delay_cost:
 		upgradeShotgun1.bgcolor = DARKGRAY
-	if survivor.money < damage_cost:
+	else:
+		upgradeShotgun1.bgcolor = LIGHTGRAY
+	if Survivor.money < damage_cost:
 		upgradeShotgun2.bgcolor = DARKGRAY
-	if survivor.money < pellets_cost:
+	else:
+		upgradeShotgun2.bgcolor = LIGHTGRAY
+	if Survivor.money < pellets_cost:
 		upgradeShotgun3.bgcolor = DARKGRAY
-	if survivor.money < 2000:
+	else:
+		upgradeShotgun3.bgcolor = LIGHTGRAY
+	if Survivor.money < 2000:
 		buyShotgunButton.bgcolor = DARKGRAY
+	else:
+		buyShotgunButton.bgcolor = LIGHTGRAY
 	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -320,7 +348,7 @@ def upgrade_shotgun_screen(*args, **kwargs):
 			current_screen = upgrade_screen
 		if SHOTGUN in Survivor.available_weapons:
 			if 'click' in upgradeShotgun1.handleEvent(event):
-				if survivor.money >= delay_cost:
+				if Survivor.money >= delay_cost:
 					if player_progress.weapons[SHOTGUN]['delay_level'] < 4:
 						new_delay = Bullet.specs['delay'][SHOTGUN] - 0.05
 						Bullet.specs['delay'][SHOTGUN] = new_delay
@@ -330,7 +358,7 @@ def upgrade_shotgun_screen(*args, **kwargs):
 						player_progress.write()
 						update_cost(upgradeShotgun1, SHOTGUN, 'delay')
 			elif 'click' in upgradeShotgun2.handleEvent(event):
-				if survivor.money >= damage_cost:
+				if Survivor.money >= damage_cost:
 					if player_progress.weapons[SHOTGUN]['damage_level'] < 4:
 						new_damage = Bullet.specs['damage'][SHOTGUN] + 5
 						Bullet.specs['damage'][SHOTGUN] = new_damage
@@ -340,7 +368,7 @@ def upgrade_shotgun_screen(*args, **kwargs):
 						player_progress.write()
 						update_cost(upgradeShotgun2, SHOTGUN, 'damage')
 			elif 'click' in upgradeShotgun3.handleEvent(event):
-				if survivor.money >= pellets_cost:
+				if Survivor.money >= pellets_cost:
 					if player_progress.weapons[SHOTGUN]['number_of_pellets_level'] < 3:
 						new_num = player_progress.weapons[SHOTGUN]['number_of_pellets'] + 1
 						player_progress.update_weapon(SHOTGUN, number_of_pellets=new_num)
@@ -382,14 +410,22 @@ def upgrade_mgun_screen(*args, **kwargs):
 	delay_cost = get_upgrade_cost(AUTOMATIC, 'delay')
 	damage_cost = get_upgrade_cost(AUTOMATIC, 'damage')
 	
-	if survivor.money < delay_cost:
+	if Survivor.money < delay_cost:
 		upgradeMGun1.bgcolor = DARKGRAY
-	if survivor.money < damage_cost:
+	else:
+		upgradeMGun1.bgcolor = LIGHTGRAY
+	if Survivor.money < damage_cost:
 		upgradeMGun2.bgcolor = DARKGRAY
-	if survivor.money < accuracy_cost:
+	else:
+		upgradeMGun2.bgcolor = LIGHTGRAY
+	if Survivor.money < accuracy_cost:
 		upgradeMGun3.bgcolor = DARKGRAY
-	if survivor.money < 5000:
+	else:
+		upgradeMGun3.bgcolor = LIGHTGRAY
+	if Survivor.money < 5000:
 		buyMGunButton.bgcolor = DARKGRAY
+	else:
+		buyMGunButton.bgcolor = LIGHTGRAY
 	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -399,7 +435,7 @@ def upgrade_mgun_screen(*args, **kwargs):
 			current_screen = upgrade_screen
 		if AUTOMATIC in Survivor.available_weapons:
 			if 'click' in upgradeMGun1.handleEvent(event):
-				if survivor.money >= delay_cost:
+				if Survivor.money >= delay_cost:
 					if player_progress.weapons[AUTOMATIC]['delay_level'] < 4:
 						new_delay = Bullet.specs['delay'][AUTOMATIC] - 0.04
 						Bullet.specs['delay'][AUTOMATIC] = new_delay
@@ -408,7 +444,7 @@ def upgrade_mgun_screen(*args, **kwargs):
 						player_progress.update_data(money=Survivor.money)
 						player_progress.write()
 			elif 'click' in upgradeMGun2.handleEvent(event):
-				if survivor.money >= damage_cost:
+				if Survivor.money >= damage_cost:
 					if player_progress.weapons[AUTOMATIC]['damage_level'] < 4:
 						new_damage = Bullet.specs['damage'][AUTOMATIC] + 3
 						Bullet.specs['damage'][AUTOMATIC] = new_damage
@@ -417,7 +453,7 @@ def upgrade_mgun_screen(*args, **kwargs):
 						player_progress.update_data(money=Survivor.money)
 						player_progress.write()
 			elif 'click' in upgradeMGun3.handleEvent(event):
-				if survivor.money >= accuracy_cost:
+				if Survivor.money >= accuracy_cost:
 					if player_progress.weapons[AUTOMATIC]['accuracy_level'] < 4:
 						new_accuracy = Bullet.specs['accuracy'][AUTOMATIC] + 0.025
 						player_progress.update_weapon(AUTOMATIC, accuracy=new_accuracy)
@@ -426,7 +462,7 @@ def upgrade_mgun_screen(*args, **kwargs):
 						player_progress.write()
 		else:
 			if 'click' in buyMGunButton.handleEvent(event):
-				if survivor.money >= 5000:
+				if Survivor.money >= 5000:
 					Survivor.money -= 5000
 					Survivor.available_weapons.append(AUTOMATIC)
 					player_progress.update_data(money=Survivor.money)
@@ -458,14 +494,22 @@ def upgrade_bazooka_screen(*args, **kwargs):
 	delay_cost = get_upgrade_cost(BAZOOKA, 'delay')
 	explosion_damage_cost = get_upgrade_cost(BAZOOKA, 'explosion_damage')
 	
-	if survivor.money < delay_cost:
+	if Survivor.money < delay_cost:
 		upgradeBazooka1.bgcolor = DARKGRAY
-	if survivor.money < explosion_damage_cost:
+	else:
+		upgradeBazooka1.bgcolor = LIGHTGRAY
+	if Survivor.money < explosion_damage_cost:
 		upgradeBazooka2.bgcolor = DARKGRAY
-	if survivor.money < accuracy_cost:
+	else:
+		upgradeBazooka2.bgcolor = LIGHTGRAY
+	if Survivor.money < accuracy_cost:
 		upgradeBazooka3.bgcolor = DARKGRAY
-	if survivor.money < 12000:
+	else:
+		upgradeBazooka3.bgcolor = LIGHTGRAY
+	if Survivor.money < 12000:
 		buyBazookaButton.bgcolor = DARKGRAY
+	else:
+		buyBazookaButton.bgcolor = LIGHTGRAY
 	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -475,7 +519,7 @@ def upgrade_bazooka_screen(*args, **kwargs):
 			current_screen = upgrade_screen
 		if BAZOOKA in Survivor.available_weapons:
 			if 'click' in upgradeBazooka1.handleEvent(event):
-				if survivor.money >= delay_cost:
+				if Survivor.money >= delay_cost:
 					if player_progress.weapons[BAZOOKA]['delay_level'] < 4:
 						new_delay = Bullet.specs['delay'][BAZOOKA] - 0.5
 						Bullet.specs['delay'][BAZOOKA] = new_delay
@@ -484,7 +528,7 @@ def upgrade_bazooka_screen(*args, **kwargs):
 						player_progress.update_data(money=Survivor.money)
 						player_progress.write()
 			elif 'click' in upgradeBazooka2.handleEvent(event):
-				if survivor.money >= explosion_damage_cost:
+				if Survivor.money >= explosion_damage_cost:
 					if player_progress.weapons[BAZOOKA]['explosion_damage_level'] < 5:
 						new_damage = player_progress.weapons[BAZOOKA]['explosion_damage'] + 50
 						player_progress.weapons[BAZOOKA]['explosion_damage'] = new_damage
@@ -493,7 +537,7 @@ def upgrade_bazooka_screen(*args, **kwargs):
 						player_progress.update_data(money=Survivor.money)
 						player_progress.write()
 			elif 'click' in upgradeBazooka3.handleEvent(event):
-				if survivor.money >= accuracy_cost:
+				if Survivor.money >= accuracy_cost:
 					if player_progress.weapons[BAZOOKA]['accuracy_level'] < 4:
 						new_accuracy = Bullet.specs['accuracy'][BAZOOKA] + 0.1
 						player_progress.update_weapon(BAZOOKA, accuracy=new_accuracy)
@@ -502,7 +546,7 @@ def upgrade_bazooka_screen(*args, **kwargs):
 						player_progress.write()
 		else:
 			if 'click' in buyBazookaButton.handleEvent(event):
-				if survivor.money >= 12000:
+				if Survivor.money >= 12000:
 					Survivor.money -= 12000
 					Survivor.available_weapons.append(BAZOOKA)
 					player_progress.update_data(money=Survivor.money)
@@ -532,10 +576,14 @@ def upgrade_grenades_screen(*args, **kwargs):
 	
 	damage_cost = get_upgrade_cost(GRENADE, 'damage')
 	
-	if survivor.money < damage_cost:
+	if Survivor.money < damage_cost:
 		upgradeGrenades1.bgcolor = DARKGRAY
-	if survivor.money < 8000:
+	else:
+		upgradeGrenades1.bgcolor = LIGHTGRAY
+	if Survivor.money < 8000:
 		buyGrenadesButton.bgcolor = DARKGRAY
+	else:
+		buyGrenadesButton.bgcolor = LIGHTGRAY
 	
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -545,7 +593,7 @@ def upgrade_grenades_screen(*args, **kwargs):
 			current_screen = upgrade_screen
 		if player_progress.weapons[GRENADE]['available']:
 			if 'click' in upgradeGrenades1.handleEvent(event):
-				if survivor.money >= damage_cost:
+				if Survivor.money >= damage_cost:
 					if player_progress.weapons[GRENADE]['damage_level'] < 3:
 						new_damage = player_progress.weapons[GRENADE]['damage'] + 20
 						player_progress.weapons[GRENADE]['damage'] = new_damage
@@ -556,7 +604,7 @@ def upgrade_grenades_screen(*args, **kwargs):
 						Grenade.damage = new_damage
 		else:
 			if 'click' in buyGrenadesButton.handleEvent(event):
-				if survivor.money >= 8000:
+				if Survivor.money >= 8000:
 					Survivor.money -= 8000
 					player_progress.update_data(money=Survivor.money)
 					player_progress.update_weapon(GRENADE, available='true')

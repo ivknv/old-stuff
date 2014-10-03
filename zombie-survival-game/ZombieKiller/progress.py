@@ -146,9 +146,10 @@ class GameProgress(object):
 			w['accuracy'] = specs['accuracy']
 			if w['accuracy_level'] is not None:
 				w['accuracy_level'] += 1
+				element.setAttribute('level', str(w['accuracy_level']))
 		if 'available' in specs:
 			element = self.xmldata.getElementsByTagName(tag)[0]
-			element.setAttribute(AVAILABLE_ATTR, str(specs['available']))
+			element.setAttribute(AVAILABLE_ATTR, str(specs['available']).lower())
 			w['available'] = specs['available'] == 'true'
 			if w['available']:
 				self.available_weapons.append(w)
@@ -159,6 +160,7 @@ class GameProgress(object):
 			w['damage'] = specs['damage']
 			if w['damage_level'] is not None:
 				w['damage_level'] += 1
+				element.setAttribute('level', str(w['damage_level']))
 		if 'delay' in specs:
 			weapon_element = self.xmldata.getElementsByTagName(tag)[0]
 			element = weapon_element.getElementsByTagName(DELAY_TAG)[0]
@@ -166,12 +168,14 @@ class GameProgress(object):
 			w['delay'] = specs['delay']
 			if w['delay_level'] is not None:
 				w['delay_level'] += 1
+				element.setAttribute('level', str(w['delay_level']))
 		if 'number_of_pellets' in specs:
 			weapon_element = self.xmldata.getElementsByTagName(tag)[0]
 			element = weapon_element.getElementsByTagName(NUMBER_OF_PELLETS_TAG)[0]
 			element.firstChild.nodeValue = str(specs['number_of_pellets'])
 			w['number_of_pellets'] = specs['number_of_pellets']
 			w['number_of_pellets_level'] += 1
+			element.setAttribute('level', str(w['number_of_pellets_level']))
 				
 		if 'explosion_damage' in specs:
 			weapon_element = self.xmldata.getElementsByTagName(tag)[0]
@@ -179,6 +183,7 @@ class GameProgress(object):
 			element.firstChild.nodeValue = str(specs['explosion_damage'])
 			w['explosion_damage'] = specs['explosion_damage']
 			w['explosion_damage_level'] += 1
+			element.setAttribute('level', str(w['explosion_damage_level']))
 	
 	def parse_xml(self, nodes=None, dnodes=None):
 		if dnodes is None:
