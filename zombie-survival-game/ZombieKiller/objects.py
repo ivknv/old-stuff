@@ -253,10 +253,10 @@ class Zombie(Character):
 	images = None
 	wave_number = 1
 	current_wave = Wave(1)
-	types = [{'strength': [5.0, 7.0], 'speed': [1.7, 2.2], 'health': [150, 250]},
-	{'strength': [5.5, 9.0], 'speed': [2.1, 2.3], 'health': [180, 280]},
-	{'strength': [7.0, 11.0], 'speed': [2.1, 2.7], 'health': [500, 750]},
-	{'strength': [6.0, 9.0], 'speed': [2.5, 3.0], 'health': [230, 350]}]
+	types = [{'strength': [5.0, 7.0], 'speed': [3.4, 4.4], 'health': [150, 250]},
+	{'strength': [5.5, 9.0], 'speed': [4.2, 4.6], 'health': [180, 280]},
+	{'strength': [7.0, 11.0], 'speed': [4.2, 5.8], 'health': [500, 750]},
+	{'strength': [6.0, 9.0], 'speed': [5.0, 6.0], 'health': [230, 350]}]
 		
 	def __init__(self, x, y, type_, multiplier, total_frames):
 		self.type = type_
@@ -367,7 +367,7 @@ class Grenade(BaseClass):
 		self.ox, self.oy = self.x, self.y
 		
 		self.angle = get_angle(self.x, self.y, self.tx, self.ty)
-		self.set_velocity(8)
+		self.set_velocity(16)
 		
 		self.image_angle = 0
 		
@@ -558,7 +558,7 @@ class Bullet(BaseClass):
 				
 		self.rotate_image()
 		
-		self.set_velocity(18)
+		self.set_velocity(BULLET_VELOCITY)
 		
 		self.ox, self.oy = self.x, self.y
 		
