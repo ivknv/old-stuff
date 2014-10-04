@@ -443,6 +443,7 @@ def upgrade_mgun_screen(*args, **kwargs):
 						Survivor.money -= delay_cost
 						player_progress.update_data(money=Survivor.money)
 						player_progress.write()
+						update_cost(upgradeMGun1, AUTOMATIC, 'delay')
 			elif 'click' in upgradeMGun2.handleEvent(event):
 				if Survivor.money >= damage_cost:
 					if player_progress.weapons[AUTOMATIC]['damage_level'] < 4:
@@ -452,6 +453,7 @@ def upgrade_mgun_screen(*args, **kwargs):
 						Survivor.money -= damage_cost
 						player_progress.update_data(money=Survivor.money)
 						player_progress.write()
+						update_cost(upgradeMGun2, AUTOMATIC, 'damage')
 			elif 'click' in upgradeMGun3.handleEvent(event):
 				if Survivor.money >= accuracy_cost:
 					if player_progress.weapons[AUTOMATIC]['accuracy_level'] < 4:
@@ -460,6 +462,7 @@ def upgrade_mgun_screen(*args, **kwargs):
 						Survivor.money -= accuracy_cost
 						player_progress.update_data(money=Survivor.money)
 						player_progress.write()
+						update_cost(upgradeMGun3, AUTOMATIC, 'accuracy')
 		else:
 			if 'click' in buyMGunButton.handleEvent(event):
 				if Survivor.money >= 5000:
@@ -527,6 +530,7 @@ def upgrade_bazooka_screen(*args, **kwargs):
 						Survivor.money -= delay_cost
 						player_progress.update_data(money=Survivor.money)
 						player_progress.write()
+						update_cost(upgradeBazooka1, BAZOOKA, 'delay')
 			elif 'click' in upgradeBazooka2.handleEvent(event):
 				if Survivor.money >= explosion_damage_cost:
 					if player_progress.weapons[BAZOOKA]['explosion_damage_level'] < 5:
@@ -536,6 +540,7 @@ def upgrade_bazooka_screen(*args, **kwargs):
 						Survivor.money -= explosion_damage_cost
 						player_progress.update_data(money=Survivor.money)
 						player_progress.write()
+						update_cost(upgradeBazooka2, BAZOOKA, 'explosion_damage')
 			elif 'click' in upgradeBazooka3.handleEvent(event):
 				if Survivor.money >= accuracy_cost:
 					if player_progress.weapons[BAZOOKA]['accuracy_level'] < 4:
@@ -544,6 +549,7 @@ def upgrade_bazooka_screen(*args, **kwargs):
 						Survivor.money -= accuracy_cost
 						player_progress.update_data(money=Survivor.money)
 						player_progress.write()
+						update_cost(upgradeBazooka3, BAZOOKA, 'accuracy')
 		else:
 			if 'click' in buyBazookaButton.handleEvent(event):
 				if Survivor.money >= 12000:
@@ -602,6 +608,7 @@ def upgrade_grenades_screen(*args, **kwargs):
 						player_progress.update_data(money=Survivor.money)
 						player_progress.write()
 						Grenade.damage = new_damage
+						update_cost(upgradeGrenades1, GRENADE, 'damage')
 		else:
 			if 'click' in buyGrenadesButton.handleEvent(event):
 				if Survivor.money >= 8000:
