@@ -41,11 +41,10 @@ class Daemon(object):
 		pass
 	
 	def delete_pidfile(self):
-		os.remove(self.pidfile_path)
-	
-	def atexit_func(*args):
-		self.delete_pidfile()
-		sys.exit(0)
+		try:
+			os.remove(self.pidfile_path)
+		except OSError:
+			pass
 	
 	def start(self):
 		"""Start daemon"""
@@ -87,7 +86,12 @@ class Daemon(object):
 		
 		f.write(str(os.getpid()))
 		f.close()
-		signal.signal(signal.SIGTERM, self.atexit_func)
+		
+		def atexit_func(*args):
+			self.delete_pidfile()
+			sys.exit(0)
+		
+		signal.signal(signal.SIGTERM, atexit_func)
 		atexit.register(self.delete_pidfile)
 		
 		self.onStart()
