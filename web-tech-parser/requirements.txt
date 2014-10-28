@@ -3,8 +3,8 @@ pycurl
 grab
 lxml
 mako
-Daemo==1.1.4
+Daemo==1.1.5
 feedparser
 psycopg2
-TechParser==1.7.1
+TechParser==1.7.2
 tornado
