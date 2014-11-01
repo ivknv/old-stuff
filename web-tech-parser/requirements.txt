@@ -6,5 +6,5 @@ mako
 Daemo==1.1.5
 feedparser
 psycopg2
-TechParser==1.7.2
+TechParser==1.7.3
 tornado
