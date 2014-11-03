@@ -7,7 +7,7 @@ Simple module for writting daemons.
 Includes class for creating simple daemons.
 """
 
-import os, time, signal, sys, atexit
+import os, time, signal, sys
 
 class DaemonError(Exception):
 	pass
@@ -16,7 +16,7 @@ def pass_(*args):
 	pass
 
 class Daemon(object):
-	"""Basic class for creating daemons:"""
+	"""Basic class for creating daemons"""
 	
 	def __init__(self, pidfile_path, stdin=sys.stdin,
 		stderr=sys.stderr, stdout=sys.stdout):
@@ -87,12 +87,12 @@ class Daemon(object):
 		f.write(str(os.getpid()))
 		f.close()
 		
-		def atexit_func(*args):
+		def atexit_func(signum=None, frame=None):
 			self.delete_pidfile()
 			sys.exit(0)
 		
 		signal.signal(signal.SIGTERM, atexit_func)
-		atexit.register(self.delete_pidfile)
+		signal.signal(signal.SIGINT, atexit_func)
 		
 		self.onStart()
 
@@ -112,6 +112,8 @@ class Daemon(object):
 		self.onStop()
 		
 		try:
-			os.kill(int(pid), signal.SIGTERM)
-		except OSError:
-			raise DaemonError("Daemon is not running")
+			while True:
+				os.kill(int(pid), signal.SIGTERM)
+		except OSError as e:
+			if str(e).find("No such process") < 1:
+				raise DaemonError("Daemon is not running")
