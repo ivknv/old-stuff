@@ -116,7 +116,7 @@ sites_to_parse = {
 	
 	"Code Project": { # www.codeproject.com
 		"module": codeproject,
-		"kwargs": {'categories': ['all']}
+		"kwargs": {'categories': ['android', 'web']}
 	},
 	
 	"Hacker News": { # news.ycombinator.com
@@ -213,7 +213,7 @@ sites_to_parse = {
 	
 	"ZDNet": { # www.zdnet.com
 		"module": zdnet,
-		"kwargs": {}
+		"kwargs": {'categories': ['reviews', 'news']}
 	},
 	
 	"Geektimes": { # geektimes.ru
@@ -239,6 +239,13 @@ rss_feeds = {'CSS-tricks': {
 		'short-name': 'nextweb',
 		'icon': 'http://thenextweb.com/favicon.ico',
 		'color': '#F15A2F'
+	},
+	
+	'XKCD': {
+		'url': 'http://xkcd.com/rss.xml',
+		'short-name': 'xkcd',
+		'icon': 'http://xkcd.com/favicon.ico',
+		'color': '#000'
 	}
 }
 
@@ -250,13 +257,25 @@ filters = {
 	}
 }
 
+interesting_words = {('python', 10.0), ('django', 2.0), ('css3', 3.0),
+	'javascript', 'android', 'clojure', ('google', 3.0), 'jquery',
+	('fortran', 10.0), ('forth', 7.0), ('linux', 10.0), 'unix', ('html5', 3.0),
+	'bash', 'web', 'development', 'programming', 'ibm', ('sass', 3.0),
+	('c', 2.0), ('gtk', 1.5), 'yandex', 'яндекс', 'postgresql', 'git',
+	('cython', 3.0), 'functional programming', 'xml', 'assembler',
+	'youtube', 'algorithm', 'optimisation', ('vim', 5.0)}
+
+boring_words = {('php', 3.0), 'ruby', ('microsoft', 2.0), ('apple', 5.0),
+	'mysql', 'iphone', 'ipad', 'ios', 'mercurial', 'subversion', ('.net', 3.0),
+	('joomla', 2.0), ('wordpress', 2.0), 'ruby on rails', 'delphi', 'pascal'}
+
 update_interval = 1800 # Parse articles every 30 minutes
 
 db = 'postgresql'
 host = "0.0.0.0" # Server host
 port = "8080" # Server port
 
-num_threads = 2 # Number of threads for parsing articles
+num_threads = 3 # Number of threads for parsing articles
 
 # Server to use
 server = "tornado" # See http://bottlepy.org/docs/dev/deployment.html#switching-the-server-backend
