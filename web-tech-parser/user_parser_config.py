@@ -173,7 +173,8 @@ sites_to_parse = {
 	
 	"Trashbox": { # trashbox.ru
 		"module": trashbox,
-		"kwargs": {}
+		# all, articles, news, main_page, games, programs, themes, questions
+		"kwargs": {'categories': ['articles', 'news']}
 	},
 	
 	"Droider": { # droider.ru
@@ -246,6 +247,13 @@ rss_feeds = {'CSS-tricks': {
 		'short-name': 'xkcd',
 		'icon': 'http://xkcd.com/favicon.ico',
 		'color': '#000'
+	},
+	
+	'GeeksforGeeks': {
+		'url': 'http://www.geeksforgeeks.org/feed/',
+		'short-name': 'geeksforgeeks',
+		'icon': 'http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico',
+		'color': '#12781C'
 	}
 }
 
@@ -263,11 +271,20 @@ interesting_words = {('python', 10.0), ('django', 2.0), ('css3', 3.0),
 	'bash', 'web', 'development', 'programming', 'ibm', ('sass', 3.0),
 	('c', 2.0), ('gtk', 1.5), 'yandex', 'яндекс', 'postgresql', 'git',
 	('cython', 3.0), 'functional programming', 'xml', 'assembler',
-	'youtube', 'algorithm', 'optimisation', ('vim', 5.0)}
+	'youtube', 'algorithm', 'optimisation', ('vim', 5.0), 'server',
+	'firefox', 'mozilla', 'mako', 'comparison', 'how to', 'introduction',
+	'tutorial', 'design', 'api', 'framework', 'language', 'library',
+	'parser', 'habrahabr', 'хабрахабр', ('производительность', 2.0),
+	('оптимизации', 3.0), ('дайджест', 3.0), ('digest', 3.0),
+	('подборка', 2.0), 'geektimes', 'парсер', 'функциональное программирование',
+	'программирование', 'алгоритм', 'example', 'пример', 'фрэймворк',
+	'библиотека', 'разработка', 'w3c', 'tool', 'implementation',
+	'реализация', 'fast'}
 
 boring_words = {('php', 3.0), 'ruby', ('microsoft', 2.0), ('apple', 5.0),
 	'mysql', 'iphone', 'ipad', 'ios', 'mercurial', 'subversion', ('.net', 3.0),
-	('joomla', 2.0), ('wordpress', 2.0), 'ruby on rails', 'delphi', 'pascal'}
+	('joomla', 2.0), ('wordpress', 2.0), 'ruby on rails', 'delphi', 'pascal',
+	'cms', ('emacs', 3.0)}
 
 update_interval = 1800 # Parse articles every 30 minutes
 
