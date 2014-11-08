@@ -279,7 +279,7 @@ interesting_words = {('python', 10.0), ('django', 2.0), ('css3', 3.0),
 	('подборка', 2.0), 'geektimes', 'парсер', 'функциональное программирование',
 	'программирование', 'алгоритм', 'example', 'пример', 'фрэймворк',
 	'библиотека', 'разработка', 'w3c', 'tool', 'implementation',
-	'реализация', 'fast'}
+	'реализация', 'fast', 'язык программирования', 'programming language'}
 
 boring_words = {('php', 3.0), 'ruby', ('microsoft', 2.0), ('apple', 5.0),
 	'mysql', 'iphone', 'ipad', 'ios', 'mercurial', 'subversion', ('.net', 3.0),
