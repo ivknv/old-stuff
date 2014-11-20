@@ -1,7 +1,7 @@
 " ==================================================
 " Author: Ivan Konovalov
 " Version: 1.6.2 2014.11.20 22:48 +0600
-" 
+"
 " Warning: I never tested this vimrc under Windows!
 " ==================================================
 
