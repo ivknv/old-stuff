@@ -1,6 +1,6 @@
 " ==================================================
 " Author: Ivan Konovalov
-" Version: 1.6.0 2014.07.03 20:53 +0600
+" Version: 1.6.2 2014.11.20 22:48 +0600
 " 
 " Warning: I never tested this vimrc under Windows!
 " ==================================================
@@ -86,7 +86,7 @@ set nosi
 " Reset Ctrl-S key
 silent !stty stop undef
 
-" Enable mouse scrolling
+" Enable scrolling with mouse wheel
 map <ScrollWheelUp> <C-Y>
 imap <ScrollWheelUp> <C-O><C-Y>
 xmap <ScrollWheelUp> <C-Y><C-Y>
@@ -107,6 +107,7 @@ menu Exec.VimScript :so %<CR>
 menu Exec.REAPACHE :!sudo service apache2 reload<CR>
 
 menu Run.IPython :!ipython<CR>
+menu Run.IPython3 :!ipython3<CR>
 menu Run.Python :!python<CR>
 menu Run.Python3 :!python3<CR>
 menu Run.MC :!mc<CR>
@@ -171,8 +172,8 @@ map <F8>- <C-0>i--<Esc>
 imap <F8>- <C-O><C-0>--
 
 " lisphelper.vim
-map <F8>l :call lisphelper#check_brackets()<CR>
-imap <F8>l <Esc><F8>l
+"map <F8>l :call lisphelper#check_brackets()<CR>
+"imap <F8>l <Esc><F8>l
 
 nmap <Tab> :tabnew 
 
@@ -199,7 +200,7 @@ map <C-S-End> 0v$
 " Backspace in normal mode
 map <Backspace> d<Left>
 
-" Quickly change tab
+" Quickly change tab. Works in gVim only
 imap <A-Left> <C-O>:tabprevious<CR>
 imap <A-Right> <C-O>:tabnext<CR>
 map <A-Left> <C-O>:tabprevious<CR>
@@ -236,10 +237,11 @@ imap <C-V> <C-R>+
 nmap <C-V> "+p
 xmap <C-V> "+p
 
-set background=dark
-colorscheme jellybeans
-set t_Co=256
-syntax on
+" Awesome colorscheme
+" set background=dark
+" colorscheme hybrid
+" set t_Co=256
+
 " filetype plugin indent on
 hi StatusLine ctermbg=None ctermfg=white
 
@@ -273,13 +275,43 @@ au FileType clojure,lisp setlocal ts=2
 " Autocomplete with Tab
 function! Tab_Or_Complete()
   if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
-    return "\<C-N>"
+	return "\<C-N>"
   else
-    return "\<Tab>"
+	return "\<Tab>"
   endif
 endfunction
 
-:inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 
 " File templates
 au BufNewFile * silent! execute '0r ~/.vim/templates/default.%:e | normal GkJgg'
+
+" Some functions
+function! SpacesToTabs(num)
+	let num_spaces = repeat(" ", a:num)
+	execute "%s/" . num_spaces . "/\t/g"
+endfunction
+
+function! TabsToSpaces(num)
+	let num_spaces = repeat(" ", a:num)
+	execute "%s/\t/" . num_spaces ."/g"
+endfunction
+
+" Quickly replace spaces <--> tabs
+command TabsToSpaces call TabsToSpaces(&ts)
+command SpacesToTabs call SpacesToTabs(&ts)
+
+set nocompatible
+let conceal=1
+
+let fortran_free_source=1
+let fortran_have_tabs=1
+
+syntax on
+syntax enable
+
+au FileType python set dictionary+=~/.vim/wordlists/python_wordlist.txt
+au FileType javascript set dictionary+=~/.vim/wordlists/javascript_wordlist.txt
+au FileType html,htmldjango set dictionary+=~/.vim/wordlists/html_wordlist.txt
+au FileType css,sass set dictionary+=~/.vim/wordlists/css_wordlist.txt
+set complete-=k complete+=k
