@@ -39,9 +39,7 @@ from TechParser import geektimes
 sites_to_parse = {
 	"Habrahabr": { # habrahabr.ru
 		"module": habrahabr,
-		"kwargs": {"hubs": ['programming', 'python', 'javascript', 'c',
-			'webdev', 'linux', 'open_source', 'development', 'web_design',
-			'mobile', 'css', 'html5', 'crazydev', 'jquery', 'funcprog']}
+		"kwargs": {"hubs": []}
 	},
 	
 	"VentureBeat": { # venturebeat.com
@@ -116,7 +114,7 @@ sites_to_parse = {
 	
 	"Code Project": { # www.codeproject.com
 		"module": codeproject,
-		"kwargs": {'categories': ['android', 'web']}
+		"kwargs": {'categories': ['all']}
 	},
 	
 	"Hacker News": { # news.ycombinator.com
@@ -146,16 +144,7 @@ sites_to_parse = {
 	
 	"Medium": { # medium.com
 		"module": medium,
-		"kwargs": {"collections": ["programming-stories",
-			"python-programming-language",
-			"programming-ideas-tutorial-and-experience",
-			"software-development-2", "developer-developers-developers",
-			"web-design-and-development", "desenvolvimento-web",
-			"web-development-9", "coding-design", "cool-code-pal",
-			"html-css-and-happiness", "html-css", "front-end-developers",
-			"web-design-tutorials", "written-in-code", "ui-designs",
-			"design-creativity-1", "this-could-be-better",
-			"user-experience-design-1", "design-ui-and-shenanigans"]}
+		"kwargs": {"collections": []}
 	},
 	
 	"Planet Clojure": { # planet.clojure.in
@@ -165,16 +154,13 @@ sites_to_parse = {
 	
 	"Reddit": { # www.reddit.com
 		"module": reddit,
-		"kwargs": {"reddits": ["tech", "programming",
-			"clojure", "python", "html", "css",
-			"html5", "java", "javascript", "google",
-			"django", "functionalprogramming"]}
+		"kwargs": {"reddits": ["tech"]}
 	},
 	
 	"Trashbox": { # trashbox.ru
 		"module": trashbox,
-		# all, articles, news, main_page, games, programs, themes, questions
-		"kwargs": {'categories': ['articles', 'news']}
+		# 'all', 'articles', 'news', 'main_page', 'games', 'programs', 'themes', 'questions'
+		"kwargs": {"categories": ['all']}
 	},
 	
 	"Droider": { # droider.ru
@@ -214,47 +200,23 @@ sites_to_parse = {
 	
 	"ZDNet": { # www.zdnet.com
 		"module": zdnet,
-		"kwargs": {'categories': ['reviews', 'news']}
+		"kwargs": {"categories": ["all"]} # Can contain 'reviews', 'news' and 'downloads'
 	},
 	
 	"Geektimes": { # geektimes.ru
 		"module": geektimes,
-		"kwargs": {'hubs': ['android', 'hr', 'yandex', 'history', 'google',
-			'soft', 'infographics', 'browsers', 'smartphones', 'geektimes',
-			'iTablet', 'business-laws', 'os', 'internet_of_things',
-			'design', 'gmail', 'statistics', 'internet_regulation',
-			'mailru', 'youtube', 'cpu', 'linux', 'announcements', 'closet',
-			'mozilla', 'wikipedia', 'cyberpunk', 'ascii', 'e_gov', 'rkn']}
+		"kwargs": {"hubs": []}
 	}
 }
 
-rss_feeds = {'CSS-tricks': {
-		'short-name': 'css-tricks',
-		'url': 'http://feeds.feedburner.com/CssTricks?format=xml',
-		'icon': 'http://css-tricks.com/favicon.ico',
-		'color': '#DA8817'
-	},
-	
-	'The Next Web':	{
-		'url': 'http://feeds2.feedburner.com/thenextweb',
-		'short-name': 'nextweb',
-		'icon': 'http://thenextweb.com/favicon.ico',
-		'color': '#F15A2F'
-	},
-	
-	'XKCD': {
-		'url': 'http://xkcd.com/rss.xml',
-		'short-name': 'xkcd',
-		'icon': 'http://xkcd.com/favicon.ico',
-		'color': '#000'
-	},
-	
-	'GeeksforGeeks': {
-		'url': 'http://www.geeksforgeeks.org/feed/',
-		'short-name': 'geeksforgeeks',
-		'icon': 'http://d2o58evtke57tz.cloudfront.net/wp-content/themes/minimoo/favicon.ico',
-		'color': '#12781C'
-	}
+rss_feeds = {
+	#Example:
+	#'CSS-tricks': {
+	#	'short-name': 'css-tricks',
+	#	'url': 'http://feeds.feedburner.com/CssTricks?format=xml',
+	#	'icon': 'http://css-tricks.com/favicon.ico',
+	#	'color': '#DA8817'
+	#}
 }
 
 filters = {
@@ -265,26 +227,14 @@ filters = {
 	}
 }
 
-interesting_words = {('python', 10.0), ('django', 2.0), ('css3', 3.0),
-	'javascript', 'android', 'clojure', ('google', 3.0), 'jquery',
-	('fortran', 10.0), ('forth', 7.0), ('linux', 10.0), 'unix', ('html5', 3.0),
-	'bash', 'web', 'development', 'programming', 'ibm', ('sass', 3.0),
-	('c', 2.0), ('gtk', 1.5), 'yandex', 'яндекс', 'postgresql', 'git',
-	('cython', 3.0), 'functional programming', 'xml', 'assembler',
-	'youtube', 'algorithm', 'optimisation', ('vim', 5.0), 'server',
-	'firefox', 'mozilla', 'mako', 'comparison', 'how to', 'introduction',
-	'tutorial', 'design', 'api', 'framework', 'language', 'library',
-	'parser', 'habrahabr', 'хабрахабр', ('производительность', 2.0),
-	('оптимизации', 3.0), ('дайджест', 3.0), ('digest', 3.0),
-	('подборка', 2.0), 'geektimes', 'парсер', 'функциональное программирование',
-	'программирование', 'алгоритм', 'example', 'пример', 'фрэймворк',
-	'библиотека', 'разработка', 'w3c', 'tool', 'implementation',
-	'реализация', 'fast', 'язык программирования', 'programming language'}
+# Words you find interesting
+# Example:
+# interesting_words = ('word1', ('word_with_double_priority', 2.0), ('superword', 10.0))
+interesting_words = {}
 
-boring_words = {('php', 3.0), 'ruby', ('microsoft', 2.0), ('apple', 5.0),
-	'mysql', 'iphone', 'ipad', 'ios', 'mercurial', 'subversion', ('.net', 3.0),
-	('joomla', 2.0), ('wordpress', 2.0), 'ruby on rails', 'delphi', 'pascal',
-	'cms', ('emacs', 3.0)}
+# Words you find boring
+# boring_words = ('word1', ('word_with_double_priority', 2.0), ('superbadword', 10.0))
+boring_words = {}
 
 update_interval = 1800 # Parse articles every 30 minutes
 
@@ -292,10 +242,13 @@ db = 'postgresql'
 host = "0.0.0.0" # Server host
 port = "8080" # Server port
 
-num_threads = 3 # Number of threads for parsing articles
+num_threads = 2 # Number of threads for parsing articles
 
 # Server to use
-server = "tornado" # See http://bottlepy.org/docs/dev/deployment.html#switching-the-server-backend
+# It's recommended to use tornado.
+# You can install it by running pip install tornado and then
+# setting server = "tornado"
+server = "auto" # See http://bottlepy.org/docs/dev/deployment.html#switching-the-server-backend
 
-save_articles = True # Save articles into db.
+save_articles = False # Save articles into db.
 # Can be found at ~/.tech-parser/archive.db
