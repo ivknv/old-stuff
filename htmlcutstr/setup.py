@@ -6,4 +6,6 @@ setup(name='htmlcutstr',
 	author='Ivan Konovalov',
 	author_email='rvan.mega@gmail.com',
 	py_modules=['htmlcutstr'],
-	data_files=[('README.txt')])
+	data_files=[('README.txt')],
+	keywords=['html', 'cut', 'text'],
+	url='https://github.com/SPython/htmlcutstr')
