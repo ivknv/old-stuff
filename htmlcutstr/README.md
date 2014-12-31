@@ -1,6 +1,6 @@
 This is repository is an improved version of [htmlcutstring](https://code.google.com/p/cut-html-string/).
 
-## Differences with original ##
+## Differences between original ##
 1. htmlcutstr has availability to count words instead of characters
 2. It works fine on both Python 2.x and 3.x
 
