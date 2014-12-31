@@ -1,4 +1,5 @@
 This is repository is an improved version of [htmlcutstring](https://code.google.com/p/cut-html-string/).
+I'm not the original author.
 
 ## Differences between original ##
 1. htmlcutstr has availability to count words instead of characters
