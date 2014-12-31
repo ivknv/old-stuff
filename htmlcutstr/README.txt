@@ -8,23 +8,25 @@ Differences between original
 
 Installation
 ============
-Run ```setup.py install``` to install this package.
+Run 'setup.py install' to install this package.
 
 Usage
 =====
 cutHtmlString(string, limit, countType='c')
 
-string is obviously the string you want to cut<br/>
-limit maximum number of characters/words (depending on countType value) output string can have
-countType can be equal to 'c' or 'w'
-'c' means 'count by characters'
-'w' means 'count by words'.
+| string is obviously the string you want to cut
+| limit maximum number of characters/words (depending on countType value) output string can have
+| countType can be equal to 'c' or 'w'
+| 'c' means 'count by characters'
+| 'w' means 'count by words'.
 
 Examples
 ========
-from htmlcutstr import cutHtmlString
-
-htmlstring = '<div>insert your <a>text</a> here</div>'
-
-print(cutHtmlString(htmlstring, 10)) # '<div>insert you</div>'
-print(cutHtmlString(htmlstring, 3, 'w')) # '<div>insert your <a>text</a></div>'
+::
+  
+  from htmlcutstr import cutHtmlString
+  
+  htmlstring = '<div>insert your <a>text</a> here</div>'
+  
+  print(cutHtmlString(htmlstring, 10)) # '<div>insert you</div>'
+  print(cutHtmlString(htmlstring, 3, 'w')) # '<div>insert your <a>text</a></div>'
