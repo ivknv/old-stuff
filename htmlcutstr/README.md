@@ -13,7 +13,7 @@ cutHtmlString(string, limit, countType='c')
 ```
 
 ```string``` is obviously the string you want to cut<br/>
-```limit``` maximum number of characters/numbers (depending on ```countType``` value) output string can have<br/>
+```limit``` maximum number of characters/words (depending on ```countType``` value) output string can have<br/>
 ```countType``` can be equal to ```'c'``` or ```'w'```<br/>
 ```'c'``` means 'count by characters'<br/>
 ```'w'``` means 'count by words'.
