@@ -1,254 +1,285 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from TechParser import habrahabr
-from TechParser import venturebeat
-from TechParser import engadget
-from TechParser import techcrunch
-from TechParser import techrepublic
-from TechParser import readwrite
-from TechParser import smashingmagazine
-from TechParser import gizmodo
-from TechParser import slashdot
-from TechParser import androidcentral
-from TechParser import verge
-from TechParser import topdesignmag
-from TechParser import flowa
-from TechParser import ittoolbox
-from TechParser import dzone
-from TechParser import codeproject
-from TechParser import hackernews
-from TechParser import mashable
-from TechParser import maketecheasier
-from TechParser import digg
-from TechParser import wired
-from TechParser import medium
-from TechParser import planetclojure
-from TechParser import reddit
-from TechParser import trashbox
-from TechParser import droider
-from TechParser import redroid
-from TechParser import threednews
-from TechParser import ixbt
-from TechParser import mobilereview
-from TechParser import helpix
-from TechParser import recode
-from TechParser import zdnet
-from TechParser import geektimes
+from TechParser.parsers import *
 
 sites_to_parse = {
 	"Habrahabr": { # habrahabr.ru
 		"module": habrahabr,
-		"kwargs": {"hubs": []}
+		"kwargs": {"hubs": []},
+		"enabled": True
 	},
 	
 	"VentureBeat": { # venturebeat.com
 		"module": venturebeat,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Engadget": { # engadget.com
 		"module": engadget,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Slashdot": { # slashdot.org
 		"module": slashdot,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Gizmodo": { # gizmodo.com
 		"module": gizmodo,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"TechCrunch": { # techcrunch.com
 		"module": techcrunch,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Read/Write Web": { # readwrite.com
 		"module": readwrite,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Tech Republic": { # techrepublic.com
 		"module": techrepublic,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Smashing Magazine": { # www.smashingmagazine.com
 		"module": smashingmagazine,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Android Central": { # www.androidcentral.com
 		"module": androidcentral,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"The Verge": { # www.theverge.com
 		"module": verge,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Top Design Magazine": { # www.topdesignmag.com
 		"module": topdesignmag,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Flowa": { # flowa.fi
 		"module": flowa,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"IT Toolbox": { # it.toolbox.com
 		"module": ittoolbox,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"DZone": { # www.dzone.com
 		"module": dzone,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Code Project": { # www.codeproject.com
 		"module": codeproject,
-		"kwargs": {'categories': ['all']}
+		"kwargs": {'categories': ['all']}, # 'web', 'android', 'c#', 'c++' and 'ios'
+		"enabled": True
 	},
 	
 	"Hacker News": { # news.ycombinator.com
 		"module": hackernews,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Mashable": { # mashable.com
 		"module": mashable,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Make Tech Easier": { # www.maketecheasier.com
 		"module": maketecheasier,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Digg": { # digg.com
 		"module": digg,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Wired": { # www.wired.com
 		"module": wired,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Medium": { # medium.com
 		"module": medium,
-		"kwargs": {"collections": []}
+		"kwargs": {"collections": []},
+		"enabled": True
 	},
 	
 	"Planet Clojure": { # planet.clojure.in
 		"module": planetclojure,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Reddit": { # www.reddit.com
 		"module": reddit,
-		"kwargs": {"reddits": ["tech"]}
+		"kwargs": {"reddits": ["tech"]},
+		"enabled": True
 	},
 	
 	"Trashbox": { # trashbox.ru
 		"module": trashbox,
-		# 'all', 'articles', 'news', 'main_page', 'games', 'programs', 'themes', 'questions'
-		"kwargs": {"categories": ['all']}
+		# all, articles, news, main_page, games, programs, themes, questions
+		"kwargs": {'categories': ['all']},
+		"enabled": True
 	},
 	
 	"Droider": { # droider.ru
 		"module": droider,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Redroid": { # redroid.ru
 		"module": redroid,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"3DNews": { # www.3dnews.ru
 		"module": threednews,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
-	
+		
 	"IXBT": { # www.ixbt.ru
 		"module": ixbt,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Mobile Review": { # mobile-review.com
 		"module": mobilereview,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Helpix": { # helpix.ru
 		"module": helpix,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"Re/code": { # recode.net
 		"module": recode,
-		"kwargs": {}
+		"kwargs": {},
+		"enabled": True
 	},
 	
 	"ZDNet": { # www.zdnet.com
 		"module": zdnet,
-		"kwargs": {"categories": ["all"]} # Can contain 'reviews', 'news' and 'downloads'
+		"kwargs": {'categories': ['all']}, # 'news', 'reviews' and 'downloads',
+		"enabled": True
 	},
-	
+		
 	"Geektimes": { # geektimes.ru
 		"module": geektimes,
-		"kwargs": {"hubs": []}
+		"kwargs": {'hubs': []},
+		"enabled": True
 	}
 }
 
+# RSS feeds
 rss_feeds = {
-	#Example:
-	#'CSS-tricks': {
-	#	'short-name': 'css-tricks',
-	#	'url': 'http://feeds.feedburner.com/CssTricks?format=xml',
-	#	'icon': 'http://css-tricks.com/favicon.ico',
-	#	'color': '#DA8817'
+	# 'Feed name': {
+	#	'short-name': 'feed-name',
+	#	'icon': 'http://<address-to-feed>.com/<address-to-feed-icon>',
+	#	'color': '#123ABC' # CSS color for titles
+	#	'enabled': True # or False to disable
 	#}
 }
 
-filters = {
-	"All": {
-		"has": [],
-		"or": [],
-		"not": []
-	}
-}
+# Words that you're interested in
+interesting_words = []
 
-# Words you find interesting
-# Example:
-# interesting_words = ('word1', ('word_with_double_priority', 2.0), ('superword', 10.0))
-interesting_words = {}
-
-# Words you find boring
-# boring_words = ('word1', ('word_with_double_priority', 2.0), ('superbadword', 10.0))
-boring_words = {}
+# Words that you find boring
+boring_words = []
 
 update_interval = 1800 # Parse articles every 30 minutes
 
-db = 'postgresql'
-host = "0.0.0.0" # Server host
-port = "8080" # Server port
+# Database for keeping history
+# Must be sqlite or postgresql
+db = 'sqlite'
+# If You're using PostgreSQL make sure
+# to set database url as environment variable <db_path_variable>
+# like this: postgres://user:password@host:port/dbname
+# or just set db_path equal to that database url.
+# Example 1:
+#  db_path_variable = 'DATABASE_URL'
+#  db_path = os.environ.get(db_path_variable)
+# Example 2:
+#  db_path_variable = 'DATABASE_URL'
+#  db_path = postgres://user:password@localhost:5432/mydb
+db_path_variable = 'DATABASE_URL'
+db_path = os.environ.get(db_path_variable, '')
+host = '0.0.0.0' # Server host
+port = '8080' # Server port
 
 num_threads = 2 # Number of threads for parsing articles
 
 # Server to use
 # It's recommended to use tornado.
-# You can install it by running pip install tornado and then
-# setting server = "tornado"
-server = "auto" # See http://bottlepy.org/docs/dev/deployment.html#switching-the-server-backend
+# You can install it by running pip install tornado
+# See http://bottlepy.org/docs/dev/deployment.html#switching-the-server-backend
+server = "auto"
 
-save_articles = False # Save articles into db.
-# Can be found at ~/.tech-parser/archive.db
+# Save articles to the database at <archive_db_path>.
+save_articles = False
+
+# Environment variable that stores path to archive database
+archive_db_path_variable = 'ARCHIVE_DATABASE_URL'
+
+# Should look like 'sqlite:///PATH' or 'postgres://user:password@host:port/dbname'
+# 'default' means 'sqlite:///<your-home-directory>/.tech-parser/archive.db'
+archive_db_path = os.environ.get(archive_db_path_variable, 'default')
+
+# Format to be used when dumping articles.
+# Can be 'pickle', 'json' or 'db'.
+# It's recommended to set data_format to 'db' (database) because it's a lot faster.
+# Pickle is set by default for compatibility with previous versions of TechParser
+data_format = 'pickle'
+
+# Environment variable to keep your password
+password_variable = 'TechParser_PASSWORD'
+
+# Password
+password = os.environ.get(password_variable, '')
+
+# Show Pocket button under every article.
+# Disabled by default because it slows down page loading.
+# Besides, you can save links to Pocket with a plugin for your browser.
+enable_pocket = False
+
+# If json_config is set to True it will allow you to edit configuration in your browser
+json_config = True
