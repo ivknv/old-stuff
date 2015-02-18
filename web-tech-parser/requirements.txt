@@ -6,5 +6,7 @@ mako
 Daemo==1.1.6
 feedparser
 psycopg2
-TechParser==1.8.3
+TechParser==1.8.4
 tornado
+PyCrypto
+cssselect
